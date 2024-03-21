@@ -134,6 +134,12 @@ header {
   font-weight: normal;
 }
 
+.me{
+  float: left;
+  width: 100px;
+  height: 100px;
+}
+
 .lesson {
   float: left;
   width: 25%;
