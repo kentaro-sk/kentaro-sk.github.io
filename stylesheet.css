@@ -134,10 +134,20 @@ header {
   font-weight: normal;
 }
 
+.profiles{
+  height: 700px;
+  padding-bottom: 80px;
+  padding-left: 5%;
+  padding-right: 5%;
+  background-color: #f7f7f7;
+  text-align: center;
+}
+
 .me{
   float: left;
-  width: 100px;
-  height: 100px;
+  width: 330px;
+  height: 420px;
+  padding-left: 15%;
 }
 
 .lesson {
