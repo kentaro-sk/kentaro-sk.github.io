@@ -145,10 +145,17 @@ header {
 
 .me{
   float: left;
-  width: 330px;
-  height: 420px;
-  position: relative;
+  width: 100%; /* モバイルデバイスでは全幅にする */
+  height: auto; /* 高さを自動にする */
   padding-left: 15%;
+}
+
+/* デスクトップとタブレットのビュー */
+@media (min-width: 768px) {
+  .me{
+    width: 330px; /* 元の幅に戻す */
+    height: 420px; /* 元の高さに戻す */
+  }
 }
 
 .lesson {
