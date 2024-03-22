@@ -147,6 +147,7 @@ header {
   float: left;
   width: 330px;
   height: 420px;
+  position: relative;
   padding-left: 15%;
 }
 
