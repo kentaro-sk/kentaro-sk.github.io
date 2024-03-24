@@ -24,9 +24,71 @@ transform: translate(-50%, -50%);
 color: #fff;
 }
 
-/*IE11対策用バーの線の高さ※対応しなければ削除してください*/
 #splash_text svg{
   height: 2px;
+}
+
+/*========= スクロールダウンのためのCSS ===============*/
+/*=== 矢印が動いてスクロールを促す  ====*/
+/*スクロールダウン全体の場所*/
+/*スクロールダウン全体の場所*/
+
+.scrolldown4{
+  /*描画位置※位置は適宜調整してください*/
+position:absolute;
+bottom:1%;
+right:50%;
+  /*矢印の動き1秒かけて永遠にループ*/
+animation: arrowmove 1s ease-in-out infinite;
+}
+
+/*下からの距離が変化して全体が下→上→下に動く*/
+@keyframes arrowmove{
+    0%{bottom:1%;}
+    50%{bottom:3%;}
+   100%{bottom:1%;}
+}
+
+/*Scrollテキストの描写*/
+.scrolldown4 span{
+  /*描画位置*/
+position: absolute;
+left:-20px;
+bottom:10px;
+  /*テキストの形状*/
+color: rgba(34,49,52,0.9);
+font-size: 0.7rem;
+letter-spacing: 0.05em;
+/*縦書き設定*/
+-ms-writing-mode: tb-rl;
+  -webkit-writing-mode: vertical-rl;
+  writing-mode: vertical-rl;
+}
+
+/* 矢印の描写 */
+.scrolldown4:before {
+  content: "";
+  /*描画位置*/
+  position: absolute;
+  bottom: 0;
+  right: -6px;
+  /*矢印の形状*/
+  width: 1px;
+  height: 20px;
+  background: rgba(34,49,52,0.9);
+  transform: skewX(-31deg);
+}
+
+.scrolldown4:after{
+content:"";
+  /*描画位置*/
+position: absolute;
+bottom:0;
+right:0;
+  /*矢印の形状*/
+width:1px;
+height: 50px;
+background:rgba(34,49,52,0.9);
 }
 
 /* ============== webページのためのCSS =================*/
@@ -61,7 +123,7 @@ a {
 }
 
 .top-wrapper {
-  padding: 350px 0 100px 0;
+  padding: 320px 0 100px 0;
   background-image: url(./fig/back.png);
   background-size: cover;
   color: rgba(6, 8, 8, 0.9);
@@ -246,15 +308,6 @@ header {
   padding: 0.5em 1.0em 0.5em 0.5em;
   position: relative;
 }
-
-/* .chronology dl dt::after {
-  content: '●';
-  position: absolute;
-  right: -0.55em;
-  top: 5px;
-  font-size: 22px;
-  color: #262527;
-} */
 
 .chronology dl dd {
   width: calc(100% - 8.5em);
