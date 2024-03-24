@@ -14,6 +14,7 @@ a {
 .flex{
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .flex p{
@@ -99,7 +100,7 @@ header {
 
 .logo {
   width: 124px;
-  margin-top: 20px;
+  margin-top: 12px;
 }
 
 .header-left {
@@ -108,7 +109,7 @@ header {
 
 .header-right {
   float: right;
-  margin-right: -25px;
+  margin-right: -15px;
 }
 
 .header-right a {
@@ -144,8 +145,8 @@ header {
 }
 
 .profiles{
-  height: 700px;
-  padding-bottom: 80px;
+  height: auto;
+  padding-bottom:80px;
   padding-left: 5%;
   padding-right: 5%;
   background-color: #f7f7f7;
@@ -170,11 +171,23 @@ header {
 }
 
 .profiles-span1{
-  margin-right: 20px;
-  margin-left: 45px;
+  margin-right: 10px;
+  margin-left: 5px;
+}
+
+.profiles-span2{
+  margin-right: 10px;
+  margin-left: 21px;
+}
+
+.chronology{
+  color: #262527;
+  text-align: left;
+  vertical-align: middle;
 }
 
 .me{
+  vertical-align: middle;
   width: 100%; /* モバイルデバイスでは全幅にする */
   height: auto; /* 高さを自動にする */
   /* padding-left: 5%; */
@@ -182,9 +195,44 @@ header {
 
 .profile{
   text-align: left;
+  vertical-align: middle;
   width: 100%; /* モバイルデバイスでは全幅にする */
   height: auto; /* 高さを自動にする */
   padding-right: 5%;
+}
+
+.chronology dl {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.chronology dl dt {
+  text-align: right;
+  width: 8.5em;
+  padding: 0.5em 1.0em 0.5em 0.5em;
+  position: relative;
+}
+
+/* .chronology dl dt::after {
+  content: '●';
+  position: absolute;
+  right: -0.55em;
+  top: 5px;
+  font-size: 22px;
+  color: #262527;
+} */
+
+.chronology dl dd {
+  width: calc(100% - 8.5em);
+  padding: 0.5em 2.0em 3.0em;
+  border-left: 2px solid #ccc;
+}
+
+.chronology dl dd h2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0 0 5px;
 }
 
 .text-contents {
@@ -312,8 +360,10 @@ footer {
 
   .profile{
     text-align: left;
-    width: 50%; /* モバイルデバイスでは全幅にする */
+    vertical-align: middle;
+    width: auto; /* モバイルデバイスでは全幅にする */
     height: auto; /* 高さを自動にする */
-    /* padding-right: 5%; */
+    padding-right: 5%;
+    padding-left:5%;
   }
 }
