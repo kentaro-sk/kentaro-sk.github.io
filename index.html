@@ -6,6 +6,7 @@
   <title>杉浦健太郎のマイページ</title>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <link rel="stylesheet" type="text/css" href="./css/search.css">
 </head>
 <body>
   <div id="splash">
@@ -17,18 +18,22 @@
         <img class="logo" src="./fig/icon.svg">
       </div>
       <span class="fa fa-bars menu-icon"></span>
-      <div class="header-right">
+      <div class="header-right" id="page-link">
         <a href="#profile">プロフィール</a>
         <a href="./conference_award/conference_award.html">学会・受賞履歴</a>
         <a href="./study/study.html" class="login">研究内容</a>
       </div>
+      <div class ="search-right" id="search-wrap">
+        <form role="search" method="get" action="">
+        <input type="text" value="" name="" id="search-text">
+        </form>
+      <!--/search-wrap--></div>
     </div>
   </header>
   <div class="top-wrapper">
     <div class="container">
       <h1>The past can hurt.<br>But you can either RUN from it,<br>or LEARN from it.</h1>
       <p>名古屋大学大学院工学研究科に所属している杉浦健太郎です．<br>エンジニアの卵として日々奮闘しております．</p>
-      <div class="scrolldown4"><span>Scroll</span></div>
       <div class="btn-wrapper">
         <a href="https://line.me/ti/p/U4mXUTUOnJ" class="btn line">Line</a>
         <p>or</p>
@@ -39,7 +44,7 @@
   </div>
   <div class="profiles">
     <div class="heading">
-      <a name ="profile"><h2>プロフィール</h2></a>
+      <a id ="profile"><h2>プロフィール</h2></a>
     </div>
     <div class="flex">
       <p><img class="me" src="./fig/me.jpg"></p>
@@ -108,5 +113,6 @@
   <script src="https://rawgit.com/kimmobrunfeldt/progressbar.js/master/dist/progressbar.min.js"></script>
   <!--自作のJS-->
   <script src="./style.js"></script>
+  <script src="./js/page_link.js"></script>
 </body>
 </html>
