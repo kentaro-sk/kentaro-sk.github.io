@@ -1,0 +1,102 @@
+/* プロフィール用のCSS */
+
+.profiles{
+    background-color: #f7f7f7;
+    font-family:"Hiragino Kaku Gothic ProN";
+  }
+
+/* ヘッダー用のCSS */
+.heading-text{
+    font-size: 20px;
+    text-align: center;
+}
+
+/* プロフィールの概要標記のためのCSS */
+
+.profile-img{
+    vertical-align: middle;
+    width: 150px; /* モバイルデバイスでは全幅にする */
+    height: auto; /* 高さを自動にする */
+    /* padding-left: 5%; */
+}
+
+.profile-table ul, ol {
+    color: #262527;
+    border-top: solid #262527 1px;/*上のボーダー*/
+    border-bottom: solid #262527 1px;/*下のボーダー*/
+    line-height: 2.5;
+    padding: 0.5em 0 0.5em 1.5em;
+    width: 800px;
+}
+  
+.profile-pop{
+font-weight: bold;
+}
+
+
+
+
+
+
+
+
+.chronology{
+color: #262527;
+text-align: left;
+vertical-align: middle;
+}
+
+
+
+.profile{
+text-align: left;
+vertical-align: middle;
+width: 100%; /* モバイルデバイスでは全幅にする */
+height: auto; /* 高さを自動にする */
+padding-right: 5%;
+}
+
+.chronology dl {
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+}
+
+.chronology dl dt {
+text-align: right;
+width: 8.5em;
+padding: 0.5em 1.0em 0.5em 0.5em;
+position: relative;
+}
+
+.chronology dl dd {
+width: calc(100% - 8.5em);
+padding: 0.5em 2.0em 3.0em;
+border-left: 2px solid #ccc;
+}
+
+.chronology dl dd h2 {
+font-size: 22px;
+font-weight: bold;
+margin: 0 0 5px;
+}
+
+
+/* レスポンシブ設定 */
+
+/* プロフィールの概要用のレスポンシブ設定 */
+@media (min-width: 768px) {
+    .profile-img{
+      width: 330px; /* 元の幅に戻す */
+      height: 420px; /* 元の高さに戻す */
+    }
+  
+    .profile{
+      text-align: left;
+      vertical-align: middle;
+      width: auto; /* モバイルデバイスでは全幅にする */
+      height: auto; /* 高さを自動にする */
+      padding-right: 5%;
+      padding-left:5%;
+    }
+  }
