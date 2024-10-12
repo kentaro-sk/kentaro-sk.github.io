@@ -1,138 +1,96 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <!-- 文字コードの指定 -->
-  <meta charset="utf-8">
-  <!-- スマホやタブレットでもきれいに表示する「レスポンシブ表示」 のための記述です．-->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- サイトのタイトルを記述 -->
-  <title>杉浦健太郎のマイページ</title>
 
-  <!-- サイトのアイコンを設定します． -->
-  <link rel="shortcut icon" href="./fig/icon.svg" type="image/x-icon" />
+  <head>
+    <!-- 文字コードの指定 -->
+    <meta charset="utf-8">
+    
+    <!-- スマホやタブレットでもきれいに表示する「レスポンシブ表示」 のための記述です．-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- サイトのタイトルを記述 -->
+    <title>杉浦健太郎のマイページ</title>
 
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="stylesheet.css">
-  <link rel="stylesheet" type="text/css" href="./css/search.css">
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Modaal/0.4.4/css/modaal.min.css">
-  <link rel="stylesheet" type="text/css" href="./css/modaal.css">
-</head>
+    <!-- サイトのアイコンを設定します． -->
+    <link rel="shortcut icon" href="./fig/icon.svg" type="image/x-icon" />
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    
+    <!-- サイトマップ用のCSS -->
+    <link rel="stylesheet" type="text/css" href="./css/stylesheet.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Modaal/0.4.4/css/modaal.min.css">
+  </head>
 
 
-<body>
-  
-  <div id="splash">
-    <div id="splash_text"></div>
-  </div>
-
-  <header>
-    <div class="container">
-      <div class="header-left">
-        <img class="logo" src="./fig/icon.svg">
-      </div>
-
-      <span class="fa fa-bars menu-icon"></span>
-      <div class="header-right" id="page-link">
-        <a href="#profile">プロフィール</a>
-        <a href="./conference_award/conference_award.html">学会・受賞履歴</a>
-        <a href="./study/study.html" class="login">研究内容</a>
-      </div>
-      <div class ="search-right" id="search-wrap">
-        <form role="search" method="get" action="https://kentaro-sk.github.io/">
-          <input type="search" value="" name="search" id="search-text">
-          <input type="submit" name="submit" value="検索">
-        </form>
-      <!--/search-wrap--></div>
+  <body>
+    
+    <div id="splash">
+      <div id="splash_text"></div>
     </div>
-  </header>
-  <div class="top-wrapper">
-    <div class="container">
-      <h1>The past can hurt.<br>But you can either RUN from it,<br>or LEARN from it.</h1>
-      <p>名古屋大学大学院工学研究科に所属している杉浦健太郎です．<br>エンジニアの卵として日々奮闘しております．</p>
-      <div class="btn-wrapper">
-        <a href="https://www.linkedin.com/in/kentaro-sugiura-49a09929b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="btn linkedin"><span class="fa fa-linkedin"></span>Linkedin</a>
-        <a href="https://www.facebook.com/profile.php?id=100021908416677" class="btn facebook"><span class="fa fa-facebook"></span>Facebook</a>
-        <a href="https://twitter.com/kentaro571322" class="btn twitter"><span class="fa fa-twitter"></span>Twitter</a>
+
+    <header>
+      <div class="container">
+        <div class="header-left">
+          <img class="logo" src="./fig/icon.svg">
+        </div>
+
+        <span class="fa fa-bars menu-icon"></span>
+        
+        <div class="header-right" id="page-link">
+          <a href="./profile/profile.html">プロフィール</a>
+          <a href="./conference_award/conference_award.html">学会・受賞履歴</a>
+          <a href="./study/study.html" class="login">研究内容</a>
+        </div>
+        
+        <div class ="search-right" id="search-wrap">
+          <form role="search" method="get" action="https://kentaro-sk.github.io/">
+            <input type="search" value="" name="search" id="search-text">
+            <input type="submit" name="submit" value="検索">
+          </form>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="profiles">
-    <div class="heading">
-      <a id ="profile"><h2>プロフィール</h2></a>
-    </div>
-    <div class="flex">
-      <p><img class="me" src="./fig/me.jpg"></p>
-      <div class="profile">
-        <ul>
-          <li><span class="profile-pop">氏名<span class="profiles-span2">:</span></span>杉浦 健太郎</li>
-          <li><span class="profile-pop">誕生日<span class="profiles-span1">:</span></span>2000年10月10日</li>
-          <li><span class="profile-pop">性別<span class="profiles-span2">:</span></span>男性</li>
-          <li><span class="profile-pop">出身地<span class="profiles-span1">:</span></span>愛知県一宮市</li>
-          <li><span class="profile-pop">高校<span class="profiles-span2">:</span></span>愛知県立一宮高等学校</li>
-          <li><span class="profile-pop">大学<span class="profiles-span2">:</span></span>名古屋大学 工学部 機械・航空宇宙工学科</li>
-          <li><span class="profile-pop">大学院<span class="profiles-span1">:</span></span>名古屋大学大学院 工学研究科 機械システム工学専攻 <a href="https://www.suzlab.mae.nagoya-u.ac.jp/">モビリティシステムグループ鈴木研究室</a></li>
-        </ul>
+    </header>
+
+    <div class="top-wrapper">
+      <div class="container">
+        <h1>The past can hurt.<br>But you can either RUN from it,<br>or LEARN from it.</h1>
+        <p>名古屋大学大学院工学研究科に所属している杉浦健太郎です．<br>エンジニアの卵として日々奮闘しております．</p>
+        <div class="btn-wrapper">
+          <a href="https://www.linkedin.com/in/kentaro-sugiura-49a09929b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="btn linkedin"><span class="fa fa-linkedin"></span>Linkedin</a>
+          <a href="https://www.facebook.com/profile.php?id=100021908416677" class="btn facebook"><span class="fa fa-facebook"></span>Facebook</a>
+          <a href="https://twitter.com/kentaro571322" class="btn twitter"><span class="fa fa-twitter"></span>Twitter</a>
+        </div>
       </div>
     </div>
-    <div class="chronology">
-      <body class="chronology">
-        <dl>
-            <dt>2000年10月</dt>
-            <dd><h2>愛知県一宮市に生まれる</h2>
-                <p>10月10日誕生日</p>
-            </dd>
-            <dt>2007年4月</dt>
-            <dd>
-                <h2>小学校入学</h2>
-                <p>一宮市立大和東小学校入学．サッカー部に所属．</p>
-            </dd>
-            <dt>2013年4月</dt>
-            <dd>
-                <h2>中学校入学</h2>
-                <p>一宮市立中部中学校に入学．サッカー部，陸上部，ディベート部を兼部．生徒会会長．海外派遣でイタリアへ．</p>
-            </dd>
-            <dt>2016年4月</dt>
-            <dd>
-                <h2>高校入学</h2>
-                <p>愛知県立一宮高等学校に入学．体操部に所属．イギリス ラドリーカレッジに留学．</p>
-            </dd>
-            <dt>2019年4月</dt>
-            <dd>
-                <h2>大学入学</h2>
-                <p>名古屋大学 工学部 機械・航空宇宙工学科に入学．<a href="https://www.sice.jp/wp-content/uploads/file/sice_superior_student_award_2022.pdf">SICE優秀学生賞</a>(2023年3月)(GPA 3.97/4.3)</p>
-            </dd>
-            <dt>2023年4月</dt>
-            <dd>
-                <h2>大学院入学</h2>
-                <p>名古屋大学大学院 工学研究科 機械システム工学専攻に入学．</p>
-            </dd>
-        </dl>
-      </body>
-    </div>
-  </div>
-  <div class="message-wrapper">
-    <div class="container">
-      <div class="heading">
-        <h2>座右の銘にしたがって，日々鍛錬します．</h2>
-        <h3>Kentaro</h3>
+    
+    <div class="message-wrapper">
+      <div class="container">
+        <div class="heading">
+          <h2>座右の銘にしたがって，日々鍛錬します．</h2>
+          <h3>Kentaro</h3>
+        </div>
       </div>
     </div>
-  </div>
-  <footer>
-    <div class="container">
-      <img src="./fig/icon.svg">
-      <p>Copyright © 2024 Kentaro Sugiura. All Rights Reserved.</p>
-    </div>
-  </footer>
-  <!--==============JQuery読み込み===============-->
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="https://rawgit.com/kimmobrunfeldt/progressbar.js/master/dist/progressbar.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Modaal/0.4.4/js/modaal.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-  <!--自作のJS-->
-  <script src="./style.js"></script>
-  <script src="./js/page_link.js"></script>
-  <script src="./js/modaal.js"></script>
-</body>
+    <footer>
+      <div class="container">
+        <img src="./fig/icon.svg">
+        <p>Copyright © 2024 Kentaro Sugiura. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+
+
+    <!--==============JQuery読み込み===============-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://rawgit.com/kimmobrunfeldt/progressbar.js/master/dist/progressbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Modaal/0.4.4/js/modaal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <!--自作のJS-->
+    <script src="./js/style.js"></script>
+    <script src="./js/page_link.js"></script>
+    <script src="./js/modaal.js"></script>
+
+  </body>
+
 </html>

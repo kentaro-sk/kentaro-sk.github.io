@@ -1,3 +1,32 @@
+/* 検索窓のエリア */
+#search-wrap {
+  position: absolute; /* 絶対配置にして */
+  z-index: 2; /* 最前面に設定。数字は変更可 */
+  top: 10px;
+  right: 10px;
+}
+
+/* テキスト入力input設定 */
+#search-text {
+  -webkit-appearance: none; /* SafariやChromeのデフォルトの設定を無効 */
+  width: 60px; /* テキスト入力エリアが伸びる前の横幅 */
+  height: 60px;
+  padding: 20px;
+  border: none;
+  background: #fff url("https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/7-2-3/img/icon_search.svg") no-repeat 17px center; /* 虫眼鏡アイコンを背景に表示 */
+  background-size: 25px 25px;
+  transition: all 0.5s; /* transitionを使ってスムースに伸ばす */
+  outline: none;
+  cursor: pointer; /* カーソルを指マークに */
+}
+
+/* テキスト入力inputにフォーカスした時の形状 */
+#search-text:focus {
+  width: 250px; /* テキスト入力エリアが伸びる後の横幅 */
+  padding: 20px 0 20px 60px;
+  box-shadow: 0 2px rgba(6, 0, 1, 0.26);
+}
+
 /*========= LoadingのためのCSS ===============*/
 
 /* Loading背景画面設定　*/
@@ -63,7 +92,7 @@ a {
 
 .top-wrapper {
   padding: 150px 0 100px 0;
-  background-image: url(./fig/back.png);
+  background-image: url(./../fig/back.png);
   background-size: cover;
   color: rgba(6, 8, 8, 0.9);
   text-align: center;
@@ -186,88 +215,6 @@ header {
   font-weight: normal;
 }
 
-.profiles{
-  height: auto;
-  padding-bottom:80px;
-  padding-left: 5%;
-  padding-right: 5%;
-  background-color: #f7f7f7;
-  text-align: center;
-  font-family:"Hiragino Kaku Gothic ProN";
-}
-
-.profiles ul, ol {
-  color: #262527;
-  border-top: solid #262527 1px;/*上のボーダー*/
-  border-bottom: solid #262527 1px;/*下のボーダー*/
-  padding: 0.5em 0 0.5em 1.5em;
-}
-
-.profiles ul li, ol li {
-  line-height: 1.5;
-  padding: 0.5em 0;
-}
-
-.profile-pop{
-  font-weight: bold;
-}
-
-.profiles-span1{
-  margin-right: 10px;
-  margin-left: 5px;
-}
-
-.profiles-span2{
-  margin-right: 10px;
-  margin-left: 21px;
-}
-
-.chronology{
-  color: #262527;
-  text-align: left;
-  vertical-align: middle;
-}
-
-.me{
-  vertical-align: middle;
-  width: 100%; /* モバイルデバイスでは全幅にする */
-  height: auto; /* 高さを自動にする */
-  /* padding-left: 5%; */
-}
-
-.profile{
-  text-align: left;
-  vertical-align: middle;
-  width: 100%; /* モバイルデバイスでは全幅にする */
-  height: auto; /* 高さを自動にする */
-  padding-right: 5%;
-}
-
-.chronology dl {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.chronology dl dt {
-  text-align: right;
-  width: 8.5em;
-  padding: 0.5em 1.0em 0.5em 0.5em;
-  position: relative;
-}
-
-.chronology dl dd {
-  width: calc(100% - 8.5em);
-  padding: 0.5em 2.0em 3.0em;
-  border-left: 2px solid #ccc;
-}
-
-.chronology dl dd h2 {
-  font-size: 22px;
-  font-weight: bold;
-  margin: 0 0 5px;
-}
-
 .text-contents {
   width: 80%;
   display: inline-block;
@@ -384,19 +331,3 @@ footer {
   }
 }
 
-/* デスクトップとタブレットのビュー */
-@media (min-width: 768px) {
-  .me{
-    width: 330px; /* 元の幅に戻す */
-    height: 420px; /* 元の高さに戻す */
-  }
-
-  .profile{
-    text-align: left;
-    vertical-align: middle;
-    width: auto; /* モバイルデバイスでは全幅にする */
-    height: auto; /* 高さを自動にする */
-    padding-right: 5%;
-    padding-left:5%;
-  }
-}
