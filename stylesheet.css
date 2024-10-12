@@ -44,6 +44,7 @@ a {
 }
 
 .flex{
+  padding: 0 0 100px 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,10 +58,11 @@ a {
   width: 100%;
   padding: 0 15px;
   margin: 0 auto;
+  text-align: center;
 }
 
 .top-wrapper {
-  padding: 320px 0 100px 0;
+  padding: 150px 0 100px 0;
   background-image: url(./fig/back.png);
   background-size: cover;
   color: rgba(6, 8, 8, 0.9);
@@ -98,10 +100,12 @@ a {
 
 .twitter {
   background-color: #55acee;
+  margin-right: 10px;
 }
 
-.line{
-  background-color: #00B900;
+.linkedin{
+  background-color: #0a66c2;
+  margin-right: 10px;
 }
 
 .btn {
