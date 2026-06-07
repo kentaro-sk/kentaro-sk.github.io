@@ -1,0 +1,130 @@
+/* ================================================================
+   study.css — 研究内容ページ専用スタイル
+   stylesheet.css の後に読み込まれる
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   ページ全体ラッパー
+   ---------------------------------------------------------------- */
+.study-wrapper {
+  background: #f7f8fa;
+  min-height: 100vh;
+  padding-top: 65px;
+}
+
+/* ----------------------------------------------------------------
+   ページ見出しバナー
+   ---------------------------------------------------------------- */
+.heading-contents {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  padding: 64px 24px;
+  text-align: center;
+}
+
+.heading-contents h1 {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 36px;
+  font-weight: 200;
+  letter-spacing: 8px;
+}
+
+/* ----------------------------------------------------------------
+   研究カードグリッド（DBにデータがある場合）
+   CSS Grid で自動折り返しのカードレイアウト
+   ---------------------------------------------------------------- */
+.study-list {
+  max-width: 1060px;
+  margin: 50px auto 80px;
+  padding: 0 24px;
+  display: grid;
+  /* 最小 280px のカラムを自動で並べる */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+/* 各研究カード */
+.study-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 32px 28px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.study-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.13);
+}
+
+/* サムネイル画像 */
+.study-card img {
+  width: 100%;
+  height: 185px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 22px;
+  display: block;
+}
+
+/* 研究タイトル */
+.study-card h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+/* 研究説明文 */
+.study-card p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.9;
+}
+
+/* ----------------------------------------------------------------
+   作成中プレースホルダー（DBにデータがない場合）
+   ---------------------------------------------------------------- */
+.study-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: 60px 24px;
+}
+
+.study-placeholder-inner {
+  text-align: center;
+}
+
+/* 絵文字アイコン */
+.placeholder-icon {
+  font-size: 56px;
+  margin-bottom: 24px;
+  display: block;
+}
+
+/* メインメッセージ */
+.placeholder-text {
+  font-size: 22px;
+  font-weight: 300;
+  color: #555;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+/* サブメッセージ */
+.placeholder-sub {
+  font-size: 14px;
+  color: #aaa;
+  letter-spacing: 1px;
+}
+
+/* ================================================================
+   レスポンシブ
+   ================================================================ */
+@media (max-width: 600px) {
+  .study-list {
+    grid-template-columns: 1fr;
+  }
+}
