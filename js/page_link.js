@@ -1,6 +1,61 @@
-$('#page-link a[href*="#"]').click(function () {
-    var elmHash = $(this).attr('href'); //ページ内リンクのHTMLタグhrefから、リンクされているエリアidの値を取得
-    var pos = $(elmHash).offset().top;  //idの上部の距離を取得
-    $('body,html').animate({scrollTop: pos - 80}, 500); //取得した位置にスクロール。500の数値が大きくなるほどゆっくりスクロール
-    return false;
+/* ================================================================
+   page_link.js — 全ページ共通インタラクション
+
+   ① ページ内スクロール（アンカーリンクをスムーズスクロールに変換）
+   ② ハンバーガーメニューのトグル（スマホ表示時）
+   ================================================================ */
+
+$(document).ready(function () {
+
+  /* ----------------------------------------------------------------
+     ① ページ内スクロール
+     href に "#" を含むリンクをクリックしたとき、
+     対象要素までアニメーションスクロールする。
+     固定ナビバーの高さ（65px）分だけ上端をずらして位置合わせする。
+     ---------------------------------------------------------------- */
+  $('#page-link a[href*="#"]').on('click', function () {
+    var elmHash = $(this).attr('href'); /* リンク先のID（例: "#section1"）を取得 */
+    var pos = $(elmHash).offset().top;  /* ID要素の上端からページトップまでの距離 */
+    $('body, html').animate(
+      { scrollTop: pos - 80 }, /* ナビバー高さ分だけ上にオフセット */
+      500                       /* スクロール時間（ms）。大きいほどゆっくり */
+    );
+    return false; /* デフォルトのジャンプ動作をキャンセル */
   });
+
+
+  /* ----------------------------------------------------------------
+     ② ハンバーガーメニューのトグル
+     スマホ表示（max-width: 670px）では .header-right がCSSで非表示になる。
+     ハンバーガーアイコン（.menu-icon）をクリックすると
+     .header-right に .is-open クラスを付け外しして表示を切り替える。
+     ---------------------------------------------------------------- */
+
+  /* アイコンクリック：メニューの開閉を切り替える */
+  $('.menu-icon').on('click', function (e) {
+    e.stopPropagation(); /* クリックイベントが document まで伝播するのを止める
+                            （直後の「メニュー外クリックで閉じる」処理が誤発火しないよう） */
+    $('#page-link').toggleClass('is-open');
+
+    /* アイコンをバツ（×）に切り替えて「開いている」状態をわかりやすくする */
+    $(this).toggleClass('fa-bars fa-times');
+  });
+
+  /* メニュー内のリンクをクリックしたらメニューを閉じる
+     ページ遷移後に開いたままにならないようにするため */
+  $('#page-link a').on('click', function () {
+    $('#page-link').removeClass('is-open');
+    $('.menu-icon').removeClass('fa-times').addClass('fa-bars');
+  });
+
+  /* メニューの外側をクリックしたらメニューを閉じる
+     ユーザーが誤ってメニューを開いたまま離脱しないようにする */
+  $(document).on('click', function (e) {
+    /* クリック対象が header の中でない場合のみ閉じる */
+    if (!$(e.target).closest('header').length) {
+      $('#page-link').removeClass('is-open');
+      $('.menu-icon').removeClass('fa-times').addClass('fa-bars');
+    }
+  });
+
+});
