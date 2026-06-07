@@ -1,5 +1,6 @@
 /* ================================================================
    award.css — 学会・受賞履歴ページ専用スタイル
+   アコーディオン → モダンタイムライン に全面リニューアル
    stylesheet.css の後に読み込まれる
    ================================================================ */
 
@@ -9,11 +10,11 @@
 .award-wrapper {
   background: #f7f8fa;
   min-height: 100vh;
-  padding-top: 65px;
+  padding-top: 65px; /* 固定ナビバーの高さ分だけコンテンツを下げる */
 }
 
 /* ----------------------------------------------------------------
-   ページ見出しバナー
+   ページ見出しバナー（Unsplash 画像 + 濃紺グラデーション）
    ---------------------------------------------------------------- */
 .heading-contents {
   /* 濃紺グラデーション + トロフィー写真（Unsplash: Giorgio Trovato） */
@@ -34,104 +35,238 @@
 }
 
 /* ----------------------------------------------------------------
-   アコーディオンリスト全体
+   フィルタバー
+   カテゴリ別に実績を絞り込むためのボタン群
    ---------------------------------------------------------------- */
-.accordion-area {
-  list-style: none;
-  max-width: 920px;
-  margin: 40px auto 80px;
-  padding: 0 24px;
+#achievement-filter {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 24px 0;
 }
 
-.accordion-area li {
+/* フィルタボタンを横並びに配置 */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap; /* スマホでは折り返す */
+}
+
+/* 個々のフィルタボタン（デフォルト状態） */
+.filter-btn {
+  padding: 8px 20px;
+  border: 2px solid #dde0e8;
+  border-radius: 30px;
+  background: #fff;
+  color: #555;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.25s ease;
+  font-family: inherit; /* body フォントを継承 */
+}
+
+.filter-btn:hover {
+  border-color: #1a1a2e;
+  color: #1a1a2e;
+  background: #f0f1f5;
+}
+
+/* アクティブ状態（選択中）のフィルタボタン */
+.filter-btn.is-active {
+  background: #1a1a2e;
+  border-color: #1a1a2e;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(26, 26, 46, 0.3);
+}
+
+/* 件数バッジ（ボタン右側の丸い数字） */
+.filter-count {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 1px 7px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.filter-btn:not(.is-active) .filter-count {
+  background: #f0f0f5;
+  color: #888;
+}
+
+/* ----------------------------------------------------------------
+   タイムラインコンテナ
+   実績カードを年度順に縦並べする領域
+   ---------------------------------------------------------------- */
+#achievement-list {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 30px 24px 80px;
+}
+
+/* タイムライン本体
+   左端に縦の線を引き、各カードの左にドットを配置する */
+.timeline {
+  position: relative;
+  padding-left: 40px; /* ドットと縦線のための左余白 */
+}
+
+/* 縦のタイムラインライン
+   ::before で .timeline の左端に縦線を描く */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 11px;                /* ドットの中心線に合わせた位置 */
+  top: 8px;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #dde0e8 0%, transparent 100%);
+}
+
+/* ----------------------------------------------------------------
+   年度ラベル
+   タイムライン上に「2024」「2023」等の区切りを表示
+   ---------------------------------------------------------------- */
+.timeline-year {
+  position: relative;
+  margin: 36px 0 20px -40px; /* timeline の左余白を打ち消して線の左に出す */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 年度のテキスト */
+.timeline-year span {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  background: #1a1a2e;
+  padding: 4px 14px;
+  border-radius: 20px;
+  letter-spacing: 1px;
+}
+
+/* ----------------------------------------------------------------
+   個々の実績アイテム
+   ドット + カードで構成される1行分のエントリ
+   ---------------------------------------------------------------- */
+.timeline-item {
+  position: relative;
+  margin-bottom: 16px;
+
+  /* 入場アニメーションの初期状態（非表示・下にずれた状態） */
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+/* JavaScript が .is-visible を付けると表示状態に遷移する */
+.timeline-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* タイムライン上の丸いドット
+   カードの左端、縦線の上に重なるよう絶対配置 */
+.timeline-dot {
+  position: absolute;
+  left: -33px; /* timeline の padding-left を調整した値 */
+  top: 22px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 3px solid #f7f8fa; /* 背景色と同じ色の枠で「穴」を演出 */
+  z-index: 1;
+}
+
+/* ----------------------------------------------------------------
+   実績カード（achievement-card）
+   白い角丸カードで実績1件を表示
+   ---------------------------------------------------------------- */
+.achievement-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 22px 26px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  border: 1px solid #eef0f5;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.achievement-card:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.11);
+  transform: translateY(-2px);
+}
+
+/* Best Paper Award 等、highlight: true の実績は金色強調表示 */
+.timeline-item.is-highlight .achievement-card {
+  border-left: 4px solid #f59e0b;
+  background: linear-gradient(135deg, #fffbeb 0%, #ffffff 60%);
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.18);
+}
+
+/* ----------------------------------------------------------------
+   カード内の各要素
+   ---------------------------------------------------------------- */
+
+/* ヘッダー行（バッジ ＋ 機関名を横並び） */
+.achievement-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
   margin-bottom: 10px;
 }
 
-/* 各アコーディオンカード */
-.accordion-area section {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
-  overflow: hidden;
-  transition: box-shadow 0.3s ease;
+/* カテゴリバッジ（受賞 / 学会発表 / 特許 / 研究費） */
+.achievement-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
 }
 
-.accordion-area section:hover {
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
-}
-
-/* ----------------------------------------------------------------
-   アコーディオンタイトル行（クリックで開閉）
-   ---------------------------------------------------------------- */
-.title {
-  padding: 20px 55px 20px 24px;
-  font-size: 15px;
+/* 機関名・学会名 */
+.achievement-org {
+  font-size: 13px;
+  color: #666;
   font-weight: 500;
-  cursor: pointer;
-  position: relative;
+}
+
+/* タイトル（論文名・特許名等） */
+.achievement-title {
+  font-size: 16px;
+  font-weight: 600;
   color: #1a1a2e;
-  user-select: none;
   line-height: 1.6;
-  transition: background 0.25s ease;
+  margin: 0 0 8px;
 }
 
-.title:hover {
-  background: #f9f9fb;
+/* 日時・場所 */
+.achievement-date {
+  font-size: 13px;
+  color: #888;
+  margin: 0 0 8px;
+  letter-spacing: 0.3px;
 }
 
-/* ＋アイコン（横棒） */
-.title::before,
-.title::after {
-  content: '';
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  width: 18px;
-  height: 2px;
-  background: #888;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-/* ::before は横棒（常に表示） */
-.title::before {
-  transform: translateY(-50%);
-}
-
-/* ::after は縦棒（回転して × になる） */
-.title::after {
-  transform: translateY(-50%) rotate(90deg);
-}
-
-/* open クラスが付いたとき（アコーディオン展開中）は × アイコンにする */
-.title.open::before {
-  transform: translateY(-50%) rotate(45deg);
-}
-
-.title.open::after {
-  transform: translateY(-50%) rotate(-45deg);
-}
-
-/* ----------------------------------------------------------------
-   アコーディオン展開エリア
-   JavaScript（award.js）が slideToggle で表示・非表示を切り替える
-   ---------------------------------------------------------------- */
-.box {
-  display: none; /* 初期状態は非表示 */
-  padding: 6px 24px 24px;
-  border-top: 1px solid #f0f0f0;
-}
-
-.box p {
+/* 説明文（共著者・補足） */
+.achievement-desc {
   font-size: 14px;
   color: #555;
-  line-height: 2;
-  margin-bottom: 16px;
+  line-height: 1.85;
+  margin: 0 0 12px;
 }
 
-/* 論文・受賞リンクボタン */
-.box a {
+/* 論文リンクボタン */
+.achievement-link {
   display: inline-block;
-  padding: 8px 22px;
+  padding: 7px 18px;
   background: #1a1a2e;
   color: #fff;
   border-radius: 20px;
@@ -140,15 +275,53 @@
   transition: background 0.25s ease, transform 0.2s ease;
 }
 
-.box a:hover {
-  background: #e94560;
+.achievement-link:hover {
+  background: #e94560; /* ホバーでコーラルレッドに変化 */
   transform: translateY(-1px);
 }
 
-/* ----------------------------------------------------------------
-   DBデータ未登録時のメッセージ
-   ---------------------------------------------------------------- */
-.accordion-area .no-data {
+/* 検索結果が0件の場合のメッセージ */
+.no-results {
   text-align: center;
-  padding: 60px 20px;
+  color: #888;
+  font-size: 16px;
+  padding: 60px 0;
+}
+
+/* ================================================================
+   レスポンシブ設定
+   ================================================================ */
+@media (max-width: 640px) {
+  .timeline {
+    padding-left: 28px;
+  }
+
+  .timeline::before {
+    left: 7px;
+  }
+
+  .timeline-dot {
+    left: -23px;
+    width: 12px;
+    height: 12px;
+    top: 24px;
+  }
+
+  .timeline-year {
+    margin-left: -28px;
+  }
+
+  .achievement-card {
+    padding: 16px 18px;
+  }
+
+  .achievement-title {
+    font-size: 15px;
+  }
+
+  /* スマホではフィルタボタンが縦長にならないよう文字サイズを小さく */
+  .filter-btn {
+    font-size: 13px;
+    padding: 7px 14px;
+  }
 }

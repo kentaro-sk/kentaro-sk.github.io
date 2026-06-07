@@ -9,6 +9,7 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
           crossorigin="anonymous">
+    <!-- 共通CSS → 学会・受賞ページ専用CSS の順に読み込む -->
     <link rel="stylesheet" href="../css/stylesheet.css">
     <link rel="stylesheet" href="../css/award.css">
 </head>
@@ -32,70 +33,25 @@
     <!-- ページコンテンツ -->
     <div class="award-wrapper">
 
-        <!-- ページ見出しバナー -->
+        <!-- ページ見出しバナー（Unsplash: Giorgio Trovato） -->
         <div class="heading-contents">
             <h1>学会・受賞履歴</h1>
         </div>
 
         <!-- ============================================================
-             アコーディオンリスト
-             award.js が .title クリックで .box を slideToggle する
+             フィルタバー
+             achievements.js が CATEGORIES を読み込んで動的に生成する。
+             JS が無効な場合は空のままになる。
              ============================================================ -->
-        <ul class="accordion-area">
+        <div id="achievement-filter"></div>
 
-            <!-- ① 受賞 -->
-            <li>
-                <section>
-                    <h2 class="title">受賞 : SICE優秀学生賞 (2023.3)</h2>
-                    <div class="box">
-                        <p>大学推薦により、学部卒業時にSICE優秀学生賞を受賞しました。</p>
-                        <a href="https://www.sice.jp/wp-content/uploads/file/sice_superior_student_award_2022.pdf"
-                           target="_blank" rel="noopener noreferrer">受賞者リスト</a>
-                    </div>
-                </section>
-            </li>
+        <!-- ============================================================
+             タイムラインリスト
+             achievements.js が ACHIEVEMENTS を読み込んで動的に描画する。
+             年度順（降順）のタイムライン形式で表示される。
+             ============================================================ -->
+        <div id="achievement-list"></div>
 
-            <!-- ② 国内学会 -->
-            <li>
-                <section>
-                    <h2 class="title">国内学会 : ロボティクス・メカトロニクス 講演会 2023 in Nagoya (2023.6)</h2>
-                    <div class="box">
-                        <p>杉浦健太郎，青木瑞穂，黒田和秀，奥田裕之，鈴木達也．"人と移動ロボットのすれ違いにおける歩行者の意図推定モデルの構築."
-                           ロボティクス・メカトロニクス 講演会 2023 in Nagoya</p>
-                    </div>
-                </section>
-            </li>
-
-            <!-- ③ 国内学会 -->
-            <li>
-                <section>
-                    <h2 class="title">国内学会 : 自動制御連合講演会講演論文集 第66回自動制御連合講演会 (2023.10)</h2>
-                    <div class="box">
-                        <p>杉浦健太郎, 青木瑞穂, 奥田裕之, &amp; 鈴木達也. "共有移動空間における移動ロボットによる歩行者行動の可制御性評価."
-                           自動制御連合講演会講演論文集 第66回自動制御連合講演会. 自動制御連合講演会, 2023.</p>
-                        <a href="https://www.jstage.jst.go.jp/article/jacc/66/0/66_1095/_article/-char/ja/"
-                           target="_blank" rel="noopener noreferrer">論文</a>
-                    </div>
-                </section>
-            </li>
-
-            <!-- ④ 国際学会 -->
-            <li>
-                <section>
-                    <h2 class="title">国際学会 : In Proceedings of the 20th International Conference on Informatics in Control, Automation and Robotics (2023.11)</h2>
-                    <div class="box">
-                        <p>Sugiura, K.; Aoki, M.; Kuroda, K.; Okuda, H. and Suzuki, T. (2023).
-                           Evaluation of Controllability of Interaction Between Pedestrian and Autonomous Mobile Robot in Shared Mobility Space.
-                           In Proceedings of the 20th International Conference on Informatics in Control, Automation and Robotics - Volume 2: ICINCO;
-                           ISBN 978-989-758-670-5; ISSN 2184-2809, SciTePress, pages 249-257.
-                           DOI: 10.5220/0012177500003543</p>
-                        <a href="https://www.scitepress.org/PublicationsDetail.aspx?ID=Ckw2a6TyDkg=&t=1"
-                           target="_blank" rel="noopener noreferrer">論文</a>
-                    </div>
-                </section>
-            </li>
-
-        </ul>
     </div><!-- /.award-wrapper -->
 
     <!-- フッター -->
@@ -105,8 +61,10 @@
             <p>Copyright &copy; 2024 Kentaro Sugiura. All Rights Reserved.</p>
             <p class="photo-credits">
                 Photo by
-                <a href="https://unsplash.com/@giorgiotrovato?utm_source=portfolio&amp;utm_medium=referral" target="_blank" rel="noopener noreferrer">Giorgio Trovato</a>
-                on <a href="https://unsplash.com/?utm_source=portfolio&amp;utm_medium=referral" target="_blank" rel="noopener noreferrer">Unsplash</a>
+                <a href="https://unsplash.com/@giorgiotrovato?utm_source=portfolio&amp;utm_medium=referral"
+                   target="_blank" rel="noopener noreferrer">Giorgio Trovato</a>
+                on <a href="https://unsplash.com/?utm_source=portfolio&amp;utm_medium=referral"
+                      target="_blank" rel="noopener noreferrer">Unsplash</a>
             </p>
         </div>
     </footer>
@@ -115,8 +73,8 @@
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
     <script src="../js/page_link.js"></script>
-    <!-- アコーディオン制御JS（jQuery の後に読み込む） -->
-    <script src="../js/award.js"></script>
+    <!-- 実績データとタイムラインUIの描画ロジック（jQuery の後に読み込む） -->
+    <script src="../js/achievements.js"></script>
 
 </body>
 </html>
