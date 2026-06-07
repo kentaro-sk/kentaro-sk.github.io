@@ -1,0 +1,21 @@
+# OS が自動生成するファイル（Windowsのサムネイルキャッシュ等）
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS が自動生成するファイル
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# VSCode の設定（個人の環境依存ファイルは共有しない）
+.vscode/
+*.code-workspace
+
+# 環境変数・シークレット情報（絶対にコミットしないこと）
+.env
+.env.local
+.env.*.local
+
+# ローカル開発ツールのログ
+npm-debug.log*
