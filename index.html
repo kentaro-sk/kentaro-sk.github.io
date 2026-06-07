@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>杉浦健太郎のポートフォリオ</title>
+    <title>杉浦健太郎 — Portfolio</title>
 
     <!-- サイトアイコン -->
     <link rel="shortcut icon" href="./fig/icon.svg" type="image/x-icon">
@@ -13,18 +13,29 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
           crossorigin="anonymous">
 
-    <!-- 共通スタイルシート -->
+    <!-- 共通スタイル（ナビバー・フッター・ボタン） -->
     <link rel="stylesheet" href="./css/stylesheet.css">
+
+    <!-- トップページ専用スタイル（Apple スタイルデザイン・スクロールアニメーション） -->
+    <link rel="stylesheet" href="./css/home.css">
 </head>
 <body>
 
     <!-- ==============================
+         スプラッシュ画面（ローディング）
+         style.js が ProgressBar アニメーション後に fadeOut させる
+         ============================== -->
+    <div id="splash">
+        <div id="splash_text"></div>
+    </div>
+
+    <!-- ==============================
          ナビゲーションバー（固定ヘッダー）
+         home.js がスクロール量に応じて .scrolled クラスを付与する
          ============================== -->
     <header>
         <div class="container">
             <div class="header-left">
-                <!-- ロゴクリックでトップへ -->
                 <a href="./"><img class="logo" src="./fig/icon.svg" alt="杉浦健太郎 ロゴ"></a>
             </div>
             <!-- スマホ表示時のハンバーガーアイコン -->
@@ -38,29 +49,31 @@
         </div>
     </header>
 
-    <!-- ==============================
-         スプラッシュ画面（ローディング）
-         style.js がアニメーション後に fadeOut する
-         ============================== -->
-    <div id="splash">
-        <div id="splash_text"></div>
-    </div>
 
-    <!-- ==============================
-         ヒーローセクション
-         グラデーションオーバーレイ + 背景画像
-         ============================== -->
-    <div class="top-wrapper">
-        <div class="container">
-            <!-- メインキャッチコピー -->
-            <h1>The past can hurt.<br>But you can either RUN from it,<br>or LEARN from it.</h1>
+    <!-- ======================================================
+         ① ヒーローセクション
+         全画面高さ。名前・所属・SNSリンクをファーストビューで訴求する。
+         home.js の parallax 関数が .hero-content をスクロールに合わせて動かす。
+         ====================================================== -->
+    <section class="hero-section">
 
-            <!-- 自己紹介文 -->
-            <p>名古屋大学大学院工学研究科に所属している杉浦健太郎です．<br>
-               エンジニアの卵として日々奮闘しております．</p>
+        <!-- テキストコンテンツ（parallax の対象） -->
+        <div class="hero-content">
+
+            <!-- 小タグ：役割 + 所属大学 -->
+            <p class="hero-eyebrow">Graduate Researcher &nbsp;·&nbsp; Nagoya University</p>
+
+            <!-- メイン：氏名 -->
+            <h1 class="hero-name">杉浦 健太郎</h1>
+
+            <!-- サブ：所属・研究室 -->
+            <p class="hero-sub">
+                名古屋大学大学院 工学研究科 機械システム工学専攻<br>
+                モビリティシステムグループ 鈴木研究室
+            </p>
 
             <!-- SNSリンクボタン -->
-            <div class="btn-wrapper">
+            <div class="hero-actions">
                 <a href="https://www.linkedin.com/in/kentaro-sugiura-49a09929b"
                    class="btn linkedin" target="_blank" rel="noopener noreferrer">
                     <span class="fa fa-linkedin"></span>LinkedIn
@@ -74,20 +87,255 @@
                     <span class="fa fa-twitter"></span>Twitter
                 </a>
             </div>
-        </div>
-    </div>
 
-    <!-- ==============================
-         メッセージセクション（座右の銘）
-         ============================== -->
+        </div><!-- /.hero-content -->
+
+        <!-- スクロール促進インジケーター（↓の矢印 + "Scroll" テキスト） -->
+        <div class="hero-scroll-hint" aria-hidden="true">Scroll</div>
+
+    </section>
+
+
+    <!-- ======================================================
+         ② プロフィールセクション（About Me）
+         顔写真 ＋ プロフィール項目の2カラムレイアウト。
+         [data-reveal] によりスクロール時にフェードインする。
+         ====================================================== -->
+    <section class="about-section section">
+        <div class="container">
+
+            <p class="section-label">About</p>
+            <h2 class="section-title" data-reveal>プロフィール</h2>
+
+            <div class="about-grid">
+
+                <!-- 顔写真 -->
+                <div class="about-photo" data-reveal data-delay="0">
+                    <img src="./fig/me.jpg" alt="杉浦健太郎の写真">
+                </div>
+
+                <!-- プロフィール詳細 -->
+                <div class="about-info" data-reveal data-delay="0.12">
+
+                    <!-- 自己紹介文 -->
+                    <p class="about-bio">
+                        名古屋大学大学院で自律移動ロボットと歩行者のインタラクションを研究しています。<br>
+                        制御工学・機械学習を軸に、ロボットが人と自然に共存できる社会の実現を目指しています。
+                    </p>
+
+                    <!-- プロフィール項目リスト -->
+                    <ul class="profile-list">
+                        <li>
+                            <span class="profile-key">氏名</span>
+                            <span class="profile-val">杉浦 健太郎</span>
+                        </li>
+                        <li>
+                            <span class="profile-key">誕生日</span>
+                            <span class="profile-val">2000年10月10日</span>
+                        </li>
+                        <li>
+                            <span class="profile-key">出身地</span>
+                            <span class="profile-val">愛知県一宮市</span>
+                        </li>
+                        <li>
+                            <span class="profile-key">学部</span>
+                            <span class="profile-val">名古屋大学 工学部 機械・航空宇宙工学科</span>
+                        </li>
+                        <li>
+                            <span class="profile-key">大学院</span>
+                            <span class="profile-val">
+                                名古屋大学大学院 工学研究科 機械システム工学専攻
+                                （<a href="https://www.suzlab.mae.nagoya-u.ac.jp/"
+                                    target="_blank" rel="noopener noreferrer">鈴木研究室</a>）
+                            </span>
+                        </li>
+                    </ul>
+
+                </div><!-- /.about-info -->
+
+            </div><!-- /.about-grid -->
+
+        </div>
+    </section>
+
+
+    <!-- ======================================================
+         ③ 経歴セクション（Career & Professional Experience）
+         研究実績の統計数字 ＋ 学歴・研究内容のタイムライン表示。
+         ====================================================== -->
+    <section class="career-section section">
+        <div class="container">
+
+            <p class="section-label">Career</p>
+            <h2 class="section-title" data-reveal>経歴 &amp; 研究実績</h2>
+
+            <!-- ---- 実績ハイライト（大きな数字で一覧） ---- -->
+            <div class="career-stats">
+
+                <div class="stat-card" data-reveal data-delay="0">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">研究発表</div>
+                </div>
+
+                <div class="stat-card" data-reveal data-delay="0.1">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">受賞</div>
+                </div>
+
+                <div class="stat-card" data-reveal data-delay="0.2">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">特許出願</div>
+                </div>
+
+                <div class="stat-card" data-reveal data-delay="0.3">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">研究助成採択</div>
+                </div>
+
+            </div><!-- /.career-stats -->
+
+            <!-- ---- タイムライン ---- -->
+            <div class="career-timeline">
+
+                <!-- 大学院（現在） -->
+                <div class="career-item" data-reveal data-delay="0">
+                    <div class="career-period">2023 — 現在</div>
+                    <div class="career-card">
+                        <span class="career-tag">大学院 / 修士課程</span>
+                        <h3 class="career-title">名古屋大学大学院 工学研究科</h3>
+                        <p class="career-sub">機械システム工学専攻 / モビリティシステムグループ 鈴木研究室</p>
+                        <p class="career-desc">
+                            自律移動ロボットと歩行者のインタラクションを研究。
+                            ロボットが人を特定の行動に自然に誘導する「可誘導性」の概念を提案し、
+                            制御理論・ベイズ推定を用いてその評価手法を構築。
+                            国内外の学会で研究成果を発表し、特許を出願中。
+                        </p>
+                        <div class="career-badges">
+                            <span class="career-badge highlight">🏆 SSI2024 Best Paper Award</span>
+                            <span class="career-badge">🎓 バロック村井宏之財団 研究助成採択</span>
+                            <span class="career-badge">📋 特許出願中</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 学部 -->
+                <div class="career-item" data-reveal data-delay="0.1">
+                    <div class="career-period">2019 — 2023</div>
+                    <div class="career-card">
+                        <span class="career-tag">学部</span>
+                        <h3 class="career-title">名古屋大学 工学部</h3>
+                        <p class="career-sub">機械・航空宇宙工学科</p>
+                        <p class="career-desc">
+                            機械工学・制御工学・流体力学を幅広く学ぶ。
+                            GPA 3.97 / 4.3（学科首席クラス）で卒業。
+                        </p>
+                        <div class="career-badges">
+                            <span class="career-badge highlight">🏅 SICE優秀学生賞（2023年3月）</span>
+                            <span class="career-badge">GPA 3.97 / 4.3</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 国際発表 -->
+                <div class="career-item" data-reveal data-delay="0.15">
+                    <div class="career-period">2023 — 2025</div>
+                    <div class="career-card">
+                        <span class="career-tag">国際会議発表</span>
+                        <h3 class="career-title">国際学会 2件 / 国内学会 5件</h3>
+                        <p class="career-sub">ICINCO 2023 / SII 2025 / ROBOMEC 2023 他</p>
+                        <p class="career-desc">
+                            共有移動空間における歩行者と自律移動ロボットの相互作用に関する研究成果を、
+                            国内外の主要学会で継続的に発表。
+                            ICINCO 2023（SciTePress）・SII 2025（IEEE Xplore）に論文掲載。
+                        </p>
+                    </div>
+                </div>
+
+            </div><!-- /.career-timeline -->
+
+        </div>
+    </section>
+
+
+    <!-- ======================================================
+         ④ スキルセクション
+         HTML / CSS / JavaScript / Python をスター評価カードで表示。
+         全スキル ★★★（3段階中3）で統一。
+         ====================================================== -->
+    <section class="skills-section section">
+        <div class="container">
+
+            <p class="section-label">Skills</p>
+            <h2 class="section-title" data-reveal>スキル</h2>
+
+            <div class="skills-grid">
+
+                <!-- HTML -->
+                <div class="skill-card" data-reveal data-delay="0">
+                    <span class="skill-icon">🌐</span>
+                    <h3 class="skill-name">HTML</h3>
+                    <div class="skill-stars">
+                        <span class="star filled">★</span>
+                        <span class="star filled">★</span>
+                        <span class="star filled">★</span>
+                    </div>
+                    <p class="skill-level">Advanced</p>
+                </div>
+
+                <!-- CSS -->
+                <div class="skill-card" data-reveal data-delay="0.08">
+                    <span class="skill-icon">🎨</span>
+                    <h3 class="skill-name">CSS</h3>
+                    <div class="skill-stars">
+                        <span class="star filled">★</span>
+                        <span class="star filled">★</span>
+                        <span class="star filled">★</span>
+                    </div>
+                    <p class="skill-level">Advanced</p>
+                </div>
+
+                <!-- JavaScript -->
+                <div class="skill-card" data-reveal data-delay="0.16">
+                    <span class="skill-icon">⚡</span>
+                    <h3 class="skill-name">JavaScript</h3>
+                    <div class="skill-stars">
+                        <span class="star filled">★</span>
+                        <span class="star filled">★</span>
+                        <span class="star filled">★</span>
+                    </div>
+                    <p class="skill-level">Advanced</p>
+                </div>
+
+                <!-- Python -->
+                <div class="skill-card" data-reveal data-delay="0.24">
+                    <span class="skill-icon">🐍</span>
+                    <h3 class="skill-name">Python</h3>
+                    <div class="skill-stars">
+                        <span class="star filled">★</span>
+                        <span class="star filled">★</span>
+                        <span class="star filled">★</span>
+                    </div>
+                    <p class="skill-level">Advanced</p>
+                </div>
+
+            </div><!-- /.skills-grid -->
+
+        </div>
+    </section>
+
+
+    <!-- ======================================================
+         ⑤ メッセージセクション（座右の銘）
+         ====================================================== -->
     <div class="message-wrapper">
         <div class="container">
-            <div class="heading">
+            <div class="heading" data-reveal>
                 <h2>座右の銘にしたがって，日々鍛錬します．</h2>
                 <h3>Kentaro</h3>
             </div>
         </div>
     </div>
+
 
     <!-- フッター -->
     <footer>
@@ -97,14 +345,20 @@
             <!-- Unsplash 利用規約に基づく著作者クレジット表記（必須） -->
             <p class="photo-credits">
                 Photos by
-                <a href="https://unsplash.com/@adigold1?utm_source=portfolio&amp;utm_medium=referral" target="_blank" rel="noopener noreferrer">Adi Goldstein</a>,
-                <a href="https://unsplash.com/@andersjilden?utm_source=portfolio&amp;utm_medium=referral" target="_blank" rel="noopener noreferrer">Anders Jild&eacute;n</a>
-                on <a href="https://unsplash.com/?utm_source=portfolio&amp;utm_medium=referral" target="_blank" rel="noopener noreferrer">Unsplash</a>
+                <a href="https://unsplash.com/@adigold1?utm_source=portfolio&amp;utm_medium=referral"
+                   target="_blank" rel="noopener noreferrer">Adi Goldstein</a>,
+                <a href="https://unsplash.com/@andersjilden?utm_source=portfolio&amp;utm_medium=referral"
+                   target="_blank" rel="noopener noreferrer">Anders Jild&eacute;n</a>
+                on <a href="https://unsplash.com/?utm_source=portfolio&amp;utm_medium=referral"
+                      target="_blank" rel="noopener noreferrer">Unsplash</a>
             </p>
         </div>
     </footer>
 
-    <!-- jQuery（ProgressBar.js・style.js・page_link.js が依存） -->
+
+    <!-- ==================== JavaScript ==================== -->
+
+    <!-- jQuery（page_link.js が依存） -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
@@ -112,11 +366,14 @@
     <!-- ページ内スクロール -->
     <script src="./js/page_link.js"></script>
 
-    <!-- ProgressBar.js（旧: rawgit.com は2019年廃止 → jsDelivr を使用） -->
+    <!-- ProgressBar.js（スプラッシュアニメーション用） -->
     <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
 
-    <!-- スプラッシュアニメーション（jQuery + ProgressBar.js 両方の後に読む） -->
+    <!-- スプラッシュアニメーション（jQuery + ProgressBar.js より後に読む） -->
     <script src="./js/style.js"></script>
+
+    <!-- ホームページ専用インタラクション（スクロール連動アニメーション等） -->
+    <script src="./js/home.js"></script>
 
 </body>
 </html>

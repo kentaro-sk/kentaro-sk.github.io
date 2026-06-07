@@ -1,0 +1,680 @@
+/* ================================================================
+   home.css — トップページ専用スタイル
+   Apple インスパイアのミニマルデザイン
+
+   【設計方針】
+   ・stylesheet.css（共通）の後に読み込む（ナビ・フッターは共通CSS）
+   ・Apple の設計原則：余白・タイポグラフィ・アニメーションを重視
+   ・スクロール連動アニメーションは [data-reveal] + .is-visible パターン
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   フォントスタック追加
+   -apple-system で macOS/iOS の SF Pro が優先表示される。
+   ---------------------------------------------------------------- */
+body {
+  /* Apple系デバイスでは SF Pro が使われるよう優先度を上げる */
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    "Yu Gothic UI", "Yu Gothic", "Meiryo UI", sans-serif;
+  -webkit-font-smoothing: antialiased; /* macOS でフォントをなめらかに描画 */
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* ================================================================
+   スクロール連動フェードイン（Reveal Animation）
+   [data-reveal] を持つ要素は初期状態で非表示。
+   home.js の IntersectionObserver が .is-visible を付与すると
+   CSSトランジションでスムーズに表示される。
+   ================================================================ */
+
+/* アニメーション初期状態：透明 ＋ 40px 下にずれた状態 */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(40px);
+  /* duration 0.75s で自然なイージング。delay は JS が動的に設定 */
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* JS が付与するクラス：表示状態に遷移 */
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* モーション軽減設定を尊重（アクセシビリティ対応） */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+
+/* ================================================================
+   セクション共通スタイル
+   ================================================================ */
+
+/* セクションの上下余白（Apple サイトと同等の広い余白） */
+.section {
+  padding: 110px 0;
+}
+
+/* セクションラベル（"About" "Career" "Skills" 等の小見出し）
+   Apple 製品ページの "iPhone 16 Pro" 上に出る小さなタグ風 */
+.section-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #e94560; /* サイトのアクセントカラー（コーラルレッド） */
+  margin-bottom: 16px;
+}
+
+/* セクション主見出し（各セクションの大きなタイトル） */
+.section-title {
+  font-size: 48px;
+  font-weight: 700;
+  color: #1d1d1f; /* Apple のメインテキストカラー（ほぼ黒） */
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  margin-bottom: 60px;
+}
+
+/* セクション説明文 */
+.section-desc {
+  font-size: 18px;
+  color: #6e6e73; /* Apple のセカンダリテキストカラー（ミディアムグレー） */
+  line-height: 1.8;
+  max-width: 680px;
+  margin-bottom: 60px;
+}
+
+
+/* ================================================================
+   ヒーローセクション
+   全画面高さの背景画像 ＋ グラデーション ＋ プロフィール情報
+   ================================================================ */
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  /* グラデーション（左上が濃紺 → 右下が黒寄り）＋ Unsplash 背景画像 */
+  background-image:
+    linear-gradient(
+      160deg,
+      rgba(22, 22, 40, 0.82) 0%,
+      rgba(8, 8, 18, 0.68) 100%
+    ),
+    url(../fig/unsplash/hero-bg.jpg);
+  background-size: cover;
+  background-position: center;
+  /* PCでは視差スクロール効果（fixed）。モバイルは home.css の @media で上書き */
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  padding-top: 65px; /* 固定ナビバーの高さ分だけコンテンツを下げる */
+  overflow: hidden;
+}
+
+/* ヒーロー内テキストブロック
+   home.js の parallax 関数が transform で動かす対象 */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+  padding: 0 24px;
+  will-change: transform, opacity; /* GPU レイヤー昇格でアニメーションを滑らかに */
+}
+
+/* 上部の小タグ（"Graduate Researcher · Nagoya University" 等） */
+.hero-eyebrow {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 20px;
+}
+
+/* 名前（最大の見出し） */
+.hero-name {
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  margin-bottom: 24px;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* サブタイトル（所属・研究室） */
+.hero-sub {
+  font-size: 17px;
+  line-height: 2.0;
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 48px;
+  letter-spacing: 0.2px;
+}
+
+/* SNSリンクボタン群（共通の .btn は stylesheet.css で定義済み） */
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* スクロールヒント（矢印 + "Scroll" テキスト） */
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  /* ゆっくり上下に動くアニメーション */
+  animation: scrollBounce 2.2s ease-in-out infinite;
+}
+
+/* 矢印SVG代わりの三角形（:before 擬似要素） */
+.hero-scroll-hint::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.45; }
+  50%       { transform: translateX(-50%) translateY(8px); opacity: 0.7; }
+}
+
+/* ヘッダーのスクロール後スタイル（home.js が .scrolled を付与） */
+header.scrolled {
+  box-shadow: 0 2px 30px rgba(0, 0, 0, 0.5);
+}
+
+
+/* ================================================================
+   プロフィールセクション（About）
+   写真 ＋ プロフィール情報をグリッドで横並び表示
+   ================================================================ */
+.about-section {
+  background: #ffffff;
+  padding: 110px 0;
+}
+
+/* 2カラムグリッド：左が写真、右がプロフィール情報 */
+.about-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+/* 顔写真コンテナ */
+.about-photo {
+  position: relative;
+}
+
+.about-photo img {
+  width: 100%;
+  border-radius: 20px; /* Apple カードと同じ角丸 */
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  display: block;
+}
+
+/* 写真の装飾：左後方にブロックを重ねて奥行きを演出 */
+.about-photo::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: -16px;
+  right: 16px;
+  bottom: -16px;
+  background: linear-gradient(135deg, #1a1a2e, #e94560);
+  border-radius: 20px;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+/* プロフィール情報エリア */
+.about-info {
+  padding-top: 8px;
+}
+
+/* プロフィール自己紹介文 */
+.about-bio {
+  font-size: 18px;
+  color: #1d1d1f;
+  line-height: 1.9;
+  margin-bottom: 36px;
+}
+
+/* プロフィール項目リスト（キー: バリュー 形式） */
+.profile-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.profile-list li {
+  display: flex;
+  gap: 16px;
+  font-size: 15px;
+  line-height: 1.6;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.profile-list li:last-child {
+  border-bottom: none;
+}
+
+/* 項目名（氏名・所属 等） */
+.profile-key {
+  font-weight: 600;
+  color: #6e6e73;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  min-width: 80px;
+  padding-top: 2px;
+}
+
+/* 項目値 */
+.profile-val {
+  color: #1d1d1f;
+  flex: 1;
+}
+
+.profile-val a {
+  color: #e94560;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.profile-val a:hover {
+  color: #1a1a2e;
+}
+
+
+/* ================================================================
+   経歴セクション（Career & Professional Experience）
+   学歴 + 研究実績 + ハイライト統計数字を表示
+   ================================================================ */
+.career-section {
+  background: #f5f5f7; /* Apple の明るいグレー背景 */
+  padding: 110px 0;
+}
+
+/* ハイライト統計（大きな数字で実績をひと目で伝える） */
+.career-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 80px;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 36px 24px;
+  text-align: center;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.09);
+}
+
+/* 大きな数字（"7" "2" 等） */
+.stat-number {
+  font-size: 52px;
+  font-weight: 700;
+  color: #1a1a2e;
+  line-height: 1;
+  margin-bottom: 8px;
+  letter-spacing: -2px;
+}
+
+/* 数字のラベル（"研究発表" 等） */
+.stat-label {
+  font-size: 13px;
+  color: #6e6e73;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+/* キャリアタイムライン */
+.career-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* 個々のキャリアアイテム（横並び：年号 ＋ 詳細カード） */
+.career-item {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* 年号ラベル */
+.career-period {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6e6e73;
+  letter-spacing: 0.5px;
+  padding-top: 22px;
+  text-align: right;
+  border-right: 2px solid #dde0e8; /* タイムラインの縦線 */
+  padding-right: 32px;
+}
+
+/* キャリア詳細カード */
+.career-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 32px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+/* カード種別タグ（学歴 / 研究 / 受賞 等） */
+.career-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #e94560;
+  margin-bottom: 10px;
+}
+
+/* 機関名・役職名 */
+.career-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1d1d1f;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+/* 専攻・部署等の補足 */
+.career-sub {
+  font-size: 14px;
+  color: #6e6e73;
+  margin-bottom: 12px;
+}
+
+/* 詳細説明 */
+.career-desc {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.85;
+}
+
+/* キャリアカード内のハイライトタグ一覧（SSI Award 等） */
+.career-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.career-badge {
+  background: #f5f5f7;
+  color: #1d1d1f;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid #e0e0e5;
+}
+
+/* ベストペーパー等の強調バッジ */
+.career-badge.highlight {
+  background: #fff8e6;
+  color: #b45309;
+  border-color: #f59e0b;
+}
+
+
+/* ================================================================
+   スキルセクション
+   4つのスキルカードを格子状に表示。全スキル ★★★（3段階中3）
+   ================================================================ */
+.skills-section {
+  background: #ffffff;
+  padding: 110px 0;
+}
+
+/* スキルカードの格子配置（デスクトップ: 2×2 → 4×1） */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 900px;
+}
+
+/* 個々のスキルカード */
+.skill-card {
+  background: #fff;
+  border: 1px solid #e8e8ed;
+  border-radius: 20px;
+  padding: 36px 24px;
+  text-align: center;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.35s ease;
+}
+
+.skill-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.10);
+}
+
+/* スキルアイコン（テキスト絵文字 or ロゴ） */
+.skill-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+  display: block;
+  /* アイコンに軽いドロップシャドウで立体感を出す */
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+/* スキル名 */
+.skill-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1d1d1f;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+/* スターレーティング表示エリア */
+.skill-stars {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+/* 個々のスター（★ / ☆） */
+.star {
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* 塗りつぶしスター（達成済み） */
+.star.filled {
+  color: #f59e0b; /* ゴールド */
+}
+
+/* 空スター（未達成）※今回は全スキル全満点なので不使用 */
+.star.empty {
+  color: #d1d1d6;
+}
+
+/* スキルレベル文字表示 */
+.skill-level {
+  font-size: 11px;
+  color: #8e8e93;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+
+/* ================================================================
+   メッセージセクション（座右の銘）
+   既存の .message-wrapper スタイルを継承して上書き最小化
+   ================================================================ */
+.message-wrapper {
+  padding: 120px 0;
+  background-color: #fff;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)),
+    url(../fig/unsplash/message-bg.jpg);
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  border-top: 1px solid #f0f0f0;
+}
+
+.heading h2 {
+  font-size: 26px;
+  font-weight: 300;
+  color: #1d1d1f;
+  line-height: 2.0;
+  margin-bottom: 28px;
+  letter-spacing: 0.5px;
+}
+
+.heading h3 {
+  font-size: 14px;
+  font-weight: 300;
+  color: #bbb;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+}
+
+
+/* ================================================================
+   レスポンシブ設定
+   ================================================================ */
+
+/* タブレット（768px 以下） */
+@media (max-width: 768px) {
+  .hero-name {
+    font-size: 48px;
+  }
+
+  .hero-sub {
+    font-size: 15px;
+  }
+
+  .section-title {
+    font-size: 34px;
+    margin-bottom: 40px;
+  }
+
+  /* プロフィールを縦積みに変更 */
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .about-photo {
+    max-width: 240px;
+    margin: 0 auto;
+  }
+
+  /* 統計カードを2×2に変更 */
+  .career-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* キャリアタイムラインを縦積みに変更 */
+  .career-item {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .career-period {
+    text-align: left;
+    border-right: none;
+    border-left: 3px solid #e94560;
+    padding-right: 0;
+    padding-left: 16px;
+  }
+
+  /* スキルカードを 2×2 に変更 */
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* スマホ（480px 以下） */
+@media (max-width: 480px) {
+  .hero-name {
+    font-size: 36px;
+    letter-spacing: -0.5px;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
+
+  /* モバイルでは parallax が正しく動作しないためスクロールに変更 */
+  .hero-section {
+    background-attachment: scroll;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions .btn {
+    justify-content: center;
+    border-radius: 12px;
+  }
+
+  .career-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .stat-number {
+    font-size: 40px;
+  }
+
+  /* スキルカードを 2×2 のまま */
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .section {
+    padding: 72px 0;
+  }
+}
