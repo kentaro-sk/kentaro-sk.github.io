@@ -175,10 +175,10 @@ header .container {
   background-image:
     linear-gradient(
       160deg,
-      rgba(26, 26, 46, 0.78) 0%,
-      rgba(10, 10, 20, 0.60) 100%
+      rgba(26, 26, 46, 0.72) 0%,
+      rgba(10, 10, 20, 0.55) 100%
     ),
-    url(../fig/back.png);
+    url(../fig/unsplash/hero-bg.jpg);
   background-size: cover;
   background-position: center;
   /* スクロールしても背景が動く視差効果（モバイルでは scroll に切り替え） */
@@ -257,7 +257,13 @@ header .container {
    ---------------------------------------------------------------- */
 .message-wrapper {
   padding: 100px 0;
-  background: #fff;
+  /* 白いオーバーレイ + 建築写真で上品なテクスチャを演出 */
+  background-color: #fff;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.93), rgba(255, 255, 255, 0.93)),
+    url(../fig/unsplash/message-bg.jpg);
+  background-size: cover;
+  background-position: center;
   text-align: center;
   border-top: 1px solid #f0f0f0;
 }
@@ -306,6 +312,25 @@ footer p {
   color: rgba(255, 255, 255, 0.38);
   font-size: 11px;
   letter-spacing: 2px;
+}
+
+/* Unsplash クレジット表記（利用規約で必須） */
+.photo-credits {
+  margin-top: 12px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.5px;
+}
+
+.photo-credits a {
+  color: rgba(255, 255, 255, 0.38);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+}
+
+.photo-credits a:hover {
+  color: rgba(255, 255, 255, 0.65);
 }
 
 /* ----------------------------------------------------------------

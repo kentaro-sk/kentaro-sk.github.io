@@ -16,7 +16,12 @@
    ページ見出しバナー
    ---------------------------------------------------------------- */
 .heading-contents {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  /* 濃紺グラデーション + トロフィー写真（Unsplash: Giorgio Trovato） */
+  background:
+    linear-gradient(135deg, rgba(26, 26, 46, 0.88) 0%, rgba(22, 33, 62, 0.88) 100%),
+    url(../fig/unsplash/award-bg.jpg);
+  background-size: cover;
+  background-position: center;
   padding: 64px 24px;
   text-align: center;
 }
