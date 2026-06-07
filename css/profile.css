@@ -17,7 +17,12 @@
    ページ見出しバナー（濃紺グラデーション）
    ---------------------------------------------------------------- */
 .heading-contents {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  /* 濃紺グラデーション + 実験室写真（Unsplash: Julia Koblitz） */
+  background:
+    linear-gradient(135deg, rgba(26, 26, 46, 0.88) 0%, rgba(22, 33, 62, 0.88) 100%),
+    url(../fig/unsplash/profile-bg.jpg);
+  background-size: cover;
+  background-position: center;
   padding: 64px 24px;
   text-align: center;
 }
