@@ -1,96 +1,115 @@
 <!DOCTYPE html>
-<html>
-
-  <head>
-    <!-- 文字コードの指定 -->
+<html lang="ja">
+<head>
     <meta charset="utf-8">
-    
-    <!-- スマホやタブレットでもきれいに表示する「レスポンシブ表示」 のための記述です．-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- サイトのタイトルを記述 -->
-    <title>杉浦健太郎のマイページ</title>
+    <title>杉浦健太郎のポートフォリオ</title>
 
-    <!-- サイトのアイコンを設定します． -->
-    <link rel="shortcut icon" href="./fig/icon.svg" type="image/x-icon" />
+    <!-- サイトアイコン -->
+    <link rel="shortcut icon" href="./fig/icon.svg" type="image/x-icon">
 
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    
-    <!-- サイトマップ用のCSS -->
-    <link rel="stylesheet" type="text/css" href="./css/stylesheet.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Modaal/0.4.4/css/modaal.min.css">
-  </head>
+    <!-- Font Awesome（SNSアイコン・ハンバーガーメニュー用） -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          crossorigin="anonymous">
 
+    <!-- 共通スタイルシート -->
+    <link rel="stylesheet" href="./css/stylesheet.css">
+</head>
+<body>
 
-  <body>
-    
-    <div id="splash">
-      <div id="splash_text"></div>
-    </div>
-
+    <!-- ==============================
+         ナビゲーションバー（固定ヘッダー）
+         ============================== -->
     <header>
-      <div class="container">
-        <div class="header-left">
-          <img class="logo" src="./fig/icon.svg">
+        <div class="container">
+            <div class="header-left">
+                <!-- ロゴクリックでトップへ -->
+                <a href="./"><img class="logo" src="./fig/icon.svg" alt="杉浦健太郎 ロゴ"></a>
+            </div>
+            <!-- スマホ表示時のハンバーガーアイコン -->
+            <span class="fa fa-bars menu-icon" aria-label="メニュー"></span>
+            <!-- デスクトップ用ナビリンク -->
+            <div class="header-right" id="page-link">
+                <a href="./profile/">プロフィール</a>
+                <a href="./awards/">学会・受賞</a>
+                <a href="./study/">研究内容</a>
+            </div>
         </div>
-
-        <span class="fa fa-bars menu-icon"></span>
-        
-        <div class="header-right" id="page-link">
-          <a href="./profile/profile.html">プロフィール</a>
-          <a href="./conference_award/conference_award.html">学会・受賞履歴</a>
-          <a href="./study/study.html" class="login">研究内容</a>
-        </div>
-        
-        <div class ="search-right" id="search-wrap">
-          <form role="search" method="get" action="https://kentaro-sk.github.io/">
-            <input type="search" value="" name="search" id="search-text">
-            <input type="submit" name="submit" value="検索">
-          </form>
-        </div>
-      </div>
     </header>
 
+    <!-- ==============================
+         スプラッシュ画面（ローディング）
+         style.js がアニメーション後に fadeOut する
+         ============================== -->
+    <div id="splash">
+        <div id="splash_text"></div>
+    </div>
+
+    <!-- ==============================
+         ヒーローセクション
+         グラデーションオーバーレイ + 背景画像
+         ============================== -->
     <div class="top-wrapper">
-      <div class="container">
-        <h1>The past can hurt.<br>But you can either RUN from it,<br>or LEARN from it.</h1>
-        <p>名古屋大学大学院工学研究科に所属している杉浦健太郎です．<br>エンジニアの卵として日々奮闘しております．</p>
-        <div class="btn-wrapper">
-          <a href="https://www.linkedin.com/in/kentaro-sugiura-49a09929b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="btn linkedin"><span class="fa fa-linkedin"></span>Linkedin</a>
-          <a href="https://www.facebook.com/profile.php?id=100021908416677" class="btn facebook"><span class="fa fa-facebook"></span>Facebook</a>
-          <a href="https://twitter.com/kentaro571322" class="btn twitter"><span class="fa fa-twitter"></span>Twitter</a>
+        <div class="container">
+            <!-- メインキャッチコピー -->
+            <h1>The past can hurt.<br>But you can either RUN from it,<br>or LEARN from it.</h1>
+
+            <!-- 自己紹介文 -->
+            <p>名古屋大学大学院工学研究科に所属している杉浦健太郎です．<br>
+               エンジニアの卵として日々奮闘しております．</p>
+
+            <!-- SNSリンクボタン -->
+            <div class="btn-wrapper">
+                <a href="https://www.linkedin.com/in/kentaro-sugiura-49a09929b"
+                   class="btn linkedin" target="_blank" rel="noopener noreferrer">
+                    <span class="fa fa-linkedin"></span>LinkedIn
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=100021908416677"
+                   class="btn facebook" target="_blank" rel="noopener noreferrer">
+                    <span class="fa fa-facebook"></span>Facebook
+                </a>
+                <a href="https://twitter.com/kentaro571322"
+                   class="btn twitter" target="_blank" rel="noopener noreferrer">
+                    <span class="fa fa-twitter"></span>Twitter
+                </a>
+            </div>
         </div>
-      </div>
     </div>
-    
+
+    <!-- ==============================
+         メッセージセクション（座右の銘）
+         ============================== -->
     <div class="message-wrapper">
-      <div class="container">
-        <div class="heading">
-          <h2>座右の銘にしたがって，日々鍛錬します．</h2>
-          <h3>Kentaro</h3>
+        <div class="container">
+            <div class="heading">
+                <h2>座右の銘にしたがって，日々鍛錬します．</h2>
+                <h3>Kentaro</h3>
+            </div>
         </div>
-      </div>
     </div>
+
+    <!-- フッター -->
     <footer>
-      <div class="container">
-        <img src="./fig/icon.svg">
-        <p>Copyright © 2024 Kentaro Sugiura. All Rights Reserved.</p>
-      </div>
+        <div class="container">
+            <img src="./fig/icon.svg" alt="アイコン">
+            <p>Copyright &copy; 2024 Kentaro Sugiura. All Rights Reserved.</p>
+        </div>
     </footer>
 
+    <!-- jQuery（ProgressBar.js・style.js・page_link.js が依存） -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
 
-
-    <!--==============JQuery読み込み===============-->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://rawgit.com/kimmobrunfeldt/progressbar.js/master/dist/progressbar.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Modaal/0.4.4/js/modaal.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-
-    <!--自作のJS-->
-    <script src="./js/style.js"></script>
+    <!-- ページ内スクロール -->
     <script src="./js/page_link.js"></script>
-    <script src="./js/modaal.js"></script>
 
-  </body>
+    <!-- ProgressBar.js（旧: rawgit.com は2019年廃止 → jsDelivr を使用） -->
+    <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
 
+    <!-- スプラッシュアニメーション（jQuery + ProgressBar.js 両方の後に読む） -->
+    <script src="./js/style.js"></script>
+
+</body>
 </html>

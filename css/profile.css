@@ -1,0 +1,221 @@
+/* ================================================================
+   profile.css — プロフィールページ専用スタイル
+   stylesheet.css の後に読み込まれ、このページ固有の要素を定義する
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   ページ全体ラッパー
+   ナビバーの高さ 65px 分だけ上部パディングを確保する
+   ---------------------------------------------------------------- */
+.profiles {
+  background: #f7f8fa;
+  min-height: 100vh;
+  padding-top: 65px;
+}
+
+/* ----------------------------------------------------------------
+   ページ見出しバナー（濃紺グラデーション）
+   ---------------------------------------------------------------- */
+.heading-contents {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  padding: 64px 24px;
+  text-align: center;
+}
+
+.heading-contents h2 {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 44px;
+  font-weight: 200;
+  letter-spacing: 10px;
+}
+
+/* ----------------------------------------------------------------
+   プロフィール概要（写真 ＋ 項目リスト）
+   flex レイアウトで横並び。スマホでは縦並びに切り替える。
+   ---------------------------------------------------------------- */
+.profile-outline {
+  max-width: 960px;
+  margin: 60px auto 0;
+  padding: 0 24px;
+  display: flex;
+  gap: 55px;
+  align-items: flex-start;
+}
+
+/* 顔写真 */
+.profile-img {
+  width: 210px;
+  height: 270px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
+  flex-shrink: 0;
+}
+
+/* 項目リストコンテナ */
+.profile-table {
+  flex: 1;
+}
+
+/* リストリセット */
+.profile-table ul {
+  list-style: none;
+  padding: 0;
+  border-top: 2px solid #1a1a2e;
+  border-bottom: 2px solid #1a1a2e;
+}
+
+/* 各項目行 */
+.profile-table li {
+  padding: 14px 4px;
+  border-bottom: 1px solid #e8e8e8;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.7;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.profile-table li:last-child {
+  border-bottom: none;
+}
+
+/* 項目ラベル（「氏名」「誕生日」等） */
+.profile-pop {
+  font-weight: 700;
+  color: #1a1a2e;
+  min-width: 5.5em;
+  flex-shrink: 0;
+}
+
+/* 研究室URLリンク */
+.profile-table a {
+  color: #0a66c2;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.profile-table a:hover {
+  color: #e94560;
+}
+
+/* ----------------------------------------------------------------
+   タイムライン（年表）
+   左側に日付、右側に内容を並べる。左に縦ライン。
+   ---------------------------------------------------------------- */
+.chronology {
+  max-width: 960px;
+  margin: 60px auto 80px;
+  padding: 0 24px;
+}
+
+/* セクションラベル */
+.section-label {
+  font-size: 26px;
+  font-weight: 200;
+  color: #1a1a2e;
+  letter-spacing: 6px;
+  margin-bottom: 40px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #ddd;
+}
+
+.chronology dl {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* 日付（左列） */
+.chronology dt {
+  width: 145px;
+  padding: 22px 16px 22px 0;
+  text-align: right;
+  font-size: 13px;
+  color: #888;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+/* イベント内容（右列）。左のボーダーがタイムラインの縦ライン */
+.chronology dd {
+  width: calc(100% - 145px);
+  padding: 22px 20px 36px 32px;
+  border-left: 2px solid #ddd;
+  position: relative;
+}
+
+/* タイムライン上の丸いドット */
+.chronology dd::before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  top: 30px;
+  width: 12px;
+  height: 12px;
+  background: #1a1a2e;
+  border-radius: 50%;
+  border: 2px solid #f7f8fa;
+  box-shadow: 0 0 0 2px #1a1a2e;
+}
+
+/* イベントタイトル */
+.chronology dd h2 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1a1a2e;
+  line-height: 1.5;
+}
+
+/* イベント説明文 */
+.chronology dd p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.9;
+}
+
+/* ================================================================
+   レスポンシブ：スマホ
+   ================================================================ */
+@media (max-width: 750px) {
+  /* 写真と項目リストを縦積みに */
+  .profile-outline {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .profile-img {
+    width: 170px;
+    height: 215px;
+  }
+
+  .profile-table ul {
+    width: 100%;
+  }
+
+  .profile-table li {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  /* タイムライン：日付を上に、内容を下に縦積み */
+  .chronology dt {
+    width: 100%;
+    text-align: left;
+    padding: 18px 0 4px;
+    border-left: 2px solid #ddd;
+    padding-left: 20px;
+  }
+
+  .chronology dd {
+    width: 100%;
+    padding: 8px 10px 24px 20px;
+  }
+
+  .chronology dd::before {
+    top: 20px;
+  }
+}

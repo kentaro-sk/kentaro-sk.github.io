@@ -1,0 +1,149 @@
+/* ================================================================
+   award.css — 学会・受賞履歴ページ専用スタイル
+   stylesheet.css の後に読み込まれる
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   ページ全体ラッパー
+   ---------------------------------------------------------------- */
+.award-wrapper {
+  background: #f7f8fa;
+  min-height: 100vh;
+  padding-top: 65px;
+}
+
+/* ----------------------------------------------------------------
+   ページ見出しバナー
+   ---------------------------------------------------------------- */
+.heading-contents {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  padding: 64px 24px;
+  text-align: center;
+}
+
+.heading-contents h1 {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 36px;
+  font-weight: 200;
+  letter-spacing: 8px;
+}
+
+/* ----------------------------------------------------------------
+   アコーディオンリスト全体
+   ---------------------------------------------------------------- */
+.accordion-area {
+  list-style: none;
+  max-width: 920px;
+  margin: 40px auto 80px;
+  padding: 0 24px;
+}
+
+.accordion-area li {
+  margin-bottom: 10px;
+}
+
+/* 各アコーディオンカード */
+.accordion-area section {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.accordion-area section:hover {
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* ----------------------------------------------------------------
+   アコーディオンタイトル行（クリックで開閉）
+   ---------------------------------------------------------------- */
+.title {
+  padding: 20px 55px 20px 24px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  color: #1a1a2e;
+  user-select: none;
+  line-height: 1.6;
+  transition: background 0.25s ease;
+}
+
+.title:hover {
+  background: #f9f9fb;
+}
+
+/* ＋アイコン（横棒） */
+.title::before,
+.title::after {
+  content: '';
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  width: 18px;
+  height: 2px;
+  background: #888;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* ::before は横棒（常に表示） */
+.title::before {
+  transform: translateY(-50%);
+}
+
+/* ::after は縦棒（回転して × になる） */
+.title::after {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+/* open クラスが付いたとき（アコーディオン展開中）は × アイコンにする */
+.title.open::before {
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.title.open::after {
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+/* ----------------------------------------------------------------
+   アコーディオン展開エリア
+   JavaScript（award.js）が slideToggle で表示・非表示を切り替える
+   ---------------------------------------------------------------- */
+.box {
+  display: none; /* 初期状態は非表示 */
+  padding: 6px 24px 24px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.box p {
+  font-size: 14px;
+  color: #555;
+  line-height: 2;
+  margin-bottom: 16px;
+}
+
+/* 論文・受賞リンクボタン */
+.box a {
+  display: inline-block;
+  padding: 8px 22px;
+  background: #1a1a2e;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.box a:hover {
+  background: #e94560;
+  transform: translateY(-1px);
+}
+
+/* ----------------------------------------------------------------
+   DBデータ未登録時のメッセージ
+   ---------------------------------------------------------------- */
+.accordion-area .no-data {
+  text-align: center;
+  padding: 60px 20px;
+}

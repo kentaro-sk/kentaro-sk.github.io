@@ -1,303 +1,374 @@
-/* 検索窓のエリア */
-#search-wrap {
-  position: absolute; /* 絶対配置にして */
-  z-index: 2; /* 最前面に設定。数字は変更可 */
-  top: 10px;
-  right: 10px;
-}
+/* ================================================================
+   stylesheet.css — ポートフォリオ メインスタイルシート
+   全ページ共通：ナビバー・ヒーロー・フッター・ボタン等
+   ================================================================ */
 
-/* テキスト入力input設定 */
-#search-text {
-  -webkit-appearance: none; /* SafariやChromeのデフォルトの設定を無効 */
-  width: 60px; /* テキスト入力エリアが伸びる前の横幅 */
-  height: 60px;
-  padding: 20px;
-  border: none;
-  background: #fff url("https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/7-2-3/img/icon_search.svg") no-repeat 17px center; /* 虫眼鏡アイコンを背景に表示 */
-  background-size: 25px 25px;
-  transition: all 0.5s; /* transitionを使ってスムースに伸ばす */
-  outline: none;
-  cursor: pointer; /* カーソルを指マークに */
-}
-
-/* テキスト入力inputにフォーカスした時の形状 */
-#search-text:focus {
-  width: 250px; /* テキスト入力エリアが伸びる後の横幅 */
-  padding: 20px 0 20px 60px;
-  box-shadow: 0 2px rgba(6, 0, 1, 0.26);
-}
-
-/*========= LoadingのためのCSS ===============*/
-
-/* Loading背景画面設定　*/
-
-#splash {
-  /*fixedで全面に固定*/
-position: fixed;
-z-index: 999;
-width: 100%;
-height: 100%;
-background:#333;
-text-align:center;
-color:#fff;
-}
-
-/* Loadingバー中央配置　*/
-#splash_text {
-position: absolute;
-top: 50%;
-left: 50%;
-  z-index: 999;
-width: 100%;
-transform: translate(-50%, -50%);
-color: #fff;
-}
-
-#splash_text svg{
-  height: 2px;
-}
-
-/* ============== webページのためのCSS =================*/
-
+/* ----------------------------------------------------------------
+   グローバルリセット・ベーススタイル
+   ---------------------------------------------------------------- */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  font-family: "Hiragino Kaku Gothic ProN";
+  /* 日本語に最適なシステムフォントスタック */
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+               "Yu Gothic UI", "Yu Gothic", "Meiryo UI", "Meiryo",
+               "MS PGothic", sans-serif;
+  color: #333;
+  line-height: 1.75;
+  background: #fff;
 }
 
 a {
   text-decoration: none;
 }
 
-.flex{
-  padding: 0 0 100px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.flex p{
-  width: 30%;
-}
-
+/* 全ページ共通のコンテナ（中央寄せ・最大幅制限） */
 .container {
   width: 100%;
-  padding: 0 15px;
+  max-width: 1100px;
+  padding: 0 24px;
   margin: 0 auto;
-  text-align: center;
 }
 
-.top-wrapper {
-  padding: 150px 0 100px 0;
-  background-image: url(./../fig/back.png);
-  background-size: cover;
-  color: rgba(6, 8, 8, 0.9);
-  text-align: center;
+/* ----------------------------------------------------------------
+   スプラッシュ（ローディング）画面
+   JavaScript（style.js）がアニメーション完了後に fadeOut する
+   ---------------------------------------------------------------- */
+#splash {
+  position: fixed;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background: #1a1a2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.top-wrapper h1 {
-  opacity: 0.7;
-  font-size: 45px;
-  letter-spacing: 5px;
+/* ProgressBar.js がレンダリングする要素のコンテナ */
+#splash_text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 9999;
+  width: 55%;
+  max-width: 380px;
+  transform: translate(-50%, -50%);
+  color: #fff;
 }
 
-.top-wrapper p {
-  opacity: 0.7;
-  font-size: 16px;
-  margin-bottom: 40px;
+/* ProgressBar が生成する SVG の高さを設定（線の太さに相当） */
+#splash_text svg {
+  height: 2px;
 }
 
-.btn-wrapper {
-  text-align: center;
-}
-
-.btn-wrapper p {
-  margin-bottom: 20px;
-}
-
-.signup {
-  background-color: #239b76;
-}
-
-.facebook {
-  background-color: #3b5998;
-  margin-right: 10px;
-}
-
-.twitter {
-  background-color: #55acee;
-  margin-right: 10px;
-}
-
-.linkedin{
-  background-color: #0a66c2;
-  margin-right: 10px;
-}
-
-.btn {
-  padding: 8px 24px;
-  color: white;
-  display: inline-block;
-  opacity: 0.8;
-  border-radius: 4px;
-  text-align: center;
-}
-
-.btn:hover {
-  opacity: 1;
-}
-
-.fa {
-  margin-right: 5px;
-}
-
+/* ----------------------------------------------------------------
+   ナビゲーションバー
+   position:fixed で常に最上部に表示。backdrop-filter でガラス風演出。
+   ---------------------------------------------------------------- */
 header {
   height: 65px;
   width: 100%;
-  background-color: rgba(34,49,52,0.9);
-  position :fixed;
+  /* 半透明の濃紺背景 */
+  background: rgba(26, 26, 46, 0.95);
+  /* ガラス効果：背景をぼかす（Chrome/Safari/Edge 対応） */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: fixed;
   top: 0;
-  z-index: 10;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
 }
 
+/* コンテナを flex にしてロゴと右側リンクを両端配置 */
+header .container {
+  display: flex;
+  align-items: center;
+  height: 65px;
+  justify-content: space-between;
+  max-width: 1200px;
+  text-align: left;
+}
+
+/* ロゴ画像 */
 .logo {
-  width: 124px;
-  margin-top: 12px;
+  width: 95px;
+  display: block;
+  padding: 10px 0;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+}
+
+.logo:hover {
+  opacity: 1;
 }
 
 .header-left {
-  float: left;
+  flex-shrink: 0;
 }
 
+/* デスクトップ用ナビリンクを横並びにする */
 .header-right {
-  float: right;
-  margin-right: -15px;
+  display: flex;
+  align-items: center;
+  height: 65px;
 }
 
+/* 各ナビリンク */
 .header-right a {
-  line-height: 65px;
-  padding: 0 25px;
-  color: white;
-  display: block;
-  float: left;
-  transition: all 0.5s;
+  height: 65px;
+  padding: 0 22px;
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color 0.25s ease, background 0.25s ease;
+  position: relative;
 }
 
+/* ホバー時：文字色を白にして薄い背景を追加 */
 .header-right a:hover {
-  background-color: rgba(255,255,255,0.3);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
 }
 
-.search-right {
-  float: right;
-  padding-top: 80px;
-  margin-right: 15px;
+/* ホバー時に下線をアニメーション表示（コーラルレッド） */
+.header-right a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 22px;
+  right: 22px;
+  height: 2px;
+  background: #e94560;
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
 }
 
-.lesson-wrapper {
-  height: 580px;
-  padding-bottom: 80px;
-  padding-left: 5%;
-  padding-right: 5%;
-  background-color: #f7f7f7;
+.header-right a:hover::after {
+  transform: scaleX(1);
+}
+
+/* ハンバーガーアイコン（スマホ表示時のみ表示、CSS で制御） */
+.menu-icon {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 22px;
+  cursor: pointer;
+  display: none;
+  padding: 5px 10px;
+}
+
+/* ----------------------------------------------------------------
+   ヒーローセクション（トップページ）
+   背景画像 ＋ グラデーションオーバーレイで視認性を確保
+   ---------------------------------------------------------------- */
+.top-wrapper {
+  min-height: 100vh;
+  padding: 130px 0 100px;
+  /* グラデーションオーバーレイ（左上: 濃紺, 右下: 黒寄り） ＋ 背景画像 */
+  background-image:
+    linear-gradient(
+      160deg,
+      rgba(26, 26, 46, 0.78) 0%,
+      rgba(10, 10, 20, 0.60) 100%
+    ),
+    url(../fig/back.png);
+  background-size: cover;
+  background-position: center;
+  /* スクロールしても背景が動く視差効果（モバイルでは scroll に切り替え） */
+  background-attachment: fixed;
+  color: #fff;
+  display: flex;
+  align-items: center;
   text-align: center;
+}
+
+.top-wrapper .container {
+  max-width: 900px;
+}
+
+/* キャッチコピー */
+.top-wrapper h1 {
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 1.75;
+  letter-spacing: 3px;
+  margin-bottom: 28px;
+  text-shadow: 1px 2px 12px rgba(0, 0, 0, 0.55);
+}
+
+/* 自己紹介文 */
+.top-wrapper p {
+  font-size: 16px;
+  line-height: 2.1;
+  opacity: 0.88;
+  margin-bottom: 48px;
+}
+
+/* ----------------------------------------------------------------
+   SNSリンクボタン
+   ---------------------------------------------------------------- */
+.btn-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* ボタン共通スタイル */
+.btn {
+  padding: 12px 28px;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+/* 各SNSブランドカラー */
+.linkedin { background: #0a66c2; }
+.facebook { background: #1877f2; }
+.twitter  { background: #1da1f2; }
+
+/* Font Awesome アイコンの右マージン */
+.fa {
+  font-size: 16px;
+}
+
+/* ----------------------------------------------------------------
+   メッセージセクション（座右の銘）
+   ---------------------------------------------------------------- */
+.message-wrapper {
+  padding: 100px 0;
+  background: #fff;
+  text-align: center;
+  border-top: 1px solid #f0f0f0;
 }
 
 .heading {
-  padding-top: 80px;
-  padding-bottom: 50px;
-  color: #5f5d60;
+  max-width: 750px;
+  margin: 0 auto;
 }
 
 .heading h2 {
-  font-weight: normal;
-}
-
-.text-contents {
-  width: 80%;
-  display: inline-block;
-  margin-top: 15px;
-  font-size: 13px;
-  color: #b3aeb5;
+  font-size: 22px;
+  font-weight: 400;
+  color: #444;
+  line-height: 2;
+  margin-bottom: 24px;
+  letter-spacing: 0.5px;
 }
 
 .heading h3 {
-  font-weight: normal;
+  font-size: 16px;
+  font-weight: 300;
+  color: #bbb;
+  letter-spacing: 5px;
 }
 
-.message-wrapper {
-  border-bottom: 1px solid #eee;
-  padding-bottom: 80px;
+/* ----------------------------------------------------------------
+   フッター
+   ナビバーと揃えた濃紺で統一感を出す
+   ---------------------------------------------------------------- */
+footer {
+  background: #1a1a2e;
+  padding: 45px 0 30px;
   text-align: center;
 }
 
-.message {
-  padding: 15px 40px;
-  background-color: #5dca88;
-  cursor: pointer;
-  box-shadow: 0px 7px #1a7940;
-}
-
-.message:active {
-  position: relative;
-  top: 7px;
-  box-shadow: none;
-}
-
 footer img {
-  width: 125px;
+  width: 70px;
+  opacity: 0.55;
+  margin-bottom: 16px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 footer p {
-  color: #b3aeb5;
-  font-size: 12px;
+  color: rgba(255, 255, 255, 0.38);
+  font-size: 11px;
+  letter-spacing: 2px;
 }
 
-footer {
-  padding-top: 30px;
-  padding-bottom: 20px;
-}
-
-.menu-icon {
-  color: white;
-  float: right;
-  font-size: 25px;
-  padding: 21px 0;
-  display: none;
-}
-
+/* ----------------------------------------------------------------
+   ユーティリティ
+   ---------------------------------------------------------------- */
 .clear {
-  clear: left;
+  clear: both;
 }
 
-@media all and (max-width: 1000px) {
-  .lesson {
-    width: 50%;
-    margin-bottom: 50px;
-  }
-
-  .lesson-wrapper {
-    height: 990px;
-  }
-
-  footer {
-    text-align: center;
-  }
+/* DB未初期化時のフォールバックメッセージ */
+.no-data {
+  color: #999;
+  font-size: 14px;
+  line-height: 2;
+  text-align: center;
+  padding: 40px 20px;
 }
 
-@media all and (max-width: 750px) {
+/* ================================================================
+   レスポンシブ設定
+   ================================================================ */
+
+/* タブレット・スマホ共通 */
+@media (max-width: 768px) {
+  .top-wrapper {
+    /* モバイルでは parallax 固定が正しく動作しないため scroll に変更 */
+    background-attachment: scroll;
+    text-align: left;
+    padding-top: 110px;
+    min-height: auto;
+    padding-bottom: 70px;
+  }
+
   .top-wrapper h1 {
-    font-size: 32px;
+    font-size: 24px;
+    letter-spacing: 1px;
+  }
+
+  .top-wrapper p {
+    font-size: 14px;
+  }
+
+  .btn-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn {
+    justify-content: center;
+    border-radius: 8px;
+  }
+
+  .message-wrapper {
+    padding: 60px 0;
   }
 
   .heading h2 {
-    font-size: 20px;
+    font-size: 18px;
   }
 }
 
-@media all and (max-width: 670px) {
+/* スマホ：ハンバーガーメニューに切り替え */
+@media (max-width: 670px) {
   .header-right {
     display: none;
   }
@@ -305,29 +376,4 @@ footer {
   .menu-icon {
     display: block;
   }
-
-  .top-wrapper .btn {
-    width: 100%;
-  }
-
-  .twitter {
-    margin-top: 10px;
-  }
-
-  .top-wrapper {
-    text-align: left;
-  }
-
-  .top-wrapper h1 {
-    font-size: 24px;
-  }
-
-  .top-wrapper p {
-    font-size: 14px;
-  }
-  
-  .message-wrapper .btn {
-    width: 100%;
-  }
 }
-
