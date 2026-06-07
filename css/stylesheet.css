@@ -394,11 +394,59 @@ footer p {
 
 /* スマホ：ハンバーガーメニューに切り替え */
 @media (max-width: 670px) {
+  /* デフォルトはナビリンクを非表示 */
   .header-right {
     display: none;
   }
 
   .menu-icon {
     display: block;
+  }
+
+  /* page_link.js が .is-open を付与したときにドロップダウンメニューを表示する
+     header の position:fixed を基準に絶対配置してナビバー直下に展開する */
+  .header-right.is-open {
+    display: flex;
+    flex-direction: column;    /* リンクを縦並びに変更 */
+    position: absolute;
+    top: 65px;                 /* ナビバーの高さ（65px）のすぐ下から展開 */
+    left: 0;
+    right: 0;
+    background: rgba(22, 22, 40, 0.98); /* ナビバーと同系色・高不透明度 */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    z-index: 99;               /* ヒーローコンテンツより手前に表示 */
+    /* 開くときのスムーズアニメーション */
+    animation: menuSlideDown 0.22s ease forwards;
+  }
+
+  /* 各リンクをタップしやすい高さに変更 */
+  .header-right.is-open a {
+    height: auto;
+    padding: 18px 28px;
+    font-size: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .header-right.is-open a:last-child {
+    border-bottom: none;
+  }
+
+  /* ホバー時の下線アニメーションはスマホでは無効化（::after を隠す） */
+  .header-right.is-open a::after {
+    display: none;
+  }
+}
+
+/* ドロップダウンの展開アニメーション定義 */
+@keyframes menuSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
