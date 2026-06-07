@@ -122,15 +122,28 @@ const ACHIEVEMENTS = [
   /* ---- 2023年 ---- */
 
   {
-    /* ICINCO 2023（国際） + SII（国際）をまとめた1エントリ
-       ICINCO は SciTePress より出版済みのため url を設定 */
+    /* SII 2025（IEEE/SICE International Symposium on System Integration）
+       IEEE Xplore より正式掲載。ICINCO 2023 の研究を SII でも発表。 */
     category:     'Conference',
     title:        'Evaluation of Controllability of Interaction Between Pedestrian and Autonomous Mobile Robot in Shared Mobility Space',
-    organization: 'ICINCO 2023 / SII 国際学会',
-    dateLocation: '2023年11月（ICINCO）/ 2024年（SII）',
+    organization: 'IEEE/SICE International Symposium on System Integration（SII 2025）',
+    dateLocation: '2025年1月',
+    year:         2025,
+    description:  'IEEE Xplore に掲載（DOI: 10.1109/SII58957.2025.10870962）。'
+                + '共著: M. Aoki, K. Kuroda, H. Okuda, T. Suzuki。',
+    url:          'https://ieeexplore.ieee.org/abstract/document/10870962',
+    highlight:    false
+  },
+
+  {
+    /* ICINCO 2023（第20回 情報・制御・自動化・ロボティクス国際会議）
+       SciTePress より出版済み。SII とは別エントリとして独立して記載。 */
+    category:     'Conference',
+    title:        'Evaluation of Controllability of Interaction Between Pedestrian and Autonomous Mobile Robot in Shared Mobility Space',
+    organization: 'ICINCO 2023（20th International Conference on Informatics in Control, Automation and Robotics）',
+    dateLocation: '2023年11月',
     year:         2023,
-    description:  'ICINCO 2023 および SII にて国際発表。'
-                + 'SciTePress より出版（ISBN 978-989-758-670-5, DOI: 10.5220/0012177500003543）。'
+    description:  'SciTePress より出版（ISBN 978-989-758-670-5, DOI: 10.5220/0012177500003543, pages 249–257）。'
                 + '共著: M. Aoki, K. Kuroda, H. Okuda, T. Suzuki。',
     url:          'https://www.scitepress.org/PublicationsDetail.aspx?ID=Ckw2a6TyDkg=&t=1',
     highlight:    false
