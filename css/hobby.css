@@ -1,0 +1,119 @@
+/* ================================================================
+   hobby.css — 趣味ページ専用スタイル
+   stylesheet.css の後に読み込む
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   ページ全体ラッパー
+   ---------------------------------------------------------------- */
+.hobby-wrapper {
+  background: #f7f8fa;
+  min-height: 100vh;
+  padding-top: 65px; /* 固定ナビバーの高さ分だけコンテンツを下げる */
+}
+
+/* ----------------------------------------------------------------
+   ページ見出しバナー（Unsplash 画像 + 濃紺グラデーション）
+   ---------------------------------------------------------------- */
+.heading-contents {
+  background:
+    linear-gradient(135deg, rgba(26, 26, 46, 0.88) 0%, rgba(22, 33, 62, 0.88) 100%),
+    url(../fig/unsplash/deco-city.jpg); /* Clay Banks 撮影の都市夜景 */
+  background-size: cover;
+  background-position: center;
+  padding: 64px 24px;
+  text-align: center;
+}
+
+.heading-contents h1 {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 36px;
+  font-weight: 200;
+  letter-spacing: 8px;
+}
+
+/* ----------------------------------------------------------------
+   趣味カードグリッド
+   各趣味をカード形式で格子状に並べる
+   ---------------------------------------------------------------- */
+.hobby-section {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 60px 24px 80px;
+}
+
+/* カードを2カラムのグリッドで配置 */
+.hobby-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+/* 個々の趣味カード */
+.hobby-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 36px 32px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+  border: 1px solid #eef0f5;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* スクロールアニメーション初期状態（home.js の [data-reveal] と同パターン） */
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease,
+              box-shadow 0.3s ease;
+}
+
+/* JS が .is-visible を付与すると表示状態に遷移 */
+.hobby-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hobby-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.11);
+}
+
+/* カードアイコン（絵文字） */
+.hobby-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 20px;
+  line-height: 1;
+}
+
+/* 趣味名 */
+.hobby-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 12px;
+  letter-spacing: 0.3px;
+}
+
+/* 趣味の説明文 */
+.hobby-desc {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.9;
+}
+
+/* ================================================================
+   レスポンシブ設定
+   ================================================================ */
+@media (max-width: 640px) {
+  /* スマホでは1カラムに変更 */
+  .hobby-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .hobby-card {
+    padding: 28px 24px;
+  }
+
+  .hobby-icon {
+    font-size: 40px;
+  }
+}

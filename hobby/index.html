@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>趣味 | 杉浦健太郎</title>
+
+    <link rel="shortcut icon" href="../fig/icon.svg" type="image/x-icon">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          crossorigin="anonymous">
+    <!-- 共通CSS → 趣味ページ専用CSS の順に読み込む -->
+    <link rel="stylesheet" href="../css/stylesheet.css">
+    <link rel="stylesheet" href="../css/hobby.css">
+</head>
+<body>
+
+    <!-- ナビゲーションバー -->
+    <header>
+        <div class="container">
+            <div class="header-left">
+                <a href="../"><img class="logo" src="../fig/icon.svg" alt="ロゴ"></a>
+            </div>
+            <span class="fa fa-bars menu-icon" aria-label="メニュー"></span>
+            <div class="header-right" id="page-link">
+                <a href="../profile/">プロフィール</a>
+                <a href="../awards/">学会・受賞</a>
+                <a href="../study/">研究内容</a>
+                <a href="../hobby/">趣味</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ページコンテンツ -->
+    <div class="hobby-wrapper">
+
+        <!-- ページ見出しバナー（Unsplash: Clay Banks 都市夜景） -->
+        <div class="heading-contents">
+            <h1>趣味</h1>
+        </div>
+
+        <!-- ============================================================
+             趣味カードグリッド
+             趣味・好きなことをカード形式で紹介する
+             ============================================================ -->
+        <div class="hobby-section">
+            <div class="hobby-grid">
+
+                <!-- 体操 -->
+                <div class="hobby-card">
+                    <span class="hobby-icon">🤸</span>
+                    <h2 class="hobby-name">体操</h2>
+                    <p class="hobby-desc">
+                        高校時代から体操部に所属し、器械体操に取り組んできました。
+                        体幹トレーニングや柔軟性の向上を通じて培った身体能力は、
+                        研究活動における集中力や粘り強さにも活きています。
+                    </p>
+                </div>
+
+                <!-- サッカー -->
+                <div class="hobby-card">
+                    <span class="hobby-icon">⚽</span>
+                    <h2 class="hobby-name">サッカー</h2>
+                    <p class="hobby-desc">
+                        小学生のころからサッカーを続けており、
+                        チームスポーツを通じてコミュニケーション力や
+                        協調性を身につけました。
+                        今でも友人たちとフットサルを楽しんでいます。
+                    </p>
+                </div>
+
+                <!-- 旅行 -->
+                <div class="hobby-card">
+                    <span class="hobby-icon">✈️</span>
+                    <h2 class="hobby-name">旅行・海外交流</h2>
+                    <p class="hobby-desc">
+                        中学時代にイタリアへの海外派遣、高校時代には
+                        イギリス・ラドリーカレッジへの留学を経験しました。
+                        異文化に触れることで、多様な価値観や視点を身につけることができました。
+                    </p>
+                </div>
+
+                <!-- プログラミング -->
+                <div class="hobby-card">
+                    <span class="hobby-icon">💻</span>
+                    <h2 class="hobby-name">プログラミング</h2>
+                    <p class="hobby-desc">
+                        研究活動の中で Python・MATLAB を使った
+                        データ解析やシミュレーションを行うほか、
+                        趣味として Web 開発にも取り組んでいます。
+                        このポートフォリオサイトも自作しました。
+                    </p>
+                </div>
+
+            </div><!-- /.hobby-grid -->
+        </div><!-- /.hobby-section -->
+
+    </div><!-- /.hobby-wrapper -->
+
+    <!-- フッター -->
+    <footer>
+        <div class="container">
+            <img src="../fig/icon.svg" alt="アイコン">
+            <p>Copyright &copy; 2024 Kentaro Sugiura. All Rights Reserved.</p>
+            <p class="photo-credits">
+                Photo by
+                <a href="https://unsplash.com/@claybanks?utm_source=portfolio&amp;utm_medium=referral"
+                   target="_blank" rel="noopener noreferrer">Clay Banks</a>
+                on <a href="https://unsplash.com/?utm_source=portfolio&amp;utm_medium=referral"
+                      target="_blank" rel="noopener noreferrer">Unsplash</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="../js/page_link.js"></script>
+
+    <!-- スクロール連動カードアニメーション -->
+    <script>
+    /* ----------------------------------------------------------------
+       IntersectionObserver で .hobby-card が画面に入ったら
+       .is-visible を付与してフェードインアニメーションを発火する。
+       hobby.js を別ファイルにするほどのコード量ではないため、
+       このページ内に直接記述している。
+       ---------------------------------------------------------------- */
+    document.addEventListener('DOMContentLoaded', function () {
+      if (!('IntersectionObserver' in window)) {
+        /* IntersectionObserver 非対応ブラウザでは全カードを即表示 */
+        document.querySelectorAll('.hobby-card').forEach(function (el) {
+          el.classList.add('is-visible');
+        });
+        return;
+      }
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target); /* 一度表示したら監視解除 */
+          }
+        });
+      }, { threshold: 0.1 });
+
+      /* 各カードに80msのスタッガード遅延を付けてから監視開始 */
+      document.querySelectorAll('.hobby-card').forEach(function (el, i) {
+        el.style.transitionDelay = (i * 0.08) + 's';
+        observer.observe(el);
+      });
+    });
+    </script>
+
+</body>
+</html>
