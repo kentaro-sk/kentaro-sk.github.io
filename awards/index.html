@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 検索結果・SNSシェアで表示されるページ概要文 -->
+    <meta name="description" content="杉浦健太郎の学会発表・受賞履歴。SSI2024 Best Paper Award、SICE優秀学生賞など、大学・大学院時代の研究実績を一覧で掲載しています。">
     <title>学会・受賞履歴 | 杉浦健太郎</title>
 
     <link rel="shortcut icon" href="../fig/icon.svg" type="image/x-icon">
@@ -22,11 +24,22 @@
                 <a href="../"><img class="logo" src="../fig/icon.svg" alt="ロゴ"></a>
             </div>
             <span class="fa fa-bars menu-icon" aria-label="メニュー"></span>
+            <!-- 構成: About Me / Academic（学生時代のサブメニュー）/ Career（社会人）/ Hobby -->
             <div class="header-right" id="page-link">
-                <a href="../profile/">プロフィール</a>
-                <a href="../awards/">学会・受賞</a>
-                <a href="../study/">研究内容</a>
-                <a href="../hobby/">趣味</a>
+                <a href="../profile/">About Me</a>
+                <!-- Academic: 大学・大学院時代のコンテンツをまとめるドロップダウン -->
+                <div class="nav-dropdown">
+                    <button type="button" class="nav-drop-toggle"
+                            aria-haspopup="true" aria-expanded="false">
+                        Academic<span class="fa fa-angle-down" aria-hidden="true"></span>
+                    </button>
+                    <div class="nav-drop-menu">
+                        <a href="../study/">研究内容</a>
+                        <a href="../awards/">学会・受賞</a>
+                    </div>
+                </div>
+                <a href="../career/">Career</a>
+                <a href="../hobby/">Hobby</a>
             </div>
         </div>
     </header>

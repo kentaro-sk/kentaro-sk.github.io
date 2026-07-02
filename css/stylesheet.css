@@ -165,6 +165,105 @@ header .container {
 }
 
 /* ----------------------------------------------------------------
+   ナビのドロップダウン（Academic グループ）
+   デスクトップ: ホバー / キーボードフォーカスで自動展開
+   スマホ: ハンバーガーメニュー内のアコーディオンとして動作
+   開閉状態は page_link.js が .is-open クラスと aria-expanded で管理する
+   ---------------------------------------------------------------- */
+.nav-dropdown {
+  position: relative; /* サブメニューの絶対配置の基準にする */
+  height: 65px;
+  display: flex;
+  align-items: center;
+}
+
+/* トグルボタンを他のナビリンクと同じ見た目に揃える
+   （セマンティクス上 button 要素を使うため、ブラウザ既定の装飾を打ち消す） */
+.nav-drop-toggle {
+  height: 65px;
+  padding: 0 22px;
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  font-family: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.25s ease, background 0.25s ease;
+}
+
+.nav-drop-toggle:hover,
+.nav-dropdown.is-open .nav-drop-toggle {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* キーボード操作時のフォーカスを可視化する（WCAG: フォーカスインジケーター必須） */
+.nav-drop-toggle:focus-visible {
+  outline: 2px solid #e94560;
+  outline-offset: -2px;
+}
+
+/* 開閉インジケーターの矢印: メニュー展開時に180度回転させて状態を示す */
+.nav-drop-toggle .fa {
+  font-size: 13px;
+  transition: transform 0.2s ease;
+}
+
+.nav-dropdown:hover .nav-drop-toggle .fa,
+.nav-dropdown.is-open .nav-drop-toggle .fa {
+  transform: rotate(180deg);
+}
+
+/* サブメニュー本体: 通常は非表示。
+   hover（マウス）・focus-within（キーボード）・.is-open（タップ/クリック）で表示 */
+.nav-drop-menu {
+  display: none;
+  position: absolute;
+  top: 65px; /* ナビバーの高さのすぐ下に展開 */
+  left: 0;
+  min-width: 180px;
+  background: rgba(26, 26, 46, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  border-radius: 0 0 10px 10px;
+  overflow: hidden; /* 角丸からリンク背景がはみ出さないようにする */
+  flex-direction: column;
+}
+
+.nav-dropdown:hover .nav-drop-menu,
+.nav-dropdown:focus-within .nav-drop-menu,
+.nav-dropdown.is-open .nav-drop-menu {
+  display: flex;
+}
+
+/* サブメニュー内リンク: 縦並び用に高さ・余白を上書きする */
+.nav-drop-menu a {
+  height: auto;
+  padding: 15px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.nav-drop-menu a:last-child {
+  border-bottom: none;
+}
+
+/* 横並び用の下線アニメはサブメニューでは不自然なため無効化し、
+   代わりにホバー時は左端のアクセントバーで示す */
+.nav-drop-menu a::after {
+  display: none;
+}
+
+.nav-drop-menu a:hover {
+  box-shadow: inset 3px 0 0 #e94560;
+}
+
+/* ----------------------------------------------------------------
    ヒーローセクション（トップページ）
    背景画像 ＋ グラデーションオーバーレイで視認性を確保
    ---------------------------------------------------------------- */
@@ -436,6 +535,68 @@ footer p {
   /* ホバー時の下線アニメーションはスマホでは無効化（::after を隠す） */
   .header-right.is-open a::after {
     display: none;
+  }
+
+  /* ---- スマホでのドロップダウン（アコーディオン化） ---- */
+
+  /* ドロップダウン全体を縦積みレイアウトに変更 */
+  .nav-dropdown {
+    flex-direction: column;
+    align-items: stretch;
+    height: auto;
+  }
+
+  /* トグルボタンを他のメニュー項目と同じタップしやすいサイズに変更 */
+  .header-right.is-open .nav-drop-toggle {
+    width: 100%;
+    height: auto;
+    padding: 18px 28px;
+    font-size: 15px;
+    justify-content: space-between; /* ラベルと矢印を両端に配置 */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* サブメニューはメニュー内に埋め込む（浮かせない） */
+  .nav-drop-menu {
+    position: static;
+    box-shadow: none;
+    border-radius: 0;
+    background: rgba(0, 0, 0, 0.25); /* 一段暗くして階層を視覚化 */
+    min-width: 0;
+  }
+
+  /* スマホではホバー/フォーカスによる自動展開を無効化する
+     （タッチ操作での誤展開を防ぎ、タップでのみ開閉させるため） */
+  .nav-dropdown:hover .nav-drop-menu,
+  .nav-dropdown:focus-within .nav-drop-menu {
+    display: none;
+  }
+
+  /* タップ（.is-open）による展開は有効のまま維持する
+     ※上の無効化ルールより後に書くことで、同一詳細度でもこちらが優先される */
+  .nav-dropdown.is-open .nav-drop-menu {
+    display: flex;
+  }
+
+  /* サブ項目は左インデントを深くして親子関係を視覚化する */
+  .header-right.is-open .nav-drop-menu a {
+    padding: 16px 28px 16px 44px;
+  }
+}
+
+/* ----------------------------------------------------------------
+   アクセシビリティ: アニメーション抑制設定への対応
+   OSで「視差効果を減らす」を有効にしているユーザーには
+   アニメーション・トランジションを実質無効化する（WCAG配慮）
+   ---------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

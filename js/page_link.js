@@ -55,6 +55,38 @@ $(document).ready(function () {
     if (!$(e.target).closest('header').length) {
       $('#page-link').removeClass('is-open');
       $('.menu-icon').removeClass('fa-times').addClass('fa-bars');
+      /* ドロップダウン（Academic）も同時に閉じて状態を揃える */
+      closeDropdown();
+    }
+  });
+
+
+  /* ----------------------------------------------------------------
+     ③ ナビのドロップダウン（Academic）開閉
+     クリック/タップで .is-open をトグルし、aria-expanded を同期する。
+     デスクトップのホバー展開は CSS 側（:hover / :focus-within）が担当し、
+     ここではタッチデバイスとキーボード操作のための開閉のみ扱う。
+     ---------------------------------------------------------------- */
+
+  /* ドロップダウンを閉じて aria-expanded も false に戻す共通処理 */
+  function closeDropdown() {
+    $('.nav-dropdown').removeClass('is-open');
+    $('.nav-drop-toggle').attr('aria-expanded', 'false');
+  }
+
+  /* トグルボタンのクリック：開閉を切り替える */
+  $('.nav-drop-toggle').on('click', function (e) {
+    e.stopPropagation(); /* document のクリックハンドラ（外側クリックで閉じる）の誤発火を防ぐ */
+    var $dropdown = $(this).closest('.nav-dropdown');
+    $dropdown.toggleClass('is-open');
+    /* スクリーンリーダーに開閉状態を正しく伝えるため aria-expanded を同期する */
+    $(this).attr('aria-expanded', $dropdown.hasClass('is-open') ? 'true' : 'false');
+  });
+
+  /* Esc キーでドロップダウンを閉じる（キーボード操作への配慮） */
+  $(document).on('keydown', function (e) {
+    if (e.key === 'Escape') {
+      closeDropdown();
     }
   });
 

@@ -1,0 +1,181 @@
+/* ================================================================
+   career.css — キャリア（社会人）ページ専用スタイル
+   stylesheet.css の後に読み込む。
+   趣味ページ（hobby.css）とデザイントーンを揃えたカードグリッド構成。
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   ページ全体ラッパー
+   ---------------------------------------------------------------- */
+.career-wrapper {
+  background: #f7f8fa;
+  min-height: 100vh;
+  padding-top: 65px; /* 固定ナビバーの高さ分だけコンテンツを下げる */
+}
+
+/* ----------------------------------------------------------------
+   ページ見出しバナー
+   トップページと共用の建築写真（Anders Jildén）＋ 濃紺グラデーション。
+   他ページのバナーと同じレイアウトルールで統一感を出す。
+   ---------------------------------------------------------------- */
+.heading-contents {
+  background:
+    linear-gradient(135deg, rgba(26, 26, 46, 0.88) 0%, rgba(22, 33, 62, 0.88) 100%),
+    url(../fig/unsplash/message-bg.jpg);
+  background-size: cover;
+  background-position: center;
+  padding: 64px 24px;
+  text-align: center;
+}
+
+.heading-contents h1 {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 36px;
+  font-weight: 200;
+  letter-spacing: 8px;
+}
+
+/* ----------------------------------------------------------------
+   イントロダクション（現職の概要）
+   ---------------------------------------------------------------- */
+.career-intro {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 56px 24px 8px;
+  text-align: center;
+}
+
+/* リード文：ページの要旨を一文で伝える */
+.career-lead {
+  font-size: 16px;
+  color: #333;
+  line-height: 2;
+}
+
+/* 機密保持に関する注記：控えめなトーンで表示する */
+.career-note {
+  margin-top: 16px;
+  font-size: 12px;
+  color: #999;
+}
+
+/* ----------------------------------------------------------------
+   業務内容カードグリッド
+   ---------------------------------------------------------------- */
+.career-section {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+/* カードを2カラムのグリッドで配置（スマホでは1カラムに変更） */
+.career-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+/* 個々の業務カード */
+.work-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 36px 32px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+  border: 1px solid #eef0f5;
+  position: relative; /* 期間ラベルの絶対配置の基準にする */
+  /* スクロールアニメーション初期状態（hobby.css と同パターン） */
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease,
+              box-shadow 0.3s ease;
+}
+
+/* JS が .is-visible を付与すると表示状態に遷移 */
+.work-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.work-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.11);
+}
+
+/* カードアイコン（絵文字） */
+.work-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 20px;
+  line-height: 1;
+}
+
+/* 業務名 */
+.work-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 12px;
+  letter-spacing: 0.3px;
+}
+
+/* 業務の説明文 */
+.work-desc {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.9;
+}
+
+/* ----------------------------------------------------------------
+   キーワード（取り組み領域タグ）
+   ---------------------------------------------------------------- */
+.career-keywords {
+  margin-top: 56px;
+  text-align: center;
+}
+
+.keywords-title {
+  font-size: 14px;
+  font-weight: 400;
+  color: #bbb;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+/* タグを横並び・折り返しありで中央配置 */
+.keywords-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.keywords-list li {
+  background: #fff;
+  border: 1px solid #e4e7ef;
+  border-radius: 20px;
+  padding: 8px 18px;
+  font-size: 13px;
+  color: #444;
+  letter-spacing: 0.3px;
+}
+
+/* ================================================================
+   レスポンシブ設定
+   ================================================================ */
+@media (max-width: 640px) {
+  /* スマホでは1カラムに変更 */
+  .career-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .work-card {
+    padding: 28px 24px;
+  }
+
+  .work-icon {
+    font-size: 40px;
+  }
+}

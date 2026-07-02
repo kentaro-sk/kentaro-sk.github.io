@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 検索結果・SNSシェアで表示されるページ概要文 -->
+    <meta name="description" content="杉浦健太郎のポートフォリオサイト。名古屋大学大学院で自律移動ロボットを研究し、現在は大手自動車メーカーのIT部門でAI・デジタル技術を活用した業務変革に取り組んでいます。">
     <title>杉浦健太郎 — Portfolio</title>
 
     <!-- サイトアイコン -->
@@ -40,12 +42,23 @@
             </div>
             <!-- スマホ表示時のハンバーガーアイコン -->
             <span class="fa fa-bars menu-icon" aria-label="メニュー"></span>
-            <!-- デスクトップ用ナビリンク -->
+            <!-- デスクトップ用ナビリンク
+                 構成: About Me / Academic（学生時代のサブメニュー）/ Career（社会人）/ Hobby -->
             <div class="header-right" id="page-link">
-                <a href="./profile/">プロフィール</a>
-                <a href="./awards/">学会・受賞</a>
-                <a href="./study/">研究内容</a>
-                <a href="./hobby/">趣味</a>
+                <a href="./profile/">About Me</a>
+                <!-- Academic: 大学・大学院時代のコンテンツをまとめるドロップダウン -->
+                <div class="nav-dropdown">
+                    <button type="button" class="nav-drop-toggle"
+                            aria-haspopup="true" aria-expanded="false">
+                        Academic<span class="fa fa-angle-down" aria-hidden="true"></span>
+                    </button>
+                    <div class="nav-drop-menu">
+                        <a href="./study/">研究内容</a>
+                        <a href="./awards/">学会・受賞</a>
+                    </div>
+                </div>
+                <a href="./career/">Career</a>
+                <a href="./hobby/">Hobby</a>
             </div>
         </div>
     </header>
@@ -61,16 +74,16 @@
         <!-- テキストコンテンツ（parallax の対象） -->
         <div class="hero-content">
 
-            <!-- 小タグ：役割 + 所属大学 -->
-            <p class="hero-eyebrow">Graduate Researcher &nbsp;·&nbsp; Nagoya University</p>
+            <!-- 小タグ：現在の役割・分野（機密保持のため社名は記載しない） -->
+            <p class="hero-eyebrow">AI &amp; Digital Engineer &nbsp;·&nbsp; Automotive Industry</p>
 
             <!-- メイン：氏名 -->
             <h1 class="hero-name">杉浦 健太郎</h1>
 
-            <!-- サブ：所属・研究室 -->
+            <!-- サブ：現職の概要と学歴（機密保持のため業務内容は抽象的に記載） -->
             <p class="hero-sub">
-                名古屋大学大学院 工学研究科 機械システム工学専攻<br>
-                モビリティシステムグループ 鈴木研究室
+                大手自動車メーカー IT部門にてAI・デジタル技術による業務変革を推進<br>
+                名古屋大学大学院 工学研究科 機械システム工学専攻 修了
             </p>
 
             <!-- SNSリンクボタン -->
@@ -118,10 +131,11 @@
                 <!-- プロフィール詳細 -->
                 <div class="about-info" data-reveal data-delay="0.12">
 
-                    <!-- 自己紹介文 -->
+                    <!-- 自己紹介文（学生時代の研究 + 現在の仕事の両方に触れる） -->
                     <p class="about-bio">
-                        名古屋大学大学院で自律移動ロボットと歩行者のインタラクションを研究しています。<br>
-                        制御工学・機械学習を軸に、ロボットが人と自然に共存できる社会の実現を目指しています。
+                        名古屋大学大学院では自律移動ロボットと歩行者のインタラクションを研究。<br>
+                        現在は大手自動車メーカーのIT部門で、AI・デジタル技術を活用した
+                        業務変革・効率化に取り組んでいます。
                     </p>
 
                     <!-- プロフィール項目リスト -->
@@ -148,6 +162,12 @@
                                 名古屋大学大学院 工学研究科 機械システム工学専攻
                                 （<a href="https://www.suzlab.mae.nagoya-u.ac.jp/"
                                     target="_blank" rel="noopener noreferrer">鈴木研究室</a>）
+                            </span>
+                        </li>
+                        <li>
+                            <span class="profile-key">現職</span>
+                            <span class="profile-val">
+                                大手自動車メーカー IT部門（AI活用推進・業務変革）
                             </span>
                         </li>
                     </ul>
@@ -198,9 +218,32 @@
             <!-- ---- タイムライン ---- -->
             <div class="career-timeline">
 
-                <!-- 大学院（現在） -->
+                <!-- 社会人（現在）
+                     ※機密保持のため社名・プロダクト名・具体的な技術構成は記載せず、
+                       取り組み領域レベルの抽象度に留める -->
                 <div class="career-item" data-reveal data-delay="0">
-                    <div class="career-period">2023 — 現在</div>
+                    <div class="career-period">2025 — 現在</div>
+                    <div class="career-card">
+                        <span class="career-tag">社会人 / IT部門</span>
+                        <h3 class="career-title">大手自動車メーカー</h3>
+                        <p class="career-sub">AI・デジタル技術を活用した業務変革・効率化</p>
+                        <p class="career-desc">
+                            入社後、IT部門にてAIをはじめとするデジタル技術の
+                            社内活用推進に従事。
+                            現在は業務プロセスの自動化・効率化や、
+                            新しい技術の業務適用に幅広く取り組んでいる。
+                        </p>
+                        <div class="career-badges">
+                            <span class="career-badge highlight">🤖 AI活用推進</span>
+                            <span class="career-badge">⚙️ 業務自動化・効率化</span>
+                            <span class="career-badge">🚀 DX推進</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 大学院 -->
+                <div class="career-item" data-reveal data-delay="0.1">
+                    <div class="career-period">2023 — 2025</div>
                     <div class="career-card">
                         <span class="career-tag">大学院 / 修士課程</span>
                         <h3 class="career-title">名古屋大学大学院 工学研究科</h3>
@@ -220,7 +263,7 @@
                 </div>
 
                 <!-- 学部 -->
-                <div class="career-item" data-reveal data-delay="0.1">
+                <div class="career-item" data-reveal data-delay="0.15">
                     <div class="career-period">2019 — 2023</div>
                     <div class="career-card">
                         <span class="career-tag">学部</span>
@@ -238,7 +281,7 @@
                 </div>
 
                 <!-- 国際発表 -->
-                <div class="career-item" data-reveal data-delay="0.15">
+                <div class="career-item" data-reveal data-delay="0.2">
                     <div class="career-period">2023 — 2025</div>
                     <div class="career-card">
                         <span class="career-tag">国際会議発表</span>
