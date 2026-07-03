@@ -24,7 +24,7 @@
     url(../fig/unsplash/message-bg.jpg);
   background-size: cover;
   background-position: center;
-  padding: 64px 24px;
+  padding: 64px var(--gutter); /* 左右余白は共通変数で画面幅に応じて可変 */
   text-align: center;
 }
 
@@ -41,7 +41,7 @@
 .career-intro {
   max-width: 760px;
   margin: 0 auto;
-  padding: 56px 24px 8px;
+  padding: 56px var(--gutter) 8px; /* 左右余白は共通変数で画面幅に応じて可変 */
   text-align: center;
 }
 
@@ -65,7 +65,7 @@
 .career-section {
   max-width: 960px;
   margin: 0 auto;
-  padding: 40px 24px 80px;
+  padding: 40px var(--gutter) 80px; /* 左右余白は共通変数で画面幅に応じて可変 */
 }
 
 /* カードを2カラムのグリッドで配置（スマホでは1カラムに変更） */

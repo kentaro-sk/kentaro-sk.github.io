@@ -21,7 +21,7 @@
     url(../fig/unsplash/deco-city.jpg); /* Clay Banks 撮影の都市夜景 */
   background-size: cover;
   background-position: center;
-  padding: 64px 24px;
+  padding: 64px var(--gutter); /* 左右余白は共通変数で画面幅に応じて可変 */
   text-align: center;
 }
 
@@ -39,7 +39,7 @@
 .hobby-section {
   max-width: 960px;
   margin: 0 auto;
-  padding: 60px 24px 80px;
+  padding: 60px var(--gutter) 80px; /* 左右余白は共通変数で画面幅に応じて可変 */
 }
 
 /* カードを2カラムのグリッドで配置 */

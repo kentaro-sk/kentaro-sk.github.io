@@ -23,7 +23,7 @@
     url(../fig/unsplash/profile-bg.jpg);
   background-size: cover;
   background-position: center;
-  padding: 64px 24px;
+  padding: 64px var(--gutter); /* 左右余白は共通変数で画面幅に応じて可変 */
   text-align: center;
 }
 
@@ -41,7 +41,7 @@
 .profile-outline {
   max-width: 960px;
   margin: 60px auto 0;
-  padding: 0 24px;
+  padding: 0 var(--gutter); /* 左右余白は共通変数で画面幅に応じて可変 */
   display: flex;
   gap: 55px;
   align-items: flex-start;
@@ -112,7 +112,7 @@
 .chronology {
   max-width: 960px;
   margin: 60px auto 80px;
-  padding: 0 24px;
+  padding: 0 var(--gutter); /* 左右余白は共通変数で画面幅に応じて可変 */
 }
 
 /* セクションラベル */
