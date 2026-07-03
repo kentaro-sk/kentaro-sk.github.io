@@ -23,7 +23,7 @@
     url(../fig/unsplash/award-bg.jpg);
   background-size: cover;
   background-position: center;
-  padding: 64px 24px;
+  padding: 64px var(--gutter); /* 左右余白は共通変数で画面幅に応じて可変 */
   text-align: center;
 }
 
@@ -41,7 +41,7 @@
 #achievement-filter {
   max-width: 960px;
   margin: 0 auto;
-  padding: 40px 24px 0;
+  padding: 40px var(--gutter) 0; /* 左右余白は共通変数で画面幅に応じて可変 */
 }
 
 /* フィルタボタンを横並びに配置 */
@@ -102,7 +102,7 @@
 #achievement-list {
   max-width: 960px;
   margin: 0 auto;
-  padding: 30px 24px 80px;
+  padding: 30px var(--gutter) 80px; /* 左右余白は共通変数で画面幅に応じて可変 */
 }
 
 /* タイムライン本体

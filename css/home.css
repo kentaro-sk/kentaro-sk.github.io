@@ -129,7 +129,7 @@ body {
   position: relative;
   z-index: 2;
   max-width: 760px;
-  padding: 0 24px;
+  padding: 0 var(--gutter); /* 左右余白は共通変数で画面幅に応じて可変 */
   will-change: transform, opacity; /* GPU レイヤー昇格でアニメーションを滑らかに */
 }
 
