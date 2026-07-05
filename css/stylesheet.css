@@ -517,11 +517,17 @@ footer p {
   .header-right.is-open {
     display: flex;
     flex-direction: column;    /* リンクを縦並びに変更 */
+    /* 基準スタイルの height:65px を打ち消し、中身の分だけ縦に伸ばす。
+       これを指定しないと背景ボックスが65pxで頭打ちになり、
+       2番目以降のメニュー項目が背景なしで背後の画面に重なって見づらくなる。 */
+    height: auto;
     position: absolute;
     top: 65px;                 /* ナビバーの高さ（65px）のすぐ下から展開 */
     left: 0;
     right: 0;
-    background: rgba(22, 22, 40, 0.98); /* ナビバーと同系色・高不透明度 */
+    /* 背景は完全不透明にして背後の画面が透けないようにする。
+       backdrop-filter 非対応のモバイルブラウザでも確実に可読性を確保する狙い。 */
+    background: #16162a;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
