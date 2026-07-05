@@ -88,41 +88,185 @@
 }
 
 /* ----------------------------------------------------------------
-   作成中プレースホルダー（DBにデータがない場合）
+   研究概要（リード文）
+   ページ冒頭で研究テーマを一段落で俯瞰する。
    ---------------------------------------------------------------- */
-.study-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
-  padding: 60px var(--gutter); /* 左右余白は共通変数で画面幅に応じて可変 */
-}
-
-.study-placeholder-inner {
+.study-intro {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 56px var(--gutter) 8px; /* 左右余白は共通変数で画面幅に応じて可変 */
   text-align: center;
 }
 
-/* 絵文字アイコン */
-.placeholder-icon {
-  font-size: 56px;
-  margin-bottom: 24px;
-  display: block;
+.study-lead {
+  font-size: 17px;
+  color: #333;
+  line-height: 2;
 }
 
-/* メインメッセージ */
-.placeholder-text {
+/* ----------------------------------------------------------------
+   本文セクション（背景・意義など）
+   見出し＋本文のシンプルな縦積みブロック。
+   ---------------------------------------------------------------- */
+.study-section {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 32px var(--gutter) 0; /* 左右余白は共通変数で画面幅に応じて可変 */
+}
+
+/* セクション見出し。左端にアクセントバーを添えて視認性を高める */
+.study-heading {
   font-size: 22px;
-  font-weight: 300;
-  color: #555;
-  letter-spacing: 2px;
-  margin-bottom: 12px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 18px;
+  padding-left: 14px;
+  border-left: 4px solid #e94560; /* サイト共通アクセントカラー */
+  line-height: 1.4;
 }
 
-/* サブメッセージ */
-.placeholder-sub {
+.study-text {
+  font-size: 15px;
+  color: #444;
+  line-height: 2;
+}
+
+/* 本文中の強調テキスト */
+.study-text strong {
+  color: #1a1a2e;
+  font-weight: 700;
+}
+
+/* ----------------------------------------------------------------
+   研究アプローチ（番号付きカード）
+   研究の発展の流れ（3ステップ）を縦に並べる。
+   ---------------------------------------------------------------- */
+.approach-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 個々のステップカード。番号と本文の2カラム構成 */
+.approach-card {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  background: #fff;
+  border-radius: 14px;
+  padding: 28px 30px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+  border: 1px solid #eef0f5;
+  /* スクロールアニメーション初期状態（他ページと同パターン） */
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* JS が .is-visible を付与すると表示状態へ遷移 */
+.approach-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ステップ番号（01/02/03）。大きめの数字で流れを示す */
+.approach-num {
+  flex-shrink: 0;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+  color: #e94560;
+  opacity: 0.85;
+  font-family: "Segoe UI", Arial, sans-serif; /* 数字を締まって見せるための欧文フォント */
+}
+
+.approach-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.approach-desc {
   font-size: 14px;
-  color: #aaa;
-  letter-spacing: 1px;
+  color: #555;
+  line-height: 1.9;
+}
+
+/* 関連発表の注記（どの学会・論文に対応するか） */
+.approach-ref {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #999;
+  letter-spacing: 0.3px;
+}
+
+/* ----------------------------------------------------------------
+   論文・学会発表へのリンク案内
+   ---------------------------------------------------------------- */
+.study-papers {
+  max-width: 820px;
+  margin: 40px auto 0;
+  padding: 0 var(--gutter); /* 左右余白は共通変数で画面幅に応じて可変 */
+}
+
+.study-papers-text {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.9;
+}
+
+/* ページ内リンクはアクセントカラーの下線付きで示す */
+.study-papers-text a,
+.study-lead a {
+  color: #e94560;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s;
+}
+
+.study-papers-text a:hover {
+  opacity: 0.7;
+}
+
+/* ----------------------------------------------------------------
+   研究キーワード（取り組み領域タグ）
+   キャリアページの Focus Areas と同じトーンで統一。
+   ---------------------------------------------------------------- */
+.study-keywords {
+  max-width: 820px;
+  margin: 48px auto 0;
+  padding: 0 var(--gutter) 80px; /* 左右余白は共通変数で画面幅に応じて可変 */
+  text-align: center;
+}
+
+.keywords-title {
+  font-size: 14px;
+  font-weight: 400;
+  color: #bbb;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+/* タグを横並び・折り返しありで中央配置 */
+.keywords-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.keywords-list li {
+  background: #fff;
+  border: 1px solid #e4e7ef;
+  border-radius: 20px;
+  padding: 8px 18px;
+  font-size: 13px;
+  color: #444;
+  letter-spacing: 0.3px;
 }
 
 /* ================================================================
@@ -131,5 +275,16 @@
 @media (max-width: 600px) {
   .study-list {
     grid-template-columns: 1fr;
+  }
+
+  /* スマホではステップ番号を本文の上に縦積みにする */
+  .approach-card {
+    flex-direction: column;
+    gap: 10px;
+    padding: 24px 22px;
+  }
+
+  .approach-num {
+    font-size: 26px;
   }
 }

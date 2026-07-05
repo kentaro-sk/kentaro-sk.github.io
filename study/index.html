@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- 検索結果・SNSシェアで表示されるページ概要文 -->
-    <meta name="description" content="杉浦健太郎の研究内容。名古屋大学大学院での自律移動ロボットと歩行者のインタラクションに関する研究を紹介します。">
+    <meta name="description" content="杉浦健太郎の研究内容。名古屋大学大学院での自律移動ロボット（AMR）と歩行者のインタラクション研究。可制御性・可誘導性（Inducibility）を数理モデルと制御理論で定量化する研究を紹介します。">
     <title>研究内容 | 杉浦健太郎</title>
 
     <link rel="shortcut icon" href="../fig/icon.svg" type="image/x-icon">
@@ -51,13 +51,127 @@
             <h1>研究内容</h1>
         </div>
 
-        <!-- 作成中プレースホルダー -->
-        <div class="study-placeholder">
-            <div class="study-placeholder-inner">
-                <p class="placeholder-icon">🔬</p>
-                <p class="placeholder-text">現在作成中です...</p>
-                <p class="placeholder-sub">研究内容は順次追加予定です。</p>
-            </div>
+        <!-- ============================================================
+             研究概要（リード文）
+             大学院での研究テーマを一段落で俯瞰する。
+             ============================================================ -->
+        <div class="study-intro">
+            <p class="study-lead">
+                大学院では、自律移動ロボット（AMR）と歩行者が同じ空間を行き交う
+                「共有移動空間」を舞台に、ロボットと人が自然に共存するための
+                インタラクションを研究してきました。
+            </p>
+        </div>
+
+        <!-- ============================================================
+             研究の背景と目的
+             ============================================================ -->
+        <div class="study-section">
+            <h2 class="study-heading">研究の背景と目的</h2>
+            <p class="study-text">
+                配送・案内・警備などを担う自律移動ロボットが、人と同じ空間で活動する
+                時代が近づいています。ロボットが人の間を安全かつスムーズに移動するには、
+                周囲の歩行者がどう反応するかを予測するだけでなく、ロボット自身の動きによって
+                歩行者の行動を自然に「引き出す（誘導する）」ことが求められます。
+                私は、この人とロボットの相互作用を<strong>数理モデルと制御理論</strong>で
+                定量的に扱う研究に取り組みました。
+            </p>
+        </div>
+
+        <!-- ============================================================
+             研究アプローチ（3ステップ）
+             意図のモデル化 → 可制御性の評価 → 可誘導性の提案 という
+             発展の流れを、番号付きカードで示す。
+             ============================================================ -->
+        <div class="study-section">
+            <h2 class="study-heading">研究アプローチ</h2>
+
+            <div class="approach-list">
+
+                <!-- STEP 1: 歩行者行動のモデル化 -->
+                <div class="approach-card">
+                    <div class="approach-num">01</div>
+                    <div class="approach-body">
+                        <h3 class="approach-title">歩行者の行動をモデル化する</h3>
+                        <p class="approach-desc">
+                            ロボットとすれ違う際に歩行者がどう動くかを、実世界の観測データを
+                            もとにモデル化。ベイズ推定やロジスティック回帰を用いて、
+                            歩行者の意思決定を数理的に表現しました。
+                        </p>
+                        <p class="approach-ref">関連発表：ROBOMEC 2023</p>
+                    </div>
+                </div>
+
+                <!-- STEP 2: 可制御性の評価 -->
+                <div class="approach-card">
+                    <div class="approach-num">02</div>
+                    <div class="approach-body">
+                        <h3 class="approach-title">ロボットの「可制御性」を評価する</h3>
+                        <p class="approach-desc">
+                            ロボットが自らの動きを変えることで、相互作用する歩行者を
+                            暗黙的に制御できると考え、制御理論の「可制御性グラミアン」を用いて、
+                            ロボットの動きが歩行者の意思決定に与える影響の大きさを定量化しました。
+                        </p>
+                        <p class="approach-ref">関連発表：ICINCO 2023 / SII 2025</p>
+                    </div>
+                </div>
+
+                <!-- STEP 3: 可誘導性の提案 -->
+                <div class="approach-card">
+                    <div class="approach-num">03</div>
+                    <div class="approach-body">
+                        <h3 class="approach-title">「可誘導性」という指標を提案する</h3>
+                        <p class="approach-desc">
+                            これらを一般化し、ある人の行動が周囲の人の行動にどれだけ影響を
+                            与えるかを表す新しい指標「可誘導性（inducibility）」を提案。
+                            意思決定の感度に基づく指標と、可制御性グラミアンに基づく指標の
+                            2種類を導き、実際の歩行者観測データから構築した数理モデルで
+                            検証しました。この成果は SSI2024 で Best Paper Award を受賞し、
+                            査読付きジャーナル（JRM, 2025）に掲載されました。
+                        </p>
+                        <p class="approach-ref">関連発表：SSI2024（Best Paper Award）/ JRM 2025</p>
+                    </div>
+                </div>
+
+            </div><!-- /.approach-list -->
+        </div>
+
+        <!-- ============================================================
+             研究の意義
+             ============================================================ -->
+        <div class="study-section">
+            <h2 class="study-heading">研究の意義</h2>
+            <p class="study-text">
+                これらの研究は、ロボットと人が互いにストレスなく行き交える
+                「円滑なインタラクションのための制御方策」の実現を目指すものです。
+                人とロボットが自然に共存する社会の実現に貢献したいと考えています。
+            </p>
+        </div>
+
+        <!-- ============================================================
+             論文・学会発表へのリンク
+             詳細な業績一覧は学会・受賞ページ（achievements.js）に集約している。
+             ============================================================ -->
+        <div class="study-papers">
+            <p class="study-papers-text">
+                発表した論文・学会発表の一覧は
+                <a href="../awards/">学会・受賞</a> ページに掲載しています。
+            </p>
+        </div>
+
+        <!-- ============================================================
+             研究キーワード
+             ============================================================ -->
+        <div class="study-keywords">
+            <h2 class="keywords-title">Keywords</h2>
+            <ul class="keywords-list">
+                <li>自律移動ロボット（AMR）</li>
+                <li>人とロボットのインタラクション</li>
+                <li>可制御性</li>
+                <li>可誘導性（Inducibility）</li>
+                <li>ベイズ推定</li>
+                <li>制御理論</li>
+            </ul>
         </div>
 
     </div><!-- /.study-wrapper -->
@@ -79,6 +193,40 @@
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
     <script src="../js/page_link.js"></script>
+
+    <!-- スクロール連動フェードインアニメーション -->
+    <script>
+    /* ----------------------------------------------------------------
+       IntersectionObserver で .approach-card が画面に入ったら
+       .is-visible を付与してフェードインさせる。
+       趣味・キャリアページと同じパターン。専用JSにするほどの量では
+       ないため、このページ内に直接記述している。
+       ---------------------------------------------------------------- */
+    document.addEventListener('DOMContentLoaded', function () {
+      /* IntersectionObserver 非対応ブラウザでは全カードを即表示する */
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.approach-card').forEach(function (el) {
+          el.classList.add('is-visible');
+        });
+        return;
+      }
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target); /* 一度表示したら監視解除 */
+          }
+        });
+      }, { threshold: 0.1 });
+
+      /* 各カードに80msのスタッガード遅延を付けてから監視開始 */
+      document.querySelectorAll('.approach-card').forEach(function (el, i) {
+        el.style.transitionDelay = (i * 0.08) + 's';
+        observer.observe(el);
+      });
+    });
+    </script>
 
 </body>
 </html>
