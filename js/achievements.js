@@ -27,6 +27,12 @@ const CATEGORIES = {
     text:  '#1a1a1a',     /* バッジテキスト色（濃い色で視認性を確保） */
     icon:  '🏆'           /* バッジ左側に表示する絵文字アイコン */
   },
+  Journal: {
+    label: '論文誌',      /* 査読付きジャーナル論文。学会発表より格上のため独立カテゴリとする */
+    bg:    '#dc2626',     /* バッジ背景色（レッド系。最上位の学術成果として目立たせる） */
+    text:  '#fff',
+    icon:  '📕'
+  },
   Conference: {
     label: '学会発表',
     bg:    '#2563eb',     /* ブルー */
@@ -63,6 +69,27 @@ const CATEGORIES = {
      highlight   : true にすると Best Paper Award などを金色ボーダーで強調表示
    ---------------------------------------------------------------- */
 const ACHIEVEMENTS = [
+
+  /* ---- 2025年 ---- */
+
+  {
+    /* Journal of Robotics and Mechatronics（JRM）掲載の査読付きジャーナル論文。
+       学生時代の研究の集大成にあたる論文誌成果のため highlight: true で強調表示する。 */
+    category:     'Journal',
+    title:        'Inducibility—Quantitative Measure of Interaction Between Pedestrians—',
+    organization: 'Journal of Robotics and Mechatronics（JRM）Vol.37 No.6, pp.1477–1487',
+    dateLocation: '2025年12月 / オープンアクセス',
+    year:         2025,
+    description:  '「可誘導性（inducibility）」＝ある人の行動が周囲の人の行動へ'
+                + 'どの程度影響を与えるかを表す新しい定量指標を提案した論文。'
+                + '意思決定の感度に基づく指標と、相互行動を表す状態空間モデルの'
+                + '可制御性グラミアンに基づく指標の2種類を導出し、'
+                + '実際の歩行者観測データから構築した数理モデルで分析した。'
+                + '自律移動ロボット（AMR）の行動設計・評価への応用を目指す。'
+                + '共著: H. Okuda（奥田裕之 教授）, T. Suzuki（鈴木達也 教授）。',
+    url:          'https://doi.org/10.20965/jrm.2025.p1477',
+    highlight:    true   /* 金色ボーダーで強調表示 */
+  },
 
   /* ---- 2024年 ---- */
 
