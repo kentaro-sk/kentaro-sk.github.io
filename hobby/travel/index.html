@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 検索結果・SNSシェアで表示されるページ概要文 -->
+    <meta name="description" content="杉浦健太郎の趣味「旅行・海外交流」。中学時代のイタリア海外派遣、高校時代のイギリス・ラドリーカレッジ留学など、異文化交流の経験を紹介します。">
+    <title>旅行・海外交流 | 杉浦健太郎</title>
+
+    <!-- 詳細ページは hobby/travel/ の2階層下にあるため ../../ で参照する -->
+    <link rel="shortcut icon" href="../../fig/icon.svg" type="image/x-icon">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          crossorigin="anonymous">
+    <!-- 共通CSS → 趣味ページ専用CSS の順に読み込む -->
+    <link rel="stylesheet" href="../../css/stylesheet.css">
+    <link rel="stylesheet" href="../../css/hobby.css">
+</head>
+<body>
+
+    <!-- ナビゲーションバー -->
+    <header>
+        <div class="container">
+            <div class="header-left">
+                <a href="../../"><img class="logo" src="../../fig/icon.svg" alt="ロゴ"></a>
+            </div>
+            <span class="fa fa-bars menu-icon" aria-label="メニュー"></span>
+            <!-- 構成: About Me / Academic（学生時代のサブメニュー）/ Career（社会人）/ Hobby -->
+            <div class="header-right" id="page-link">
+                <a href="../../profile/">About Me</a>
+                <!-- Academic: 大学・大学院時代のコンテンツをまとめるドロップダウン -->
+                <div class="nav-dropdown">
+                    <button type="button" class="nav-drop-toggle"
+                            aria-haspopup="true" aria-expanded="false">
+                        Academic<span class="fa fa-angle-down" aria-hidden="true"></span>
+                    </button>
+                    <div class="nav-drop-menu">
+                        <a href="../../study/">研究内容</a>
+                        <a href="../../awards/">学会・受賞</a>
+                    </div>
+                </div>
+                <a href="../../career/">Career</a>
+                <a href="../../hobby/">Hobby</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ページコンテンツ -->
+    <div class="hobby-wrapper">
+
+        <!-- ページ見出しバナー -->
+        <div class="heading-contents">
+            <h1>旅行・海外交流</h1>
+        </div>
+
+        <!-- ============================================================
+             詳細コンテンツ
+             ============================================================ -->
+        <div class="detail-section">
+
+            <!-- 趣味一覧へ戻るリンク -->
+            <a href="../" class="detail-back">
+                <span class="fa fa-angle-left" aria-hidden="true"></span>趣味一覧へ戻る
+            </a>
+
+            <!-- 導入リード文 -->
+            <p class="detail-lead">
+                学生時代から海外での経験を重ね、異文化に触れることの面白さを
+                大切にしてきました。現地での出会いや発見は、多様な価値観や視点を
+                身につけるきっかけになっています。
+            </p>
+
+            <!-- イタリア（中学・海外派遣）
+                 ※国旗絵文字は Windows で文字化けするため、
+                   全OSで表示できる絵文字（古代建築＝イタリアを想起）を使用 -->
+            <div class="detail-item">
+                <span class="detail-item-icon">🏛️</span>
+                <div class="detail-item-body">
+                    <h2 class="detail-item-title">イタリア</h2>
+                    <p class="detail-item-meta">中学時代 / 海外派遣</p>
+                    <p class="detail-item-desc">
+                        中学時代、海外派遣でイタリアを訪問しました。初めての海外で
+                        現地の文化や人々に触れ、世界の広さと多様さを実感した
+                        原体験になっています。
+                    </p>
+                </div>
+            </div>
+
+            <!-- イギリス（高校・留学）
+                 ※国旗絵文字は Windows で文字化けするため、
+                   全OSで表示できる絵文字（城＝イギリスを想起）を使用 -->
+            <div class="detail-item">
+                <span class="detail-item-icon">🏰</span>
+                <div class="detail-item-body">
+                    <h2 class="detail-item-title">イギリス・ラドリーカレッジ</h2>
+                    <p class="detail-item-meta">高校時代 / 留学</p>
+                    <p class="detail-item-desc">
+                        高校時代には、イギリスの名門校ラドリーカレッジへ留学しました。
+                        現地の学生と生活を共にしながら、語学力だけでなく、
+                        異なる文化背景を持つ人々と関わる力を養いました。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 今後の追記に関する注記 -->
+            <p class="detail-note">※ 訪れた国・地域は今後さらに追記していく予定です。</p>
+
+        </div><!-- /.detail-section -->
+
+    </div><!-- /.hobby-wrapper -->
+
+    <!-- フッター -->
+    <footer>
+        <div class="container">
+            <img src="../../fig/icon.svg" alt="アイコン">
+            <p>Copyright &copy; 2024 Kentaro Sugiura. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="../../js/page_link.js"></script>
+
+    <!-- スクロール連動フェードインアニメーション -->
+    <script>
+    /* ----------------------------------------------------------------
+       IntersectionObserver で .detail-item が画面に入ったら
+       .is-visible を付与してフェードインさせる。
+       趣味トップや他ページと同じパターン。
+       ---------------------------------------------------------------- */
+    document.addEventListener('DOMContentLoaded', function () {
+      /* IntersectionObserver 非対応ブラウザでは全項目を即表示する */
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.detail-item').forEach(function (el) {
+          el.classList.add('is-visible');
+        });
+        return;
+      }
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target); /* 一度表示したら監視解除 */
+          }
+        });
+      }, { threshold: 0.1 });
+
+      /* 各項目に80msのスタッガード遅延を付けてから監視開始 */
+      document.querySelectorAll('.detail-item').forEach(function (el, i) {
+        el.style.transitionDelay = (i * 0.08) + 's';
+        observer.observe(el);
+      });
+    });
+    </script>
+
+</body>
+</html>
