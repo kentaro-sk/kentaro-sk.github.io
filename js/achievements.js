@@ -94,28 +94,60 @@ const ACHIEVEMENTS = [
   /* ---- 2024年 ---- */
 
   {
-    /* SSI2024 最優秀論文賞：最も重要な実績のため highlight: true を設定 */
+    /* SSI2024 Best Paper Award（受賞そのものの記録）。
+       最も重要な実績のため highlight: true を設定。
+       同じ研究の「発表」は直後の Conference エントリに分けて記載する。 */
     category:     'Award',
-    title:        '可誘導性：歩行者間インタラクションにおける判断感度と可制御性に基づいた評価',
-    organization: 'SSI2024（第36回自律分散システム・シンポジウム）',
+    title:        'SSI2024 Best Paper Award 受賞',
+    organization: 'SSI2024（計測自動制御学会 システム・情報部門学術講演会）',
     dateLocation: '2024年11月',
     year:         2024,
-    description:  'SSI Best Paper Award 受賞。'
-                + '移動ロボットによる歩行者誘導の評価指標「可誘導性」を提案した研究。'
+    description:  '「可誘導性」を提案した研究発表に対して Best Paper Award を受賞。'
+                + '移動ロボットによる歩行者誘導の評価指標を提案した点が高く評価された。'
                 + '奥田裕之 教授・鈴木達也 教授との共同研究。',
     url:          null,
     highlight:    true   /* 金色ボーダーで強調表示 */
   },
 
   {
-    /* 自動制御連合講演会（栃木）：開催年は2024年を想定 */
+    /* SSI2024 での研究発表（上の Best Paper Award の対象となった発表）。
+       受賞と発表は性質が異なるため、カテゴリを分けて別エントリで記載する。 */
     category:     'Conference',
-    title:        '自動制御連合講演会 研究発表（栃木）',
-    organization: '自動制御連合講演会（栃木開催）',
-    dateLocation: '2024年 / 栃木',
+    title:        '可誘導性：歩行者間インタラクションにおける判断感度と可制御性に基づいた評価',
+    organization: 'SSI2024（計測自動制御学会 システム・情報部門学術講演会）',
+    dateLocation: '2024年11月',
     year:         2024,
-    description:  '移動ロボットと歩行者のインタラクションに関する最新研究を発表。'
+    description:  '移動ロボットによる歩行者誘導の評価指標「可誘導性」を提案した研究発表。'
+                + 'この発表が Best Paper Award を受賞した。'
                 + '奥田裕之 教授・鈴木達也 教授との共同研究。',
+    url:          null,
+    highlight:    false
+  },
+
+  {
+    /* ROBOMEC 2024（ロボティクス・メカトロニクス講演会 2024、栃木・宇都宮開催）。
+       以前は誤って「自動制御連合講演会」と記載していたため ROBOMEC に修正。 */
+    category:     'Conference',
+    title:        '移動ロボットと歩行者のインタラクションに関する研究発表',
+    organization: 'ロボティクス・メカトロニクス講演会 2024（ROBOMEC 2024）',
+    dateLocation: '2024年 / 栃木（宇都宮）',
+    year:         2024,
+    description:  '移動ロボットと歩行者のインタラクションに関する研究を発表。'
+                + '奥田裕之 教授・鈴木達也 教授との共同研究。',
+    url:          null,
+    highlight:    false
+  },
+
+  {
+    /* 自動車技術会（JSAE）春季大会 学生ポスターセッション（パシフィコ横浜）。
+       2024年に学生として登壇し、ポスター発表を行った。 */
+    category:     'Conference',
+    title:        '自動車技術会 春季大会 学生ポスターセッション 発表',
+    organization: '自動車技術会（JSAE）2024年春季大会 学生ポスターセッション',
+    dateLocation: '2024年 / パシフィコ横浜（横浜）',
+    year:         2024,
+    description:  '自動車技術会の春季大会 学生ポスターセッションに登壇し、'
+                + '研究成果をポスター形式で発表した。',
     url:          null,
     highlight:    false
   },
