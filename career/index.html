@@ -136,6 +136,66 @@
 
         </div><!-- /.career-section -->
 
+        <!-- ============================================================
+             経歴（年代別ヒストリー）※既存の業務内容の下に新規追加
+             学部→大学院→社会人の歩みを、時代区分ごとに履歴書形式で
+             まとめる。研究実績は大学院時代のブロックに集約し、
+             詳細ページ（研究内容・学会/受賞）へ導線を張る。
+             ============================================================ -->
+        <div class="career-history">
+            <h2 class="history-title">これまでの歩み</h2>
+            <p class="history-sub">Career &amp; Academic History</p>
+
+            <div class="history-timeline">
+
+                <!-- 社会人（現在） -->
+                <div class="history-era">
+                    <div class="history-period">2025 — 現在</div>
+                    <div class="history-content">
+                        <h3 class="history-role">社会人｜大手自動車メーカー IT部門</h3>
+                        <p class="history-org">AI・デジタル技術による業務変革</p>
+                        <ul class="history-points">
+                            <li>2025年4月 入社。AIをはじめとするデジタル技術の社内活用推進に従事。</li>
+                            <li>業務プロセスの自動化・効率化、新技術の企画・検証に取り組む。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 大学院時代 -->
+                <div class="history-era">
+                    <div class="history-period">2023 — 2025</div>
+                    <div class="history-content">
+                        <h3 class="history-role">大学院｜名古屋大学大学院 工学研究科</h3>
+                        <p class="history-org">機械システム工学専攻 モビリティシステムグループ 鈴木研究室（修士課程）</p>
+                        <ul class="history-points">
+                            <li>自律移動ロボットと歩行者のインタラクションを研究。評価指標「可誘導性」を提案。</li>
+                            <li>SSI2024 にて Best Paper Award を受賞。</li>
+                            <li>査読付きジャーナル論文（JRM, 2025）掲載。国際・国内学会で発表多数。</li>
+                            <li>特許出願、研究助成の採択。</li>
+                            <li>2025年3月 修士課程 修了。</li>
+                        </ul>
+                        <p class="history-links">
+                            詳細：<a href="../study/">研究内容</a> ／ <a href="../awards/">学会・受賞</a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 学部時代 -->
+                <div class="history-era">
+                    <div class="history-period">2019 — 2023</div>
+                    <div class="history-content">
+                        <h3 class="history-role">学部｜名古屋大学 工学部</h3>
+                        <p class="history-org">機械・航空宇宙工学科</p>
+                        <ul class="history-points">
+                            <li>機械工学・制御工学・流体力学を幅広く学ぶ（GPA 3.97 / 4.3）。</li>
+                            <li>SICE優秀学生賞 受賞（2023年3月）。</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div><!-- /.history-timeline -->
+        </div><!-- /.career-history -->
+
     </div><!-- /.career-wrapper -->
 
     <!-- フッター -->
@@ -167,9 +227,12 @@
        コード量ではないため、このページ内に直接記述している。
        ---------------------------------------------------------------- */
     document.addEventListener('DOMContentLoaded', function () {
+      /* アニメーション対象：業務カード＋年代別ヒストリーの各ブロック */
+      var targets = '.work-card, .history-era';
+
       if (!('IntersectionObserver' in window)) {
-        /* IntersectionObserver 非対応ブラウザでは全カードを即表示 */
-        document.querySelectorAll('.work-card').forEach(function (el) {
+        /* IntersectionObserver 非対応ブラウザでは全要素を即表示 */
+        document.querySelectorAll(targets).forEach(function (el) {
           el.classList.add('is-visible');
         });
         return;
@@ -184,10 +247,13 @@
         });
       }, { threshold: 0.1 });
 
-      /* 各カードに80msのスタッガード遅延を付けてから監視開始 */
-      document.querySelectorAll('.work-card').forEach(function (el, i) {
-        el.style.transitionDelay = (i * 0.08) + 's';
-        observer.observe(el);
+      /* 各要素に80msのスタッガード遅延を付けてから監視開始。
+         カードとヒストリーは別グループなので、それぞれ独立して遅延を数える */
+      ['.work-card', '.history-era'].forEach(function (selector) {
+        document.querySelectorAll(selector).forEach(function (el, i) {
+          el.style.transitionDelay = (i * 0.08) + 's';
+          observer.observe(el);
+        });
       });
     });
     </script>
