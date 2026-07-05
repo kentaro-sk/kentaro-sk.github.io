@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 検索結果・SNSシェアで表示されるページ概要文 -->
+    <meta name="description" content="杉浦健太郎の趣味「スポーツ観戦」。サッカーや野球の観戦が好きで、迫力あるプレーやチームの戦略を楽しんでいます。">
+    <title>スポーツ観戦 | 杉浦健太郎</title>
+
+    <!-- 詳細ページは hobby/sports/ の2階層下にあるため ../../ で参照する -->
+    <link rel="shortcut icon" href="../../fig/icon.svg" type="image/x-icon">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          crossorigin="anonymous">
+    <!-- 共通CSS → 趣味ページ専用CSS の順に読み込む -->
+    <link rel="stylesheet" href="../../css/stylesheet.css">
+    <link rel="stylesheet" href="../../css/hobby.css">
+</head>
+<body>
+
+    <!-- ナビゲーションバー -->
+    <header>
+        <div class="container">
+            <div class="header-left">
+                <a href="../../"><img class="logo" src="../../fig/icon.svg" alt="ロゴ"></a>
+            </div>
+            <span class="fa fa-bars menu-icon" aria-label="メニュー"></span>
+            <!-- 構成: About Me / Academic（学生時代のサブメニュー）/ Career（社会人）/ Hobby -->
+            <div class="header-right" id="page-link">
+                <a href="../../profile/">About Me</a>
+                <!-- Academic: 大学・大学院時代のコンテンツをまとめるドロップダウン -->
+                <div class="nav-dropdown">
+                    <button type="button" class="nav-drop-toggle"
+                            aria-haspopup="true" aria-expanded="false">
+                        Academic<span class="fa fa-angle-down" aria-hidden="true"></span>
+                    </button>
+                    <div class="nav-drop-menu">
+                        <a href="../../study/">研究内容</a>
+                        <a href="../../awards/">学会・受賞</a>
+                    </div>
+                </div>
+                <a href="../../career/">Career</a>
+                <a href="../../hobby/">Hobby</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ページコンテンツ -->
+    <div class="hobby-wrapper">
+
+        <!-- ページ見出しバナー -->
+        <div class="heading-contents">
+            <h1>スポーツ観戦</h1>
+        </div>
+
+        <!-- ============================================================
+             詳細コンテンツ
+             ============================================================ -->
+        <div class="detail-section">
+
+            <!-- 趣味一覧へ戻るリンク -->
+            <a href="../" class="detail-back">
+                <span class="fa fa-angle-left" aria-hidden="true"></span>趣味一覧へ戻る
+            </a>
+
+            <!-- 導入リード文 -->
+            <p class="detail-lead">
+                スポーツ観戦が好きで、選手たちの全力のプレーや、勝負を左右する
+                駆け引き・チームの戦略に夢中になります。とくにサッカーと野球を
+                よく観戦しています。
+            </p>
+
+            <!-- サッカー観戦 -->
+            <div class="detail-item">
+                <span class="detail-item-icon">⚽</span>
+                <div class="detail-item-body">
+                    <h2 class="detail-item-title">サッカー</h2>
+                    <p class="detail-item-desc">
+                        自身も小学生から続けてきた競技だからこそ、観る側としても
+                        ポジショニングや連携、試合の流れを読む駆け引きに引き込まれます。
+                        90分のなかで局面が刻々と変わる展開に、いつも見入ってしまいます。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 野球観戦 -->
+            <div class="detail-item">
+                <span class="detail-item-icon">⚾</span>
+                <div class="detail-item-body">
+                    <h2 class="detail-item-title">野球</h2>
+                    <p class="detail-item-desc">
+                        一球ごとに間が生まれる野球ならではの緊張感と、
+                        配球や守備位置といった戦略性が魅力です。
+                        流れが一気に動く場面の高揚感は格別で、つい熱くなってしまいます。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 今後の追記に関する注記 -->
+            <p class="detail-note">※ 応援しているチームや現地観戦の思い出も、今後追記していく予定です。</p>
+
+        </div><!-- /.detail-section -->
+
+    </div><!-- /.hobby-wrapper -->
+
+    <!-- フッター -->
+    <footer>
+        <div class="container">
+            <img src="../../fig/icon.svg" alt="アイコン">
+            <p>Copyright &copy; 2024 Kentaro Sugiura. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="../../js/page_link.js"></script>
+
+    <!-- スクロール連動フェードインアニメーション -->
+    <script>
+    /* ----------------------------------------------------------------
+       IntersectionObserver で .detail-item が画面に入ったら
+       .is-visible を付与してフェードインさせる。
+       趣味トップや他ページと同じパターン。
+       ---------------------------------------------------------------- */
+    document.addEventListener('DOMContentLoaded', function () {
+      /* IntersectionObserver 非対応ブラウザでは全項目を即表示する */
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.detail-item').forEach(function (el) {
+          el.classList.add('is-visible');
+        });
+        return;
+      }
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target); /* 一度表示したら監視解除 */
+          }
+        });
+      }, { threshold: 0.1 });
+
+      /* 各項目に80msのスタッガード遅延を付けてから監視開始 */
+      document.querySelectorAll('.detail-item').forEach(function (el, i) {
+        el.style.transitionDelay = (i * 0.08) + 's';
+        observer.observe(el);
+      });
+    });
+    </script>
+
+</body>
+</html>

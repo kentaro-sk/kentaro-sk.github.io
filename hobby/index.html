@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- 検索結果・SNSシェアで表示されるページ概要文 -->
-    <meta name="description" content="杉浦健太郎の趣味の紹介。体操・サッカー・旅行・海外交流・プログラミングなど、研究や仕事以外の一面を掲載しています。">
+    <meta name="description" content="杉浦健太郎の趣味の紹介。旅行・海外交流やスポーツ観戦を中心に、体操・サッカー・プログラミングなど、研究や仕事以外の一面を掲載しています。">
     <title>趣味 | 杉浦健太郎</title>
 
     <link rel="shortcut icon" href="../fig/icon.svg" type="image/x-icon">
@@ -53,59 +53,89 @@
         </div>
 
         <!-- ============================================================
-             趣味カードグリッド
-             趣味・好きなことをカード形式で紹介する
+             趣味セクション
+             ・メインの2項目（旅行・海外交流／スポーツ観戦）を大きく表示し、
+               クリックで各詳細ページへ遷移する。
+             ・その他の3項目（体操／サッカー／プログラミング）は
+               下部に補足的に小さく並べる。
              ============================================================ -->
         <div class="hobby-section">
-            <div class="hobby-grid">
 
-                <!-- 体操 -->
-                <div class="hobby-card">
-                    <span class="hobby-icon">🤸</span>
-                    <h2 class="hobby-name">体操</h2>
-                    <p class="hobby-desc">
-                        高校時代から体操部に所属し、器械体操に取り組んできました。
-                        体幹トレーニングや柔軟性の向上を通じて培った身体能力は、
-                        研究活動における集中力や粘り強さにも活きています。
+            <!-- ---- メインの趣味（大きく表示・クリックで詳細ページへ） ---- -->
+            <div class="hobby-featured">
+
+                <!-- 旅行・海外交流（詳細ページ: ./travel/） -->
+                <a href="./travel/" class="hobby-feature">
+                    <span class="hobby-feature-icon">✈️</span>
+                    <h2 class="hobby-feature-name">旅行・海外交流</h2>
+                    <p class="hobby-feature-desc">
+                        中学・高校時代の海外経験を通じて、異文化に触れる面白さを
+                        知りました。訪れた国々での出会いや発見を紹介します。
                     </p>
-                </div>
+                    <span class="hobby-feature-more">
+                        詳しく見る<span class="fa fa-angle-right" aria-hidden="true"></span>
+                    </span>
+                </a>
 
-                <!-- サッカー -->
-                <div class="hobby-card">
-                    <span class="hobby-icon">⚽</span>
-                    <h2 class="hobby-name">サッカー</h2>
-                    <p class="hobby-desc">
-                        小学生のころからサッカーを続けており、
-                        チームスポーツを通じてコミュニケーション力や
-                        協調性を身につけました。
-                        今でも友人たちとフットサルを楽しんでいます。
+                <!-- スポーツ観戦（詳細ページ: ./sports/） -->
+                <a href="./sports/" class="hobby-feature">
+                    <span class="hobby-feature-icon">🏟️</span>
+                    <h2 class="hobby-feature-name">スポーツ観戦</h2>
+                    <p class="hobby-feature-desc">
+                        サッカーや野球の観戦が好きで、迫力あるプレーやチームの
+                        戦略に夢中になります。観戦の楽しみを紹介します。
                     </p>
-                </div>
+                    <span class="hobby-feature-more">
+                        詳しく見る<span class="fa fa-angle-right" aria-hidden="true"></span>
+                    </span>
+                </a>
 
-                <!-- 旅行 -->
-                <div class="hobby-card">
-                    <span class="hobby-icon">✈️</span>
-                    <h2 class="hobby-name">旅行・海外交流</h2>
-                    <p class="hobby-desc">
-                        中学時代にイタリアへの海外派遣、高校時代には
-                        イギリス・ラドリーカレッジへの留学を経験しました。
-                        異文化に触れることで、多様な価値観や視点を身につけることができました。
-                    </p>
-                </div>
+            </div><!-- /.hobby-featured -->
 
-                <!-- プログラミング -->
-                <div class="hobby-card">
-                    <span class="hobby-icon">💻</span>
-                    <h2 class="hobby-name">プログラミング</h2>
-                    <p class="hobby-desc">
-                        研究活動の中で Python・MATLAB を使った
-                        データ解析やシミュレーションを行うほか、
-                        趣味として Web 開発にも取り組んでいます。
-                        このポートフォリオサイトも自作しました。
-                    </p>
-                </div>
+            <!-- ---- その他の趣味（補足的に小さく表示） ---- -->
+            <div class="hobby-others">
+                <h2 class="hobby-others-title">その他</h2>
+                <div class="hobby-mini-grid">
 
-            </div><!-- /.hobby-grid -->
+                    <!-- 体操 -->
+                    <div class="hobby-mini">
+                        <span class="hobby-mini-icon">🤸</span>
+                        <div class="hobby-mini-body">
+                            <h3 class="hobby-mini-name">体操</h3>
+                            <p class="hobby-mini-desc">
+                                高校時代に体操部で器械体操に取り組みました。
+                                体幹や柔軟性が、集中力・粘り強さの土台になっています。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- サッカー -->
+                    <div class="hobby-mini">
+                        <span class="hobby-mini-icon">⚽</span>
+                        <div class="hobby-mini-body">
+                            <h3 class="hobby-mini-name">サッカー</h3>
+                            <p class="hobby-mini-desc">
+                                小学生から続けており、今も友人とフットサルを楽しんでいます。
+                                チームスポーツを通じて協調性を養いました。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- プログラミング -->
+                    <div class="hobby-mini">
+                        <span class="hobby-mini-icon">💻</span>
+                        <div class="hobby-mini-body">
+                            <h3 class="hobby-mini-name">プログラミング</h3>
+                            <p class="hobby-mini-desc">
+                                Python・MATLAB でのデータ解析のほか、趣味で Web 開発にも
+                                取り組んでいます。このポートフォリオサイトも自作しました。
+                            </p>
+                        </div>
+                    </div>
+
+                </div><!-- /.hobby-mini-grid -->
+            </div><!-- /.hobby-others -->
+
         </div><!-- /.hobby-section -->
 
     </div><!-- /.hobby-wrapper -->
@@ -139,9 +169,12 @@
        このページ内に直接記述している。
        ---------------------------------------------------------------- */
     document.addEventListener('DOMContentLoaded', function () {
+      /* アニメーション対象：メインの2カード＋その他の3項目 */
+      var targets = '.hobby-feature, .hobby-mini';
+
       if (!('IntersectionObserver' in window)) {
         /* IntersectionObserver 非対応ブラウザでは全カードを即表示 */
-        document.querySelectorAll('.hobby-card').forEach(function (el) {
+        document.querySelectorAll(targets).forEach(function (el) {
           el.classList.add('is-visible');
         });
         return;
@@ -156,10 +189,12 @@
         });
       }, { threshold: 0.1 });
 
-      /* 各カードに80msのスタッガード遅延を付けてから監視開始 */
-      document.querySelectorAll('.hobby-card').forEach(function (el, i) {
-        el.style.transitionDelay = (i * 0.08) + 's';
-        observer.observe(el);
+      /* メインカードとその他項目、それぞれ独立して80msのスタッガード遅延を付ける */
+      ['.hobby-feature', '.hobby-mini'].forEach(function (selector) {
+        document.querySelectorAll(selector).forEach(function (el, i) {
+          el.style.transitionDelay = (i * 0.08) + 's';
+          observer.observe(el);
+        });
       });
     });
     </script>
