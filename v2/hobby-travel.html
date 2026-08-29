@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MY TRAVEL MAP — 行ったことがある国</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Cormorant+Garamond:wght@500;600;700&family=Caveat:wght@500;600&family=Shippori+Mincho+B1:wght@600&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap">
+<script src="https://unpkg.com/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
+<script src="./image-slot.js"></script>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#C6B08A;color:#3E3323;font-family:'Zen Kaku Gothic New',sans-serif;-webkit-font-smoothing:antialiased}
+  #stagewrap{position:relative;width:100%;overflow:hidden}
+  .sheet{position:absolute;left:0;top:0;width:1500px;height:1000px;transform-origin:0 0;
+    background:
+      radial-gradient(110% 80% at 20% 10%, rgba(255,246,216,.9), rgba(255,246,216,0) 55%),
+      radial-gradient(120% 90% at 86% 92%, rgba(178,143,92,.55), rgba(178,143,92,0) 60%),
+      radial-gradient(150% 120% at 50% 48%, #EFDFB6 0%, #E4CFA0 46%, #D2B888 78%, #BE9F6E 100%);
+    box-shadow:inset 0 0 140px rgba(112,82,42,.5), inset 0 0 340px rgba(140,108,58,.3);
+    overflow:hidden}
+  .grain{position:absolute;inset:0;pointer-events:none;opacity:.6;mix-blend-mode:multiply}
+  .vig{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(115% 105% at 50% 50%, rgba(0,0,0,0) 55%, rgba(90,64,30,.26) 100%)}
+  svg.layer{position:absolute;inset:0;width:1500px;height:1000px;display:block;overflow:visible}
+
+  .land{fill:#E6D3A8;stroke:#9A8155;stroke-width:.6;stroke-linejoin:round}
+  .vis{stroke:#8B6F45;stroke-width:.85;cursor:pointer;transition:filter .3s ease}
+  .vis:hover{filter:brightness(.92) saturate(1.25)}
+  .grat{fill:none;stroke:#957E51;stroke-width:.4;opacity:.34}
+  .sphere{fill:none;stroke:#8B6F45;stroke-width:.9;opacity:.5}
+  .clab{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:15px;letter-spacing:.16em;fill:#43351F;pointer-events:none;text-anchor:middle}
+  .clab.sm{font-size:12.5px;letter-spacing:.12em}
+  .city{fill:#3E3323;stroke:#F0E4C6;stroke-width:.9;cursor:pointer}
+  .citylab{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:13px;letter-spacing:.05em;fill:#4A3A24;pointer-events:none}
+  .pref{fill:#B4573F;stroke:#F0E4C6;stroke-width:1}
+  .prefArea{stroke:#8B6F45;stroke-width:.75;stroke-dasharray:3 2.6;opacity:.85;pointer-events:none}
+  .prefOff{fill:rgba(62,51,35,.2)}
+
+  .frame{position:absolute;inset:14px;border:2px solid #6E5535;pointer-events:none}
+  .frame::after{content:'';position:absolute;inset:9px;border:1px solid #8B6F45;opacity:.75}
+  .corner{position:absolute;width:66px;height:66px;pointer-events:none}
+
+  .banner{position:absolute;left:50%;top:26px;transform:translateX(-50%);width:560px;text-align:center;pointer-events:none}
+  .btitle{font-family:'IM Fell English SC',serif;font-size:36px;letter-spacing:.1em;color:#3B2C18;margin:0;line-height:1}
+  .bsub{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:14px;letter-spacing:.3em;color:#5A4626;margin:9px 0 0}
+
+  .flags{position:absolute;left:50%;top:122px;transform:translateX(-50%);display:flex;align-items:center;gap:9px}
+  .flagbtn{width:36px;height:27px;padding:0;border:1px solid #6E5535;background:#F0E4C6;cursor:pointer;display:block;overflow:hidden;box-shadow:0 2px 4px rgba(90,64,30,.28);transition:transform .25s ease,box-shadow .25s ease}
+  .flagbtn:hover{transform:translateY(-3px);box-shadow:0 7px 11px rgba(90,64,30,.34)}
+  .flagbtn img{display:block;width:100%;height:100%;object-fit:cover;filter:sepia(.16) saturate(.9) contrast(.97)}
+
+  .slotcard{position:absolute;width:232px;pointer-events:auto}
+  .slotcard .ph{display:block;width:100%;height:155px;object-fit:contain;
+    mix-blend-mode:multiply;
+    filter:sepia(.12) saturate(.94) contrast(1.05) brightness(1.07);
+    -webkit-mask-image:radial-gradient(122% 122% at 50% 50%,#000 44%,rgba(0,0,0,.58) 74%,rgba(0,0,0,0) 100%);
+    mask-image:radial-gradient(122% 122% at 50% 50%,#000 44%,rgba(0,0,0,.58) 74%,rgba(0,0,0,0) 100%)}
+  .slotcard .cap{margin-top:2px;text-align:center;line-height:1.35}
+  .slotcard .en{display:block;font-family:'Caveat',cursive;font-size:21px;color:#4A3A24}
+  .slotcard .ja{display:block;font-family:'Shippori Mincho B1',serif;font-size:12px;letter-spacing:.08em;color:#6B573A;margin-top:1px}
+
+  .legend{position:absolute;left:52px;bottom:44px;width:262px;border:1px solid #6E5535;background:rgba(247,238,213,.72);padding:14px 16px}
+  .legend .row{display:flex;align-items:center;gap:11px;font-family:'Shippori Mincho B1',serif;font-size:13.5px;color:#3E3323}
+  .legend .row + .row{margin-top:11px}
+  .sw{width:22px;height:14px;flex:none;border:1px solid #8B6F45}
+  .dotmark{width:9px;height:9px;flex:none;border-radius:999px;background:#3E3323;margin:0 6.5px}
+
+  .tip{position:absolute;pointer-events:none;background:#3B2C18;color:#F3E6C4;padding:5px 10px;font-family:'Cormorant Garamond',serif;font-size:14px;letter-spacing:.06em;white-space:nowrap;transform:translate(-50%,-150%);opacity:0;transition:opacity .18s ease;z-index:20}
+
+  .ribbonbtn{position:absolute;left:52px;top:44px;z-index:12;display:none;align-items:center;gap:8px;
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:14px;letter-spacing:.18em;color:#3B2C18;
+    background:rgba(247,238,213,.85);border:1px solid #6E5535;padding:8px 14px;cursor:pointer;white-space:nowrap}
+  .ribbonbtn:hover{background:#EFE0B8}
+  .hint{position:absolute;left:50%;transform:translateX(-50%);bottom:26px;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:.14em;color:#6B573A}
+
+  .pop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(45,32,16,.5);z-index:40;padding:24px}
+  .pop.on{display:flex}
+  .card{width:min(460px,100%);
+    background:radial-gradient(140% 120% at 50% 0%, #F3E7C6 0%, #E6D5AE 72%, #D6BE96 100%);
+    border:2px solid #6E5535;box-shadow:0 30px 60px -28px rgba(45,32,16,.8);padding:26px 28px 28px;position:relative}
+  .card h3{margin:6px 0 0;font-family:'Shippori Mincho B1',serif;font-size:27px;font-weight:600;letter-spacing:.05em;color:#3B2C18}
+  .card .kick{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:12px;letter-spacing:.26em;color:#7A6238}
+  .card .rule{height:1px;background:#8B6F45;opacity:.5;margin:16px 0}
+  .card .metas{display:flex;flex-wrap:wrap;gap:8px}
+  .card .metas span{font-family:'Shippori Mincho B1',serif;font-size:12px;letter-spacing:.06em;color:#4A3A24;border:1px solid rgba(110,85,53,.5);padding:5px 11px}
+  .close{position:absolute;right:14px;top:12px;background:none;border:none;font-family:'Cormorant Garamond',serif;font-size:20px;color:#6E5535;cursor:pointer;line-height:1}
+  .close:hover{color:#3B2C18}
+</style>
+</head>
+<body>
+
+<div id="stagewrap">
+  <div class="sheet" id="sheet">
+
+    <svg class="layer" id="map" data-comment-anchor="5b5376078b-svg"></svg>
+
+    <div class="banner">
+      <p class="btitle">MY TRAVEL MAP</p>
+      <p class="bsub">PLACES I'VE BEEN</p>
+    </div>
+
+    <div class="flags" id="flags"></div>
+
+    <div id="slots"></div>
+
+    <div class="legend">
+      <div class="row"><span class="sw" style="background:#B9805F"></span>行ったことがある国</div>
+      <div class="row"><span class="dotmark"></span>訪れた都市・地域</div>
+    </div>
+
+    <button class="ribbonbtn" id="backBtn">← WORLD MAP</button>
+    <div class="hint" id="hint">CLICK A COUNTRY OR FLAG</div>
+
+    <svg class="grain"><filter id="gr"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#gr)" opacity=".3"></rect></svg>
+    <div class="vig"></div>
+
+    <div class="frame"></div>
+    <svg class="corner" style="left:20px;top:20px"><path d="M2 46 V2 H46" fill="none" stroke="#6E5535" stroke-width="2"></path><path d="M2 2 l16 16 M8 2 h10 v10" fill="none" stroke="#8B6F45" stroke-width="1"></path></svg>
+    <svg class="corner" style="right:20px;top:20px;transform:scaleX(-1)"><path d="M2 46 V2 H46" fill="none" stroke="#6E5535" stroke-width="2"></path><path d="M2 2 l16 16 M8 2 h10 v10" fill="none" stroke="#8B6F45" stroke-width="1"></path></svg>
+    <svg class="corner" style="left:20px;bottom:20px;transform:scaleY(-1)"><path d="M2 46 V2 H46" fill="none" stroke="#6E5535" stroke-width="2"></path><path d="M2 2 l16 16 M8 2 h10 v10" fill="none" stroke="#8B6F45" stroke-width="1"></path></svg>
+    <svg class="corner" style="right:20px;bottom:20px;transform:scale(-1)"><path d="M2 46 V2 H46" fill="none" stroke="#6E5535" stroke-width="2"></path><path d="M2 2 l16 16 M8 2 h10 v10" fill="none" stroke="#8B6F45" stroke-width="1"></path></svg>
+
+    <div class="tip" id="tip"></div>
+  </div>
+</div>
+
+<div class="pop" id="pop">
+  <div class="card">
+    <button class="close" id="popClose">✕</button>
+    <div class="kick" id="popKicker"></div>
+    <h3 id="popTitle"></h3>
+    <div class="rule"></div>
+    <div class="metas" id="popMeta"></div>
+  </div>
+</div>
+
+<script>
+const COUNTRIES = {
+  'Italy':                    { ja:'イタリア',       en:'ITALY',          tint:'#8FA98C', meta:['2回訪問','トレビーゾ（一宮市の姉妹都市）'] },
+  'United Kingdom':           { ja:'イギリス',       en:'UNITED KINGDOM', tint:'#C4826C', meta:[] },
+  'United States of America': { ja:'アメリカ',       en:'UNITED STATES',  tint:'#9DB4C6', meta:['ロサンゼルス','ラスベガス','グランドキャニオン','ハワイ'] },
+  'Canada':                   { ja:'カナダ',         en:'CANADA',         tint:'#A6B995', meta:['トロント'] },
+  'Thailand':                 { ja:'タイ',           en:'THAILAND',       tint:'#D9BE7E', meta:[] },
+  'South Korea':              { ja:'韓国',           en:'SOUTH KOREA',    tint:'#BFA582', meta:[] },
+  'China':                    { ja:'中国',           en:'CHINA',          tint:'#C98E76', meta:['上海'] },
+  'Singapore':                { ja:'シンガポール',   en:'SINGAPORE',      tint:'#93AFA6', meta:[] },
+  'Germany':                  { ja:'ドイツ',         en:'GERMANY',        tint:'#D9BE7E', meta:['ミュンヘン'] },
+  'Austria':                  { ja:'オーストリア',   en:'AUSTRIA',        tint:'#A8B98F', meta:['ザルツブルク'] },
+  'Taiwan':                   { ja:'台湾',           en:'TAIWAN',         tint:'#C4A46B', meta:[] }
+};
+/* ラベルの手動オフセット・配置（投影座標に対する px） */
+const LABEL_FIX = {
+  'United Kingdom':           { dx:-86, dy:-30, two:['UNITED','KINGDOM'], anchor:'end', lead:1, cls:'sm' },
+  'Germany':                  { dx: 66, dy:-40, anchor:'start', lead:1, cls:'sm' },
+  'Austria':                  { dx: 86, dy:  8, anchor:'start', lead:1, cls:'sm' },
+  'Italy':                    { dx: 30, dy: 62, anchor:'start', lead:1, cls:'sm' },
+  'South Korea':              { dx:-34, dy:-52, two:['SOUTH','KOREA'], anchor:'end', lead:1, cls:'sm' },
+  'Taiwan':                   { dx: 26, dy: 40, anchor:'start', lead:1, cls:'sm' },
+  'Japan':                    { dx: 58, dy:  6, anchor:'start', lead:1 },
+  'Singapore':                { dx:-14, dy: 16, anchor:'end', cls:'sm' },
+  'Thailand':                 { dx:-30, dy: 16, cls:'sm' },
+  'Canada':                   { dx:  0, dy:-14 },
+  'United States of America': { dx: 44, dy: 78 }
+};
+const NO_POLY = { 'Singapore':[103.82,1.35] };
+
+const CITIES = [
+  { n:'Toronto',       ja:'トロント',            c:'Canada',                    lon:-79.38, lat:43.65, dx: 8, dy:-6 },
+  { n:'Los Angeles',   ja:'ロサンゼルス',        c:'United States of America',  lon:-118.24,lat:34.05, dx:-8, dy:12, anchor:'end' },
+  { n:'Las Vegas',     ja:'ラスベガス',          c:'United States of America',  lon:-115.14,lat:36.17, dx: 8, dy:-7 },
+  { n:'Grand Canyon',  ja:'グランドキャニオン',  c:'United States of America',  lon:-112.14,lat:36.06, dx: 8, dy: 12 },
+  { n:'Hawaii',        ja:'ハワイ',              c:'United States of America',  lon:-157.86,lat:21.31, dx: 9, dy: 5 },
+  { n:'Shanghai',      ja:'上海',                c:'China',                     lon:121.47, lat:31.23, dx: 9, dy: 5 },
+  { n:'Munich',        ja:'ミュンヘン',          c:'Germany',                   lon:11.58,  lat:48.14, nolabel:1 },
+  { n:'Salzburg',      ja:'ザルツブルク',        c:'Austria',                   lon:13.04,  lat:47.80, nolabel:1 },
+  { n:'Treviso',       ja:'トレビーゾ',          c:'Italy',                     lon:12.24,  lat:45.67, nolabel:1 },
+  { n:'Singapore',     ja:'シンガポール',        c:'Singapore',                 lon:103.82, lat:1.35,  nolabel:1 }
+];
+
+/* 国ごとの写真枠（11か国 = 訪れた国と同数） */
+const SLOTS = [
+  { id:'tv-us', ja:'ハワイ・アメリカ',  img:'./images/travel/travel-us.jpg', x:32,   y:60  },
+  { id:'tv-ca', ja:'ナイアガラの滝・カナダ', img:'./images/travel/travel-ca.jpg', x:32, y:292 },
+  { id:'tv-uk', ja:'ロンドン・イギリス',  img:'./images/travel/travel-uk.jpg', x:32,   y:524 },
+  { id:'tv-cn', ja:'上海・中国',        img:'./images/travel/travel-cn.jpg', x:1240, y:60  },
+  { id:'tv-th', ja:'アユタヤ・タイ',    img:'./images/travel/travel-th.jpg', x:1240, y:292 },
+  { id:'tv-sg', ja:'シンガポール',      img:'./images/travel/travel-sg.jpg', x:1240, y:524 },
+  { id:'tv-de', ja:'ミュンヘン・ドイツ', img:'./images/travel/travel-de.jpg', x:318, y:760, w:280 },
+  { id:'tv-it', ja:'ローマ・イタリア',    img:'./images/travel/travel-it.jpg', x:635, y:760, w:280 },
+  { id:'tv-tw', ja:'九份・台湾',        img:'./images/travel/travel-tw.jpg', x:952, y:760, w:280 }
+];
+
+const PREFS = [
+  ['北海道',43.06,141.35,0],['青森県',40.82,140.74,0],['岩手県',39.70,141.15,0],['宮城県',38.27,140.87,1],
+  ['秋田県',39.72,140.10,0],['山形県',38.24,140.36,0],['福島県',37.75,140.47,0],['茨城県',36.34,140.45,1],
+  ['栃木県',36.57,139.88,1],['群馬県',36.39,139.06,1],['埼玉県',35.86,139.65,1],['千葉県',35.61,140.12,1],
+  ['東京都',35.69,139.69,1],['神奈川県',35.45,139.64,1],['新潟県',37.90,139.02,1],['富山県',36.70,137.21,1],
+  ['石川県',36.59,136.63,1],['福井県',36.07,136.22,1],['山梨県',35.66,138.57,1],['長野県',36.65,138.18,1],
+  ['岐阜県',35.39,136.72,1],['静岡県',34.98,138.38,1],['愛知県',35.18,136.91,1],['三重県',34.73,136.51,1],
+  ['滋賀県',35.00,135.87,1],['京都府',35.02,135.76,1],['大阪府',34.69,135.50,1],['兵庫県',34.69,135.18,1],
+  ['奈良県',34.69,135.83,1],['和歌山県',34.23,135.17,1],['鳥取県',35.50,134.24,0],['島根県',35.47,133.05,0],
+  ['岡山県',34.66,133.93,0],['広島県',34.40,132.46,1],['山口県',34.19,131.47,1],['徳島県',34.07,134.55,1],
+  ['香川県',34.34,134.04,1],['愛媛県',33.84,132.77,0],['高知県',33.56,133.53,0],['福岡県',33.61,130.42,1],
+  ['佐賀県',33.25,130.30,0],['長崎県',32.74,129.87,0],['熊本県',32.79,130.74,0],['大分県',33.24,131.61,1],
+  ['宮崎県',31.91,131.42,0],['鹿児島県',31.56,130.56,0],['沖縄県',26.21,127.68,0]
+];
+
+const sheet = document.getElementById('sheet');
+const tip = document.getElementById('tip');
+const pop = document.getElementById('pop');
+
+/* 写真（地図に溶け込む彫版風イラスト） */
+const slotBox = document.getElementById('slots');
+SLOTS.forEach((s, i) => {
+  const d = document.createElement('div');
+  d.className = 'slotcard';
+  d.style.left = s.x + 'px'; d.style.top = s.y + 'px';
+  const w = s.w || 232;
+  d.style.width = w + 'px';
+  d.innerHTML = '<img class="ph" src="' + s.img + '" alt="' + s.ja + '" loading="lazy" draggable="false" style="height:' + Math.round(w / 1.5) + 'px;transform:rotate(' + (i % 2 ? .7 : -.7) + 'deg)">';
+  slotBox.appendChild(d);
+});
+
+/* 国旗（訪れた国） */
+const FLAGS = [
+  ['jp','日本','Japan'], ['kr','韓国','South Korea'], ['tw','台湾','Taiwan'], ['cn','中国','China'],
+  ['th','タイ','Thailand'], ['sg','シンガポール','Singapore'], ['it','イタリア','Italy'],
+  ['at','オーストリア','Austria'], ['de','ドイツ','Germany'], ['gb','イギリス','United Kingdom'],
+  ['us','アメリカ','United States of America'], ['ca','カナダ','Canada']
+];
+const flagBox = document.getElementById('flags');
+FLAGS.forEach(([code, ja, key]) => {
+  const b = document.createElement('button');
+  b.className = 'flagbtn';
+  b.type = 'button';
+  b.title = ja;
+  b.setAttribute('aria-label', ja);
+  b.innerHTML = '<img src="https://flagcdn.com/w40/' + code + '.png" alt="' + ja + '" width="40" height="30">';
+  b.onmousemove = ev => showTip(ja + (key === 'Japan' ? ' — クリックで国内地図へ' : ''), ev);
+  b.onmouseleave = () => hideTip();
+  b.onclick = () => {
+    hideTip();
+    if (key === 'Japan') return toJapan();
+    toWorld();
+    const c = COUNTRIES[key];
+    if (c) openPop("PLACES I'VE BEEN", c.ja, c.meta);
+  };
+  flagBox.appendChild(b);
+});
+
+function showTip(text, ev) {
+  const r = sheet.getBoundingClientRect();
+  const s = r.width / 1500;
+  tip.textContent = text;
+  tip.style.left = ((ev.clientX - r.left) / s) + 'px';
+  tip.style.top = ((ev.clientY - r.top) / s) + 'px';
+  tip.style.opacity = '1';
+}
+const hideTip = () => { tip.style.opacity = '0'; };
+
+function openPop(kicker, title, meta) {
+  document.getElementById('popKicker').textContent = kicker;
+  document.getElementById('popTitle').textContent = title;
+  const box = document.getElementById('popMeta');
+  box.innerHTML = '';
+  (meta || []).forEach(m => { const s = document.createElement('span'); s.textContent = m; box.appendChild(s); });
+  pop.classList.add('on');
+}
+document.getElementById('popClose').onclick = () => pop.classList.remove('on');
+pop.addEventListener('click', e => { if (e.target === pop) pop.classList.remove('on'); });
+
+/* 方位磁針 */
+function compass(g, cx, cy, r) {
+  const c = g.append('g').attr('transform', 'translate(' + cx + ',' + cy + ')').attr('pointer-events', 'none');
+  c.append('circle').attr('r', r).attr('fill', 'none').attr('stroke', '#7A6238').attr('stroke-width', 1).attr('opacity', .8);
+  c.append('circle').attr('r', r * .74).attr('fill', 'none').attr('stroke', '#7A6238').attr('stroke-width', .6).attr('opacity', .6);
+  for (let i = 0; i < 8; i++) {
+    const a = i * Math.PI / 4, L = i % 2 ? r * .46 : r * .72, w = i % 2 ? r * .1 : r * .16;
+    const px = Math.sin(a) * L, py = -Math.cos(a) * L;
+    const qx = Math.cos(a) * w, qy = Math.sin(a) * w;
+    c.append('path').attr('d', 'M0 0 L' + (qx) + ' ' + (qy) + ' L' + px + ' ' + py + ' Z')
+      .attr('fill', i % 2 ? '#B9A57F' : '#6E5535').attr('opacity', i % 2 ? .8 : .92);
+    c.append('path').attr('d', 'M0 0 L' + (-qx) + ' ' + (-qy) + ' L' + px + ' ' + py + ' Z')
+      .attr('fill', i % 2 ? '#8B6F45' : '#3E3323').attr('opacity', i % 2 ? .7 : .9);
+  }
+  c.append('circle').attr('r', r * .1).attr('fill', '#F0E4C6').attr('stroke', '#6E5535');
+  const lab = [['N', 0, -r - 12], ['E', r + 12, 5], ['S', 0, r + 18], ['W', -r - 12, 5]];
+  lab.forEach(([t, x, y]) => c.append('text').attr('x', x).attr('y', y).attr('text-anchor', 'middle')
+    .attr('font-family', "'IM Fell English SC',serif").attr('font-size', 17).attr('fill', '#3B2C18').text(t));
+}
+
+function ship(g, x, y, s) {
+  const c = g.append('g').attr('transform', 'translate(' + x + ',' + y + ') scale(' + s + ')').attr('pointer-events', 'none');
+  const ink = '#6E5535', deep = '#5A4626', cloth = '#B4573F';
+  const L = (d, w, o) => c.append('path').attr('d', d).attr('fill', 'none').attr('stroke', deep)
+    .attr('stroke-width', w || 1).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round').attr('opacity', o == null ? .95 : o);
+
+  // 中国式のジャンク船 — バテン入りの帆
+  function sail(mx, top, bot, wl, wr, lean) {
+    const x1 = mx - wl, x2 = mx + wr;
+    c.append('path')
+      .attr('d', 'M' + (x1 + lean) + ' ' + top + ' L' + x2 + ' ' + (top + 2) + ' L' + (x2 - 1) + ' ' + bot + ' L' + x1 + ' ' + (bot - 1) + ' Z')
+      .attr('fill', cloth).attr('fill-opacity', .5).attr('stroke', deep).attr('stroke-width', .9).attr('stroke-linejoin', 'round');
+    const n = Math.max(3, Math.round((bot - top) / 3.4));
+    for (let i = 1; i < n; i++) {
+      const k = i / n, ya = top + (bot - top) * k;
+      L('M' + (x1 + lean * (1 - k)) + ' ' + ya + ' L' + (x2 - k) + ' ' + (ya + 2 * (1 - k)), .55, .7);
+    }
+  }
+
+  sail(-12, -22, -6, 5, 6, 1.5);   // 前帆
+  sail(1, -32, -7, 7, 9, 2);       // 主帆
+  sail(15, -19, -6, 4.5, 5.5, 1.2);// 後帆
+
+  L('M-12 -3 V-24', .9); L('M1 -3 V-35', 1); L('M15 -3 V-21', .9);   // マスト
+  L('M1 -35 l6 2.5 l-6 2.5', .8);                                     // 旗
+
+  // 船体
+  c.append('path')
+    .attr('d', 'M-24 -3 C-22 6 -14 11 -2 11 L14 11 C20 11 23 8 24 3 L25 -6 L18 -3 Z')
+    .attr('fill', ink).attr('fill-opacity', .22).attr('stroke', deep).attr('stroke-width', 1.1).attr('stroke-linejoin', 'round');
+  L('M-22 -3 L20 -3', .8, .8);                                        // 舷側ライン
+  L('M-20 0 L18 0', .5, .55);
+  for (let i = -18; i <= 14; i += 4) L('M' + i + ' -3 v-2.6', .55, .7); // 手すり
+  c.append('path').attr('d', 'M14 -3 L24 -3 L25 -11 L15 -11 Z')
+    .attr('fill', ink).attr('fill-opacity', .3).attr('stroke', deep).attr('stroke-width', .9);  // 船尾楼
+  L('M-24 -3 L-30 -7', .9);                                           // 舳先の突き出し
+
+  // 波
+  L('M-32 13 c5 -3.5 9 3.5 14 0 M6 15 c5 -3.5 9 3.5 14 0 M-14 17 c5 -3.5 9 3.5 14 0', .7, .55);
+  c.attr('opacity', .88);
+}
+
+const svg = d3.select('#map');
+const gWorld = svg.append('g');
+const gJapan = svg.append('g').style('display', 'none');
+
+d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json').then(topo => {
+  const countries = topojson.feature(topo, topo.objects.countries).features;
+  const proj = d3.geoNaturalEarth1().fitExtent([[262, 168], [1238, 806]], { type: 'Sphere' });
+  const path = d3.geoPath(proj);
+
+  gWorld.append('path').attr('class', 'sphere').attr('d', path({ type: 'Sphere' }));
+  gWorld.append('path').attr('class', 'grat').attr('d', path(d3.geoGraticule10()));
+
+  gWorld.append('g').selectAll('path').data(countries).join('path')
+    .attr('d', path)
+    .attr('class', d => COUNTRIES[d.properties.name] ? 'land vis' : 'land')
+    .style('fill', d => { const c = COUNTRIES[d.properties.name]; return c ? c.tint : null; })
+    .style('fill-opacity', d => COUNTRIES[d.properties.name] ? .88 : null)
+    .on('mousemove', (ev, d) => { const c = COUNTRIES[d.properties.name]; if (c) showTip(c.ja, ev); else if (d.properties.name === 'Japan') showTip('日本 — クリックで国内地図へ', ev); })
+    .on('mouseleave', hideTip)
+    .on('click', (ev, d) => {
+      const n = d.properties.name;
+      if (n === 'Japan') return toJapan();
+      if (COUNTRIES[n]) openPop("PLACES I'VE BEEN", COUNTRIES[n].ja, COUNTRIES[n].meta);
+    });
+
+  /* 日本は薄く色を置いて「クリックできる」ことを示す */
+  gWorld.selectAll('path').filter(d => d && d.properties && d.properties.name === 'Japan')
+    .style('fill', '#D6C39A').style('fill-opacity', .95).style('cursor', 'pointer');
+
+  /* 国名ラベル — ラベル自体がクリック領域（すべての国） */
+  const glab = gWorld.append('g');
+  function drawLabel(d, en, ja, f, onClick) {
+    const cen = path.centroid(d);
+    if (!cen || isNaN(cen[0])) return;
+    const x = cen[0] + (f.dx || 0), y = cen[1] + (f.dy || 0);
+    if (f.lead) {
+      const ex = x + (f.anchor === 'end' ? 6 : -6);
+      glab.append('path').attr('d', 'M' + cen[0] + ' ' + cen[1] + ' L' + ex + ' ' + (y - 4))
+        .attr('fill', 'none').attr('stroke', '#7A6238').attr('stroke-width', .7).attr('opacity', .65)
+        .attr('pointer-events', 'none');
+      glab.append('circle').attr('cx', cen[0]).attr('cy', cen[1]).attr('r', 1.8).attr('fill', '#5A4626')
+        .attr('pointer-events', 'none');
+    }
+    const t = glab.append('text').attr('class', 'clab' + (f.cls ? ' ' + f.cls : '')).attr('x', x).attr('y', y)
+      .attr('text-anchor', f.anchor || 'middle');
+    if (f.two) { f.two.forEach((line, i) => t.append('tspan').attr('x', x).attr('dy', i ? 14 : 0).text(line)); }
+    else t.text(en);
+    const b = t.node().getBBox();
+    glab.insert('rect', () => t.node())
+      .attr('x', b.x - 8).attr('y', b.y - 7).attr('width', b.width + 16).attr('height', b.height + 14)
+      .attr('fill', 'transparent').style('cursor', 'pointer')
+      .on('mousemove', ev => showTip(ja, ev)).on('mouseleave', hideTip)
+      .on('click', onClick);
+  }
+  countries.forEach(d => {
+    const n = d.properties.name;
+    const c = COUNTRIES[n];
+    if (c) drawLabel(d, c.en, c.ja, LABEL_FIX[n] || {}, () => openPop("PLACES I'VE BEEN", c.ja, c.meta));
+    else if (n === 'Japan') drawLabel(d, 'JAPAN', '日本 — クリックで国内地図へ', LABEL_FIX.Japan, () => toJapan());
+  });
+  /* 面のない国 — 国名ラベルもクリック領域にする */
+  Object.keys(NO_POLY).forEach(k => {
+    const p = proj(NO_POLY[k]);
+    const c = COUNTRIES[k];
+    gWorld.append('circle').attr('cx', p[0]).attr('cy', p[1]).attr('r', 4.5)
+      .style('fill', c.tint).attr('stroke', '#6E5535').style('cursor', 'pointer')
+      .on('mousemove', ev => showTip(c.ja, ev)).on('mouseleave', hideTip)
+      .on('click', () => openPop("PLACES I'VE BEEN", c.ja, c.meta));
+    const f = LABEL_FIX[k] || {};
+    const x = p[0] + (f.dx || 0), y = p[1] + (f.dy || 0);
+    const t = glab.append('text').attr('class', 'clab' + (f.cls ? ' ' + f.cls : '')).attr('x', x).attr('y', y)
+      .attr('text-anchor', f.anchor || 'middle').text(c.en);
+    const b = t.node().getBBox();
+    glab.insert('rect', () => t.node())
+      .attr('x', b.x - 8).attr('y', b.y - 7).attr('width', b.width + 16).attr('height', b.height + 14)
+      .attr('fill', 'transparent').style('cursor', 'pointer')
+      .on('mousemove', ev => showTip(c.ja, ev)).on('mouseleave', hideTip)
+      .on('click', () => openPop("PLACES I'VE BEEN", c.ja, c.meta));
+  });
+
+  /* 都市 */
+  const gc = gWorld.append('g');
+  CITIES.forEach(c => {
+    const p = proj([c.lon, c.lat]);
+    if (!p) return;
+    gc.append('circle').attr('class', 'city').attr('cx', p[0]).attr('cy', p[1]).attr('r', 3.4)
+      .on('mousemove', ev => showTip(c.ja, ev)).on('mouseleave', hideTip)
+      .on('click', () => { const o = COUNTRIES[c.c]; if (o) openPop("PLACES I'VE BEEN", o.ja, o.meta); });
+    if (!c.nolabel) gc.append('text').attr('class', 'citylab').attr('x', p[0] + (c.dx || 0)).attr('y', p[1] + (c.dy || 0))
+      .attr('text-anchor', c.anchor || 'start').text(c.n);
+  });
+
+  const shipB = proj([72, -26]);
+  ship(gWorld, shipB[0], shipB[1], 1.15);
+
+  /* 小さい国はクリック範囲を広げる */
+  const gHit = gWorld.append('g');
+  countries.forEach(d => {
+    const c = COUNTRIES[d.properties.name];
+    if (!c) return;
+    if (path.area(d) > 320) return;
+    if ((LABEL_FIX[d.properties.name] || {}).lead) return;   // ラベルがクリック領域
+    const cen = path.centroid(d);
+    if (!cen || isNaN(cen[0])) return;
+    gHit.append('circle').attr('cx', cen[0]).attr('cy', cen[1]).attr('r', 11)
+      .attr('fill', 'transparent').style('cursor', 'pointer')
+      .on('mousemove', ev => showTip(c.ja, ev)).on('mouseleave', hideTip)
+      .on('click', () => openPop("PLACES I'VE BEEN", c.ja, c.meta));
+  });
+  Object.keys(NO_POLY).forEach(k => {
+    const p = proj(NO_POLY[k]);
+    gHit.append('circle').attr('cx', p[0]).attr('cy', p[1]).attr('r', 15)
+      .attr('fill', 'transparent').style('cursor', 'pointer')
+      .on('mousemove', ev => showTip(COUNTRIES[k].ja, ev)).on('mouseleave', hideTip)
+      .on('click', () => openPop("PLACES I'VE BEEN", COUNTRIES[k].ja, COUNTRIES[k].meta));
+  });
+
+  compass(gWorld, proj([-24, -34])[0], proj([-24, -34])[1], 33);
+
+  /* ---------- 日本（国内）ビュー ---------- */
+  d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json').then(fine => {
+    const jp = topojson.feature(fine, fine.objects.countries).features.find(d => d.properties.name === 'Japan');
+    const jproj = d3.geoMercator().fitExtent([[430, 150], [1290, 830]], { type: 'MultiPoint', coordinates: [[128.2, 30.4], [146.3, 45.8]] });
+    const jpath = d3.geoPath(jproj);
+    const gCoast = gJapan.append('g');
+    gCoast.append('path').attr('d', jpath(jp)).attr('class', 'land');
+
+    /* 県境（実データ）— 取得できたときだけ点線で重ねる */
+    d3.json('https://cdn.jsdelivr.net/gh/dataofjapan/land@master/japan.topojson').then(jt => {
+      const key = Object.keys(jt.objects)[0];
+      const prefs = topojson.feature(jt, jt.objects[key]);
+      const visited = {};
+      PREFS.forEach(([n, , , v]) => { if (v) visited[n] = 1; });
+      const gp = gJapan.insert('g', ':first-child');
+      gp.selectAll('path').data(prefs.features).join('path')
+        .attr('d', jpath)
+        .attr('class', 'prefArea')
+        .style('fill', d => visited[d.properties.nam_ja] ? '#DEC6A0' : '#E6D3A8');
+      gCoast.raise();
+      gCoast.select('path').style('fill', 'none').style('stroke-width', .9);
+      gJapan.selectAll('.prefDot, .prefLabel').raise();
+    }).catch(() => {});
+    gJapan.append('text').attr('x', 300).attr('y', 240).attr('class', 'clab').attr('text-anchor', 'start')
+      .attr('font-size', 26).text('JAPAN');
+    gJapan.append('text').attr('x', 300).attr('y', 276).attr('text-anchor', 'start')
+      .attr('font-family', "'Shippori Mincho B1',serif").attr('font-size', 15).attr('fill', '#6B573A')
+      .text('訪れた都道府県 ' + PREFS.filter(p => p[3]).length + ' / 47');
+
+    /* 沖縄インセット（左上・天気予報のかたち） */
+    const OKI = { x: 470, y: 172, w: 212, h: 132 };
+    const oproj = d3.geoMercator().fitExtent(
+      [[OKI.x + 14, OKI.y + 32], [OKI.x + OKI.w - 14, OKI.y + OKI.h - 14]],
+      { type: 'MultiPoint', coordinates: [[126.2, 25.8], [128.6, 26.95]] });
+    svg.append('clipPath').attr('id', 'clipOki').append('rect')
+      .attr('x', OKI.x).attr('y', OKI.y).attr('width', OKI.w).attr('height', OKI.h);
+    const gOki = gJapan.append('g');
+    gOki.append('rect').attr('x', OKI.x).attr('y', OKI.y).attr('width', OKI.w).attr('height', OKI.h)
+      .attr('fill', 'rgba(247,238,213,.5)').attr('stroke', '#8B6F45').attr('stroke-width', 1)
+      .attr('stroke-dasharray', '4 3');
+    gOki.append('g').attr('clip-path', 'url(#clipOki)').append('path')
+      .attr('d', d3.geoPath(oproj)(jp)).attr('class', 'land');
+    gOki.append('text').attr('x', OKI.x + 12).attr('y', OKI.y + 22)
+      .attr('font-family', "'Cormorant Garamond',serif").attr('font-weight', 600).attr('font-size', 13)
+      .attr('letter-spacing', '.2em').attr('fill', '#5A4626').text('OKINAWA');
+    gOki.append('text').attr('x', OKI.x + OKI.w - 12).attr('y', OKI.y + 22).attr('text-anchor', 'end')
+      .attr('font-family', "'Shippori Mincho B1',serif").attr('font-size', 11).attr('fill', '#6B573A').text('沖縄');
+
+    PREFS.forEach(([name, lat, lon, v]) => {
+      const oki = name === '沖縄県';
+      const p = (oki ? oproj : jproj)([lon, lat]);
+      if (!p) return;
+      const c = (oki ? gOki : gJapan).append('circle').attr('cx', p[0]).attr('cy', p[1]).attr('r', v ? 5 : 2.8)
+        .attr('class', (v ? 'pref' : 'prefOff') + ' prefDot');
+      if (v) c.style('cursor', 'pointer')
+        .on('mousemove', ev => showTip(name, ev)).on('mouseleave', hideTip)
+        .on('click', () => openPop('JAPAN — 訪れた都道府県', name, []));
+    });
+    compass(gJapan, 330, 700, 33);
+  });
+});
+
+function toJapan() {
+  hideTip();
+  gWorld.style('display', 'none');
+  gJapan.style('display', null);
+  document.getElementById('slots').style.display = 'none';
+  document.getElementById('flags').style.display = 'none';
+  document.getElementById('backBtn').style.display = 'inline-flex';
+  document.getElementById('hint').textContent = 'CLICK A PREFECTURE';
+}
+function toWorld() {
+  hideTip();
+  gJapan.style('display', 'none');
+  gWorld.style('display', null);
+  document.getElementById('slots').style.display = '';
+  document.getElementById('flags').style.display = '';
+  document.getElementById('backBtn').style.display = 'none';
+  document.getElementById('hint').textContent = 'CLICK A COUNTRY OR FLAG';
+}
+document.getElementById('backBtn').onclick = toWorld;
+
+/* ---------- スケーリング & 高さ通知 ---------- */
+const wrap = document.getElementById('stagewrap');
+function fit() {
+  const s = wrap.clientWidth / 1500;
+  sheet.style.transform = 'scale(' + s + ')';
+  wrap.style.height = Math.round(1000 * s) + 'px';
+}
+addEventListener('resize', fit);
+fit();
+
+(function () {
+  let last = 0;
+  function report(force) {
+    const h = Math.ceil(wrap.getBoundingClientRect().height);
+    if (!force && Math.abs(h - last) < 4) return;
+    last = h;
+    try { parent.postMessage({ type: 'hobbyFrameHeight', h: h }, '*'); } catch (e) {}
+  }
+  addEventListener('load', () => report(true));
+  setInterval(report, 350);
+})();
+</script>
+</body>
+</html>

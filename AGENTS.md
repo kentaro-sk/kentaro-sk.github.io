@@ -1,8 +1,8 @@
 ﻿<!-- GENERATED FILE: Edit ai-instructions/ws__personal__portfolio/shared.md, then run scripts/sync-agent-instructions.ps1 -Action Sync. -->
 
-# CLAUDE.md — portfolio プロジェクト固有ガイドライン
+# AGENTS.md — portfolio プロジェクト固有ガイドライン
 
-このファイルは親ディレクトリ（ワークスペースルート）の `CLAUDE.md` に追加・上書きする
+このファイルは親ディレクトリ（ワークスペースルート）の `AGENTS.md` に追加・上書きする
 プロジェクト固有のルールを定義します。このプロジェクトのみに適用されます。
 
 ---
@@ -53,7 +53,7 @@ git push origin main
 
 ### コミットメッセージのルール
 
-親 `CLAUDE.md` のルールに従い、日本語で記述する：
+親 `AGENTS.md` のルールに従い、日本語で記述する：
 
 ```
 feat: プロフィールページに研究テーマを追加
@@ -100,4 +100,4 @@ chore: .gitignore に一時ファイルを追加
 ### JavaScript
 - jQuery 3.4.1 を使用（バージョン変更禁止）
 - `var` ではなく `const` / `let` を使用する
-- すべての関数・処理ブロックに日本語コメントを付ける（親 CLAUDE.md のルール厳守）
+- すべての関数・処理ブロックに日本語コメントを付ける（親 AGENTS.md のルール厳守）
