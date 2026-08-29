@@ -42,20 +42,20 @@
    重なる不具合が発生した）。あわせて overflow:hidden を行コンテナ自身にも与え、
    aspect-ratio 由来の高さが利用可能な領域を超えた場合でも、後続のキャプション・本文へ
    はみ出さず内側で収まるようにする（安全網）。 */
-[style*="min-height: 180px"] { flex: 0 1 auto !important; min-height: 0 !important; overflow: hidden !important; }
-[style*="min-height: 180px"] > span { aspect-ratio: 4 / 3; }
+[data-patch="story-photo-2col"] { flex: 0 1 auto !important; min-height: 0 !important; overflow: hidden !important; }
+[data-patch="story-photo-2col"] > span { aspect-ratio: 4 / 3; }
 
-[style*="height: 150px"][style*="repeat(3, 1fr)"][style*="gap: 5px"] { height: auto !important; overflow: hidden !important; }
-[style*="height: 150px"][style*="repeat(3, 1fr)"][style*="gap: 5px"] > span { aspect-ratio: 3 / 4; }
+[data-patch="story-photo-3col-a"] { height: auto !important; overflow: hidden !important; }
+[data-patch="story-photo-3col-a"] > span { aspect-ratio: 3 / 4; }
 
-[style*="height: 200px"][style*="repeat(2, 1fr)"] { height: auto !important; overflow: hidden !important; }
-[style*="height: 200px"][style*="repeat(2, 1fr)"] > span { aspect-ratio: 3 / 4; }
+[data-patch="story-photo-2col-tall"] { height: auto !important; overflow: hidden !important; }
+[data-patch="story-photo-2col-tall"] > span { aspect-ratio: 3 / 4; }
 
-[style*="height: 150px"][style*="repeat(3, 1fr)"][style*="gap: 7px"] { height: auto !important; overflow: hidden !important; }
-[style*="height: 150px"][style*="repeat(3, 1fr)"][style*="gap: 7px"] > span { aspect-ratio: 1 / 1; }
+[data-patch="story-photo-3col-b"] { height: auto !important; overflow: hidden !important; }
+[data-patch="story-photo-3col-b"] > span { aspect-ratio: 1 / 1; }
 
-[style*="min-height: 96px"] { flex: 0 1 auto !important; min-height: 0 !important; overflow: hidden !important; }
-[style*="min-height: 96px"] > div { aspect-ratio: 4 / 3; }
+[data-patch="story-photo-2col-flex"] { flex: 0 1 auto !important; min-height: 0 !important; overflow: hidden !important; }
+[data-patch="story-photo-2col-flex"] > div { aspect-ratio: 4 / 3; }
 
 /* ===== 発表論文・受賞タイトル行: 語のあいだで折り返せず「縦書き」風に1文字ずつ改行される不具合 =====
    アイコン付きタイトルを display:flex で横並びにする際、flex-wrap を指定していないと、
@@ -93,22 +93,22 @@
      数字が縦に22行連なり全く読めなくなる（実際に発生した不具合）。
      このグリッドだけは元の横並びテンプレート構造を維持しつつ、列幅・文字サイズを
      320px幅でも横スクロールなしで収まるところまで縮小する。 */
-  [style*="repeat(9, minmax(30px, 1fr))"] {
+  [data-patch="baseball-row"] {
     grid-template-columns: minmax(62px, 1fr) repeat(9, minmax(13px, 1fr)) 21px !important;
   }
   /* イニング見出し数字・チーム名・得点数字・合計数字（いずれも元は12/15/16/18px）を縮小 */
-  [style*="repeat(9, minmax(30px, 1fr))"] [style*="font-size: 12px"] { font-size: 8px !important; }
-  [style*="repeat(9, minmax(30px, 1fr))"] [style*="font-size: 15px"] { font-size: 10px !important; }
-  [style*="repeat(9, minmax(30px, 1fr))"] [style*="font-size: 16px"] { font-size: 10px !important; }
-  [style*="repeat(9, minmax(30px, 1fr))"] [style*="font-size: 18px"] { font-size: 11.5px !important; }
+  [data-patch="baseball-row"] [style*="font-size: 12px"] { font-size: 8px !important; }
+  [data-patch="baseball-row"] [style*="font-size: 15px"] { font-size: 10px !important; }
+  [data-patch="baseball-row"] [style*="font-size: 16px"] { font-size: 10px !important; }
+  [data-patch="baseball-row"] [style*="font-size: 18px"] { font-size: 11.5px !important; }
   /* セル内パディングも詰めて、縮小した列幅に対して余白が相対的に大きくなりすぎないようにする */
-  [style*="repeat(9, minmax(30px, 1fr))"] > [style*="padding: 9px 12px"] { padding: 6px 5px !important; }
-  [style*="repeat(9, minmax(30px, 1fr))"] > [style*="padding: 9px 0px"] { padding: 6px 0px !important; }
-  [style*="repeat(9, minmax(30px, 1fr))"] > [style*="padding: 7px 12px"] { padding: 5px 5px !important; }
-  [style*="repeat(9, minmax(30px, 1fr))"] > [style*="padding: 7px 0px"] { padding: 5px 0px !important; }
+  [data-patch="baseball-row"] > [style*="padding: 9px 12px"] { padding: 6px 5px !important; }
+  [data-patch="baseball-row"] > [style*="padding: 9px 0px"] { padding: 6px 0px !important; }
+  [data-patch="baseball-row"] > [style*="padding: 7px 12px"] { padding: 5px 5px !important; }
+  [data-patch="baseball-row"] > [style*="padding: 7px 0px"] { padding: 5px 0px !important; }
   /* チーム名の nowrap+ellipsis は縮小後の列幅でも有効に働くため維持。念のため親のスクロールは残すが、
      縮小後は収まるため通常は発動しない安全網とする。 */
-  [style*="padding: 0px 22px"] {
+  [data-patch="baseball-row-wrap"] {
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch !important;
   }
@@ -124,8 +124,8 @@
      スマホでは間延びして不要とのフィードバックのため撤回。スマホでは地上⇄地下の
      スクロール連動パン演出そのものをやめ、朝昼晩の自動切り替わりアニメだけが動く
      普通の横幅いっぱいブロック（写真の比率(3:2)ぴったり、スクロール連動なし）にする。 */
-  [style*="height: 390vh"] { height: auto !important; }
-  [style*="height: 390vh"] > [style*="position: sticky"] {
+  [data-patch="dream-city-wrap"] { height: auto !important; }
+  [data-patch="dream-city-wrap"] > [style*="position: sticky"] {
     position: relative !important;
     height: auto !important;
     aspect-ratio: 3 / 2;
@@ -164,7 +164,7 @@
      縦積みにして年代ラベルをタイトルの下へ回し、タイトルに横幅いっぱいを与える。
      margin-bottom はカードによって 12px/14px と揺れがあるため、そこは条件から外して
      [align-items:flex-start; justify-content:space-between; gap:16px] の組だけで判定する。 */
-  [style*="align-items: flex-start"][style*="justify-content: space-between"][style*="gap: 16px"] {
+  [data-patch="story-card-title-row"] {
     flex-direction: column !important; gap: 4px !important;
   }
 
@@ -177,17 +177,17 @@
      マス自体の縦横比も写真の実寸(2092x1171)に合わせておくことで、
      containによる上下の余白（レターボックス）をほぼなくしバランスよく見せる。 */
   img[src*="story-hs-radley-1"] { object-fit: contain !important; }
-  [style*="height: 150px"][style*="repeat(3, 1fr)"][style*="gap: 7px"] > span:first-child {
+  [data-patch="story-photo-3col-b"] > span:first-child {
     aspect-ratio: 2092 / 1171 !important;
   }
 
   /* STORY「体操部」: 写真(104px角の固定サイズ)とテキストが横並び(flexの行)になっており、
      狭幅では写真とテキスト列が窮屈に同居してしまう。横並びをやめて、写真の段→
      テキストの段の順に縦積みにする。 */
-  [style*="padding: 15px 17px"][style*="gap: 13px"] {
+  [data-patch="story-gym-row"] {
     flex-direction: column !important;
   }
-  [style*="padding: 15px 17px"][style*="gap: 13px"] > span:first-child {
+  [data-patch="story-gym-row"] > span:first-child {
     width: 100% !important; height: auto !important; aspect-ratio: 16 / 9;
   }
 
@@ -195,7 +195,7 @@
      一宮高等学校 等）と違う書体(明朝体 Shippori Mincho B1・21px)になっており
      浮いて見える。他カードの見出しと同じサイズ・太さ・標準フォント(Zen Kaku Gothic New)
      に揃える。 */
-  [style*="font-size: 21px"][style*="Shippori Mincho B1"] {
+  [data-patch="story-grad-title"] {
     font-family: 'Zen Kaku Gothic New', system-ui, sans-serif !important;
     font-size: 17px !important;
     font-weight: 700 !important;
@@ -211,14 +211,14 @@
      モバイルは1カラムに積むため、DOM順どおり本文が先→写真が後(下側)に来てしまう。
      写真をトップに見せたいので、見た目の並び順だけを order で写真を先頭に繰り上げる
      （DOM順=読み上げ順は本文が先のまま維持し、アクセシビリティ上の影響を避ける）。 */
-  [style*="grid-template-columns: minmax(0px, 1fr) minmax(0px, 320px)"] > div:nth-child(2) { order: -1 !important; margin-bottom: 22px; }
+  [data-patch="profile-hero-grid"] > div:nth-child(2) { order: -1 !important; margin-bottom: 22px; }
 
   /* 自己紹介エリア: 写真(212px固定)と紹介ラベルの横並び行が狭幅で収まらず、
      「VIEW FULL "PROFILE"」リンクが右に見切れる。縦積みにしてラベルに全幅を与える。
      縦積み後は写真が左端に寄り、右側に大きな余白ができて中央揃えが崩れて見えるため、
      写真とINTRODUCTIONラベル行は中央揃えにする（見出し・本文は可読性のため左揃えのまま）。 */
-  [style*="gap: 30px"][style*="margin-bottom: 34px"] { flex-direction: column !important; align-items: center !important; }
-  [style*="gap: 30px"][style*="margin-bottom: 34px"] > div:nth-child(2) { align-items: center !important; text-align: center !important; }
+  [data-patch="home-intro-row"] { flex-direction: column !important; align-items: center !important; }
+  [data-patch="home-intro-row"] > div:nth-child(2) { align-items: center !important; text-align: center !important; }
 
   /* ナビ（PROFILE〜CONTACT）: モバイルでは横並びインラインナビ(data-desktop-nav)を隠し、
      ハンバーガーボタン(data-hamburger)を表示してメニュー(data-mobile-menu)に集約する。
@@ -227,7 +227,7 @@
   [data-hamburger] { display: inline-flex !important; }
 
   /* ロゴ横の氏名テキスト（Zen系）は狭すぎるため小さく */
-  header [style*="letter-spacing"][style*="Zen Kaku"] { font-size: 12px !important; }
+  [data-patch="mobile-nav-subtitle"] { font-size: 12px !important; }
 
   /* ヒーローの点群(particle-field): モバイルでは見出しに重ねず、ヘッダー(タブ)と見出しの間の
      上部余白に「横帯」として配置する。描画コンテナ(left:44%/width:60%/height:620px の絶対配置div)を
@@ -236,13 +236,13 @@
      図形の大きさは particle-field.js 内部で R = min(幅,高さ)×0.5×scale と計算されており、
      帯は幅(画面幅)より高さの方が小さいため、実質「帯の高さ」で図形サイズが決まる。
      もう二回り大きく見せたいとの要望のため、帯を158px→264pxに拡大（図形直径は約1.67倍）。 */
-  [style*="left: 44%"][style*="height: 620px"] {
+  [data-patch="particle-field-box"] {
     left: 0 !important; width: 100% !important; top: 0 !important; height: 264px !important;
   }
   particle-field { opacity: .92 !important; }
   /* ヒーロー本文コンテナの上パディングを、点群の帯(約264px)より少し下げてテキスト開始位置を確保し、
      帯と本文が重ならないようにする。下パディングも詰めて間延びを防ぐ。 */
-  [style*="padding: 150px 56px 128px"] { padding-top: 280px !important; padding-bottom: 92px !important; }
+  [data-patch="home-hero-pad"] { padding-top: 280px !important; padding-bottom: 92px !important; }
 
   /* === モバイル・タイポグラフィ（ユーザー提示のサイズガイドに準拠） ===
      FV見出し 28–36px / セクション見出し(H2/H3) 20–24px / 本文 16px /
@@ -291,8 +291,8 @@
 
   /* PROFILEの黒バッジ「AI & DIGITAL ENGINEER — AUTOMOTIVE」等、padding:10px 16px の
      inline-flexバッジ内の nowrap テキストが狭幅で右に見切れる。折り返しを許可して収める。 */
-  [style*="padding: 10px 16px"] { max-width: 100% !important; flex-wrap: wrap !important; }
-  [style*="padding: 10px 16px"] span[style*="white-space: nowrap"] { white-space: normal !important; }
+  [data-patch="profile-badge"] { max-width: 100% !important; flex-wrap: wrap !important; }
+  [data-patch="profile-badge"] span[style*="white-space: nowrap"] { white-space: normal !important; }
 
   /* STORY導入の夜景(journey-scene)は、1カラム化で本文の真下に明るい光跡が来ると
      文字が読みづらくなる。モバイルでは輝度(不透明度)を落として本文の可読性を確保する。
@@ -302,7 +302,7 @@
   /* HOBBYヒーロー: PC前提の「左→右で薄くなる」横グラデ scrim だと、1カラム化した本文の右側が
      滝写真の明部に載りコントラストが落ちる。モバイルでは全幅を一様に明るく覆う縦寄り scrim へ
      置き換え、写真の雰囲気を残しつつ本文の可読性を確保する。 */
-  [style*="rgba(255, 253, 245, 0.92)"] {
+  [data-patch="hobby-hero-scrim"] {
     background: linear-gradient(180deg, rgba(255,253,245,.84) 0%, rgba(255,253,245,.66) 55%, rgba(255,253,245,.78) 100%) !important;
   }
 
@@ -472,12 +472,12 @@ a:hover{color:#2A6BA6}
      各項目タップで対応ページへ遷移し、go() 内で menu:false になり自動的に閉じる。 -->
 <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
 <div data-mobile-menu="" style="position:absolute;left:0;right:0;top:100%;background:#FFFDF5;border-bottom:1px solid rgba(21,21,21,.14);box-shadow:0 26px 40px -26px rgba(21,21,21,.5);animation:ddIn .24s cubic-bezier(.16,1,.3,1) both">
-<a href="#" onClick="{{ goProfile }}" style="position:relative;display:flex;align-items:baseline;gap:14px;padding:16px 22px;text-decoration:none;color:#151515;border-top:1px solid rgba(21,21,21,.06)"><sc-if value="{{ atProfile }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#3B82C4"></span></sc-if><span style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px">PROFILE</span><span style="font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;color:rgba(21,21,21,.5);letter-spacing:.03em">プロフィール</span></a>
-<a href="#" onClick="{{ goWorks }}" style="position:relative;display:flex;align-items:baseline;gap:14px;padding:16px 22px;text-decoration:none;color:#151515;border-top:1px solid rgba(21,21,21,.06)"><sc-if value="{{ atWorks }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#3B82C4"></span></sc-if><span style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px">WORKS</span><span style="font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;color:rgba(21,21,21,.5);letter-spacing:.03em">活動・研究</span></a>
-<a href="#" onClick="{{ goStory }}" style="position:relative;display:flex;align-items:baseline;gap:14px;padding:16px 22px;text-decoration:none;color:#151515;border-top:1px solid rgba(21,21,21,.06)"><sc-if value="{{ atStory }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#3B82C4"></span></sc-if><span style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px">STORY</span><span style="font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;color:rgba(21,21,21,.5);letter-spacing:.03em">これまでの歩み</span></a>
-<a href="#" onClick="{{ goGoal }}" style="position:relative;display:flex;align-items:baseline;gap:14px;padding:16px 22px;text-decoration:none;color:#151515;border-top:1px solid rgba(21,21,21,.06)"><sc-if value="{{ atGoal }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#3B82C4"></span></sc-if><span style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px">GOAL</span><span style="font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;color:rgba(21,21,21,.5);letter-spacing:.03em">目標・ビジョン</span></a>
-<a href="#" onClick="{{ goHobby }}" style="position:relative;display:flex;align-items:baseline;gap:14px;padding:16px 22px;text-decoration:none;color:#151515;border-top:1px solid rgba(21,21,21,.06)"><sc-if value="{{ atHobby }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#3B82C4"></span></sc-if><span style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px">HOBBY</span><span style="font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;color:rgba(21,21,21,.5);letter-spacing:.03em">趣味</span></a>
-<a href="#" onClick="{{ goContact }}" style="position:relative;display:flex;align-items:baseline;gap:14px;padding:16px 22px;text-decoration:none;color:#151515;border-top:1px solid rgba(21,21,21,.06)"><sc-if value="{{ atContact }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#3B82C4"></span></sc-if><span style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px">CONTACT</span><span style="font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;color:rgba(21,21,21,.5);letter-spacing:.03em">お問い合わせ</span></a>
+<a href="#" onClick="{{ goProfile }}" style="position:relative;display:flex;align-items:baseline;gap:14px;padding:16px 22px;text-decoration:none;color:#151515;border-top:1px solid rgba(21,21,21,.06)"><sc-if value="{{ atProfile }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#3B82C4"></span></sc-if><span style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px">PROFILE</span><span style="font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;color:rgba(21,21,21,.5);letter-spacing:.03em" data-patch="mobile-nav-subtitle">プロフィール</span></a>
+<a href="#" onClick="{{ goWorks }}" style="position:relative;display:flex;align-items:baseline;gap:14px;padding:16px 22px;text-decoration:none;color:#151515;border-top:1px solid rgba(21,21,21,.06)"><sc-if value="{{ atWorks }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#3B82C4"></span></sc-if><span style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px">WORKS</span><span style="font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;color:rgba(21,21,21,.5);letter-spacing:.03em" data-patch="mobile-nav-subtitle">活動・研究</span></a>
+<a href="#" onClick="{{ goStory }}" style="position:relative;display:flex;align-items:baseline;gap:14px;padding:16px 22px;text-decoration:none;color:#151515;border-top:1px solid rgba(21,21,21,.06)"><sc-if value="{{ atStory }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#3B82C4"></span></sc-if><span style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px">STORY</span><span style="font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;color:rgba(21,21,21,.5);letter-spacing:.03em" data-patch="mobile-nav-subtitle">これまでの歩み</span></a>
+<a href="#" onClick="{{ goGoal }}" style="position:relative;display:flex;align-items:baseline;gap:14px;padding:16px 22px;text-decoration:none;color:#151515;border-top:1px solid rgba(21,21,21,.06)"><sc-if value="{{ atGoal }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#3B82C4"></span></sc-if><span style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px">GOAL</span><span style="font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;color:rgba(21,21,21,.5);letter-spacing:.03em" data-patch="mobile-nav-subtitle">目標・ビジョン</span></a>
+<a href="#" onClick="{{ goHobby }}" style="position:relative;display:flex;align-items:baseline;gap:14px;padding:16px 22px;text-decoration:none;color:#151515;border-top:1px solid rgba(21,21,21,.06)"><sc-if value="{{ atHobby }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#3B82C4"></span></sc-if><span style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px">HOBBY</span><span style="font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;color:rgba(21,21,21,.5);letter-spacing:.03em" data-patch="mobile-nav-subtitle">趣味</span></a>
+<a href="#" onClick="{{ goContact }}" style="position:relative;display:flex;align-items:baseline;gap:14px;padding:16px 22px;text-decoration:none;color:#151515;border-top:1px solid rgba(21,21,21,.06)"><sc-if value="{{ atContact }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#3B82C4"></span></sc-if><span style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px">CONTACT</span><span style="font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;color:rgba(21,21,21,.5);letter-spacing:.03em" data-patch="mobile-nav-subtitle">お問い合わせ</span></a>
 </div>
 </sc-if>
 </div>
@@ -493,10 +493,10 @@ a:hover{color:#2A6BA6}
 
 <div style="position:relative;overflow:hidden;border-bottom:1px solid rgba(21,21,21,.12)">
 <div style="position:absolute;inset:0;background:radial-gradient(820px 600px at 76% 4%,#F9F0CE 0%,rgba(249,240,206,0) 68%),radial-gradient(560px 440px at 2% 88%,#FBF5DE 0%,rgba(251,245,222,0) 70%)" data-comment-anchor="435c226437-div"></div>
-<div style="position:absolute;left:44%;top:0;width:60%;height:620px">
+<div style="position:absolute;left:44%;top:0;width:60%;height:620px" data-patch="particle-field-box">
 <x-import component-from-global-scope="particle-field" from="./js/particle-field.js" style="position:absolute;left:0;top:0;width:100%;height:100%" count="1800" shapes="🦕,globe,🏯,🚗,AI,~🗾" hold="4200" scale="0.96" color="#151515" accent="#3B82C4" hint-size="100%,100%"></x-import>
 </div>
-<div style="position:relative;max-width:1180px;margin:0 auto;padding:150px 56px 128px">
+<div style="position:relative;max-width:1180px;margin:0 auto;padding:150px 56px 128px" data-patch="home-hero-pad">
 <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;animation:riseIn .8s both ease-out">
 <span style="width:26px;height:1px;background:#3B82C4"></span>
 <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.26em;color:#3B82C4">WHY DO WE BUILD?</span>
@@ -514,7 +514,7 @@ a:hover{color:#2A6BA6}
 
 <div style="position:relative;max-width:1180px;margin:0 auto;padding:78px 56px 86px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.58fr);gap:40px;align-items:start;min-height:460px">
 <div>
-<div style="display:flex;align-items:center;gap:30px;margin-bottom:34px" data-comment-anchor="8a9884faaf-div">
+<div style="display:flex;align-items:center;gap:30px;margin-bottom:34px" data-patch="home-intro-row" data-comment-anchor="8a9884faaf-div">
 <div style="position:relative;width:212px;height:212px;flex:none;display:flex;align-items:center;justify-content:center">
 <div style="position:absolute;inset:-26px;border-radius:999px;background:radial-gradient(circle,rgba(201,169,97,.3),rgba(201,169,97,.06) 55%,rgba(7,11,22,0) 76%)"></div>
 <div style="position:absolute;inset:-9px;border-radius:999px;border:1px solid rgba(201,169,97,.32)"></div>
@@ -652,7 +652,7 @@ a:hover{color:#2A6BA6}
 </div>
 </div>
 
-<div style="position:relative;height:390vh;background:#070C16">
+<div style="position:relative;height:390vh;background:#070C16" data-patch="dream-city-wrap">
 <div style="position:sticky;top:0;height:100vh;overflow:hidden">
 <x-import component-from-global-scope="dream-city" from="./js/dream-city.js" cycle="26" start="evening" hint-size="100%,100%" style="position:absolute;inset:0;width:100%;height:100%"></x-import>
 </div>
@@ -676,12 +676,12 @@ a:hover{color:#2A6BA6}
 <div style="position:absolute;right:150px;bottom:-170px;width:240px;height:240px;border-radius:999px 999px 0 0;background:rgba(201,169,97,.16);pointer-events:none"></div>
 <div style="position:absolute;right:0;top:0;bottom:0;width:1px;background:rgba(21,21,21,.07);pointer-events:none"></div>
 <div style="position:absolute;right:56px;top:40px;display:flex;align-items:center;gap:15px;pointer-events:none"><span style="width:11px;height:11px;flex:none;transform:rotate(45deg);border:1px solid rgba(59,130,196,.45)"></span><span style="width:11px;height:11px;flex:none;transform:rotate(45deg);background:rgba(201,169,97,.5)"></span><span style="width:11px;height:11px;flex:none;transform:rotate(45deg);border:1px solid rgba(21,21,21,.28)"></span><span style="width:11px;height:11px;flex:none;transform:rotate(45deg);background:rgba(59,130,196,.35)"></span><span style="width:11px;height:11px;flex:none;transform:rotate(45deg);border:1px solid rgba(201,169,97,.55)"></span></div>
-<div style="position:relative;max-width:1180px;margin:0 auto;padding:80px 56px 66px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,320px);gap:60px;align-items:start" data-comment-anchor="b233d6b754-div">
+<div style="position:relative;max-width:1180px;margin:0 auto;padding:80px 56px 66px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,320px);gap:60px;align-items:start" data-patch="profile-hero-grid" data-comment-anchor="b233d6b754-div">
 <div>
 <div style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 0ms both;display:flex;align-items:center;gap:12px;margin-bottom:22px"><span style="width:26px;height:1px;background:#3B82C4"></span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.26em;color:#3B82C4">PROFILE</span></div>
 <h1 style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 90ms both;margin:0 0 10px;font-family:'Shippori Mincho B1',serif;font-size:56px;font-weight:600;line-height:1.3;letter-spacing:.04em">杉浦 健太郎</h1>
 <p style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 180ms both;margin:0 0 24px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.22em;color:rgba(21,21,21,.6)">KENTARO SUGIURA</p>
-<div style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 260ms both;display:inline-flex;align-items:center;gap:10px;background:#151515;color:#FFFDF5;padding:10px 16px;margin-bottom:26px"><span style="color:#8FC0EA"><svg width="16" height="16" style="display:block"><use href="#i-chip"></use></svg></span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;line-height:1.4;white-space:nowrap">AI &amp; DIGITAL ENGINEER — AUTOMOTIVE</span></div>
+<div style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 260ms both;display:inline-flex;align-items:center;gap:10px;background:#151515;color:#FFFDF5;padding:10px 16px;margin-bottom:26px" data-patch="profile-badge"><span style="color:#8FC0EA"><svg width="16" height="16" style="display:block"><use href="#i-chip"></use></svg></span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;line-height:1.4;white-space:nowrap">AI &amp; DIGITAL ENGINEER — AUTOMOTIVE</span></div>
 <p style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 340ms both;margin:0 0 30px;max-width:600px;font-size:17px;font-weight:500;line-height:2;letter-spacing:.02em;color:rgba(21,21,21,.82);text-wrap:pretty" data-comment-anchor="41523ee12b-p">名古屋大学大学院で自動運転を研究し、<br>いまは大手メーカーのIT部門でAI活用を進めています。</p>
 <div style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 430ms both;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;word-break:keep-all">
 <div style="border-top:2px solid #3B82C4;padding-top:11px"><div style="display:flex;align-items:center;gap:7px;margin-bottom:7px;color:#3B82C4"><svg width="16" height="16" style="display:block;flex:none"><use href="#i-cal"></use></svg><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.55)">生年月日</span></div><div style="font-size:16px;font-weight:700">2000.10.10</div></div>
@@ -709,7 +709,7 @@ a:hover{color:#2A6BA6}
 </div>
 <div style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 580ms both;padding:0 0 18px 16px">
 <div style="background:#fff;border-radius:10px;padding:18px 20px 19px;box-shadow:0 1px 2px rgba(21,21,21,.04),0 16px 32px -24px rgba(21,21,21,.5);transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease" style-hover="transform:translateY(-3px);box-shadow:0 2px 4px rgba(21,21,21,.05),0 24px 44px -24px rgba(21,21,21,.55)">
-<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px" data-patch="story-card-title-row">
 <div style="display:flex;align-items:center;gap:11px;min-width:0">
 <span style="flex:none;width:34px;height:34px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="17" height="17" style="display:block"><use href="#i-cap"></use></svg></span>
 <div style="min-width:0"><div style="font-size:16px;font-weight:700;line-height:1.4;color:#151515">名古屋大学 工学部</div><div style="font-size:16px;color:rgba(21,21,21,.55);margin-top:3px">機械・航空宇宙工学科</div></div>
@@ -731,7 +731,7 @@ a:hover{color:#2A6BA6}
 </div>
 <div style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 660ms both;padding:0 0 18px 16px">
 <div style="background:#fff;border-radius:10px;padding:18px 20px 19px;box-shadow:0 1px 2px rgba(21,21,21,.04),0 16px 32px -24px rgba(21,21,21,.5);transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease" style-hover="transform:translateY(-3px);box-shadow:0 2px 4px rgba(21,21,21,.05),0 24px 44px -24px rgba(21,21,21,.55)" data-comment-anchor="c4f3a64f81-div">
-<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px" data-patch="story-card-title-row">
 <div style="display:flex;align-items:center;gap:11px;min-width:0">
 <span style="flex:none;width:34px;height:34px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="17" height="17" style="display:block"><use href="#i-flask"></use></svg></span>
 <div style="min-width:0"><div style="font-size:16px;font-weight:700;line-height:1.4;color:#151515">名古屋大学<span style="white-space:nowrap">大学院</span> 工学<span style="white-space:nowrap">研究科</span></div><div style="font-size:16px;color:rgba(21,21,21,.55);margin-top:3px">機械システム工学専攻 / <span style="white-space:nowrap">モビリティ</span>システム研究グループ</div></div>
@@ -768,7 +768,7 @@ a:hover{color:#2A6BA6}
 </div>
 <div style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 740ms both;padding:0 0 0 16px">
 <div style="background:#151515;border-radius:10px;padding:18px 20px 19px;box-shadow:0 2px 4px rgba(21,21,21,.06),0 20px 40px -26px rgba(21,21,21,.85);transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease" style-hover="transform:translateY(-3px);box-shadow:0 4px 8px rgba(21,21,21,.08),0 26px 48px -26px rgba(21,21,21,.95)">
-<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px" data-patch="story-card-title-row">
 <div style="display:flex;align-items:center;gap:11px;min-width:0">
 <span style="flex:none;width:34px;height:34px;border-radius:999px;background:rgba(143,192,234,.12);display:flex;align-items:center;justify-content:center;color:#8FC0EA"><svg width="17" height="17" style="display:block"><use href="#i-case"></use></svg></span>
 <div style="min-width:0"><div style="font-size:16px;font-weight:700;line-height:1.4;color:#F6F2E7">大手自動車メーカー IT部門</div><div style="font-size:16px;color:rgba(246,242,231,.55);margin-top:3px">AI活用・DX推進</div></div>
@@ -1349,7 +1349,7 @@ a:hover{color:#2A6BA6}
 <div style="position:relative;height:100%;max-width:1068px;margin:0 auto">
 <div style="background:#fff;border:1px solid rgba(21,21,21,.1);padding:26px 30px 28px;height:100%;box-sizing:border-box;display:flex;flex-direction:column" data-comment-anchor="14b588a665-div">
 <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><span style="flex:none;width:40px;height:40px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="20" height="20" style="display:block"><use href="#i-seed"></use></svg></span><div style="min-width:0"><div style="font-size:16.5px;font-weight:700;line-height:1.35">誕生</div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.5);margin-top:2px">BORN IN ICHINOMIYA</div></div></div>
-<div style="flex:1 1 auto;min-height:180px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div style="flex:1 1 auto;min-height:180px;display:grid;grid-template-columns:1fr 1fr;gap:12px" data-patch="story-photo-2col">
 <span style="min-height:0;overflow:hidden;background:#151515;display:block"><img src="images/story/C52709C4-1F52-4480-BCFF-98D1193B1172IMG_0428.JPG" alt="ヒーローの衣装を着てポーズをとる幼少期" style="width:100%;height:100%;object-fit:cover;object-position:50% 24%;display:block" /></span>
 <span style="min-height:0;overflow:hidden;background:#151515;display:block"><img src="images/story/B7B223BC-207E-46F3-8A14-99842099A66AIMG_0673.JPG" alt="新聞紙の兜をかぶって鯉のぼりと並ぶ幼少期" style="width:100%;height:100%;object-fit:cover;object-position:42% 30%;display:block" /></span>
 </div>
@@ -1364,7 +1364,7 @@ a:hover{color:#2A6BA6}
 <div style="position:relative;height:100%;max-width:1068px;margin:0 auto">
 <div style="background:#fff;border:1px solid rgba(21,21,21,.1);padding:26px 30px 28px;height:100%;box-sizing:border-box;display:flex;flex-direction:column" data-comment-anchor="ceef1f407a-div">
 <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><span style="flex:none;width:40px;height:40px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="20" height="20" style="display:block"><use href="#i-ball"></use></svg></span><div style="min-width:0"><div style="font-size:16.5px;font-weight:700;line-height:1.35">小学校</div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.5);margin-top:2px">ELEMENTARY SCHOOL</div></div></div>
-<div style="flex:1 1 auto;min-height:180px;display:grid;grid-template-columns:1fr;gap:12px">
+<div style="flex:1 1 auto;min-height:180px;display:grid;grid-template-columns:1fr;gap:12px" data-patch="story-photo-2col">
 <span style="min-height:0;overflow:hidden;background:#151515;display:block"><img src="images/story/story-elementary-1.jpg" alt="公園のアスレチックで遊ぶ" style="width:100%;height:100%;object-fit:cover;object-position:54% 40%;display:block" /></span>
 </div>
 <div style="margin-top:12px"><div style="display:flex;align-items:center;gap:9px"><span style="width:18px;height:1px;flex:none;background:rgba(21,21,21,.28)"></span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.13em;color:rgba(21,21,21,.5)">PARK &amp; CLUBS — 外で遊び、歴史に触れた6年間</span></div></div>
@@ -1379,7 +1379,7 @@ a:hover{color:#2A6BA6}
 <div style="flex:1 1 auto;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-content:start">
 <div style="background:#FBF5DE;padding:15px 17px 16px;display:flex;flex-direction:column;gap:11px" data-comment-anchor="6aede0f93a-div">
 <div><div style="display:flex;align-items:center;gap:10px"><svg width="24" height="16" style="display:block;flex:none"><use href="#f-it"></use></svg><span style="font-size:16px;font-weight:700;line-height:1.4">海外派遣</span></div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.45);margin-top:5px">TREVISO, ITALY</div></div>
-<div style="height:150px;display:grid;grid-template-columns:repeat(3,1fr);gap:5px" data-comment-anchor="0fbcd7b70e-div">
+<div style="height:150px;display:grid;grid-template-columns:repeat(3,1fr);gap:5px" data-patch="story-photo-3col-a" data-comment-anchor="0fbcd7b70e-div">
 <span style="min-height:0;overflow:hidden;background:transparent;display:block"><img src="images/story/story-junior-italy-3.jpg" alt="トレビーゾ市庁舎で日本文化を発表" style="width:100%;height:100%;object-fit:cover;display:block" /></span>
 <span style="min-height:0;overflow:hidden;background:transparent;display:block"><img src="images/story/story-junior-italy-1.jpg" alt="現地の生徒と遊びを通して交流" style="width:100%;height:100%;object-fit:cover;display:block" /></span>
 <span style="min-height:0;overflow:hidden;background:transparent;display:block"><img src="images/story/story-junior-italy-2.jpg" alt="現地の街の模型を見学" style="width:100%;height:100%;object-fit:cover;display:block" /></span>
@@ -1388,7 +1388,7 @@ a:hover{color:#2A6BA6}
 </div>
 <div style="background:#FBF5DE;padding:15px 17px 16px;display:flex;flex-direction:column;gap:11px">
 <div style="font-size:16px;font-weight:700;line-height:1.4">日本史</div>
-<div style="height:200px;display:grid;grid-template-columns:repeat(2,1fr);gap:5px" data-comment-anchor="e32f254dba-div">
+<div style="height:200px;display:grid;grid-template-columns:repeat(2,1fr);gap:5px" data-patch="story-photo-2col-tall" data-comment-anchor="e32f254dba-div">
 <span style="min-height:0;overflow:hidden;background:transparent;display:block"><img src="images/story/story-junior-heian.jpg" alt="平安装束を着て日本文化にふれる" style="width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block" data-comment-anchor="c3f519ef99-img" /></span>
 <span style="min-height:0;overflow:hidden;background:transparent;display:block"><img src="images/story/story-junior-yayoi.jpg" alt="弥生時代の衣装で歴史体験" style="width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block" data-comment-anchor="63a10c5a42-img" /></span>
 </div>
@@ -1409,7 +1409,7 @@ a:hover{color:#2A6BA6}
 <p style="margin:0 0 16px;max-width:860px;font-size:16px;line-height:1.95;color:rgba(21,21,21,.8);text-wrap:pretty">できないことを選んで挑戦した3年間。手を動かしてつくる楽しさも知りました。</p>
 <div style="flex:1 1 auto;min-height:0;display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);gap:16px;align-content:start">
 <div style="display:flex;flex-direction:column;gap:13px;min-width:0">
-<div style="background:#FBF5DE;padding:15px 17px;display:flex;align-items:flex-start;gap:13px">
+<div style="background:#FBF5DE;padding:15px 17px;display:flex;align-items:flex-start;gap:13px" data-patch="story-gym-row">
 <span style="flex:none;width:104px;height:104px;overflow:hidden;background:transparent;display:block"><img src="images/story/story-hs-gym.png" alt="大会でつり輪の演技をする" style="width:100%;height:100%;object-fit:cover;object-position:45% 32%;display:block" /></span>
 <span style="min-width:0"><span style="display:block;font-size:16px;font-weight:700;line-height:1.4">体操部</span><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.45);margin-top:4px">GYMNASTICS</span><span style="display:block;font-size:16px;line-height:1.8;color:rgba(21,21,21,.72);margin-top:8px;text-wrap:pretty">側転もできない状態から、バク宙と鉄棒の車輪ができるようになった。</span></span>
 </div>
@@ -1420,7 +1420,7 @@ a:hover{color:#2A6BA6}
 <svg width="28" height="18" style="display:block;flex:none;margin-top:3px"><use href="#f-gb"></use></svg>
 <span style="min-width:0"><span style="display:block;font-size:16px;font-weight:700;line-height:1.5">SSH 交換留学 — イギリス・ラドリー・カレッジ</span><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.45);margin-top:3px">RADLEY COLLEGE, UK</span></span>
 </div>
-<div style="height:150px;display:grid;grid-template-columns:repeat(3,1fr);gap:7px" data-comment-anchor="1a7ccb7d1d-div">
+<div style="height:150px;display:grid;grid-template-columns:repeat(3,1fr);gap:7px" data-patch="story-photo-3col-b" data-comment-anchor="1a7ccb7d1d-div">
 <span style="min-height:0;overflow:hidden;background:transparent;display:block"><img src="images/story/story-hs-radley-1.png" alt="研究成果を英語で発表" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block" data-comment-anchor="7653b1d123-img" /></span>
 <span style="min-height:0;overflow:hidden;background:transparent;display:block"><img src="images/story/story-hs-radley-2.jpg" alt="現地の小学校で子どもたちと交流" style="width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block" data-comment-anchor="f3c8e6f2aa-img" /></span>
 <span style="min-height:0;overflow:hidden;background:transparent;display:block"><img src="images/story/story-hs-radley-3.jpg" alt="リアルテニスを体験" style="width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block" data-comment-anchor="a7d641c8d8-img" /></span>
@@ -1434,7 +1434,7 @@ a:hover{color:#2A6BA6}
 <div data-story-card="4" style="position:absolute;top:0;left:0;right:0;bottom:8px;overflow:hidden;padding-right:2px;opacity:0;transform:translateY(22px);pointer-events:none;transition:opacity .5s ease,transform .7s cubic-bezier(.22,.61,.36,1)">
 <div style="position:relative;height:100%;max-width:1068px;margin:0 auto">
 <div style="background:#fff;border-radius:10px;padding:22px 26px 24px;height:100%;box-sizing:border-box;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(21,21,21,.04),0 16px 32px -24px rgba(21,21,21,.5)" data-comment-anchor="43d0ffae03-div">
-<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px" data-patch="story-card-title-row">
 <div style="display:flex;align-items:center;gap:12px;min-width:0">
 <span style="flex:none;width:38px;height:38px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="19" height="19" style="display:block"><use href="#i-cap"></use></svg></span>
 <div style="min-width:0"><div style="font-size:17px;font-weight:700;line-height:1.4;color:#151515">名古屋大学 工学部</div><div style="font-size:16px;color:rgba(21,21,21,.55);margin-top:3px">機械・航空宇宙工学科</div></div>
@@ -1468,7 +1468,7 @@ a:hover{color:#2A6BA6}
 <div style="display:flex;align-items:center;gap:12px;min-width:0">
 <span style="flex:none;width:36px;height:36px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="18" height="18" style="display:block"><use href="#i-flask"></use></svg></span>
 <div style="min-width:0">
-<div style="font-family:'Shippori Mincho B1',serif;font-size:21px;font-weight:600;letter-spacing:.02em;line-height:1.3;color:#151515">名古屋大学<span style="white-space:nowrap">大学院</span> 工学<span style="white-space:nowrap">研究科</span></div>
+<div style="font-family:'Shippori Mincho B1',serif;font-size:21px;font-weight:600;letter-spacing:.02em;line-height:1.3;color:#151515" data-patch="story-grad-title">名古屋大学<span style="white-space:nowrap">大学院</span> 工学<span style="white-space:nowrap">研究科</span></div>
 <div style="font-size:16px;color:rgba(21,21,21,.58);margin-top:3px">機械システム工学専攻 / <span style="white-space:nowrap">モビリティ</span>システム研究グループ</div>
 </div>
 </div>
@@ -1483,7 +1483,7 @@ a:hover{color:#2A6BA6}
 <p style="margin:0;font-size:16px;line-height:1.8;color:rgba(21,21,21,.72);text-wrap:pretty">自動運転を研究。ロボットが歩行者を自然に導く「可誘導性」を提案し、制御理論とベイズ推定で評価手法を構築。査読付きジャーナル論文1件を含む計8件を発表しました。</p>
 <div style="flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:7px">
 <div style="display:flex;align-items:center;gap:8px"><span style="width:14px;height:1px;flex:none;background:rgba(21,21,21,.28)"></span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.5);white-space:nowrap">RESEARCH — 学会発表</span></div>
-<div style="flex:1 1 auto;min-height:96px;display:grid;grid-template-columns:1fr 1fr;gap:7px" data-comment-anchor="ae173085e9-div">
+<div style="flex:1 1 auto;min-height:96px;display:grid;grid-template-columns:1fr 1fr;gap:7px" data-patch="story-photo-2col-flex" data-comment-anchor="ae173085e9-div">
 <div style="position:relative;overflow:hidden;background:transparent"><img src="images/story/story-grad-talk.jpg" alt="学会で口頭発表する様子" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block" data-comment-anchor="ae173085e9-img" /></div>
 <div style="position:relative;overflow:hidden;background:transparent"><img src="images/story/story-grad-poster.jpg" alt="ポスターセッションで研究を説明" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block" /></div>
 </div>
@@ -1536,7 +1536,7 @@ a:hover{color:#2A6BA6}
 <div data-story-card="6" style="position:absolute;top:0;left:0;right:0;bottom:8px;overflow:hidden;padding-right:2px;opacity:0;transform:translateY(22px);pointer-events:none;transition:opacity .5s ease,transform .7s cubic-bezier(.22,.61,.36,1)">
 <div style="position:relative;height:100%;max-width:1068px;margin:0 auto">
 <div style="background:#151515;border-radius:10px;padding:18px 20px 19px;height:100%;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;box-shadow:0 2px 4px rgba(21,21,21,.06),0 20px 40px -26px rgba(21,21,21,.85);transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease" style-hover="transform:translateY(-3px);box-shadow:0 4px 8px rgba(21,21,21,.08),0 26px 48px -26px rgba(21,21,21,.95)">
-<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px" data-patch="story-card-title-row">
 <div style="display:flex;align-items:center;gap:11px;min-width:0">
 <span style="flex:none;width:34px;height:34px;border-radius:999px;background:rgba(143,192,234,.12);display:flex;align-items:center;justify-content:center;color:#8FC0EA"><svg width="17" height="17" style="display:block"><use href="#i-case"></use></svg></span>
 <div style="min-width:0"><div style="font-size:16px;font-weight:700;line-height:1.4;color:#F6F2E7">大手自動車メーカー IT部門</div><div style="font-size:16px;color:rgba(246,242,231,.55);margin-top:3px">AI活用・DX推進</div></div>
@@ -1710,7 +1710,7 @@ a:hover{color:#2A6BA6}
 </div>
 </div>
 
-<div style="position:relative;height:390vh;background:#070C16">
+<div style="position:relative;height:390vh;background:#070C16" data-patch="dream-city-wrap">
 <div style="position:sticky;top:0;height:100vh;overflow:hidden">
 <x-import component-from-global-scope="dream-city" from="./js/dream-city.js" cycle="26" start="evening" hint-size="100%,100%" style="position:absolute;inset:0;width:100%;height:100%"></x-import>
 </div>
@@ -1866,7 +1866,7 @@ a:hover{color:#2A6BA6}
 <div data-screen-label="HOBBY">
 <div style="position:relative;overflow:hidden;border-bottom:1px solid rgba(21,21,21,.1);background:linear-gradient(180deg,#FBF5DE 0%,#FFFDF5 100%)">
 <img src="images/hobby/DSC_0122 (1).JPG" alt="ナイアガラの滝" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 62%;display:block" data-comment-anchor="494b891436-img" />
-<div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(255,253,245,.92) 0%,rgba(255,253,245,.55) 38%,rgba(255,253,245,0) 66%),linear-gradient(180deg,rgba(251,245,222,.6) 0%,rgba(251,245,222,.44) 55%,rgba(255,253,245,.6) 100%)"></div>
+<div data-patch="hobby-hero-scrim" style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(255,253,245,.92) 0%,rgba(255,253,245,.55) 38%,rgba(255,253,245,0) 66%),linear-gradient(180deg,rgba(251,245,222,.6) 0%,rgba(251,245,222,.44) 55%,rgba(255,253,245,.6) 100%)"></div>
 <div style="position:relative;max-width:1180px;margin:0 auto;padding:72px 56px 56px" data-comment-anchor="bfa77e83c9-div">
 <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px;animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) both"><span style="width:26px;height:1px;background:#3B82C4"></span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.26em;color:#3B82C4">HOBBY</span></div>
 <h1 style="margin:0 0 22px;font-family:'Shippori Mincho B1',serif;font-size:50px;font-weight:600;line-height:1.4;letter-spacing:.03em;animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 90ms both" data-comment-anchor="46ff9298b9-h1">普段はこんな<br>ことをしています</h1>
@@ -2016,8 +2016,8 @@ a:hover{color:#2A6BA6}
 <div style="display:flex;flex-direction:column;gap:14px">
 <div data-rv="" style="border:1px solid rgba(21,21,21,.12);background:#fff">
 <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:16px 22px 13px"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.32)">01</span><span style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.06em;color:#3B82C4">2024.09.07</span><span style="display:flex;flex-wrap:wrap;align-items:center;gap:10px"><span style="font-size:16px;font-weight:700;letter-spacing:.01em">ドジャース vs ガーディアンズ</span><span style="background:#FBF5DE;border:1px solid rgba(21,21,21,.12);padding:4px 11px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.55);white-space:nowrap">日本時間</span><span style="background:#FBF5DE;border:1px solid rgba(21,21,21,.12);padding:4px 11px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.55);white-space:nowrap">現地観戦</span></span><span style="margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.42);white-space:nowrap">DODGER STADIUM</span></div>
-<div style="padding:0 22px">
-<div style="display:grid;grid-template-columns:minmax(180px,1.6fr) repeat(9,minmax(30px,1fr)) 56px;gap:1px;background:rgba(246,242,231,.16);border:1px solid rgba(21,21,21,.16)">
+<div style="padding:0 22px" data-patch="baseball-row-wrap">
+<div style="display:grid;grid-template-columns:minmax(180px,1.6fr) repeat(9,minmax(30px,1fr)) 56px;gap:1px;background:rgba(246,242,231,.16);border:1px solid rgba(21,21,21,.16)" data-patch="baseball-row">
 <span style="padding:7px 12px;background:#0A1A2F"></span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">1</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">2</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">3</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">4</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">5</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">6</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">7</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">8</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">9</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:rgba(246,242,231,.42)">計</span>
 <span style="padding:9px 12px;background:#0A1A2F;display:flex;align-items:center;gap:8px;min-width:0"><span style="font-size:15px;font-weight:700;color:#F6F2E7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">ガーディアンズ</span></span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">2</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">1</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:#EBC15C">3</span>
 <span style="padding:9px 12px;background:#0A1A2F;display:flex;align-items:center;gap:8px;min-width:0"><span style="font-size:15px;font-weight:700;color:#F6F2E7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">ドジャース</span></span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">1</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:rgba(246,242,231,.66)">1</span>
@@ -2027,8 +2027,8 @@ a:hover{color:#2A6BA6}
 </div>
 <div data-rv="" style="border:1px solid rgba(21,21,21,.12);background:#FBF5DE">
 <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:16px 22px 13px"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.32)">02</span><span style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.06em;color:#3B82C4">2024.09.08</span><span style="font-size:16px;font-weight:700;letter-spacing:.01em">ドジャース vs ガーディアンズ</span><span style="background:#FBF5DE;border:1px solid rgba(21,21,21,.12);padding:4px 11px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.55);white-space:nowrap">日本時間</span><span style="background:#FBF5DE;border:1px solid rgba(21,21,21,.12);padding:4px 11px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.55);white-space:nowrap">現地観戦</span><span style="margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.42);white-space:nowrap">DODGER STADIUM</span></div>
-<div style="padding:0 22px">
-<div style="display:grid;grid-template-columns:minmax(180px,1.6fr) repeat(9,minmax(30px,1fr)) 56px;gap:1px;background:rgba(246,242,231,.16);border:1px solid rgba(21,21,21,.16)">
+<div style="padding:0 22px" data-patch="baseball-row-wrap">
+<div style="display:grid;grid-template-columns:minmax(180px,1.6fr) repeat(9,minmax(30px,1fr)) 56px;gap:1px;background:rgba(246,242,231,.16);border:1px solid rgba(21,21,21,.16)" data-patch="baseball-row">
 <span style="padding:7px 12px;background:#0A1A2F"></span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">1</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">2</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">3</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">4</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">5</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">6</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">7</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">8</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">9</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:rgba(246,242,231,.42)">計</span>
 <span style="padding:9px 12px;background:#0A1A2F;display:flex;align-items:center;gap:8px;min-width:0"><span style="font-size:15px;font-weight:700;color:#F6F2E7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">ガーディアンズ</span></span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">2</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:rgba(246,242,231,.66)">2</span>
 <span style="padding:9px 12px;background:#0A1A2F;display:flex;align-items:center;gap:8px;min-width:0"><span style="font-size:15px;font-weight:700;color:#F6F2E7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">ドジャース</span></span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">6</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">1</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.24)">X</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:#EBC15C">7</span>
@@ -2037,8 +2037,8 @@ a:hover{color:#2A6BA6}
 <p style="margin:0;padding:13px 22px 16px;font-size:15px;line-height:1.8;color:rgba(21,21,21,.66);text-wrap:pretty">初回に打線が一挙6得点。4回裏にはベッツの本塁打も飛び出し、7-2で快勝しました。</p>
 <div data-rv="" style="border:1px solid rgba(21,21,21,.12);background:#fff">
 <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:16px 22px 13px"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.32)">03</span><span style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.06em;color:#3B82C4">2026.02.28</span><span style="font-size:16px;font-weight:700;letter-spacing:.01em">中日ドラゴンズ vs 侍ジャパン</span><span style="background:#FBF5DE;border:1px solid rgba(21,21,21,.12);padding:4px 11px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.55);white-space:nowrap">侍ジャパンシリーズ</span><span style="margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.42);white-space:nowrap">VANTELIN DOME NAGOYA</span></div>
-<div style="padding:0 22px">
-<div style="display:grid;grid-template-columns:minmax(180px,1.6fr) repeat(9,minmax(30px,1fr)) 56px;gap:1px;background:rgba(246,242,231,.16);border:1px solid rgba(21,21,21,.16)">
+<div style="padding:0 22px" data-patch="baseball-row-wrap">
+<div style="display:grid;grid-template-columns:minmax(180px,1.6fr) repeat(9,minmax(30px,1fr)) 56px;gap:1px;background:rgba(246,242,231,.16);border:1px solid rgba(21,21,21,.16)" data-patch="baseball-row">
 <span style="padding:7px 12px;background:#0A1A2F"></span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">1</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">2</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">3</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">4</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">5</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">6</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">7</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">8</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">9</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:rgba(246,242,231,.42)">計</span>
 <span style="padding:9px 12px;background:#0A1A2F;display:flex;align-items:center;gap:8px;min-width:0"><span style="font-size:15px;font-weight:700;color:#F6F2E7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">侍ジャパン</span></span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">1</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">1</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">5</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:#EBC15C">7</span>
 <span style="padding:9px 12px;background:#0A1A2F;display:flex;align-items:center;gap:8px;min-width:0"><span style="font-size:15px;font-weight:700;color:#F6F2E7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">中日ドラゴンズ</span></span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">1</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">1</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">1</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:rgba(246,242,231,.66)">3</span>
@@ -2048,8 +2048,8 @@ a:hover{color:#2A6BA6}
 </div>
 <div data-rv="" style="border:1px solid rgba(21,21,21,.12);background:#FBF5DE" data-comment-anchor="a60e8045cb-div">
 <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:16px 22px 13px"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.32)">04</span><span style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.06em;color:#3B82C4">2026.04.26</span><span style="font-size:16px;font-weight:700;letter-spacing:.01em">ドジャース vs カブス</span><span style="background:#FBF5DE;border:1px solid rgba(21,21,21,.12);padding:4px 11px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.55);white-space:nowrap">日本時間</span><span style="margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.42);white-space:nowrap">DODGER STADIUM</span></div>
-<div style="padding:0 22px">
-<div style="display:grid;grid-template-columns:minmax(180px,1.6fr) repeat(9,minmax(30px,1fr)) 56px;gap:1px;background:rgba(246,242,231,.16);border:1px solid rgba(21,21,21,.16)">
+<div style="padding:0 22px" data-patch="baseball-row-wrap">
+<div style="display:grid;grid-template-columns:minmax(180px,1.6fr) repeat(9,minmax(30px,1fr)) 56px;gap:1px;background:rgba(246,242,231,.16);border:1px solid rgba(21,21,21,.16)" data-patch="baseball-row">
 <span style="padding:7px 12px;background:#0A1A2F"></span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">1</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">2</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">3</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">4</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">5</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">6</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">7</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">8</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,231,.42)">9</span><span style="padding:7px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:rgba(246,242,231,.42)">計</span>
 <span style="padding:9px 12px;background:#0A1A2F;display:flex;align-items:center;gap:8px;min-width:0"><span style="font-size:15px;font-weight:700;color:#F6F2E7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">カブス</span></span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">1</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">1</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">1</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">1</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:rgba(246,242,231,.66)">4</span>
 <span style="padding:9px 12px;background:#0A1A2F;display:flex;align-items:center;gap:8px;min-width:0"><span style="font-size:15px;font-weight:700;color:#F6F2E7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">ドジャース</span></span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">2</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">6</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#EBC15C">4</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.34)">0</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:16px;color:rgba(246,242,231,.24)">X</span><span style="padding:9px 0;text-align:center;background:#0A1A2F;font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:#EBC15C">12</span>
