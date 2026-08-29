@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+<script src="./js/support.js"></script>
 <!-- カスタム要素をグローバルスコープに先読み登録しておく。
      DCランタイムの <x-import component-from-global-scope="..."> は
      登録済みならそれを使い、未登録のときだけ from= を fetch する。
      ここで通常の<script>として読み込むことで、fetchが使えない file:// 直開きでも
      点群(particle-field)・夜景(journey-scene)・夢の街(dream-city)等が描画される。
      各JSは customElements.get ガード付きなので二重定義にならない。 -->
-<script src="./particle-field.js"></script>
-<script src="./journey-scene.js"></script>
-<script src="./dream-city.js"></script>
-<script src="./flow-cycle.js"></script>
+<script src="./js/particle-field.js"></script>
+<script src="./js/journey-scene.js"></script>
+<script src="./js/dream-city.js"></script>
+<script src="./js/flow-cycle.js"></script>
 <!-- ============================================================
      レスポンシブ後付けパッチ
      このDCデザインは元々すべて固定インラインstyleで組まれており、
@@ -494,7 +494,7 @@ a:hover{color:#2A6BA6}
 <div style="position:relative;overflow:hidden;border-bottom:1px solid rgba(21,21,21,.12)">
 <div style="position:absolute;inset:0;background:radial-gradient(820px 600px at 76% 4%,#F9F0CE 0%,rgba(249,240,206,0) 68%),radial-gradient(560px 440px at 2% 88%,#FBF5DE 0%,rgba(251,245,222,0) 70%)" data-comment-anchor="435c226437-div"></div>
 <div style="position:absolute;left:44%;top:0;width:60%;height:620px">
-<x-import component-from-global-scope="particle-field" from="./particle-field.js" style="position:absolute;left:0;top:0;width:100%;height:100%" count="1800" shapes="🦕,globe,🏯,🚗,AI,~🗾" hold="4200" scale="0.96" color="#151515" accent="#3B82C4" hint-size="100%,100%"></x-import>
+<x-import component-from-global-scope="particle-field" from="./js/particle-field.js" style="position:absolute;left:0;top:0;width:100%;height:100%" count="1800" shapes="🦕,globe,🏯,🚗,AI,~🗾" hold="4200" scale="0.96" color="#151515" accent="#3B82C4" hint-size="100%,100%"></x-import>
 </div>
 <div style="position:relative;max-width:1180px;margin:0 auto;padding:150px 56px 128px">
 <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;animation:riseIn .8s both ease-out">
@@ -508,7 +508,7 @@ a:hover{color:#2A6BA6}
 
 <div style="position:relative;background:#070B16;overflow:hidden;border-top:1px solid rgba(201,169,97,.2);border-bottom:1px solid rgba(201,169,97,.2)">
 <div style="position:absolute;right:0;top:0;width:78%;height:100%">
-<x-import component-from-global-scope="journey-scene" from="./journey-scene.js" style="position:absolute;left:0;top:0;width:100%;height:100%" hint-size="100%,100%"></x-import>
+<x-import component-from-global-scope="journey-scene" from="./js/journey-scene.js" style="position:absolute;left:0;top:0;width:100%;height:100%" hint-size="100%,100%"></x-import>
 <div style="position:absolute;left:0;top:0;width:100%;height:100%;background:linear-gradient(90deg,#070B16 0%,rgba(7,11,22,.9) 22%,rgba(7,11,22,.35) 46%,rgba(7,11,22,0) 66%);pointer-events:none"></div>
 </div>
 
@@ -626,7 +626,7 @@ a:hover{color:#2A6BA6}
 </div>
 <div style="display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:56px;align-items:center" data-comment-anchor="f668398b3b-div">
 <div>
-<iframe src="./japan-glow.html" title="日本地図 — 地方中枢都市から地域へ広がる光" scrolling="no" style="width:100%;aspect-ratio:7/8;border:0;display:block;background:transparent"></iframe>
+<iframe src="./pages/japan-glow.html" title="日本地図 — 地方中枢都市から地域へ広がる光" scrolling="no" style="width:100%;aspect-ratio:7/8;border:0;display:block;background:transparent"></iframe>
 </div>
 <div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.26em;color:#3B82C4;margin-bottom:16px">REGIONAL REVITALIZATION</div>
@@ -654,7 +654,7 @@ a:hover{color:#2A6BA6}
 
 <div style="position:relative;height:390vh;background:#070C16">
 <div style="position:sticky;top:0;height:100vh;overflow:hidden">
-<x-import component-from-global-scope="dream-city" from="./dream-city.js" cycle="26" start="evening" hint-size="100%,100%" style="position:absolute;inset:0;width:100%;height:100%"></x-import>
+<x-import component-from-global-scope="dream-city" from="./js/dream-city.js" cycle="26" start="evening" hint-size="100%,100%" style="position:absolute;inset:0;width:100%;height:100%"></x-import>
 </div>
 </div>
 
@@ -1063,7 +1063,7 @@ a:hover{color:#2A6BA6}
 <h1 style="margin:0 0 22px;font-family:'Shippori Mincho B1',serif;font-size:46px;font-weight:600;line-height:1.45;letter-spacing:.03em">これまでの<br>活動内容。</h1>
 </div>
 <div>
-<div style="height:340px;border:1px solid rgba(216,185,121,.28);overflow:hidden;background:#070B16"><iframe src="./mobility-3d.html" title="自律移動ロボットと歩行者の3Dシーン" loading="lazy" style="width:100%;height:100%;border:0;display:block" data-comment-anchor="58f2315558-iframe"></iframe></div>
+<div style="height:340px;border:1px solid rgba(216,185,121,.28);overflow:hidden;background:#070B16"><iframe src="./pages/mobility-3d.html" title="自律移動ロボットと歩行者の3Dシーン" loading="lazy" style="width:100%;height:100%;border:0;display:block" data-comment-anchor="58f2315558-iframe"></iframe></div>
 <div style="display:flex;align-items:center;gap:10px;margin-top:10px"><span style="width:22px;height:1px;background:rgba(216,185,121,.5)"></span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(246,242,231,.5)">3D — 修士研究「可誘導性」の判定イメージ / ドラッグで回転</span></div>
 </div>
 </div>
@@ -1137,7 +1137,7 @@ a:hover{color:#2A6BA6}
 <p style="margin:0 0 34px;max-width:760px;font-size:16px;line-height:2.05;color:rgba(246,242,231,.78);text-wrap:pretty" data-comment-anchor="29c773d799-p">トヨタ自動車との共同研究として取り組んだテーマです。目指したのは、すれ違う人に思いやりのあるロボットの行動。避けるだけでも、待つだけでもない行動計画について研究しました。</p>
 </div>
 <div style="max-width:1180px;margin:0 auto;padding:0 56px 44px">
-<div style="height:420px;border:1px solid rgba(216,185,121,.28);overflow:hidden"><iframe src="./mobility-3d.html" title="自律移動ロボットと歩行者の相互作用 3Dシーン" loading="lazy" style="width:100%;height:100%;border:0;display:block" data-comment-anchor="02fcca2952-iframe"></iframe></div>
+<div style="height:420px;border:1px solid rgba(216,185,121,.28);overflow:hidden"><iframe src="./pages/mobility-3d.html" title="自律移動ロボットと歩行者の相互作用 3Dシーン" loading="lazy" style="width:100%;height:100%;border:0;display:block" data-comment-anchor="02fcca2952-iframe"></iframe></div>
 <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:10px;flex-wrap:wrap">
 <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(246,242,231,.5)">3D SIMULATION — 進行方向の判定範囲で「誘導できる人／できない人」を見分ける / ドラッグで回転できます</span>
 </div>
@@ -1661,7 +1661,7 @@ a:hover{color:#2A6BA6}
 <p style="margin:0;max-width:520px;font-size:16px;line-height:2.05;color:rgba(21,21,21,.76);text-wrap:pretty">東京への一極集中ではなく、それぞれの地域が自分たちの強みで動き出す。まずは地元の名古屋を起点に、東海・中部の発展に寄与する活動をしたいと考えています。</p>
 </div>
 <div>
-<iframe src="./japan-glow.html" title="日本地図 — 地方中枢都市から地域へ広がる光" scrolling="no" loading="lazy" style="width:100%;aspect-ratio:7/8;border:0;display:block;background:transparent"></iframe>
+<iframe src="./pages/japan-glow.html" title="日本地図 — 地方中枢都市から地域へ広がる光" scrolling="no" loading="lazy" style="width:100%;aspect-ratio:7/8;border:0;display:block;background:transparent"></iframe>
 </div>
 </div>
 </div>
@@ -1712,7 +1712,7 @@ a:hover{color:#2A6BA6}
 
 <div style="position:relative;height:390vh;background:#070C16">
 <div style="position:sticky;top:0;height:100vh;overflow:hidden">
-<x-import component-from-global-scope="dream-city" from="./dream-city.js" cycle="26" start="evening" hint-size="100%,100%" style="position:absolute;inset:0;width:100%;height:100%"></x-import>
+<x-import component-from-global-scope="dream-city" from="./js/dream-city.js" cycle="26" start="evening" hint-size="100%,100%" style="position:absolute;inset:0;width:100%;height:100%"></x-import>
 </div>
 </div>
 
@@ -1758,7 +1758,7 @@ a:hover{color:#2A6BA6}
 <div style="max-width:1180px;margin:0 auto;padding:56px 56px;display:grid;grid-template-columns:200px 1fr;gap:52px">
 <div data-rv=""><div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;color:#3B82C4"><svg width="20" height="20" style="display:block"><use href="#i-wave"></use></svg><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em">02 STRUCTURE</span></div><div style="font-size:16px;font-weight:700">価値が回る形をつくる</div><p style="margin:12px 0 0;font-size:16px;line-height:1.9;color:rgba(21,21,21,.7)">教育から始まり、まちづくりを経て、また教育に戻ってくる循環。</p></div>
 <div data-rv="" style="display:flex;justify-content:center">
-<x-import component-from-global-scope="flow-cycle" from="./flow-cycle.js" style="width:100%;max-width:560px;display:block" items="教育|EDUCATION,人材|TALENT,産業|INDUSTRY,収益|REVENUE,まちづくり|URBAN" center="地域創生" center-en="REGIONAL REVITALIZATION" accent="#3B82C4" hint-size="100%,480px"></x-import>
+<x-import component-from-global-scope="flow-cycle" from="./js/flow-cycle.js" style="width:100%;max-width:560px;display:block" items="教育|EDUCATION,人材|TALENT,産業|INDUSTRY,収益|REVENUE,まちづくり|URBAN" center="地域創生" center-en="REGIONAL REVITALIZATION" accent="#3B82C4" hint-size="100%,480px"></x-import>
 </div>
 </div>
 </div>
@@ -1926,7 +1926,7 @@ a:hover{color:#2A6BA6}
 </div>
 </div>
 <div style="max-width:1180px;margin:0 auto;padding:32px 56px 24px">
-<iframe src="./hobby-travel.html" title="訪問した国と都道府県の地図" data-autoframe="hobby-travel.html" style="display:block;width:100%;height:840px;border:1px solid rgba(110,85,53,.45);background:#C6B08A" data-comment-anchor="58bc705c85-iframe"></iframe>
+<iframe src="./pages/hobby-travel.html" title="訪問した国と都道府県の地図" data-autoframe="pages/hobby-travel.html" style="display:block;width:100%;height:840px;border:1px solid rgba(110,85,53,.45);background:#C6B08A" data-comment-anchor="58bc705c85-iframe"></iframe>
 </div>
 <div style="max-width:1180px;margin:0 auto;padding:8px 56px 8px">
 <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><span style="color:#3B82C4"><svg width="19" height="19" style="display:block"><use href="#i-photo"></use></svg></span><span style="font-size:17px;font-weight:700" data-comment-anchor="b728879dca-span">旅行先の写真</span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:rgba(21,21,21,.5);white-space:nowrap">SNAPSHOTS</span></div>
@@ -1960,7 +1960,7 @@ a:hover{color:#2A6BA6}
 </div>
 </div>
 <div style="max-width:1180px;margin:0 auto;padding:32px 56px 24px" data-comment-anchor="a5f1b8bab7-div">
-<iframe src="./hobby-castles.html" title="日本100名城の位置" data-autoframe="hobby-castles.html" style="display:block;width:100%;height:580px;border:1px solid rgba(21,21,21,.12);background:#FFFDF5" data-comment-anchor="3cd06ef993-iframe"></iframe>
+<iframe src="./pages/hobby-castles.html" title="日本100名城の位置" data-autoframe="pages/hobby-castles.html" style="display:block;width:100%;height:580px;border:1px solid rgba(21,21,21,.12);background:#FFFDF5" data-comment-anchor="3cd06ef993-iframe"></iframe>
 </div>
 <div style="max-width:1180px;margin:0 auto;padding:0 56px 40px;display:flex;align-items:center;justify-content:flex-end;gap:20px;flex-wrap:wrap">
 <a href="#" onClick="{{ goHobby }}" style="display:inline-flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-decoration:none;white-space:nowrap;color:#151515;transition:color .3s ease,transform .4s cubic-bezier(.22,.61,.36,1)" style-hover="color:#3B82C4;transform:translateX(6px)">HOBBY に戻る<svg width="15" height="15" style="display:block;flex:none"><use href="#i-arrow"></use></svg></a>
