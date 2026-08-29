@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>可誘導性 — Inducibility Scene</title>
+<style>
+html,body{margin:0;height:100%;background:#070B16;overflow:hidden}
+#c{display:block;width:100%;height:100%;cursor:grab}
+#c:active{cursor:grabbing}
+#hint{position:absolute;left:14px;bottom:12px;white-space:nowrap;font:400 9px/1.6 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;color:rgba(233,226,208,.45);pointer-events:none}
+#lgd{position:absolute;right:14px;top:12px;display:flex;flex-direction:column;gap:7px;white-space:nowrap;font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;color:rgba(233,226,208,.62);pointer-events:none}
+#lgd div{display:flex;align-items:center;gap:7px}
+#lgd i{width:8px;height:8px;border-radius:9px;display:block;flex:none}
+#hud{position:absolute;left:14px;top:12px;white-space:nowrap;font:400 9px/1.9 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(233,226,208,.5);pointer-events:none}
+#hud b{font-weight:400;color:#EFC24A}
+#hud s{text-decoration:none;color:#E4664F}
+#hud u{text-decoration:none;color:rgba(233,226,208,.45)}
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.184.0/build/three.module.js",
+    "three/addons/controls/OrbitControls.js": "https://unpkg.com/three@0.184.0/examples/jsm/controls/OrbitControls.js"
+  },
+  "integrity": {
+    "https://unpkg.com/three@0.184.0/build/three.module.js": "sha384-8FCZ1eVO6it4+pbec2aDtnTrwjWXZLJRC+MAGCIPDgsYnUrl/E0A2YlF8ioMKI/J",
+    "https://unpkg.com/three@0.184.0/build/three.core.js": "sha384-dw2ooPewaEIrAgl6oFDBmmBWCE9oW9LxRGcfwZ0hLvEprzo202wXl7vCYHRlSnOT",
+    "https://unpkg.com/three@0.184.0/examples/jsm/controls/OrbitControls.js": "sha384-4rziNxOBZKQ69i+w+f89KJ55TCYquwchVbByQwmaOeIOXdOU2PLDn3kOfXHwIJC9"
+  }
+}
+</script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="lgd">
+  <div><i style="background:#3B82C4"></i>ROBOT</div>
+  <div><i style="background:#EFC24A"></i>INDUCIBLE — 誘導できる</div>
+  <div><i style="background:#E4664F"></i>NON-INDUCIBLE — 誘導できない</div>
+  <div><i style="background:#78849A"></i>OUT OF SCOPE — 制御対象外</div>
+  <div><i style="background:#6FA8D8"></i>MOTION LOCUS — 軌跡</div>
+</div>
+<div id="hud">INDUCIBILITY SCAN<br><b>INDUCIBLE 0</b> / <s>NON 0</s> / <u>OUT 0</u></div>
+<div id="hint">DRAG TO ORBIT — 進行方向の判定範囲で可誘導性を評価 / ACTIVE vs PASSIVE</div>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const cv = document.getElementById('c');
+const hud = document.getElementById('hud');
+const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: false });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 1.6));
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#070B16');
+scene.fog = new THREE.Fog('#070B16', 17, 42);
+
+const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 120);
+camera.position.set(9.6, 7.6, 10.6);
+
+const controls = new OrbitControls(camera, cv);
+controls.enableDamping = true;
+controls.dampingFactor = 0.07;
+controls.enablePan = false;
+controls.enableZoom = false;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 0.5;
+controls.minPolarAngle = 0.5;
+controls.maxPolarAngle = 1.32;
+controls.target.set(0, 0.7, 0);
+
+scene.add(new THREE.HemisphereLight('#D8DDE4', '#12161C', 1.2));
+const key = new THREE.DirectionalLight('#FFF6DE', 1.3);
+key.position.set(6, 12, 5);
+scene.add(key);
+const rim = new THREE.PointLight('#5E7488', 11, 26);
+rim.position.set(-6, 3, -5);
+scene.add(rim);
+
+const R = 7.2;
+const floor = new THREE.Mesh(
+  new THREE.CircleGeometry(R, 72),
+  new THREE.MeshStandardMaterial({ color: '#0C1424', roughness: .95, metalness: 0 })
+);
+floor.name = 'plaza';
+floor.rotation.x = -Math.PI / 2;
+scene.add(floor);
+
+const grid = new THREE.GridHelper(R * 2, 24, '#3B82C4', '#1B2C48');
+grid.material.transparent = true;
+grid.material.opacity = .42;
+grid.position.y = .004;
+scene.add(grid);
+
+for (let i = 1; i <= 3; i++) {
+  const ring = new THREE.Mesh(
+    new THREE.RingGeometry(i * 2.4, i * 2.4 + .012, 96),
+    new THREE.MeshBasicMaterial({ color: '#3B82C4', transparent: true, opacity: .16, side: THREE.DoubleSide })
+  );
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.y = .006;
+  scene.add(ring);
+}
+
+/* ---- pedestrians: three classes, decided every frame by the inducibility scan ---- */
+const CLS = { OUT: 0, IND: 1, NON: 2 };
+const matOut = new THREE.MeshStandardMaterial({ color: '#9C9C9C', roughness: .82, metalness: 0 });
+const matInd = new THREE.MeshStandardMaterial({ color: '#EFC24A', roughness: .4, metalness: .12, emissive: '#4A3608' });
+const matNon = new THREE.MeshStandardMaterial({ color: '#E4664F', roughness: .45, metalness: .1, emissive: '#3E120B' });
+const clsMat = [matOut, matInd, matNon];
+
+const pedGeo = new THREE.CapsuleGeometry(.17, .5, 4, 12);
+const markGeo = new THREE.RingGeometry(.3, .345, 28);
+const peds = [];
+const PED_N = 22;
+for (let i = 0; i < PED_N; i++) {
+  const m = new THREE.Mesh(pedGeo, matOut);
+  m.name = 'pedestrian_' + i;
+  const a = (i / PED_N) * Math.PI * 2 + (Math.random() - .5) * .34;
+  const base = 2.5 + Math.random() * 4.3;
+  const mark = new THREE.Mesh(markGeo, new THREE.MeshBasicMaterial({ color: '#EFC24A', transparent: true, opacity: 0, side: THREE.DoubleSide }));
+  mark.name = 'scan_mark_' + i;
+  mark.rotation.x = -Math.PI / 2;
+  mark.position.y = .012;
+  scene.add(mark);
+  m.userData = {
+    spd: .34 + Math.random() * .34,
+    bob: Math.random() * 6.28,
+    cx: Math.cos(a) * base, cz: Math.sin(a) * base,
+    tx: 0, tz: 0, hx: -Math.sin(a), hz: Math.cos(a),
+    pause: Math.random() * 2, rethought: 0,
+    // responsiveness: distracted walkers simply cannot be steered
+    resp: Math.random(),
+    ox: 0, oz: 0, gx: 0, gz: 0,
+    x: Math.cos(a) * base, z: Math.sin(a) * base,
+    cls: CLS.OUT, score: 0, dx: 0, dz: 0, mark
+  };
+  m.position.set(Math.cos(a) * base, .45, Math.sin(a) * base);
+  scene.add(m);
+  peds.push(m);
+}
+
+// destinations: everyone is crossing the plaza to somewhere, not orbiting it
+const PLAZA_MIN = 1.9, PLAZA_MAX = 7.2;
+function newGoal(u, ax, az) {
+  for (let k = 0; k < 10; k++) {
+    const a = Math.random() * Math.PI * 2;
+    const r = PLAZA_MIN + Math.random() * (PLAZA_MAX - PLAZA_MIN);
+    const gx = Math.cos(a) * r, gz = Math.sin(a) * r;
+    if (Math.hypot(gx - u.cx, gz - u.cz) < 2.6) continue;
+    if (ax !== undefined && Math.hypot(gx - ax, gz - az) < 2.8) continue;
+    u.tx = gx; u.tz = gz; return;
+  }
+  u.tx = -u.cx * .85; u.tz = -u.cz * .85;
+}
+peds.forEach(p => newGoal(p.userData));
+
+/* ---- robot ---- */
+const robot = new THREE.Group();
+robot.name = 'robot';
+const body = new THREE.Mesh(
+  new THREE.CylinderGeometry(.44, .5, .86, 28),
+  new THREE.MeshStandardMaterial({ color: '#3B82C4', roughness: .34, metalness: .35, emissive: '#0E2C4C' })
+);
+body.name = 'robot_body';
+body.position.y = .55;
+robot.add(body);
+const head = new THREE.Mesh(
+  new THREE.SphereGeometry(.3, 24, 18),
+  new THREE.MeshStandardMaterial({ color: '#E8F1FA', roughness: .25, metalness: .2 })
+);
+head.name = 'robot_head';
+head.position.y = 1.14;
+robot.add(head);
+const prow = new THREE.Mesh(
+  new THREE.ConeGeometry(.17, .42, 18),
+  new THREE.MeshStandardMaterial({ color: '#E8F1FA', roughness: .3, metalness: .3, emissive: '#123651' })
+);
+prow.name = 'heading_marker';
+prow.rotation.x = Math.PI / 2;
+prow.position.set(0, .62, .52);
+robot.add(prow);
+const sensor = new THREE.Mesh(
+  new THREE.TorusGeometry(.42, .035, 10, 40),
+  new THREE.MeshStandardMaterial({ color: '#6FA8D8', roughness: .3, metalness: .6, emissive: '#0D2438' })
+);
+sensor.name = 'sensor_ring';
+sensor.rotation.x = Math.PI / 2;
+sensor.position.y = 1.0;
+robot.add(sensor);
+robot.scale.setScalar(1.3);
+scene.add(robot);
+
+/* ---- inducibility scan: radial sector along the heading ---- */
+const SCAN_R = 4.9, SCAN_HALF = THREE.MathUtils.degToRad(54);
+const scan = new THREE.Group();
+scan.name = 'inducibility_field';
+scene.add(scan);
+
+const SEG = 40;
+const fanPos = new Float32Array(SEG * 9);
+for (let i = 0; i < SEG; i++) {
+  const a0 = -SCAN_HALF + (i / SEG) * SCAN_HALF * 2;
+  const a1 = -SCAN_HALF + ((i + 1) / SEG) * SCAN_HALF * 2;
+  fanPos.set([
+    0, 0, 0,
+    Math.cos(a0) * SCAN_R, 0, Math.sin(a0) * SCAN_R,
+    Math.cos(a1) * SCAN_R, 0, Math.sin(a1) * SCAN_R
+  ], i * 9);
+}
+const fanGeo = new THREE.BufferGeometry();
+fanGeo.setAttribute('position', new THREE.BufferAttribute(fanPos, 3));
+const fan = new THREE.Mesh(fanGeo, new THREE.MeshBasicMaterial({
+  color: '#3B82C4', transparent: true, opacity: .1, side: THREE.DoubleSide, depthWrite: false
+}));
+fan.name = 'scan_sector';
+fan.position.y = .018;
+scan.add(fan);
+
+const spokePts = [];
+const SPOKES = 9;
+for (let i = 0; i < SPOKES; i++) {
+  const a = -SCAN_HALF + (i / (SPOKES - 1)) * SCAN_HALF * 2;
+  spokePts.push(Math.cos(a) * .55, 0, Math.sin(a) * .55, Math.cos(a) * SCAN_R, 0, Math.sin(a) * SCAN_R);
+}
+const spokes = new THREE.LineSegments(
+  new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(spokePts, 3)),
+  new THREE.LineBasicMaterial({ color: '#6FA8D8', transparent: true, opacity: .3 })
+);
+spokes.name = 'scan_rays';
+spokes.position.y = .02;
+scan.add(spokes);
+
+function arcLine(r, opacity) {
+  const p = [];
+  for (let i = 0; i <= 48; i++) {
+    const a = -SCAN_HALF + (i / 48) * SCAN_HALF * 2;
+    p.push(Math.cos(a) * r, 0, Math.sin(a) * r);
+  }
+  const l = new THREE.Line(
+    new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(p, 3)),
+    new THREE.LineBasicMaterial({ color: '#6FA8D8', transparent: true, opacity })
+  );
+  l.position.y = .022;
+  return l;
+}
+const arcEdge = arcLine(SCAN_R, .62); arcEdge.name = 'scan_arc';
+scan.add(arcEdge);
+scan.add(arcLine(SCAN_R * .55, .2), arcLine(SCAN_R * .8, .16));
+const edges = new THREE.LineSegments(
+  new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute([
+    0, 0, 0, Math.cos(-SCAN_HALF) * SCAN_R, 0, Math.sin(-SCAN_HALF) * SCAN_R,
+    0, 0, 0, Math.cos(SCAN_HALF) * SCAN_R, 0, Math.sin(SCAN_HALF) * SCAN_R
+  ], 3)),
+  new THREE.LineBasicMaterial({ color: '#6FA8D8', transparent: true, opacity: .55 })
+);
+edges.name = 'scan_bounds';
+edges.position.y = .022;
+scan.add(edges);
+
+/* ---- motion locus (robot trail) ---- */
+const TRAIL = 46;
+const dotGeo = new THREE.SphereGeometry(.08, 10, 8);
+const dots = [];
+for (let i = 0; i < TRAIL; i++) {
+  const d = new THREE.Mesh(dotGeo, new THREE.MeshBasicMaterial({ color: '#6FA8D8', transparent: true, opacity: 0 }));
+  d.name = 'locus_' + i;
+  d.position.set(0, .07, 0);
+  d.userData.age = 99;
+  scene.add(d);
+  dots.push(d);
+}
+let trailIdx = 0, trailT = 0;
+
+const clock = new THREE.Clock();
+let t = 0, hudT = 0;
+let px = 3.1, pz = 0, hx = 0, hz = 1;
+let yieldX = 0, yieldZ = 0, yMidX = 0, yMidZ = 0;
+let phase = 0, rphase = 0, pace = 1, nearNon = 9, nonAhead = 0;
+
+function frame() {
+  const dt = Math.min(clock.getDelta(), .05);
+  t += dt;
+
+  // pacing: inducible pedestrians step aside, so hold course for them.
+  // only the non-inducible ones make the robot ease off — never to a standstill.
+  let paceTarget = 1;
+  if (nonAhead) paceTarget = .72;
+  if (nearNon < 3.1) paceTarget = Math.min(paceTarget, .55);
+  pace += (paceTarget - pace) * (1 - Math.exp(-dt * 1.2));
+  phase += dt * .3 * pace;
+  rphase += dt * .22 * pace;
+
+  // nominal course + passive yield offset accumulated from non-inducible pedestrians
+  const rr = 3.1 + Math.sin(rphase) * .9;
+  const ra = phase;
+  const nx = Math.cos(ra) * rr + yieldX;
+  const nz = Math.sin(ra) * rr + yieldZ;
+  const vx = nx - px, vz = nz - pz;
+  px = nx; pz = nz;
+  const vl = Math.hypot(vx, vz);
+  if (vl > 1e-5) {
+    const k = 1 - Math.exp(-dt * 3.2);
+    hx += (vx / vl - hx) * k; hz += (vz / vl - hz) * k;
+  }
+  const hl = Math.hypot(hx, hz) || 1;
+  const fx = hx / hl, fz = hz / hl;
+
+  robot.position.set(px, 0, pz);
+  robot.rotation.y = Math.atan2(fx, fz);
+  sensor.rotation.z += dt * (1.1 + pace * 1.6);
+  head.position.y = 1.14 + Math.sin(t * 2.4) * .02;
+
+  scan.position.set(px, 0, pz);
+  scan.rotation.y = Math.atan2(-fz, fx);
+  const pulse = .78 + Math.sin(t * 1.5) * .06;
+  fan.material.opacity = .06 + pulse * .06;
+  arcEdge.material.opacity = .42 + pulse * .22;
+
+  trailT += dt;
+  if (trailT > .085) {
+    trailT = 0;
+    const d = dots[trailIdx];
+    d.position.set(px, .07, pz);
+    d.userData.age = 0;
+    trailIdx = (trailIdx + 1) % TRAIL;
+  }
+  dots.forEach(d => {
+    d.userData.age += dt;
+    const k = Math.max(0, 1 - d.userData.age / 4);
+    d.material.opacity = k * .8;
+    d.scale.setScalar(.5 + k * .9);
+  });
+
+  let nInd = 0, nNon = 0, yx = 0, yz = 0;
+  let nextNearNon = 9;
+
+  // pass 1 — nominal walk, inducibility scan, guidance target
+  peds.forEach(p => {
+    const u = p.userData;
+    // nominal walk — head for the current destination, pick a new one on arrival
+    let ax = u.tx - u.cx, az = u.tz - u.cz;
+    let al = Math.hypot(ax, az);
+    if (al < .5) {
+      newGoal(u);
+      if (Math.random() < .45) u.pause = .4 + Math.random() * 1.5;
+      ax = u.tx - u.cx; az = u.tz - u.cz; al = Math.hypot(ax, az) || 1;
+    }
+    const turn = 1 - Math.exp(-dt * 1.9);
+    u.hx += (ax / al - u.hx) * turn; u.hz += (az / al - u.hz) * turn;
+    const hln = Math.hypot(u.hx, u.hz) || 1;
+    u.wx = u.hx / hln; u.wz = u.hz / hln;
+    if (u.pause > 0) u.pause -= dt;
+    else {
+      const s = u.spd * (.86 + Math.sin(t * .55 + u.bob) * .14);
+      u.cx += u.wx * s * dt; u.cz += u.wz * s * dt;
+    }
+
+    const cur_x = u.cx + u.ox, cur_z = u.cz + u.oz;
+    const bx = cur_x - px, bz = cur_z - pz;
+    const dist = Math.hypot(bx, bz) || 1e-4;
+    const inSector = dist < SCAN_R && ((bx / dist) * fx + (bz / dist) * fz) > Math.cos(SCAN_HALF);
+
+    u.gx = 0; u.gz = 0;
+    if (inSector) {
+      // approaching the robot → its motion can shape their path
+      const closing = -((u.wx * bx + u.wz * bz) / dist);
+      // room left to react (normalised time-to-encounter)
+      const margin = Math.min(1, (dist - .7) / 2.2);
+      const score = .40 * Math.max(0, closing) + .22 * Math.max(0, margin) + .38 * u.resp;
+      u.score = score;
+      // hysteresis keeps the label from flickering
+      u.cls = u.cls === CLS.IND ? (score > .30 ? CLS.IND : CLS.NON)
+                                : (score > .40 ? CLS.IND : CLS.NON);
+      // a walker who can be led often just re-picks where they were heading
+      if (u.cls === CLS.IND && dist < 3.6 && !u.rethought && Math.random() < dt * .9) {
+        newGoal(u, px, pz);
+        u.rethought = 1;
+        if (Math.random() < .4) u.pause = .25 + Math.random() * .5;
+      }
+    } else {
+      u.cls = CLS.OUT;
+      u.score = 0;
+      if (dist > 5.2) u.rethought = 0;
+    }
+
+    // avoidance ramp: rises as soon as they enter the range, saturating early
+    const urg = Math.min(1, (SCAN_R - dist) / (SCAN_R * .5));
+    if (u.cls === CLS.IND) {
+      // ACTIVE: they can be led — they step aside out of the robot's corridor
+      const lat = Math.sign(bz * fx - bx * fz) || 1;   // which side of the path they are on
+      const k = urg * .95;
+      u.gx = -fz * lat * k; u.gz = fx * lat * k;
+    } else if (u.cls === CLS.NON) {
+      // PASSIVE: they keep their line — the robot sidesteps around them.
+      // the detour side is latched per pedestrian so the manoeuvre never flip-flops.
+      if (!u.sideHold) u.sideHold = Math.sign(bx * fz - bz * fx) || 1;
+      const w = urg * 1.45;
+      yx += -fz * u.sideHold * w;
+      yz += fx * u.sideHold * w;
+      if (dist < nextNearNon) nextNearNon = dist;
+    }
+    if (u.cls !== CLS.NON) u.sideHold = 0;
+
+    // ease the deviation toward the guidance target, then resolve contacts
+    u.ox += (u.gx - u.ox) * (1 - Math.exp(-dt * 3.2));
+    u.oz += (u.gz - u.oz) * (1 - Math.exp(-dt * 3.2));
+    u.x = u.cx + u.ox; u.z = u.cz + u.oz;
+  });
+
+  // pass 2 — hard clearance: no pedestrian overlaps another, none overlaps the robot
+  const PED_MIN = .8, ROBOT_MIN = 1.35;
+  for (let it = 0; it < 3; it++) {
+    for (let i = 0; i < PED_N; i++) {
+      const a = peds[i].userData;
+      for (let j = i + 1; j < PED_N; j++) {
+        const b = peds[j].userData;
+        const dx = a.x - b.x, dz = a.z - b.z;
+        const d2 = dx * dx + dz * dz;
+        if (d2 > PED_MIN * PED_MIN) continue;
+        const d = Math.sqrt(d2) || 1e-4;
+        const s = (PED_MIN - d) / d * .5;
+        const sx = dx * s, sz = dz * s;
+        a.x += sx; a.z += sz; a.ox += sx; a.oz += sz;
+        b.x -= sx; b.z -= sz; b.ox -= sx; b.oz -= sz;
+      }
+      const rx = a.x - px, rz = a.z - pz;
+      const rd = Math.hypot(rx, rz) || 1e-4;
+      if (rd < ROBOT_MIN) {
+        const s = (ROBOT_MIN - rd) / rd;
+        a.x += rx * s; a.z += rz * s; a.ox += rx * s; a.oz += rz * s;
+      }
+      const ol = Math.hypot(a.ox, a.oz);
+      if (ol > 2.2) { const k = 2.2 / ol; a.ox *= k; a.oz *= k; a.x = a.cx + a.ox; a.z = a.cz + a.oz; }
+    }
+  }
+
+  // pass 3 — classify against the drawn sector and render
+  peds.forEach(p => {
+    const u = p.userData;
+    const x = u.x, z = u.z;
+
+    // colour must always match what the fan visually contains
+    if (u.cls !== CLS.OUT) {
+      const ex = x - px, ez = z - pz;
+      const ed = Math.hypot(ex, ez) || 1e-4;
+      if (!(ed < SCAN_R && ((ex / ed) * fx + (ez / ed) * fz) > Math.cos(SCAN_HALF))) u.cls = CLS.OUT;
+    }
+    if (u.cls === CLS.IND) nInd++; else if (u.cls === CLS.NON) nNon++;
+
+    p.material = clsMat[u.cls];
+    p.position.set(x, .45 + Math.abs(Math.sin(t * 4 + u.bob)) * .05, z);
+    p.rotation.y = Math.atan2(u.wx, u.wz);
+
+    const mk = u.mark;
+    const want = u.cls === CLS.OUT ? 0 : .75;
+    mk.material.opacity += (want - mk.material.opacity) * Math.min(1, dt * (want ? 8 : 26));
+    if (mk.material.opacity > .01) {
+      mk.visible = true;
+      mk.material.color.set(u.cls === CLS.IND ? '#EFC24A' : '#E4664F');
+      mk.position.set(x, .012, z);
+      mk.scale.setScalar(u.cls === CLS.IND ? 1 + Math.sin(t * 3.4 + u.bob) * .07 : 1);
+    } else mk.visible = false;
+  });
+
+  // smooth the robot's passive yielding
+  // two-stage (critically damped) filter on the detour offset — no jerks, no overshoot
+  const yk = 1 - Math.exp(-dt * 2.3);
+  yMidX += (Math.max(-1.5, Math.min(1.5, yx)) - yMidX) * yk;
+  yMidZ += (Math.max(-1.5, Math.min(1.5, yz)) - yMidZ) * yk;
+  yieldX += (yMidX - yieldX) * yk;
+  yieldZ += (yMidZ - yieldZ) * yk;
+  nonAhead = nNon;
+  nearNon = nextNearNon;
+
+  hudT += dt;
+  if (hudT > .22) {
+    hudT = 0;
+    hud.innerHTML = 'INDUCIBILITY SCAN<br><b>INDUCIBLE ' + nInd + '</b> / <s>NON ' + nNon +
+      '</s> / <u>OUT ' + (PED_N - nInd - nNon) + '</u><br><u>PACE ' + Math.round(pace * 100) +
+      '% — ' + (nNon ? 'ROBOT DETOURS' : 'PEDS YIELD') + '</u>';
+  }
+
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+function loop() {
+  requestAnimationFrame(loop);
+  if (document.visibilityState === 'hidden') { clock.getDelta(); return; }
+  frame();
+}
+
+function resize() {
+  const w = innerWidth, h = innerHeight;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+addEventListener('resize', resize);
+resize();
+loop();
+</script>
+</body>
+</html>
