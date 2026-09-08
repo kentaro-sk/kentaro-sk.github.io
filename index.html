@@ -661,46 +661,16 @@ a:hover{color:#2A6BA6}
 <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.5);white-space:nowrap">JOURNAL 1 / INTL 2 / DOMESTIC 5</span>
 </div>
 <div style="display:flex;flex-direction:column;gap:10px">
-<a href="https://doi.org/10.20965/jrm.2025.p1477" target="_blank" rel="noopener" data-rv="" style="display:grid;grid-template-columns:132px minmax(0,1fr) 168px;gap:24px;align-items:center;background:#fff;border:1px solid rgba(21,21,21,.1);border-left:3px solid #D9B979;padding:20px 24px;text-decoration:none;color:#151515;transition:transform .45s cubic-bezier(.22,.61,.36,1),box-shadow .45s ease,border-color .35s ease" style-hover="transform:translateX(5px);box-shadow:0 18px 34px -26px rgba(21,21,21,.5)">
-<span><span class="c-030">2025</span><span class="c-006">JRM</span><span style="display:inline-block;margin-top:8px;font-size:16px;padding:3px 9px;border-radius:999px;background:rgba(216,185,121,.2);color:#8A6A22;white-space:nowrap">査読付き論文</span></span>
-<span class="c-094"><span class="c-018">JRM 2025 — Journal of Robotics and Mechatronics<svg width="12" height="12" class="c-005"><use href="#i-link"></use></svg></span><span style="display:block;font-size:16px;line-height:1.85;color:rgba(21,21,21,.72);text-wrap:pretty">論文「Inducibility: Quantitative Measure of Interaction Between Pedestrians」。判断感度と可制御性グラミアンに基づく2種類の指標を提案し、歩行者観測データから構築したモデルで検証しました。</span></span>
-<span class="c-009">Journal of Robotics<br>and Mechatronics<br>Vol.37 No.6 (2025)</span>
+<!-- 発表・論文一覧(8件)をsc-forでループ化。バッジ色・出典欄の改行位置など各項目の差分は
+     すべてrenderVals()のpubItems(PUB_ITEMSから)にJS側で計算済みの値として持たせてあり、
+     テンプレート側は{{ }}参照のみ。出典欄の<br>は、1行目以外の行の直前にだけ挿入することで
+     元のHTML(区切りの<br>のみで末尾に余計な改行がない状態)を再現している。 -->
+<sc-for list="{{ pubItems }}" as="item"><a href="{{ item.url }}" target="_blank" rel="noopener" data-rv="" style="display:grid;grid-template-columns:132px minmax(0,1fr) 168px;gap:24px;align-items:center;background:#fff;border:1px solid rgba(21,21,21,.1);border-left:3px solid {{ item.borderColor }};padding:20px 24px;text-decoration:none;color:#151515;transition:transform .45s cubic-bezier(.22,.61,.36,1),box-shadow .45s ease,border-color .35s ease" style-hover="transform:translateX(5px);box-shadow:0 18px 34px -26px rgba(21,21,21,.5)">
+<span><span class="c-030">{{ item.date }}</span><span class="c-006">{{ item.place }}</span><span style="display:inline-block;margin-top:8px;font-size:16px;padding:3px 9px;border-radius:999px;background:{{ item.badgeBg }};color:{{ item.badgeColor }};white-space:nowrap">{{ item.badge }}</span></span>
+<span class="c-094"><span class="c-018">{{ item.title }}<svg width="12" height="12" class="c-005"><use href="#i-link"></use></svg></span><span style="display:block;font-size:16px;line-height:1.85;color:rgba(21,21,21,.72);text-wrap:pretty">{{ item.desc }}</span></span>
+<span class="c-009"><sc-for list="{{ item.sourceLines }}" as="line"><sc-if value="{{ $index != 0 }}"><br></sc-if>{{ line }}</sc-for></span>
 </a>
-<a href="https://doi.org/10.1109/SII59315.2025.10870962" target="_blank" rel="noopener" data-rv="" style="display:grid;grid-template-columns:132px minmax(0,1fr) 168px;gap:24px;align-items:center;background:#fff;border:1px solid rgba(21,21,21,.1);border-left:3px solid #3B82C4;padding:20px 24px;text-decoration:none;color:#151515;transition:transform .45s cubic-bezier(.22,.61,.36,1),box-shadow .45s ease,border-color .35s ease" style-hover="transform:translateX(5px);box-shadow:0 18px 34px -26px rgba(21,21,21,.5)">
-<span><span class="c-030">2025.1</span><span class="c-006">ミュンヘン</span><span style="display:inline-block;margin-top:8px;font-size:16px;padding:3px 9px;border-radius:999px;background:rgba(59,130,196,.1);color:#2A6BA6;white-space:nowrap">国際</span></span>
-<span class="c-094"><span class="c-018">SII 2025 — IEEE/SICE Int. Symposium on System Integration<svg width="12" height="12" class="c-005"><use href="#i-link"></use></svg></span><span style="display:block;font-size:16px;line-height:1.85;color:rgba(21,21,21,.72);text-wrap:pretty">発表「Inducibility Analysis of Pedestrian's Interactive Behavior」。ロボットの動きが周囲の歩行者の行動をどれだけ誘導できるかを定量評価しました。</span></span>
-<span class="c-009">IEEE Xplore<br>SII 2025 Proceedings</span>
-</a>
-<a href="https://ssi2024.sice.or.jp/award.html" target="_blank" rel="noopener" data-rv="" style="display:grid;grid-template-columns:132px minmax(0,1fr) 168px;gap:24px;align-items:center;background:#fff;border:1px solid rgba(21,21,21,.1);border-left:3px solid #D9B979;padding:20px 24px;text-decoration:none;color:#151515;transition:transform .45s cubic-bezier(.22,.61,.36,1),box-shadow .45s ease,border-color .35s ease" style-hover="transform:translateX(5px);box-shadow:0 18px 34px -26px rgba(21,21,21,.5)">
-<span><span class="c-030">2024.11</span><span class="c-006">富山</span><span style="display:inline-block;margin-top:8px;font-size:16px;padding:3px 9px;border-radius:999px;background:rgba(216,185,121,.2);color:#8A6A22;white-space:nowrap">国内・受賞</span></span>
-<span class="c-094"><span class="c-018">SSI2024 — 計測自動制御学会 システム・情報部門 学術講演会<svg width="12" height="12" class="c-005"><use href="#i-link"></use></svg></span><span style="display:block;font-size:16px;line-height:1.85;color:rgba(21,21,21,.72);text-wrap:pretty">発表「可誘導性：歩行者間インタラクションにおける判断感度と可制御性に基づいた評価」。SSI最優秀論文賞（Best Paper Award）を受賞しました。</span></span>
-<span class="c-009">SSI最優秀論文賞<br>Best Paper Award</span>
-</a>
-<a href="https://robomech.org/2024/" target="_blank" rel="noopener" data-rv="" style="display:grid;grid-template-columns:132px minmax(0,1fr) 168px;gap:24px;align-items:center;background:#fff;border:1px solid rgba(21,21,21,.1);border-left:3px solid rgba(21,21,21,.2);padding:20px 24px;text-decoration:none;color:#151515;transition:transform .45s cubic-bezier(.22,.61,.36,1),box-shadow .45s ease,border-color .35s ease" style-hover="transform:translateX(5px);box-shadow:0 18px 34px -26px rgba(21,21,21,.5)">
-<span><span class="c-030">2024.6</span><span class="c-006">宇都宮</span><span style="display:inline-block;margin-top:8px;font-size:16px;padding:3px 9px;border-radius:999px;background:rgba(21,21,21,.06);color:rgba(21,21,21,.62);white-space:nowrap">国内</span></span>
-<span class="c-094"><span class="c-018">ROBOMEC 2024 — ロボティクス・メカトロニクス講演会<svg width="12" height="12" class="c-005"><use href="#i-link"></use></svg></span><span style="display:block;font-size:16px;line-height:1.85;color:rgba(21,21,21,.72);text-wrap:pretty">移動ロボットと歩行者のインタラクションに関する研究を発表。奥田裕之 教授・鈴木達也 教授との共同研究です。</span></span>
-<span class="c-009">日本機械学会<br>ロボメカ部門</span>
-</a>
-<a href="https://www.jsae.or.jp/taikai/2024haru/student-poster-entry/" target="_blank" rel="noopener" data-rv="" style="display:grid;grid-template-columns:132px minmax(0,1fr) 168px;gap:24px;align-items:center;background:#fff;border:1px solid rgba(21,21,21,.1);border-left:3px solid rgba(21,21,21,.2);padding:20px 24px;text-decoration:none;color:#151515;transition:transform .45s cubic-bezier(.22,.61,.36,1),box-shadow .45s ease,border-color .35s ease" style-hover="transform:translateX(5px);box-shadow:0 18px 34px -26px rgba(21,21,21,.5)">
-<span><span class="c-030">2024.5</span><span class="c-006">横浜</span><span style="display:inline-block;margin-top:8px;font-size:16px;padding:3px 9px;border-radius:999px;background:rgba(21,21,21,.06);color:rgba(21,21,21,.62);white-space:nowrap">国内・ポスター</span></span>
-<span class="c-094"><span class="c-018">JSAE 2024年春季大会 — 行動モデルに基づく歩行者間の相互影響度定量化指標の提案<svg width="12" height="12" class="c-005"><use href="#i-link"></use></svg></span><span style="display:block;font-size:16px;line-height:1.85;color:rgba(21,21,21,.72);text-wrap:pretty">第7回学生ポスターセッション（発表番号66）に登壇。歩行者の行動モデルをもとに、歩行者どうしが与え合う影響の大きさを定量化する指標を提案しました。</span></span>
-<span class="c-009">自動車技術会<br>第7回学生<br>ポスターセッション</span>
-</a>
-<a href="https://doi.org/10.5220/0012177500003543" target="_blank" rel="noopener" data-rv="" style="display:grid;grid-template-columns:132px minmax(0,1fr) 168px;gap:24px;align-items:center;background:#fff;border:1px solid rgba(21,21,21,.1);border-left:3px solid #3B82C4;padding:20px 24px;text-decoration:none;color:#151515;transition:transform .45s cubic-bezier(.22,.61,.36,1),box-shadow .45s ease,border-color .35s ease" style-hover="transform:translateX(5px);box-shadow:0 18px 34px -26px rgba(21,21,21,.5)">
-<span><span class="c-030">2023.11</span><span class="c-006">ローマ</span><span style="display:inline-block;margin-top:8px;font-size:16px;padding:3px 9px;border-radius:999px;background:rgba(59,130,196,.1);color:#2A6BA6;white-space:nowrap">国際</span></span>
-<span class="c-094"><span class="c-018">ICINCO 2023 — Int. Conf. on Informatics in Control, Automation and Robotics<svg width="12" height="12" class="c-005"><use href="#i-link"></use></svg></span><span style="display:block;font-size:16px;line-height:1.85;color:rgba(21,21,21,.72);text-wrap:pretty">発表「Evaluation of Controllability of Interaction Between Pedestrian and Autonomous Mobile Robot in Shared Mobility Space」。歩行者の判断をロジスティック回帰でモデル化し、ロボットの「暗黙的な制御」を評価しました。</span></span>
-<span class="c-009">SciTePress<br>ICINCO 2023 Proceedings</span>
-</a>
-<a href="https://www.jstage.jst.go.jp/article/jacc/66/0/66_1095/_article/-char/ja/" target="_blank" rel="noopener" data-rv="" style="display:grid;grid-template-columns:132px minmax(0,1fr) 168px;gap:24px;align-items:center;background:#fff;border:1px solid rgba(21,21,21,.1);border-left:3px solid rgba(21,21,21,.2);padding:20px 24px;text-decoration:none;color:#151515;transition:transform .45s cubic-bezier(.22,.61,.36,1),box-shadow .45s ease,border-color .35s ease" style-hover="transform:translateX(5px);box-shadow:0 18px 34px -26px rgba(21,21,21,.5)">
-<span><span class="c-030">2023.10</span><span class="c-006">仙台</span><span style="display:inline-block;margin-top:8px;font-size:16px;padding:3px 9px;border-radius:999px;background:rgba(21,21,21,.06);color:rgba(21,21,21,.62);white-space:nowrap">国内・査読付き</span></span>
-<span class="c-094"><span class="c-018">第66回自動制御連合講演会 — 共有移動空間における移動ロボットによる歩行者行動の可制御性評価<svg width="12" height="12" class="c-005"><use href="#i-link"></use></svg></span><span style="display:block;font-size:16px;line-height:1.85;color:rgba(21,21,21,.72);text-wrap:pretty">青木瑞穂・奥田裕之 教授・鈴木達也 教授との共同研究。移動ロボットが歩行者の行動をどこまで動かせるかを可制御性の観点から評価し、査読付き論文として J-STAGE に掲載されました。</span></span>
-<span class="c-009">J-STAGE<br>自動制御連合講演会<br>講演論文集</span>
-</a>
-<a href="https://robomech.org/2023/" target="_blank" rel="noopener" data-rv="" style="display:grid;grid-template-columns:132px minmax(0,1fr) 168px;gap:24px;align-items:center;background:#fff;border:1px solid rgba(21,21,21,.1);border-left:3px solid rgba(21,21,21,.2);padding:20px 24px;text-decoration:none;color:#151515;transition:transform .45s cubic-bezier(.22,.61,.36,1),box-shadow .45s ease,border-color .35s ease" style-hover="transform:translateX(5px);box-shadow:0 18px 34px -26px rgba(21,21,21,.5)">
-<span><span class="c-030">2023.6</span><span class="c-006">名古屋</span><span style="display:inline-block;margin-top:8px;font-size:16px;padding:3px 9px;border-radius:999px;background:rgba(21,21,21,.06);color:rgba(21,21,21,.62);white-space:nowrap">国内</span></span>
-<span class="c-094"><span class="c-018">ROBOMEC 2023 — ロボティクス・メカトロニクス講演会<svg width="12" height="12" class="c-005"><use href="#i-link"></use></svg></span><span style="display:block;font-size:16px;line-height:1.85;color:rgba(21,21,21,.72);text-wrap:pretty">すれ違い時の歩行者の動きを、ベイズ推定とロジスティック回帰で数理モデル化した結果を報告。</span></span>
-<span class="c-009">日本機械学会<br>ロボメカ部門</span>
-</a>
+</sc-for>
 </div>
 </div>
 
@@ -1827,6 +1797,61 @@ const BASEBALL_GAMES = [
   ] }
 ];
 
+// 発表・論文一覧(8件)のバッジ配色ルール。カテゴリ('gold'|'blue'|'gray')から
+// バッジの背景色・文字色・カード左ボーダー色をまとめて導出する。
+//   gold : ジャーナル(査読付き)・受賞などを示す金色
+//   blue : 国際会議を示す青色
+//   gray : 通常の国内学会を示すグレー
+// (どのカテゴリになるかは元のHTMLの配色に合わせて項目ごとに指定する。例えば「国内・受賞」は
+//  国内学会だが受賞のためgold、「国内・査読付き」は査読付きだが国内学会のためgray、というように
+//  単純な文言マッチでは再現できない組み合わせがあるため、カテゴリは各項目で明示的に指定する)
+const PUB_BADGE_STYLE = {
+  gold: { bg: 'rgba(216,185,121,.2)', color: '#8A6A22', border: '#D9B979' },
+  blue: { bg: 'rgba(59,130,196,.1)', color: '#2A6BA6', border: '#3B82C4' },
+  gray: { bg: 'rgba(21,21,21,.06)', color: 'rgba(21,21,21,.62)', border: 'rgba(21,21,21,.2)' }
+};
+// 発表・論文一覧の1件分のデータを組み立てる。sourceLines配列の各要素が出典欄の1行分になる
+// (テンプレート側で改行1行目以外の前に<br>を挿入し、元のHTML内の<br>区切りを再現する)。
+function pubItem(url, date, place, badge, category, title, desc, sourceLines) {
+  const s = PUB_BADGE_STYLE[category];
+  return { url, date, place, badge, badgeBg: s.bg, badgeColor: s.color, borderColor: s.border, title, desc, sourceLines };
+}
+// 発表・論文一覧(8件)。文言・URL・出典は元のHTMLの記載をそのまま転記。
+const PUB_ITEMS = [
+  pubItem('https://doi.org/10.20965/jrm.2025.p1477', '2025', 'JRM', '査読付き論文', 'gold',
+    'JRM 2025 — Journal of Robotics and Mechatronics',
+    '論文「Inducibility: Quantitative Measure of Interaction Between Pedestrians」。判断感度と可制御性グラミアンに基づく2種類の指標を提案し、歩行者観測データから構築したモデルで検証しました。',
+    ['Journal of Robotics', 'and Mechatronics', 'Vol.37 No.6 (2025)']),
+  pubItem('https://doi.org/10.1109/SII59315.2025.10870962', '2025.1', 'ミュンヘン', '国際', 'blue',
+    'SII 2025 — IEEE/SICE Int. Symposium on System Integration',
+    '発表「Inducibility Analysis of Pedestrian\'s Interactive Behavior」。ロボットの動きが周囲の歩行者の行動をどれだけ誘導できるかを定量評価しました。',
+    ['IEEE Xplore', 'SII 2025 Proceedings']),
+  pubItem('https://ssi2024.sice.or.jp/award.html', '2024.11', '富山', '国内・受賞', 'gold',
+    'SSI2024 — 計測自動制御学会 システム・情報部門 学術講演会',
+    '発表「可誘導性：歩行者間インタラクションにおける判断感度と可制御性に基づいた評価」。SSI最優秀論文賞（Best Paper Award）を受賞しました。',
+    ['SSI最優秀論文賞', 'Best Paper Award']),
+  pubItem('https://robomech.org/2024/', '2024.6', '宇都宮', '国内', 'gray',
+    'ROBOMEC 2024 — ロボティクス・メカトロニクス講演会',
+    '移動ロボットと歩行者のインタラクションに関する研究を発表。奥田裕之 教授・鈴木達也 教授との共同研究です。',
+    ['日本機械学会', 'ロボメカ部門']),
+  pubItem('https://www.jsae.or.jp/taikai/2024haru/student-poster-entry/', '2024.5', '横浜', '国内・ポスター', 'gray',
+    'JSAE 2024年春季大会 — 行動モデルに基づく歩行者間の相互影響度定量化指標の提案',
+    '第7回学生ポスターセッション（発表番号66）に登壇。歩行者の行動モデルをもとに、歩行者どうしが与え合う影響の大きさを定量化する指標を提案しました。',
+    ['自動車技術会', '第7回学生', 'ポスターセッション']),
+  pubItem('https://doi.org/10.5220/0012177500003543', '2023.11', 'ローマ', '国際', 'blue',
+    'ICINCO 2023 — Int. Conf. on Informatics in Control, Automation and Robotics',
+    '発表「Evaluation of Controllability of Interaction Between Pedestrian and Autonomous Mobile Robot in Shared Mobility Space」。歩行者の判断をロジスティック回帰でモデル化し、ロボットの「暗黙的な制御」を評価しました。',
+    ['SciTePress', 'ICINCO 2023 Proceedings']),
+  pubItem('https://www.jstage.jst.go.jp/article/jacc/66/0/66_1095/_article/-char/ja/', '2023.10', '仙台', '国内・査読付き', 'gray',
+    '第66回自動制御連合講演会 — 共有移動空間における移動ロボットによる歩行者行動の可制御性評価',
+    '青木瑞穂・奥田裕之 教授・鈴木達也 教授との共同研究。移動ロボットが歩行者の行動をどこまで動かせるかを可制御性の観点から評価し、査読付き論文として J-STAGE に掲載されました。',
+    ['J-STAGE', '自動制御連合講演会', '講演論文集']),
+  pubItem('https://robomech.org/2023/', '2023.6', '名古屋', '国内', 'gray',
+    'ROBOMEC 2023 — ロボティクス・メカトロニクス講演会',
+    'すれ違い時の歩行者の動きを、ベイズ推定とロジスティック回帰で数理モデル化した結果を報告。',
+    ['日本機械学会', 'ロボメカ部門'])
+];
+
 class Component extends DCLogic {
   // menu: モバイルのハンバーガーメニューの開閉状態（true=開）。狭幅ではナビをこのメニューに集約する。
   state = { page: 'home', name: '', mail: '', msg: '', err: false, sent: false, open: '', nav: '', menu: false };
@@ -2303,6 +2328,8 @@ class Component extends DCLogic {
       storyYears: ['2000', '2007', '2013', '2016', '2019', '2023', '2025'],
       // 野球観戦スコアボード(sc-for)用データ。モジュール直下で1度だけ計算した定数を参照する。
       baseballGames: BASEBALL_GAMES,
+      // 発表・論文一覧(sc-for)用データ。同じくモジュール直下で1度だけ計算した定数を参照する。
+      pubItems: PUB_ITEMS,
       atProfile: at(['profile', 'achievements']),
       atWorks: at(['works', 'mobility', 'aiwork', 'education']),
       atStory: at(['story', 'turning']),
