@@ -23,6 +23,30 @@
 .u-pill { border-radius:999px }
 .u-pretty { text-wrap:pretty }
 .u-container { max-width:1180px; margin:0 auto }
+/* モバイルでのレスポンシブ縮小グループが参照するfont-size単体クラス群(u-fs-N)。
+   Nは元のpx値そのもの(PC/デスクトップでの表示はこれまでと完全に同じ)。
+   実際にindex.html内で使われている値のみ用意している。 */
+.u-fs-96 { font-size:96px }
+.u-fs-62 { font-size:62px }
+.u-fs-56 { font-size:56px }
+.u-fs-52 { font-size:52px }
+.u-fs-50 { font-size:50px }
+.u-fs-46 { font-size:46px }
+.u-fs-44 { font-size:44px }
+.u-fs-42 { font-size:42px }
+.u-fs-41 { font-size:41px }
+.u-fs-30 { font-size:30px }
+.u-fs-29 { font-size:29px }
+.u-fs-28 { font-size:28px }
+.u-fs-27 { font-size:27px }
+.u-fs-26 { font-size:26px }
+.u-fs-25 { font-size:25px }
+.u-fs-24 { font-size:24px }
+.u-fs-22 { font-size:22px }
+.u-fs-21 { font-size:21px }
+.u-fs-20 { font-size:20px }
+.u-fs-18 { font-size:18px }
+.u-fs-17 { font-size:17px }
 
 /* ===== 重複インラインstyleを機械的にクラス化したもの (refactor: 施策4) =====
    index.html内で完全一致するstyle値が複数箇所(3箇所以上)に出現していたパターンを
@@ -497,25 +521,30 @@
      日本語見出しは text-wrap:balance と word-break:auto-phrase で「語の途中改行」「1〜2文字残り」を抑える
      （auto-phrase 非対応ブラウザでは normal 相当にフォールバックし副作用は無い）。 */
 
+  /* 施策8: font-sizeのレスポンシブ縮小グループ(このブロック以下、計28段階)は、実際に
+     index.html内で使われている値についてu-fs-Nクラス(N=元のpx値)へ置き換え済みのため、
+     各セレクタも属性セレクタとクラスセレクタの両方に対応させる。使われていない値
+     (110/100/90/72/68/64/54px)はクラスを用意していないため属性セレクタのみ残している。 */
+
   /* FV/ページ大見出し（50〜110px級）→ 28〜36px */
-  [style*="font-size: 110px"], [style*="font-size: 100px"], [style*="font-size: 96px"], [style*="font-size: 90px"],
-  [style*="font-size: 72px"], [style*="font-size: 68px"], [style*="font-size: 64px"], [style*="font-size: 62px"],
-  [style*="font-size: 56px"], [style*="font-size: 54px"], [style*="font-size: 52px"], [style*="font-size: 50px"] {
+  [style*="font-size: 110px"], [style*="font-size: 100px"], [style*="font-size: 96px"], .u-fs-96, [style*="font-size: 90px"],
+  [style*="font-size: 72px"], [style*="font-size: 68px"], [style*="font-size: 64px"], [style*="font-size: 62px"], .u-fs-62,
+  [style*="font-size: 56px"], .u-fs-56, [style*="font-size: 54px"], [style*="font-size: 52px"], .u-fs-52, [style*="font-size: 50px"], .u-fs-50 {
     font-size: clamp(28px, 8vw, 36px) !important;
     text-wrap: balance; word-break: auto-phrase; line-break: strict;
   }
   /* 装飾スクリプト体（Parisienne "My Journey, My Story." 46px）は雰囲気を残しやや大きめに */
-  [style*="font-size: 46px"] { font-size: clamp(28px, 9vw, 40px) !important; text-wrap: balance; }
+  [style*="font-size: 46px"], .u-fs-46 { font-size: clamp(28px, 9vw, 40px) !important; text-wrap: balance; }
   /* セクション見出し（26〜44px級）→ 20〜24px */
-  [style*="font-size: 44px"], [style*="font-size: 42px"], [style*="font-size: 41px"],
-  [style*="font-size: 30px"], [style*="font-size: 29px"], [style*="font-size: 28px"],
-  [style*="font-size: 27px"], [style*="font-size: 26px"] {
+  [style*="font-size: 44px"], .u-fs-44, [style*="font-size: 42px"], .u-fs-42, [style*="font-size: 41px"], .u-fs-41,
+  [style*="font-size: 30px"], .u-fs-30, [style*="font-size: 29px"], .u-fs-29, [style*="font-size: 28px"], .u-fs-28,
+  [style*="font-size: 27px"], .u-fs-27, [style*="font-size: 26px"], .u-fs-26 {
     font-size: clamp(20px, 5.6vw, 24px) !important;
     text-wrap: balance; word-break: auto-phrase; line-break: strict;
   }
   /* 既に範囲内(20〜25px)の小見出しは、サイズはそのままに改行だけ整える */
-  [style*="font-size: 25px"], [style*="font-size: 24px"], [style*="font-size: 22px"],
-  [style*="font-size: 21px"], [style*="font-size: 20px"] {
+  [style*="font-size: 25px"], .u-fs-25, [style*="font-size: 24px"], .u-fs-24, [style*="font-size: 22px"], .u-fs-22,
+  [style*="font-size: 21px"], .u-fs-21, [style*="font-size: 20px"], .u-fs-20 {
     text-wrap: balance; word-break: auto-phrase;
   }
   /* 「日本」「つくり方」「野球観戦」等、意味のまとまりを white-space:nowrap の <span> で
@@ -532,7 +561,7 @@
      これにより著者がPC幅前提で入れた <br> 位置のズレで生じる語の途中改行（例:「名古屋大学大学院で
      自動運転を研究し、」が1行に収まらず「研/究し」に割れる）も、行に収まって解消する。
      CTA(GET IN TOUCH 等)も16pxはガイドのCTA範囲(16〜18px太字)内なので問題ない。 */
-  [style*="font-size: 18px"], [style*="font-size: 17px"] { font-size: 16px !important; }
+  [style*="font-size: 18px"], .u-fs-18, [style*="font-size: 17px"], .u-fs-17 { font-size: 16px !important; }
 
   /* 本文・箇条書きの日本語を、対応ブラウザ(Chrome/Android)では語の途中で折り返さない
      （「研究」→「研/究」等を抑制）。auto-phrase 非対応(Safari等)では normal 相当で副作用なし。 */
