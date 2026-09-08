@@ -22,6 +22,7 @@
 .u-nowrap { white-space:nowrap }
 .u-pill { border-radius:999px }
 .u-pretty { text-wrap:pretty }
+.u-container { max-width:1180px; margin:0 auto }
 
 /* ===== 重複インラインstyleを機械的にクラス化したもの (refactor: 施策4) =====
    index.html内で完全一致するstyle値が複数箇所(3箇所以上)に出現していたパターンを
@@ -306,7 +307,9 @@
 
 /* ---- タブレット（~900px）: 主要コンテナの広い左右パディングを緩和 ---- */
 @media (max-width: 900px) {
-  [style*="max-width: 1180px"] { padding-left: 30px !important; padding-right: 30px !important; }
+  /* 施策8: max-width:1180px;margin:0 auto(70箇所)はu-containerクラスへ置き換え済みのため、
+     このセレクタもクラスセレクタに対応させる。 */
+  [style*="max-width: 1180px"], .u-container { padding-left: 30px !important; padding-right: 30px !important; }
 }
 
 /* ---- スマホ/狭幅（~760px）: 1カラム化・ナビ圧縮・はみ出し防止 ---- */
@@ -318,7 +321,7 @@
   html, body { overflow-x: clip !important; }
 
   /* 主要コンテナ（max-width:1180px が共通アンカー）の左右パディングを詰める */
-  [style*="max-width: 1180px"] { padding-left: 16px !important; padding-right: 16px !important; }
+  [style*="max-width: 1180px"], .u-container { padding-left: 16px !important; padding-right: 16px !important; }
 
   /* 多カラムグリッドはすべて1カラムに積み上げる。
      素の 1fr は minmax(auto,1fr) 相当で、子の min-content 幅がトラック下限になり
@@ -582,7 +585,7 @@
         コンテナ最大幅を少しだけ広げて締める。本文段落は各自の内側 max-width を持つため
         行長が極端に伸びない範囲（1320px）に留める。 ---- */
 @media (min-width: 1680px) {
-  [style*="max-width: 1180px"] { max-width: 1320px !important; }
+  [style*="max-width: 1180px"], .u-container { max-width: 1320px !important; }
 }
 
 /* ===== STORYカード間の区切り: カード幅が全カード共通になったことで、余白だけでは
