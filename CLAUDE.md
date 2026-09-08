@@ -1,3 +1,5 @@
+﻿<!-- GENERATED FILE: Edit ai-instructions/ws__personal__portfolio/shared.md, then run scripts/sync-agent-instructions.ps1 -Action Sync. -->
+
 # CLAUDE.md — portfolio プロジェクト固有ガイドライン
 
 このファイルは親ディレクトリ（ワークスペースルート）の `CLAUDE.md` に追加・上書きする
