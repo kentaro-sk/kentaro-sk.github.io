@@ -21,6 +21,7 @@
    を参照）。値そのものは変更していない。 */
 .u-nowrap { white-space:nowrap }
 .u-pill { border-radius:999px }
+.u-pretty { text-wrap:pretty }
 
 /* ===== 重複インラインstyleを機械的にクラス化したもの (refactor: 施策4) =====
    index.html内で完全一致するstyle値が複数箇所(3箇所以上)に出現していたパターンを
@@ -560,13 +561,15 @@
 @media (max-width: 400px) {
   /* リード段落(text-wrap:pretty)は狭幅で字間を詰め、「研究し、」等の熟語を行内に収める。
      ナビや氏名ワードマークの扱いは上の ≤760 ブロックに一本化済み（幅の境界での段差を無くすため）。 */
-  [style*="text-wrap: pretty"] { letter-spacing: 0 !important; }
+  /* 施策8: text-wrap:pretty単体のstyle値(89箇所)はu-prettyクラスへ置き換え済みのため、
+     このセレクタもクラスセレクタに対応させる。 */
+  [style*="text-wrap: pretty"], .u-pretty { letter-spacing: 0 !important; }
 }
 
 /* ---- 極狭端末（≤345px, iPhone SE 等）: リード段落を15pxへ下げて語中改行（「研究」→「研/究」）を解消する。
         ナビはハンバーガーに集約済みのためサイズ調整は不要。 ---- */
 @media (max-width: 345px) {
-  [style*="text-wrap: pretty"] { font-size: 15px !important; }
+  [style*="text-wrap: pretty"], .u-pretty { font-size: 15px !important; }
 }
 
 /* ---- デスクトップ（≥761px）: モバイル→PCへリサイズした際にメニューが開いたままでも
