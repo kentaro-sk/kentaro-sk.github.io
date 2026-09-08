@@ -172,8 +172,10 @@
 .c-153 { color:#F6F2E7 }
 .c-154 { margin:0 }
 
-/* Parisienne を自己ホスト（base64埋め込み）。Google Fonts が社内ネットワーク等でブロック/失敗しても
-   「My Journey, My Story.」の筆記体を確実に表示するため、外部依存なしのローカル @font-face を用意する。 */
+/* Parisienne を自己ホスト（外部woff2ファイル: fonts/Parisienne-Regular.woff2）。
+   Google Fonts が社内ネットワーク等でブロック/失敗しても「My Journey, My Story.」の
+   筆記体を確実に表示するため、外部依存なしのローカル @font-face を用意する。
+   （旧版はindex.html内にbase64で直接埋め込んでいたが、軽量化のため外部ファイル化した） */
 @font-face { font-family: 'Parisienne'; font-style: normal; font-weight: 400; font-display: swap; src: url('../fonts/Parisienne-Regular.woff2') format('woff2'); }
 
 /* 注: DCランタイム(React)は style を「prop: value」（コロン後に空白）で描画するため、
