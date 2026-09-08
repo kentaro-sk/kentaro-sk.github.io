@@ -13,6 +13,14 @@
    ことを事前に確認済み(重複するものは元のままinline styleに残してある)。
    ============================================================ */
 
+/* ===== responsive-patchが参照する意味のあるユーティリティクラス (refactor: 施策8) =====
+   [style*="..."]による部分文字列一致は、値の一部が別の値に偶然含まれるだけで誤発火しうる
+   壊れやすい仕組みだったため、頻出パターンについては意味のある名前のユーティリティクラスを
+   用意し、index.html側もこのクラスを使うように置き換えた上で、下のresponsive-patch側の
+   セレクタも属性セレクタからこのクラスセレクタへ置き換えている（詳細は各ルール直前のコメント
+   を参照）。値そのものは変更していない。 */
+.u-nowrap { white-space:nowrap }
+
 /* ===== 重複インラインstyleを機械的にクラス化したもの (refactor: 施策4) =====
    index.html内で完全一致するstyle値が複数箇所(3箇所以上)に出現していたパターンを
    .c-XXX クラスとして切り出したもの。responsive-patch内の[style*="..."]属性セレクタと
@@ -508,7 +516,10 @@
      あったため、この3見出しに限り balance を無効化し通常の詰め込み折返しに戻す。
      h1直下の style="" 属性に text-wrap:normal を直接足す方法は、DCランタイムの style パーサーが
      未知の値を落としてしまい効かなかったため、スタイルシート側の :has() で確実に上書きする。 */
-  h1:has(> span[style*="white-space: nowrap"]) { text-wrap: wrap !important; }
+  /* 施策8: white-space:nowrapのみのstyle値(11箇所)はu-nowrapクラスへ置き換え済みのため、
+     このセレクタも属性セレクタとクラスセレクタの両方に対応させる(他プロパティと組み合わさった
+     nowrapは対象外のため、属性セレクタ側は引き続き残す)。 */
+  h1:has(> span[style*="white-space: nowrap"]), h1:has(> span.u-nowrap) { text-wrap: wrap !important; }
   /* 本文・リード・ラベルの 17/18px は、ガイドの「本文16px」に合わせて16pxへ統一する。
      これにより著者がPC幅前提で入れた <br> 位置のズレで生じる語の途中改行（例:「名古屋大学大学院で
      自動運転を研究し、」が1行に収まらず「研/究し」に割れる）も、行に収まって解消する。
@@ -522,7 +533,7 @@
   /* PROFILEの黒バッジ「AI & DIGITAL ENGINEER — AUTOMOTIVE」等、padding:10px 16px の
      inline-flexバッジ内の nowrap テキストが狭幅で右に見切れる。折り返しを許可して収める。 */
   [data-patch="profile-badge"] { max-width: 100% !important; flex-wrap: wrap !important; }
-  [data-patch="profile-badge"] span[style*="white-space: nowrap"] { white-space: normal !important; }
+  [data-patch="profile-badge"] span[style*="white-space: nowrap"], [data-patch="profile-badge"] span.u-nowrap { white-space: normal !important; }
 
   /* STORY導入の夜景(journey-scene)は、1カラム化で本文の真下に明るい光跡が来ると
      文字が読みづらくなる。モバイルでは輝度(不透明度)を落として本文の可読性を確保する。
