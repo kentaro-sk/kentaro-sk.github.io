@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>日本100名城めぐり — CASTLES</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600&family=IBM+Plex+Mono:wght@400;500&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<script src="https://unpkg.com/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#FFFDF5;color:#151515;font-family:'Zen Kaku Gothic New',sans-serif;-webkit-font-smoothing:antialiased}
+  .mono{font-family:'IBM Plex Mono',monospace}
+  .wrap{max-width:1120px;margin:0 auto;padding:26px 26px 40px}
+  .bar{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:16px}
+  .tabs{display:flex;gap:0;border:1px solid rgba(21,21,21,.16)}
+  .tab{background:none;border:none;white-space:nowrap;padding:10px 16px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.6);cursor:pointer;transition:background .25s ease,color .25s ease}
+  .tab+.tab{border-left:1px solid rgba(21,21,21,.16)}
+  .tab.on{background:#151515;color:#FDF8E7}
+  .legend{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .lg{display:flex;align-items:center;gap:7px;font-size:12px;color:rgba(21,21,21,.7)}
+  .stage{position:relative;background:linear-gradient(180deg,#F4F8FC 0%,#EDF3F9 100%);border:1px solid rgba(21,21,21,.12);overflow:hidden}
+  svg.map{display:block;width:100%;height:auto}
+  .pin{cursor:pointer;transition:transform .2s ease}
+  .tip{position:absolute;pointer-events:none;background:#151515;color:#FDF8E7;padding:6px 10px;font-size:12px;white-space:nowrap;transform:translate(-50%,-140%);opacity:0;transition:opacity .18s ease;z-index:6}
+  .pop{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(7,11,22,.44);z-index:8;padding:22px}
+  .pop.on{display:flex}
+  .card{width:min(460px,100%);background:#FFFDF5;border:1px solid rgba(21,21,21,.18);box-shadow:0 30px 60px -30px rgba(7,11,22,.6)}
+  .card h3{margin:0;font-family:'Shippori Mincho B1',serif;font-size:26px;font-weight:600;letter-spacing:.03em}
+  .close{background:none;border:1px solid rgba(21,21,21,.2);width:32px;height:32px;cursor:pointer;font-size:16px;line-height:1;color:#151515}
+  .close:hover{border-color:#3B82C4;color:#3B82C4}
+  .memo{border:1px dashed rgba(21,21,21,.28);background:repeating-linear-gradient(45deg,#FBF6E8 0 9px,#FFFDF5 9px 18px);padding:24px 20px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.42);line-height:1.9}
+  .tabs.small .tab{font-size:12px;padding:9px 13px}
+  .plabel{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.03em;fill:#151515;paint-order:stroke;stroke:#FFFDF5;stroke-width:2.8px;stroke-linejoin:round;pointer-events:none}
+  .state{display:inline-flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;border:1px solid rgba(21,21,21,.2);padding:5px 12px;color:rgba(21,21,21,.6)}
+  .state.on{border-color:#151515;background:#151515;color:#FDF8E7}
+  .vbtn{margin-top:16px;width:100%;display:flex;align-items:center;justify-content:center;gap:9px;border:1px solid #151515;background:#151515;color:#FDF8E7;padding:15px;font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:600;letter-spacing:.12em;cursor:pointer;transition:background .3s ease,color .3s ease,border-color .3s ease}
+  .vbtn:hover{background:#3B82C4;border-color:#3B82C4}
+  .vbtn.done{background:#FFFDF5;color:#151515}
+  .vbtn.done:hover{background:#FBF5DE;border-color:#151515}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar">
+    <div style="display:flex;flex-wrap:wrap;gap:12px">
+      <div class="tabs" id="stabs">
+        <button class="tab on" data-set="all">すべて</button>
+        <button class="tab" data-set="a">日本100名城</button>
+        <button class="tab" data-set="b">続日本100名城</button>
+      </div>
+      <div class="tabs small" id="vtabs">
+        <button class="tab on" data-v="all">訪問状況すべて</button>
+        <button class="tab" data-v="v">訪問済みだけ</button>
+        <button class="tab" data-v="n">未訪問だけ</button>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="lg"><svg width="17" height="17"><circle cx="8.5" cy="8.5" r="5.6" fill="#3B82C4" stroke="#151515" stroke-width="1.7"></circle></svg>訪問済み（塗り＋城名）</div>
+      <div class="lg"><svg width="17" height="17"><circle cx="8.5" cy="8.5" r="3.5" fill="#FFFDF5" stroke="#3B82C4" stroke-width="1.5"></circle></svg>未訪問（白抜き）</div>
+      <div class="lg"><svg width="24" height="15"><circle cx="6" cy="7.5" r="4" fill="#3B82C4"></circle><circle cx="17" cy="7.5" r="4" fill="#D9B979"></circle></svg>青＝100名城 / 金＝続100名城</div>
+    </div>
+  </div>
+
+  <div class="stage" id="stage">
+    <svg class="map" id="map" viewBox="0 0 1120 620" role="img" aria-label="日本100名城の位置を示す日本地図"></svg>
+    <div id="panel" style="position:absolute;left:20px;top:20px;width:240px;background:rgba(255,253,245,.92);border:1px solid rgba(21,21,21,.14);padding:18px 18px 20px;z-index:5">
+      <div class="mono" style="font-size:12px;letter-spacing:.2em;color:#3B82C4;margin-bottom:10px">CASTLE MAP</div>
+      <div style="font-family:'Shippori Mincho B1',serif;font-size:24px;font-weight:600;letter-spacing:.03em;line-height:1.45;margin-bottom:14px">日本100名城<br>続日本100名城</div>
+      <div id="panelStats" style="display:flex;flex-direction:column;gap:8px;border-top:1px solid rgba(21,21,21,.12);padding-top:13px"></div>
+      <div class="mono" style="margin-top:13px;border-top:1px solid rgba(21,21,21,.12);padding-top:11px;font-size:12px;letter-spacing:.1em;line-height:1.9;color:rgba(21,21,21,.45)">ピンをクリックすると<br>城の情報が開きます</div>
+    </div>
+    <div class="tip" id="tip"></div>
+    <div class="pop" id="pop">
+      <div class="card">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:24px 24px 0">
+          <div>
+            <div class="mono" id="popKicker" style="font-size:12px;letter-spacing:.2em;color:#3B82C4;margin-bottom:8px"></div>
+            <h3 id="popTitle"></h3>
+            <div id="popPref" style="font-size:12px;color:rgba(21,21,21,.6);margin-top:8px"></div>
+          </div>
+          <button class="close" id="popClose" aria-label="閉じる">✕</button>
+        </div>
+        <div style="padding:18px 24px 26px">
+          <div id="popState" class="state">未訪問</div>
+          <div class="mono" style="font-size:12px;letter-spacing:.18em;color:rgba(21,21,21,.42);margin:17px 0 9px">CASTLE NOTE — 登城メモ</div>
+          <div class="memo">ここに登城の記録を書きます<br>TO BE WRITTEN</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* [城名, 都道府県, 緯度, 経度, 訪問済み(1/0)] — 訪れたら末尾を 1 に */
+const A = [
+  ['根室半島チャシ跡群','北海道',43.33,145.75,0],['五稜郭','北海道',41.80,140.76,0],['松前城','北海道',41.43,140.11,0],
+  ['弘前城','青森県',40.61,140.46,0],['根城','青森県',40.51,141.46,0],['盛岡城','岩手県',39.70,141.15,0],['多賀城','宮城県',38.30,140.99,0],['仙台城','宮城県',38.25,140.86,0],
+  ['久保田城','秋田県',39.72,140.10,0],['山形城','山形県',38.25,140.33,0],['二本松城','福島県',37.60,140.43,0],
+  ['会津若松城','福島県',37.49,139.93,0],['白河小峰城','福島県',37.13,140.21,0],['水戸城','茨城県',36.37,140.48,0],
+  ['足利氏館','栃木県',36.34,139.45,1],['箕輪城','群馬県',36.42,138.94,1],['金山城','群馬県',36.30,139.36,1],
+  ['鉢形城','埼玉県',36.10,139.20,1],['川越城','埼玉県',35.92,139.49,0],['佐倉城','千葉県',35.72,140.22,0],
+  ['江戸城','東京都',35.685,139.752,1],['八王子城','東京都',35.65,139.24,1],['小田原城','神奈川県',35.25,139.15,1],
+  ['武田氏館','山梨県',35.67,138.57,1],['甲府城','山梨県',35.66,138.57,1],['松代城','長野県',36.57,138.19,1],
+  ['上田城','長野県',36.40,138.24,1],['小諸城','長野県',36.32,138.42,1],['松本城','長野県',36.24,137.97,1],
+  ['高遠城','長野県',35.83,138.06,0],['新発田城','新潟県',37.95,139.33,0],['春日山城','新潟県',37.15,138.22,1],
+  ['高岡城','富山県',36.75,137.02,1],['七尾城','石川県',36.99,136.94,1],['金沢城','石川県',36.57,136.66,1],
+  ['丸岡城','福井県',36.15,136.27,1],['一乗谷城','福井県',35.98,136.30,1],['岩村城','岐阜県',35.36,137.44,1],
+  ['岐阜城','岐阜県',35.43,136.78,1],['山中城','静岡県',35.13,138.98,1],['駿府城','静岡県',34.98,138.38,1],
+  ['掛川城','静岡県',34.77,138.01,1],['犬山城','愛知県',35.39,136.94,1],['名古屋城','愛知県',35.185,136.899,1],
+  ['岡崎城','愛知県',34.95,137.16,1],['長篠城','愛知県',34.92,137.55,1],['伊賀上野城','三重県',34.77,136.13,1],
+  ['松阪城','三重県',34.58,136.53,1],['小谷城','滋賀県',35.48,136.28,1],['彦根城','滋賀県',35.28,136.25,1],
+  ['安土城','滋賀県',35.16,136.14,1],['観音寺城','滋賀県',35.13,136.16,1],['二条城','京都府',35.014,135.748,1],
+  ['大阪城','大阪府',34.687,135.526,1],['千早城','大阪府',34.42,135.65,1],['竹田城','兵庫県',35.30,134.83,0],
+  ['篠山城','兵庫県',35.07,135.22,1],['明石城','兵庫県',34.65,134.99,1],['姫路城','兵庫県',34.84,134.69,1],
+  ['赤穂城','兵庫県',34.75,134.39,0],['高取城','奈良県',34.43,135.82,0],['和歌山城','和歌山県',34.23,135.17,0],
+  ['鳥取城','鳥取県',35.51,134.24,0],['松江城','島根県',35.475,133.05,0],['月山富田城','島根県',35.34,133.20,0],
+  ['津和野城','島根県',34.46,131.77,0],['津山城','岡山県',35.07,134.00,0],['備中松山城','岡山県',34.80,133.62,0],
+  ['鬼ノ城','岡山県',34.71,133.79,0],['岡山城','岡山県',34.665,133.936,0],['福山城','広島県',34.49,133.36,0],
+  ['吉田郡山城','広島県',34.66,132.70,0],['広島城','広島県',34.40,132.46,0],['岩国城','山口県',34.17,132.18,0],
+  ['萩城','山口県',34.42,131.39,0],['徳島城','徳島県',34.07,134.56,0],['高松城','香川県',34.35,134.05,0],
+  ['丸亀城','香川県',34.29,133.80,0],['今治城','愛媛県',34.06,132.99,0],['湯築城','愛媛県',33.84,132.79,0],
+  ['松山城','愛媛県',33.85,132.77,0],['大洲城','愛媛県',33.50,132.55,0],['宇和島城','愛媛県',33.22,132.56,0],
+  ['高知城','高知県',33.56,133.53,0],['福岡城','福岡県',33.58,130.38,0],['大野城','福岡県',33.53,130.51,0],
+  ['名護屋城','佐賀県',33.53,129.87,0],['吉野ヶ里','佐賀県',33.32,130.30,0],['佐賀城','佐賀県',33.24,130.30,0],
+  ['平戸城','長崎県',33.37,129.55,0],['島原城','長崎県',32.79,130.36,0],['熊本城','熊本県',32.806,130.706,0],
+  ['人吉城','熊本県',32.21,130.76,0],['大分府内城','大分県',33.24,131.61,0],['岡城','大分県',32.97,131.40,0],
+  ['飫肥城','宮崎県',31.63,131.35,0],['鹿児島城','鹿児島県',31.60,130.55,0],['今帰仁城','沖縄県',26.69,127.93,0],
+  ['中城城','沖縄県',26.28,127.79,0],['首里城','沖縄県',26.217,127.719,0]
+];
+const B = [
+  ['浪岡城','青森県',40.70,140.60,0],['九戸城','岩手県',40.28,141.30,0],['白石城','宮城県',38.00,140.62,0],
+  ['鶴ヶ岡城','山形県',38.73,139.83,0],['米沢城','山形県',37.91,140.11,0],['向羽黒山城','福島県',37.44,139.86,0],
+  ['笠間城','茨城県',36.38,140.26,0],['土浦城','茨城県',36.08,140.20,0],['唐沢山城','栃木県',36.37,139.72,1],
+  ['沼田城','群馬県',36.65,139.05,1],['名胡桃城','群馬県',36.70,138.99,1],['忍城','埼玉県',36.13,139.48,1],
+  ['本佐倉城','千葉県',35.73,140.28,0],['大多喜城','千葉県',35.29,140.25,0],['滝山城','東京都',35.69,139.32,0],
+  ['小机城','神奈川県',35.51,139.60,0],['石垣山城','神奈川県',35.24,139.13,0],['新府城','山梨県',35.77,138.42,0],
+  ['高島城','長野県',36.04,138.11,1],['高田城','新潟県',37.11,138.24,1],['村上城','新潟県',38.22,139.48,0],
+  ['富山城','富山県',36.69,137.21,1],['福井城','福井県',36.06,136.22,1],['越前大野城','福井県',35.98,136.49,1],
+  ['郡上八幡城','岐阜県',35.75,136.96,0],['苗木城','岐阜県',35.50,137.44,0],['大垣城','岐阜県',35.36,136.61,0],
+  ['浜松城','静岡県',34.71,137.72,1],['小牧山城','愛知県',35.29,136.92,0],['吉田城','愛知県',34.77,137.39,1],
+  ['津城','三重県',34.72,136.51,0],['田丸城','三重県',34.49,136.62,0],['福知山城','京都府',35.30,135.13,0],
+  ['岸和田城','大阪府',34.46,135.37,0],['出石城','兵庫県',35.46,134.87,0],['黒井城','兵庫県',35.16,135.10,0],
+  ['洲本城','兵庫県',34.34,134.90,0],['大和郡山城','奈良県',34.65,135.78,0],['原城','長崎県',32.63,130.24,0],
+  ['中津城','大分県',33.60,131.19,0],['臼杵城','大分県',33.12,131.80,0],['延岡城','宮崎県',32.58,131.66,0],
+  ['知覧城','鹿児島県',31.37,130.45,0],['勝連城','沖縄県',26.33,127.88,0],['座喜味城','沖縄県',26.41,127.75,0],
+  ['岩櫃城','群馬県',36.55,138.83,1],['杉山城','埼玉県',36.06,139.32,1],['菅谷館','埼玉県',36.04,139.34,1],['龍岡城','長野県',36.20,138.49,1],['鮫ヶ尾城','新潟県',37.07,138.22,1],['増山城','富山県',36.67,136.99,1],['鳥越城','石川県',36.34,136.68,1],['佐柿国吉城','福井県',35.60,135.95,1],['玄蕃尾城','福井県',35.55,136.16,1],['諏訪原城','静岡県',34.83,138.14,1],['高天神城','静岡県',34.70,138.05,1],['古宮城','愛知県',35.02,137.42,1]
+];
+
+const W = 1120, H = 620;
+const stage = document.getElementById('stage'), tip = document.getElementById('tip'), pop = document.getElementById('pop');
+let mode = 'all', vmode = 'all', cur = null, redraw = () => {};
+const VKEY = 'castleVisited.v1';
+let visited = new Set();
+A.concat(B).forEach(c => { if (c[4]) visited.add(c[0]); });
+
+function showTip(t, ev) {
+  const r = stage.getBoundingClientRect();
+  tip.textContent = t;
+  tip.style.left = (ev.clientX - r.left) + 'px';
+  tip.style.top = (ev.clientY - r.top) + 'px';
+  tip.style.opacity = '1';
+}
+const hideTip = () => tip.style.opacity = '0';
+document.getElementById('popClose').onclick = () => pop.classList.remove('on');
+pop.addEventListener('click', e => { if (e.target === pop) pop.classList.remove('on'); });
+function syncPop() {
+  const v = cur ? visited.has(cur) : false;
+  const st = document.getElementById('popState');
+  st.textContent = v ? '訪問済み' : '未訪問';
+  st.className = 'state' + (v ? ' on' : '');
+}
+function openPop(kicker, name, pref) {
+  cur = name;
+  document.getElementById('popKicker').textContent = kicker;
+  document.getElementById('popTitle').textContent = name;
+  document.getElementById('popPref').textContent = pref;
+  syncPop();
+  pop.classList.add('on');
+}
+
+const BOX_MAIN = {type:'MultiPoint',coordinates:[[128.2,30.4],[146.3,45.8]]};
+const BOX_OKI  = {type:'MultiPoint',coordinates:[[126.3,25.8],[128.6,26.95]]};
+const INSET = {x: 26, y: H - 158, w: 214, h: 124};
+
+d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json').then(topo => {
+  const jp = topojson.feature(topo, topo.objects.countries).features.find(d => d.properties.name === 'Japan');
+  const svg = d3.select('#map');
+
+  /* 本土 */
+  const proj = d3.geoMercator().fitExtent([[268, 14], [W - 34, H - 14]], BOX_MAIN);
+  const clipMain = svg.append('clipPath').attr('id', 'clipMain');
+  clipMain.append('rect').attr('x', 258).attr('y', 0).attr('width', W - 258).attr('height', H);
+  svg.append('g').attr('clip-path', 'url(#clipMain)').append('path')
+    .attr('d', d3.geoPath(proj)(jp)).attr('fill', '#E9E4D4').attr('stroke', '#FFFDF5').attr('stroke-width', .8);
+
+  /* 沖縄インセット */
+  const oproj = d3.geoMercator().fitExtent([[INSET.x + 8, INSET.y + 8], [INSET.x + INSET.w - 8, INSET.y + INSET.h - 8]], BOX_OKI);
+  svg.append('clipPath').attr('id', 'clipOki').append('rect')
+    .attr('x', INSET.x).attr('y', INSET.y).attr('width', INSET.w).attr('height', INSET.h);
+  svg.append('rect').attr('x', INSET.x).attr('y', INSET.y).attr('width', INSET.w).attr('height', INSET.h)
+    .attr('fill', 'rgba(255,253,245,.5)').attr('stroke', 'rgba(21,21,21,.2)').attr('stroke-dasharray', '3 3');
+  svg.append('g').attr('clip-path', 'url(#clipOki)').append('path')
+    .attr('d', d3.geoPath(oproj)(jp)).attr('fill', '#E9E4D4').attr('stroke', '#FFFDF5').attr('stroke-width', .8);
+  svg.append('text').attr('x', INSET.x + 9).attr('y', INSET.y + 18)
+    .attr('font-family', "'IBM Plex Mono',monospace").attr('font-size', 9).attr('letter-spacing', '.14em')
+    .attr('fill', 'rgba(21,21,21,.5)').text('OKINAWA');
+
+  const layer = svg.append('g');
+  function draw() {
+    layer.selectAll('*').remove();
+    const boxes = [];
+    function placeLabel(x, y, name) {
+      const w = name.length * 6.4 + 4, h = 11;
+      for (const dy of [0, -11, 11, -22, 22, -33, 33]) {
+        const b = [x, y + dy - h / 2, x + w, y + dy + h / 2];
+        if (!boxes.some(o => b[0] < o[2] && b[2] > o[0] && b[1] < o[3] && b[3] > o[1])) { boxes.push(b); return dy; }
+      }
+      return 0;
+    }
+    const sets = [];
+    if (mode === 'all' || mode === 'a') sets.push(['日本100名城', A, '#3B82C4']);
+    if (mode === 'all' || mode === 'b') sets.push(['続日本100名城', B, '#D9B979']);
+    sets.forEach(([label, data, color]) => {
+      data.forEach(([name, pref, lat, lon]) => {
+        const v = visited.has(name);
+        if (vmode === 'v' && !v) return;
+        if (vmode === 'n' && v) return;
+        const p = (pref === '沖縄県' ? oproj : proj)([lon, lat]);
+        if (!p) return;
+        const g = layer.append('g').attr('class', 'pin')
+          .on('mousemove', ev => showTip(name + ' — ' + pref + (v ? ' / 訪問済み' : ''), ev))
+          .on('mouseleave', hideTip)
+          .on('click', () => openPop(label + (v ? ' — 訪問済み' : ''), name, pref));
+        if (v) {
+          g.append('circle').attr('cx', p[0]).attr('cy', p[1]).attr('r', 9.5)
+            .attr('fill', 'none').attr('stroke', color).attr('stroke-width', 1).attr('opacity', .45);
+          g.append('circle').attr('cx', p[0]).attr('cy', p[1]).attr('r', 5.6)
+            .attr('fill', color).attr('stroke', '#151515').attr('stroke-width', 1.7);
+
+        } else {
+          g.append('circle').attr('cx', p[0]).attr('cy', p[1]).attr('r', 3.5)
+            .attr('fill', '#FFFDF5').attr('stroke', color).attr('stroke-width', 1.5).attr('opacity', .92);
+        }
+      });
+    });
+    const va = A.filter(c => visited.has(c[0])).length, vb = B.filter(c => visited.has(c[0])).length;
+    const stat = (k, v, sub) => '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px"><span style="font-size:12px;color:rgba(21,21,21,.68)">' + k + '</span><span class="mono" style="font-size:15px;color:#151515">' + v + (sub ? '<span style="font-size:12px;color:rgba(21,21,21,.45)"> / ' + sub + '</span>' : '') + '</span></div>';
+    document.getElementById('panelStats').innerHTML =
+      stat('日本100名城', va, A.length) + stat('続日本100名城', vb, B.length) + stat('訪問済み合計', va + vb, A.length + B.length);
+  }
+  redraw = draw;
+  draw();
+  document.querySelectorAll('#stabs .tab').forEach(b => b.onclick = () => {
+    document.querySelectorAll('#stabs .tab').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    mode = b.dataset.set;
+    draw();
+  });
+  document.querySelectorAll('#vtabs .tab').forEach(b => b.onclick = () => {
+    document.querySelectorAll('#vtabs .tab').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    vmode = b.dataset.v;
+    draw();
+  });
+});
+</script>
+
+<script>
+(function () {
+  var last = 0;
+  function measure() {
+    var w = document.querySelector('.wrap');
+    if (!w) return Math.ceil(document.body.scrollHeight);
+    var r = w.getBoundingClientRect();
+    return Math.ceil(r.height + r.top + 8);
+  }
+  function report(force) {
+    var h = measure();
+    if (!force && Math.abs(h - last) < 4) return;
+    last = h;
+    try { parent.postMessage({ type: 'hobbyFrameHeight', h: h }, '*'); } catch (e) {}
+  }
+  window.addEventListener('load', function () { report(true); });
+  setInterval(report, 350);
+})();
+</script>
+</body>
+</html>
