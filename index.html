@@ -647,10 +647,14 @@ a:hover{color:#2A6BA6}
 <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(246,242,231,.45);white-space:nowrap">AWARD 2 / GRANT 1 / EXEMPTION 1</span>
 </div>
 <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:rgba(216,185,121,.26)">
-<div data-rv="" class="c-131"><div class="c-066"><span class="c-071">2024.11</span><span class="c-057">AWARD</span></div><a href="https://ssi2024.sice.or.jp/award.html" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:9px;font-family:'Shippori Mincho B1',serif;font-size:24px;font-weight:600;line-height:1.55;letter-spacing:.03em;color:#F6F2E7;text-decoration:none;transition:color .3s ease" style-hover="color:#D9B979">SSI最優秀論文賞<br>Best Paper Award<svg width="13" height="13" class="c-132"><use href="#i-link"></use></svg></a><div class="c-048">計測自動制御学会 システム・情報部門 学術講演会 SSI2024</div><p style="margin:0;font-size:16px;line-height:1.95;color:rgba(246,242,231,.72);text-wrap:pretty">人とロボットの相互作用を扱った発表に対して。研究の問いの立て方と定量評価の枠組みを評価いただきました。</p></div>
-<div data-rv="" class="c-131"><div class="c-066"><span class="c-071">2023.3</span><span class="c-057">AWARD</span></div><a href="https://www.sice.jp/act/awards/sice_student_award.html" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:9px;font-family:'Shippori Mincho B1',serif;font-size:24px;font-weight:600;line-height:1.55;letter-spacing:.03em;color:#F6F2E7;text-decoration:none;transition:color .3s ease" style-hover="color:#D9B979">SICE優秀学生賞<svg width="13" height="13" class="c-132"><use href="#i-link"></use></svg></a><div class="c-048">計測自動制御学会</div><p style="margin:0;font-size:16px;line-height:1.95;color:rgba(246,242,231,.72);text-wrap:pretty">学部での学業成績と卒業研究の成果に対して。制御工学を軸に学んだ4年間の締めくくりとなりました。</p></div>
-<div data-rv="" class="c-131"><div class="c-066"><span class="c-071">大学院</span><span class="c-057">EXEMPTION</span></div><div style="font-family:'Shippori Mincho B1',serif;font-size:24px;font-weight:600;line-height:1.55;letter-spacing:.03em;color:#F6F2E7">特に優れた業績による<br>返還免除（半額）</div><div class="c-048">日本学生支援機構（JASSO）</div><p style="margin:0;font-size:16px;line-height:1.95;color:rgba(246,242,231,.72);text-wrap:pretty">大学院での研究業績が認められ、貸与奨学金の半額について返還を免除いただきました。</p></div>
-<div data-rv="" class="c-131"><div class="c-066"><span class="c-071">2024</span><span class="c-057">GRANT</span></div><a href="https://baroque-murai.or.jp/subsidy/" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:9px;font-family:'Shippori Mincho B1',serif;font-size:24px;font-weight:600;line-height:1.55;letter-spacing:.03em;color:#F6F2E7;text-decoration:none;transition:color .3s ease" style-hover="color:#D9B979">バロック村井博之財団<br>研究助成<svg width="13" height="13" class="c-132"><use href="#i-link"></use></svg></a><div class="c-048">公益財団法人バロック村井博之財団</div><p style="margin:0;font-size:16px;line-height:1.95;color:rgba(246,242,231,.72);text-wrap:pretty">2024年度採択。歩行者計測実験の環境整備に充て、研究の実験基盤を整えました。</p></div>
+<!-- 受賞・採択グリッド(4件)をsc-forでループ化。href: nullのJASSO免除だけは
+     sc-ifで<a>ではなく<div>として描画し、外部リンクなしという構造差を維持する。 -->
+<sc-for list="{{ awardItems }}" as="item"><div data-rv="" class="c-131"><div class="c-066"><span class="c-071">{{ item.date }}</span><span class="c-057">{{ item.tag }}</span></div><!-- <a>はdisplay:flexなコンテナのため、<br>やテキストをそのまま複数の子要素として並べると
+     それぞれが独立したflexアイテムとして扱われ、gapが余分に効いて元のレイアウトが崩れる。
+     元のHTML(テキストノード+<br>がまとめて1つの匿名flexアイテムになる)と同じ見た目にするため、
+     タイトル部分全体を1つの<span>で包み、flexアイテム数を「テキスト塊+svg」の2つに保つ。 -->
+<sc-if value="{{ item.href }}"><a href="{{ item.href }}" target="_blank" rel="noopener" style="display:flex;align-items:flex-start;gap:9px;font-family:'Shippori Mincho B1',serif;font-size:24px;font-weight:600;line-height:1.55;letter-spacing:.03em;color:#F6F2E7;text-decoration:none;transition:color .3s ease" style-hover="color:#D9B979"><span><sc-for list="{{ item.titleLines }}" as="line"><sc-if value="{{ $index != 0 }}"><br></sc-if>{{ line }}</sc-for></span><svg width="13" height="13" class="c-132"><use href="#i-link"></use></svg></a></sc-if><sc-if value="{{ !item.href }}"><div style="font-family:'Shippori Mincho B1',serif;font-size:24px;font-weight:600;line-height:1.55;letter-spacing:.03em;color:#F6F2E7"><sc-for list="{{ item.titleLines }}" as="line"><sc-if value="{{ $index != 0 }}"><br></sc-if>{{ line }}</sc-for></div></sc-if><div class="c-048">{{ item.org }}</div><p style="margin:0;font-size:16px;line-height:1.95;color:rgba(246,242,231,.72);text-wrap:pretty">{{ item.desc }}</p></div>
+</sc-for>
 </div>
 </div>
 </div>
@@ -1852,6 +1856,32 @@ const PUB_ITEMS = [
     ['日本機械学会', 'ロボメカ部門'])
 ];
 
+// 受賞・採択グリッド(4件)の1件分データを組み立てる。titleLinesは肩書き部分の改行行
+// (<br>区切り)。href: nullの項目(JASSO免除)は外部リンクを持たないため、テンプレート側で
+// sc-ifにより<a>ではなく<div>として描画し分ける。
+function awardItem(date, tag, href, titleLines, org, desc) {
+  return { date, tag, href, titleLines, org, desc };
+}
+// 受賞・採択グリッド(4件)。文言・URLは元のHTMLの記載をそのまま転記。
+const AWARD_ITEMS = [
+  awardItem('2024.11', 'AWARD', 'https://ssi2024.sice.or.jp/award.html',
+    ['SSI最優秀論文賞', 'Best Paper Award'],
+    '計測自動制御学会 システム・情報部門 学術講演会 SSI2024',
+    '人とロボットの相互作用を扱った発表に対して。研究の問いの立て方と定量評価の枠組みを評価いただきました。'),
+  awardItem('2023.3', 'AWARD', 'https://www.sice.jp/act/awards/sice_student_award.html',
+    ['SICE優秀学生賞'],
+    '計測自動制御学会',
+    '学部での学業成績と卒業研究の成果に対して。制御工学を軸に学んだ4年間の締めくくりとなりました。'),
+  awardItem('大学院', 'EXEMPTION', null,
+    ['特に優れた業績による', '返還免除（半額）'],
+    '日本学生支援機構（JASSO）',
+    '大学院での研究業績が認められ、貸与奨学金の半額について返還を免除いただきました。'),
+  awardItem('2024', 'GRANT', 'https://baroque-murai.or.jp/subsidy/',
+    ['バロック村井博之財団', '研究助成'],
+    '公益財団法人バロック村井博之財団',
+    '2024年度採択。歩行者計測実験の環境整備に充て、研究の実験基盤を整えました。')
+];
+
 class Component extends DCLogic {
   // menu: モバイルのハンバーガーメニューの開閉状態（true=開）。狭幅ではナビをこのメニューに集約する。
   state = { page: 'home', name: '', mail: '', msg: '', err: false, sent: false, open: '', nav: '', menu: false };
@@ -2330,6 +2360,8 @@ class Component extends DCLogic {
       baseballGames: BASEBALL_GAMES,
       // 発表・論文一覧(sc-for)用データ。同じくモジュール直下で1度だけ計算した定数を参照する。
       pubItems: PUB_ITEMS,
+      // 受賞・採択グリッド(sc-for)用データ。同じくモジュール直下で1度だけ計算した定数を参照する。
+      awardItems: AWARD_ITEMS,
       atProfile: at(['profile', 'achievements']),
       atWorks: at(['works', 'mobility', 'aiwork', 'education']),
       atStory: at(['story', 'turning']),
