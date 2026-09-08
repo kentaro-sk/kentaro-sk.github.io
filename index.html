@@ -306,25 +306,6 @@
     background: linear-gradient(180deg, rgba(255,253,245,.84) 0%, rgba(255,253,245,.66) 55%, rgba(255,253,245,.78) 100%) !important;
   }
 
-  /* STORYタイムライン: PCではスクロール連動のピン留め（固定高ボックスにカードを1枚ずつ表示）だが、
-     モバイルでは1画面に収まらず中学/高校/大学カードの下部がボックス(overflow:hidden)でクリップされる。
-     モバイルではピン留めを解除して各カードを自然な縦フローで並べ、白ボックスを内容に合わせて伸ばすことで
-     すべての内容がボックス内に収まるようにする。年スライダー/横軸はピン留め前提のため非表示にする。 */
-  [data-story-track] { height: auto !important; }
-  /* ピン留めペイン（track直下の position:sticky・固定高・overflow:hidden の箱）を解除。
-     ※Reactは calc(100vh - 66px) を calc(-66px + 100vh) に正規化するため、
-       高さ文字列ではなく position:sticky でトラック直下の子を狙う。 */
-  [data-story-track] > [style*="position: sticky"] { position: static !important; height: auto !important; overflow: visible !important; }
-  [data-story-track] [style*="grid-template-rows"] { display: block !important; height: auto !important; }
-  [data-story-card] {
-    position: static !important; opacity: 1 !important; transform: none !important;
-    bottom: auto !important; overflow: visible !important; pointer-events: auto !important;
-    margin-bottom: 22px !important;
-  }
-  /* カード内側ラッパー(height:100%)と白ボックス(height:100%)を内容高さに合わせて伸ばす */
-  [data-story-card] > div, [data-story-card] > div > div { height: auto !important; }
-  /* ピン留め専用の横軸(年ジャンプ)と年スライダーはモバイルでは意味をなさないため隠す */
-  [data-story-track] [style*="grid-row: 2"], [data-story-slider] { display: none !important; }
 }
 
 /* ---- 狭い端末（≤400px）: ロゴの氏名ワードマークを隠してアイコンのみにし（氏名はベアテキスト
@@ -354,6 +335,83 @@
         行長が極端に伸びない範囲（1320px）に留める。 ---- */
 @media (min-width: 1680px) {
   [style*="max-width: 1180px"] { max-width: 1320px !important; }
+}
+
+/* ===== STORYカード間の区切り: カード幅が全カード共通になったことで、余白だけでは
+   カードの境目が分かりづらくなった。先頭(誕生)を除く各カードの上に薄い罫線を入れ、
+   境目を視覚的に明確にする。 ===== */
+[data-story-card]:not([data-story-card="0"]) {
+  border-top: 1px solid rgba(21, 21, 21, .1);
+  padding-top: 28px;
+}
+[data-story-card="0"] {
+  padding-top: 40px;
+}
+[data-story-card] {
+  scroll-margin-top: 88px;
+}
+
+/* ===== STORY年表ナビ: モバイルではカード一覧の下に横並びで表示する（デフォルト）。
+   PC(≥761px)では左側に縦向きのサイドバーとして常時表示し、スクロールに応じて
+   現在地を示すリングが該当年のドットへスライドする演出にする（詳細はPC専用ブロック参照）。 ===== */
+[data-story-nav] { position: relative; }
+[data-story-navmark] { display: none; }
+
+/* ===== STORYモバイル用: 簡易進捗バー =====
+   PC版は左サイドの縦タイムラインが常時見えるため現在地が分かるが、モバイルでは
+   その年表ナビがカード一覧の一番下に流れてしまい(sticky化していない)、スクロール中
+   「今どのくらいの位置にいるか」を示す手がかりが無かった。モバイルでは固定ヘッダー
+   (高さ約69px)の直下にこの簡易バーをstickyで表示し、現在の年・カード名・何番目/
+   全何件かをテキストで、進み具合を細いプログレスバーで示す。
+   PC(≥761px)では左の縦タイムラインと重複するため非表示にする(下記PC用ブロック参照)。 */
+[data-story-mobile-nav] {
+  position: sticky;
+  top: 69px;
+  z-index: 3;
+  background: #FDFBF3;
+  padding: 10px 0 9px;
+  margin-bottom: 6px;
+}
+
+/* ===== STORY年表: PC専用レイアウト =====
+   grid の行はデフォルト(align-items:stretch)でカード列の高さに揃うため、
+   年表(data-story-nav-col)の背が「Storyカード一覧の全高」まで確保され、
+   その中で年表自身(data-story-nav)がposition:stickyで浮く「移動可能な
+   範囲」になる。ただし年表自身の画面上の位置(top:50vh)・内部の年の間隔
+   (flexの均等配置)はカードの高さと一切連動しない。カードが1枚だけ極端に
+   長くても、年表側の見え方・間隔は変わらない。 */
+@media (min-width: 761px) {
+  [data-story-layout] {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    column-gap: 24px;
+  }
+  [data-story-nav-col] { order: -1; }
+  /* PCでは左の縦タイムラインが常に見えているため、モバイル専用の簡易進捗バーは不要。 */
+  [data-story-mobile-nav] { display: none; }
+  /* 年表は「Storyコンテンツに追従して動く要素」ではなく「Story内に固定された
+     ナビゲーションUI」として扱う。そのため、カード一覧の高さや各カードの
+     内容量には一切連動させず、ビューポートの垂直中央に常に固定する。 */
+  [data-story-nav-sticky] {
+    position: sticky !important;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  [data-story-nav-col] > [data-story-nav-sticky] > [data-story-nav] {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: clamp(260px, 46vh, 440px);
+  }
+  [data-story-nav-col] [data-story-baseline] {
+    left: 50%; right: auto; top: 0; bottom: 0; height: auto; width: 1px;
+    transform: translateX(-50%);
+  }
+  [data-story-navmark] { display: block; }
+  [data-story-nav-col] [data-story-lab] { font-size: 11px; }
 }
 </style>
 </head>
@@ -427,6 +485,7 @@ a:hover{color:#2A6BA6}
 <symbol id="i-in" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM3 9.5h4v11H3zM10 9.5h3.8v1.6c.6-1 1.8-1.9 3.7-1.9 2.7 0 4.5 1.7 4.5 5.2v6.1h-4v-5.5c0-1.5-.6-2.4-1.9-2.4-1.1 0-1.8.7-2.1 1.5v6.4H10z"></path></symbol>
 <symbol id="i-x" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3.5h3.2l-7 8 7.3 9h-5.2l-4.4-5.6-4.7 5.6H3.5l7.3-8.6L3.8 3.5H9l4 5.2zM16 18.6h1.6L7.9 5.3H6.2z"></path></symbol>
 <symbol id="i-fb" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.2h-3.1V7.9c0-.9.3-1.5 1.6-1.5h1.6V3.6c-.3 0-1.3-.1-2.4-.1-2.4 0-4.1 1.5-4.1 4.2v2.1H7.5V13h2.7v8z"></path></symbol>
+<symbol id="i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5.5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"></circle></symbol>
 <symbol id="i-photo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5.5" width="17" height="13" rx="1.5"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="m5 17 4.5-4.5 3.5 3.5 2.5-2.5L19 17"></path></symbol>
 <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7.5-4.7-7.5-9.5A4.2 4.2 0 0 1 12 8a4.2 4.2 0 0 1 7.5 2.5C19.5 15.3 12 20 12 20Z"></path></symbol>
 <clipPath id="fgbA"><path d="M30 15h30v15zv15H30zH0V15zV0h30z"></path></clipPath>
@@ -501,7 +560,8 @@ a:hover{color:#2A6BA6}
 <span style="width:26px;height:1px;background:#3B82C4"></span>
 <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.26em;color:#3B82C4">WHY DO WE BUILD?</span>
 </div>
-<h1 style="margin:0 0 34px;font-family:'Shippori Mincho B1',serif;font-size:62px;font-weight:600;line-height:1.44;letter-spacing:.03em;animation:riseIn .9s .1s both ease-out" data-comment-anchor="cce50e47c6-h1">Consider.<br>Build.<br>Change.</h1>
+<h1 style="margin:0 0 18px;font-family:'Shippori Mincho B1',serif;font-size:96px;font-weight:800;line-height:1.2;letter-spacing:.16em;animation:riseIn .9s .1s both ease-out" data-comment-anchor="cce50e47c6-h1">ドライブ</h1>
+<div style="width:64px;height:3px;background:#3B82C4;margin:0 0 30px;animation:riseIn .9s .2s both ease-out"></div>
 <p style="margin:0;font-size:18px;line-height:2.05;color:rgba(21,21,21,.74);animation:riseIn .9s .3s both ease-out" data-comment-anchor="f229a48750-p">AI、モビリティ、教育。<br>そしてその先にある社会へ。</p>
 </div>
 </div>
@@ -682,7 +742,13 @@ a:hover{color:#2A6BA6}
 <h1 style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 90ms both;margin:0 0 10px;font-family:'Shippori Mincho B1',serif;font-size:56px;font-weight:600;line-height:1.3;letter-spacing:.04em">杉浦 健太郎</h1>
 <p style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 180ms both;margin:0 0 24px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.22em;color:rgba(21,21,21,.6)">KENTARO SUGIURA</p>
 <div style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 260ms both;display:inline-flex;align-items:center;gap:10px;background:#151515;color:#FFFDF5;padding:10px 16px;margin-bottom:26px" data-patch="profile-badge"><span style="color:#8FC0EA"><svg width="16" height="16" style="display:block"><use href="#i-chip"></use></svg></span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;line-height:1.4;white-space:nowrap">AI &amp; DIGITAL ENGINEER — AUTOMOTIVE</span></div>
-<p style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 340ms both;margin:0 0 30px;max-width:600px;font-size:17px;font-weight:500;line-height:2;letter-spacing:.02em;color:rgba(21,21,21,.82);text-wrap:pretty" data-comment-anchor="41523ee12b-p">名古屋大学大学院で自動運転を研究し、<br>いまは大手メーカーのIT部門でAI活用を進めています。</p>
+<p style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 340ms both;margin:0 0 24px;max-width:600px;font-size:17px;font-weight:500;line-height:2;letter-spacing:.02em;color:rgba(21,21,21,.82);text-wrap:pretty" data-comment-anchor="41523ee12b-p">名古屋大学大学院で自動運転を研究し、<br>いまは大手メーカーのIT部門でAI活用を進めています。</p>
+<div style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 390ms both;display:flex;flex-wrap:wrap;gap:12px;margin-bottom:30px" data-comment-anchor="profile-social-row">
+<a href="https://www.instagram.com/kentaro571322/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram" style="display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;text-decoration:none;color:#fff;background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%);box-shadow:0 10px 22px -14px rgba(214,36,159,.7);transition:transform .4s cubic-bezier(.22,.61,.36,1),box-shadow .3s ease,filter .3s ease" style-hover="transform:translateY(-3px);filter:brightness(1.08);box-shadow:0 16px 26px -14px rgba(214,36,159,.75)"><svg width="18" height="18" style="display:block;flex:none" aria-hidden="true"><use href="#i-ig"></use></svg></a>
+<a href="https://www.linkedin.com/in/kentaro-sugiura-49a09929b" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn" style="display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;text-decoration:none;color:#fff;background:#0A66C2;box-shadow:0 10px 22px -14px rgba(10,102,194,.9);transition:transform .4s cubic-bezier(.22,.61,.36,1),box-shadow .3s ease,filter .3s ease" style-hover="transform:translateY(-3px);filter:brightness(1.08);box-shadow:0 16px 26px -14px rgba(10,102,194,.9)"><svg width="18" height="18" style="display:block;flex:none" aria-hidden="true"><use href="#i-in"></use></svg></a>
+<a href="https://twitter.com/kentaro571322" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)" style="display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;text-decoration:none;color:#fff;background:#111111;box-shadow:0 10px 22px -14px rgba(17,17,17,.75);transition:transform .4s cubic-bezier(.22,.61,.36,1),box-shadow .3s ease,filter .3s ease" style-hover="transform:translateY(-3px);filter:brightness(1.08);box-shadow:0 16px 26px -14px rgba(17,17,17,.75)"><svg width="18" height="18" style="display:block;flex:none" aria-hidden="true"><use href="#i-x"></use></svg></a>
+<a href="https://www.facebook.com/profile.php?id=100021908416677" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook" style="display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;text-decoration:none;color:#fff;background:#1877F2;box-shadow:0 10px 22px -14px rgba(24,119,242,.9);transition:transform .4s cubic-bezier(.22,.61,.36,1),box-shadow .3s ease,filter .3s ease" style-hover="transform:translateY(-3px);filter:brightness(1.08);box-shadow:0 16px 26px -14px rgba(24,119,242,.9)"><svg width="18" height="18" style="display:block;flex:none" aria-hidden="true"><use href="#i-fb"></use></svg></a>
+</div>
 <div style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 430ms both;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;word-break:keep-all">
 <div style="border-top:2px solid #3B82C4;padding-top:11px"><div style="display:flex;align-items:center;gap:7px;margin-bottom:7px;color:#3B82C4"><svg width="16" height="16" style="display:block;flex:none"><use href="#i-cal"></use></svg><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.55)">生年月日</span></div><div style="font-size:16px;font-weight:700">2000.10.10</div></div>
 <div style="border-top:2px solid #3B82C4;padding-top:11px"><div style="display:flex;align-items:center;gap:7px;margin-bottom:7px;color:#3B82C4"><svg width="16" height="16" style="display:block;flex:none"><use href="#i-pin"></use></svg><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.55)">出身</span></div><div style="font-size:16px;font-weight:700">愛知県一宮市</div></div>
@@ -705,23 +771,24 @@ a:hover{color:#2A6BA6}
 
 <div style="position:relative;display:flex;justify-content:center;padding-bottom:18px">
 <span style="position:absolute;top:26px;bottom:0;left:50%;transform:translateX(-50%);width:2px;border-radius:999px;background:linear-gradient(180deg,rgba(59,130,196,.55),rgba(59,130,196,.08))"></span>
-<span style="position:relative;margin-top:14px;width:22px;height:22px;border-radius:999px;background:#FFFDF5;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(59,130,196,.2)"><span style="width:8px;height:8px;border-radius:999px;background:#3B82C4"></span></span>
+<span style="position:relative;margin-top:14px;width:22px;height:22px;border-radius:999px;background:#FFFDF5;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(59,130,196,.2)"><span style="width:8px;height:8px;border-radius:999px;background:#151515"></span></span>
 </div>
 <div style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 580ms both;padding:0 0 18px 16px">
-<div style="background:#fff;border-radius:10px;padding:18px 20px 19px;box-shadow:0 1px 2px rgba(21,21,21,.04),0 16px 32px -24px rgba(21,21,21,.5);transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease" style-hover="transform:translateY(-3px);box-shadow:0 2px 4px rgba(21,21,21,.05),0 24px 44px -24px rgba(21,21,21,.55)">
+<div style="background:#151515;border-radius:10px;padding:18px 20px 19px;box-shadow:0 2px 4px rgba(21,21,21,.06),0 20px 40px -26px rgba(21,21,21,.85);transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease" style-hover="transform:translateY(-3px);box-shadow:0 4px 8px rgba(21,21,21,.08),0 26px 48px -26px rgba(21,21,21,.95)">
 <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px" data-patch="story-card-title-row">
 <div style="display:flex;align-items:center;gap:11px;min-width:0">
-<span style="flex:none;width:34px;height:34px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="17" height="17" style="display:block"><use href="#i-cap"></use></svg></span>
-<div style="min-width:0"><div style="font-size:16px;font-weight:700;line-height:1.4;color:#151515">名古屋大学 工学部</div><div style="font-size:16px;color:rgba(21,21,21,.55);margin-top:3px">機械・航空宇宙工学科</div></div>
+<span style="flex:none;width:34px;height:34px;border-radius:999px;background:rgba(143,192,234,.12);display:flex;align-items:center;justify-content:center;color:#8FC0EA"><svg width="17" height="17" style="display:block"><use href="#i-case"></use></svg></span>
+<div style="min-width:0"><div style="font-size:16px;font-weight:700;line-height:1.4;color:#F6F2E7">大手自動車メーカー IT部門</div><div style="font-size:16px;color:rgba(246,242,231,.55);margin-top:3px">AI活用・DX推進</div></div>
 </div>
-<div style="flex:none;display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;white-space:nowrap;padding-top:6px"><span style="color:#151515">2019—2023</span><span style="width:16px;height:1px;background:rgba(21,21,21,.18)"></span><span style="color:rgba(21,21,21,.42);letter-spacing:.14em">UNDERGRAD</span></div>
+<div style="flex:none;display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;white-space:nowrap;padding-top:6px"><span style="color:#F6F2E7">2025—現在</span><span style="width:16px;height:1px;background:rgba(246,242,231,.25)"></span><span style="color:rgba(246,242,231,.5);letter-spacing:.14em">PROFESSIONAL</span></div>
 </div>
-<p style="margin:0;font-size:16px;line-height:1.9;color:rgba(21,21,21,.7);text-wrap:pretty">材料・流体・熱・機械の4大力学を軸に、制御工学・電気回路・設計・マイクロナノ・航空機力学・宇宙工学まで、工学を幅広く学びました。</p>
-
+<p style="margin:0;font-size:16px;line-height:1.9;color:rgba(246,242,231,.78);text-wrap:pretty">AIをはじめとするデジタル技術の社内活用を推進。業務プロセスの自動化・効率化や、新しい技術の業務適用にも幅広く携わっています。</p>
 <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:13px">
-<span style="display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,196,.07);border-radius:999px;padding:5px 12px;font-size:16px;color:#2A6BA6;white-space:nowrap"><span style="color:#3B82C4"><svg width="13" height="13" style="display:block"><use href="#i-chart"></use></svg></span>GPA 3.97 / 4.3</span>
-<a href="https://www.sice.jp/act/awards/sice_student_award.html" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,196,.07);border-radius:999px;padding:5px 12px;font-size:16px;color:#2A6BA6;text-decoration:none;white-space:nowrap;transition:background .3s ease,transform .35s cubic-bezier(.22,.61,.36,1)" style-hover="background:rgba(59,130,196,.16);transform:translateY(-1px)" data-comment-anchor="96def16969-span"><span style="color:#3B82C4"><svg width="13" height="13" style="display:block"><use href="#i-medal"></use></svg></span>SICE優秀学生賞（2023.3）<svg width="11" height="11" style="display:block;opacity:.6"><use href="#i-link"></use></svg></a>
+<span style="display:inline-flex;align-items:center;gap:6px;background:rgba(246,242,231,.09);border-radius:999px;padding:5px 12px;font-size:16px;color:#EFE9DA;white-space:nowrap"><span style="color:#8FC0EA"><svg width="13" height="13" style="display:block"><use href="#i-chip"></use></svg></span>AI活用推進</span>
+<span style="display:inline-flex;align-items:center;gap:6px;background:rgba(246,242,231,.09);border-radius:999px;padding:5px 12px;font-size:16px;color:#EFE9DA;white-space:nowrap"><span style="color:#8FC0EA"><svg width="13" height="13" style="display:block"><use href="#i-gear"></use></svg></span>業務自動化</span>
+<span style="display:inline-flex;align-items:center;gap:6px;background:rgba(246,242,231,.09);border-radius:999px;padding:5px 12px;font-size:16px;color:#EFE9DA;white-space:nowrap"><span style="color:#8FC0EA"><svg width="13" height="13" style="display:block"><use href="#i-chart"></use></svg></span>DX推進</span>
 </div>
+<a href="#" onClick="{{ goAiwork }}" style="display:inline-flex;align-items:center;gap:8px;margin-top:15px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:#8FC0EA;text-decoration:none;border-bottom:1px solid rgba(143,192,234,.4);padding-bottom:3px;white-space:nowrap;transition:transform .45s cubic-bezier(.22,.61,.36,1),letter-spacing .45s cubic-bezier(.22,.61,.36,1),color .3s ease" style-hover="transform:translateX(5px);letter-spacing:.19em;color:#D9E8F7">取り組みを見る — AI × WORK →</a>
 </div>
 </div>
 
@@ -764,24 +831,23 @@ a:hover{color:#2A6BA6}
 
 <div style="position:relative;display:flex;justify-content:center;padding-bottom:0px">
 
-<span style="position:relative;margin-top:14px;width:22px;height:22px;border-radius:999px;background:#FFFDF5;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(59,130,196,.2)"><span style="width:8px;height:8px;border-radius:999px;background:#151515"></span></span>
+<span style="position:relative;margin-top:14px;width:22px;height:22px;border-radius:999px;background:#FFFDF5;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(59,130,196,.2)"><span style="width:8px;height:8px;border-radius:999px;background:#3B82C4"></span></span>
 </div>
 <div style="animation:rvUp 1.05s cubic-bezier(.16,1,.3,1) 740ms both;padding:0 0 0 16px">
-<div style="background:#151515;border-radius:10px;padding:18px 20px 19px;box-shadow:0 2px 4px rgba(21,21,21,.06),0 20px 40px -26px rgba(21,21,21,.85);transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease" style-hover="transform:translateY(-3px);box-shadow:0 4px 8px rgba(21,21,21,.08),0 26px 48px -26px rgba(21,21,21,.95)">
+<div style="background:#fff;border-radius:10px;padding:18px 20px 19px;box-shadow:0 1px 2px rgba(21,21,21,.04),0 16px 32px -24px rgba(21,21,21,.5);transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease" style-hover="transform:translateY(-3px);box-shadow:0 2px 4px rgba(21,21,21,.05),0 24px 44px -24px rgba(21,21,21,.55)">
 <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px" data-patch="story-card-title-row">
 <div style="display:flex;align-items:center;gap:11px;min-width:0">
-<span style="flex:none;width:34px;height:34px;border-radius:999px;background:rgba(143,192,234,.12);display:flex;align-items:center;justify-content:center;color:#8FC0EA"><svg width="17" height="17" style="display:block"><use href="#i-case"></use></svg></span>
-<div style="min-width:0"><div style="font-size:16px;font-weight:700;line-height:1.4;color:#F6F2E7">大手自動車メーカー IT部門</div><div style="font-size:16px;color:rgba(246,242,231,.55);margin-top:3px">AI活用・DX推進</div></div>
+<span style="flex:none;width:34px;height:34px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="17" height="17" style="display:block"><use href="#i-cap"></use></svg></span>
+<div style="min-width:0"><div style="font-size:16px;font-weight:700;line-height:1.4;color:#151515">名古屋大学 工学部</div><div style="font-size:16px;color:rgba(21,21,21,.55);margin-top:3px">機械・航空宇宙工学科</div></div>
 </div>
-<div style="flex:none;display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;white-space:nowrap;padding-top:6px"><span style="color:#F6F2E7">2025—現在</span><span style="width:16px;height:1px;background:rgba(246,242,231,.25)"></span><span style="color:rgba(246,242,231,.5);letter-spacing:.14em">PROFESSIONAL</span></div>
+<div style="flex:none;display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;white-space:nowrap;padding-top:6px"><span style="color:#151515">2019—2023</span><span style="width:16px;height:1px;background:rgba(21,21,21,.18)"></span><span style="color:rgba(21,21,21,.42);letter-spacing:.14em">UNDERGRAD</span></div>
 </div>
-<p style="margin:0;font-size:16px;line-height:1.9;color:rgba(246,242,231,.78);text-wrap:pretty">AIをはじめとするデジタル技術の社内活用を推進。業務プロセスの自動化・効率化や、新しい技術の業務適用にも幅広く携わっています。</p>
+<p style="margin:0;font-size:16px;line-height:1.9;color:rgba(21,21,21,.7);text-wrap:pretty">材料・流体・熱・機械の4大力学を軸に、制御工学・電気回路・設計・マイクロナノ・航空機力学・宇宙工学まで、工学を幅広く学びました。</p>
+
 <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:13px">
-<span style="display:inline-flex;align-items:center;gap:6px;background:rgba(246,242,231,.09);border-radius:999px;padding:5px 12px;font-size:16px;color:#EFE9DA;white-space:nowrap"><span style="color:#8FC0EA"><svg width="13" height="13" style="display:block"><use href="#i-chip"></use></svg></span>AI活用推進</span>
-<span style="display:inline-flex;align-items:center;gap:6px;background:rgba(246,242,231,.09);border-radius:999px;padding:5px 12px;font-size:16px;color:#EFE9DA;white-space:nowrap"><span style="color:#8FC0EA"><svg width="13" height="13" style="display:block"><use href="#i-gear"></use></svg></span>業務自動化</span>
-<span style="display:inline-flex;align-items:center;gap:6px;background:rgba(246,242,231,.09);border-radius:999px;padding:5px 12px;font-size:16px;color:#EFE9DA;white-space:nowrap"><span style="color:#8FC0EA"><svg width="13" height="13" style="display:block"><use href="#i-chart"></use></svg></span>DX推進</span>
+<span style="display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,196,.07);border-radius:999px;padding:5px 12px;font-size:16px;color:#2A6BA6;white-space:nowrap"><span style="color:#3B82C4"><svg width="13" height="13" style="display:block"><use href="#i-chart"></use></svg></span>GPA 3.97 / 4.3</span>
+<a href="https://www.sice.jp/act/awards/sice_student_award.html" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,196,.07);border-radius:999px;padding:5px 12px;font-size:16px;color:#2A6BA6;text-decoration:none;white-space:nowrap;transition:background .3s ease,transform .35s cubic-bezier(.22,.61,.36,1)" style-hover="background:rgba(59,130,196,.16);transform:translateY(-1px)" data-comment-anchor="96def16969-span"><span style="color:#3B82C4"><svg width="13" height="13" style="display:block"><use href="#i-medal"></use></svg></span>SICE優秀学生賞（2023.3）<svg width="11" height="11" style="display:block;opacity:.6"><use href="#i-link"></use></svg></a>
 </div>
-<a href="#" onClick="{{ goAiwork }}" style="display:inline-flex;align-items:center;gap:8px;margin-top:15px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:#8FC0EA;text-decoration:none;border-bottom:1px solid rgba(143,192,234,.4);padding-bottom:3px;white-space:nowrap;transition:transform .45s cubic-bezier(.22,.61,.36,1),letter-spacing .45s cubic-bezier(.22,.61,.36,1),color .3s ease" style-hover="transform:translateX(5px);letter-spacing:.19em;color:#D9E8F7">取り組みを見る — AI × WORK →</a>
 </div>
 </div>
 
@@ -824,12 +890,12 @@ a:hover{color:#2A6BA6}
 </div>
 </div>
 </div>
-<div style="display:grid;grid-template-columns:repeat(5,max-content);justify-content:end;gap:14px 30px;margin-top:20px;padding-top:18px;border-top:1px solid rgba(21,21,21,.1)" data-comment-anchor="95eaf90c30-div">
-<div style="display:flex;flex-direction:column;gap:7px"><span style="display:flex;gap:3px"><span style="width:12px;height:4px;background:#3B82C4"></span><span style="width:12px;height:4px;background:rgba(21,21,21,.12)"></span><span style="width:12px;height:4px;background:rgba(21,21,21,.12)"></span><span style="width:12px;height:4px;background:rgba(21,21,21,.12)"></span><span style="width:12px;height:4px;background:rgba(21,21,21,.12)"></span></span><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.42)">LEVEL 01</div><div style="font-size:16px;line-height:1.6;color:rgba(21,21,21,.68)">触ったことがある</div></div>
-<div style="display:flex;flex-direction:column;gap:7px"><span style="display:flex;gap:3px"><span style="width:12px;height:4px;background:#3B82C4"></span><span style="width:12px;height:4px;background:#3B82C4"></span><span style="width:12px;height:4px;background:rgba(21,21,21,.12)"></span><span style="width:12px;height:4px;background:rgba(21,21,21,.12)"></span><span style="width:12px;height:4px;background:rgba(21,21,21,.12)"></span></span><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.42)">LEVEL 02</div><div style="font-size:16px;line-height:1.6;color:rgba(21,21,21,.68)">調べながら書ける</div></div>
-<div style="display:flex;flex-direction:column;gap:7px"><span style="display:flex;gap:3px"><span style="width:12px;height:4px;background:#3B82C4"></span><span style="width:12px;height:4px;background:#3B82C4"></span><span style="width:12px;height:4px;background:#3B82C4"></span><span style="width:12px;height:4px;background:rgba(21,21,21,.12)"></span><span style="width:12px;height:4px;background:rgba(21,21,21,.12)"></span></span><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.42)">LEVEL 03</div><div style="font-size:16px;line-height:1.6;color:rgba(21,21,21,.68)">一人で実装できる</div></div>
-<div style="display:flex;flex-direction:column;gap:7px"><span style="display:flex;gap:3px"><span style="width:12px;height:4px;background:#3B82C4"></span><span style="width:12px;height:4px;background:#3B82C4"></span><span style="width:12px;height:4px;background:#3B82C4"></span><span style="width:12px;height:4px;background:#3B82C4"></span><span style="width:12px;height:4px;background:rgba(21,21,21,.12)"></span></span><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.42)">LEVEL 04</div><div style="font-size:16px;line-height:1.6;color:rgba(21,21,21,.68)">業務で任せられる</div></div>
-<div style="display:flex;flex-direction:column;gap:7px"><span style="display:flex;gap:3px"><span style="width:12px;height:4px;background:#3B82C4"></span><span style="width:12px;height:4px;background:#3B82C4"></span><span style="width:12px;height:4px;background:#3B82C4"></span><span style="width:12px;height:4px;background:#3B82C4"></span><span style="width:12px;height:4px;background:#3B82C4"></span></span><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.42)">LEVEL 05</div><div style="font-size:16px;line-height:1.6;color:rgba(21,21,21,.68)">人に教えられる</div></div>
+<div style="display:grid;grid-template-columns:repeat(5,max-content);justify-content:end;gap:8px 16px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(21,21,21,.1)" data-comment-anchor="95eaf90c30-div">
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span style="display:flex;gap:2px"><span style="width:8px;height:3px;background:#3B82C4"></span><span style="width:8px;height:3px;background:rgba(21,21,21,.12)"></span><span style="width:8px;height:3px;background:rgba(21,21,21,.12)"></span><span style="width:8px;height:3px;background:rgba(21,21,21,.12)"></span><span style="width:8px;height:3px;background:rgba(21,21,21,.12)"></span></span><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;color:rgba(21,21,21,.42);text-align:right">LEVEL 01</div><div style="font-size:11px;line-height:1.4;color:rgba(21,21,21,.68);text-align:right;white-space:nowrap">触ったことがある</div></div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span style="display:flex;gap:2px"><span style="width:8px;height:3px;background:#3B82C4"></span><span style="width:8px;height:3px;background:#3B82C4"></span><span style="width:8px;height:3px;background:rgba(21,21,21,.12)"></span><span style="width:8px;height:3px;background:rgba(21,21,21,.12)"></span><span style="width:8px;height:3px;background:rgba(21,21,21,.12)"></span></span><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;color:rgba(21,21,21,.42);text-align:right">LEVEL 02</div><div style="font-size:11px;line-height:1.4;color:rgba(21,21,21,.68);text-align:right;white-space:nowrap">調べながら書ける</div></div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span style="display:flex;gap:2px"><span style="width:8px;height:3px;background:#3B82C4"></span><span style="width:8px;height:3px;background:#3B82C4"></span><span style="width:8px;height:3px;background:#3B82C4"></span><span style="width:8px;height:3px;background:rgba(21,21,21,.12)"></span><span style="width:8px;height:3px;background:rgba(21,21,21,.12)"></span></span><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;color:rgba(21,21,21,.42);text-align:right">LEVEL 03</div><div style="font-size:11px;line-height:1.4;color:rgba(21,21,21,.68);text-align:right;white-space:nowrap">一人で実装できる</div></div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span style="display:flex;gap:2px"><span style="width:8px;height:3px;background:#3B82C4"></span><span style="width:8px;height:3px;background:#3B82C4"></span><span style="width:8px;height:3px;background:#3B82C4"></span><span style="width:8px;height:3px;background:#3B82C4"></span><span style="width:8px;height:3px;background:rgba(21,21,21,.12)"></span></span><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;color:rgba(21,21,21,.42);text-align:right">LEVEL 04</div><div style="font-size:11px;line-height:1.4;color:rgba(21,21,21,.68);text-align:right;white-space:nowrap">業務で任せられる</div></div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span style="display:flex;gap:2px"><span style="width:8px;height:3px;background:#3B82C4"></span><span style="width:8px;height:3px;background:#3B82C4"></span><span style="width:8px;height:3px;background:#3B82C4"></span><span style="width:8px;height:3px;background:#3B82C4"></span><span style="width:8px;height:3px;background:#3B82C4"></span></span><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;color:rgba(21,21,21,.42);text-align:right">LEVEL 05</div><div style="font-size:11px;line-height:1.4;color:rgba(21,21,21,.68);text-align:right;white-space:nowrap">人に教えられる</div></div>
 </div>
 </div>
 
@@ -892,7 +958,7 @@ a:hover{color:#2A6BA6}
 
 <div style="display:flex;align-items:center;gap:13px;margin:0 0 18px">
 <span style="display:inline-flex;align-items:center;gap:8px;background:#151515;color:#D9B979;padding:8px 15px;font-size:16px;font-weight:700;letter-spacing:.08em"><svg width="16" height="16" style="display:block"><use href="#i-wave"></use></svg>弱み</span>
-<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;color:rgba(21,21,21,.45);white-space:nowrap">WEAKNESS — 1</span>
+<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;color:rgba(21,21,21,.45);white-space:nowrap">WEAKNESS</span>
 <span style="flex:1;height:1px;background:rgba(201,169,97,.45)"></span></div>
 <div data-rv="" style="background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 2px rgba(21,21,21,.04),0 16px 32px -24px rgba(21,21,21,.5)">
 <div style="height:3px;background:#C9A961"></div>
@@ -1278,13 +1344,13 @@ a:hover{color:#2A6BA6}
 <span style="position:absolute;left:0;top:6px;width:13px;height:13px;border-radius:999px;background:#FBF5DE;border:2px solid #3B82C4;box-shadow:0 0 0 5px #F6F2E7"></span>
 <div style="background:#fff;border:1px solid rgba(21,21,21,.1);padding:22px 26px 24px">
 <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:5px"><span style="font-family:'IBM Plex Mono',monospace;font-size:22px;letter-spacing:.03em;line-height:1;color:#151515">2025</span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;color:#2A6BA6">FY2025</span></div>
-<ul style="margin:0;padding:0;list-style:none"><li style="position:relative;margin:0 0 11px;padding-left:17px;font-size:16px;line-height:1.85;color:rgba(21,21,21,.8);text-wrap:pretty"><span style="position:absolute;left:0;top:9px;width:6px;height:6px;background:#3B82C4"></span>業務効率化のためのAIエージェント企画・開発・維持運用（PM）</li><li style="position:relative;margin:0 0 11px;padding-left:17px;font-size:16px;line-height:1.85;color:rgba(21,21,21,.8);text-wrap:pretty"><span style="position:absolute;left:0;top:9px;width:6px;height:6px;background:#3B82C4"></span>社内の生成AI利活用促進（AIツール導入の企画・整備、社内教育など）</li></ul>
+<ul style="margin:0;padding:0;list-style:none"><li style="position:relative;margin:0 0 11px;padding-left:17px;font-size:16px;line-height:1.85;color:rgba(21,21,21,.8);text-wrap:pretty"><span style="position:absolute;left:0;top:9px;width:6px;height:6px;background:#3B82C4"></span>業務効率化のためのAIエージェント企画・開発・維持運用（PM）</li><li style="position:relative;margin:0 0 11px;padding-left:17px;font-size:16px;line-height:1.85;color:rgba(21,21,21,.8);text-wrap:pretty"><span style="position:absolute;left:0;top:9px;width:6px;height:6px;background:#3B82C4"></span>全社AI利活用促進・社内教育 企画</li><li style="position:relative;margin:0 0 11px;padding-left:17px;font-size:16px;line-height:1.85;color:rgba(21,21,21,.8);text-wrap:pretty"><span style="position:absolute;left:0;top:9px;width:6px;height:6px;background:#3B82C4"></span>SLM試行・開発</li></ul>
 </div></div>
 <div data-rv="" style="position:relative;padding-left:30px">
 <span style="position:absolute;left:0;top:6px;width:13px;height:13px;border-radius:999px;background:#3B82C4;border:2px solid #3B82C4;box-shadow:0 0 0 5px #F6F2E7"></span>
 <div style="background:#fff;border:1px solid rgba(21,21,21,.1);padding:22px 26px 24px">
 <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:5px"><span style="font-family:'IBM Plex Mono',monospace;font-size:22px;letter-spacing:.03em;line-height:1;color:#151515">2026</span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;color:#2A6BA6">FY2026 — 現在</span></div>
-<ul style="margin:0;padding:0;list-style:none"><li style="position:relative;margin:0 0 11px;padding-left:17px;font-size:16px;line-height:1.85;color:rgba(21,21,21,.8);text-wrap:pretty"><span style="position:absolute;left:0;top:9px;width:6px;height:6px;background:#3B82C4"></span>AI仕様駆動開発の試行・社内教育</li><li style="position:relative;margin:0 0 11px;padding-left:17px;font-size:16px;line-height:1.85;color:rgba(21,21,21,.8);text-wrap:pretty"><span style="position:absolute;left:0;top:9px;width:6px;height:6px;background:#3B82C4"></span>業務効率化のためのAIエージェント企画・開発・維持運用（PM）</li><li style="position:relative;margin:0 0 11px;padding-left:17px;font-size:16px;line-height:1.85;color:rgba(21,21,21,.8);text-wrap:pretty"><span style="position:absolute;left:0;top:9px;width:6px;height:6px;background:#3B82C4"></span>社内導入AIツールの検討</li></ul>
+<ul style="margin:0;padding:0;list-style:none"><li style="position:relative;margin:0 0 11px;padding-left:17px;font-size:16px;line-height:1.85;color:rgba(21,21,21,.8);text-wrap:pretty"><span style="position:absolute;left:0;top:9px;width:6px;height:6px;background:#3B82C4"></span>業務効率化のためのAIエージェント企画・開発・維持運用（PM）</li><li style="position:relative;margin:0 0 11px;padding-left:17px;font-size:16px;line-height:1.85;color:rgba(21,21,21,.8);text-wrap:pretty"><span style="position:absolute;left:0;top:9px;width:6px;height:6px;background:#3B82C4"></span>社内導入AIツール検討 他</li></ul>
 </div></div>
 </div>
 </div>
@@ -1340,82 +1406,99 @@ a:hover{color:#2A6BA6}
 </div>
 </div>
 
-<div data-story-track="" style="position:relative;height:546vh" data-comment-anchor="14a511908e-div">
-<div style="position:sticky;top:66px;height:calc(100vh - 66px);overflow:hidden">
-<div style="box-sizing:border-box;max-width:1180px;margin:0 auto;height:100%;padding:8px 56px 8px;display:grid;grid-template-rows:minmax(0,1fr) auto auto;align-items:stretch">
+<div data-story-track="" style="position:relative" data-comment-anchor="14a511908e-div">
+<div style="box-sizing:border-box;max-width:1180px;margin:0 auto;padding:8px 56px 8px;position:relative" data-story-layout="">
 
-<div style="grid-row:1;position:relative;min-width:0">
-<div data-story-card="0" style="position:absolute;top:0;left:0;right:0;bottom:8px;overflow:hidden;padding-right:2px;opacity:0;transform:translateY(22px);pointer-events:none;transition:opacity .5s ease,transform .7s cubic-bezier(.22,.61,.36,1)" data-comment-anchor="d8c9923333-div">
-<div style="position:relative;height:100%;max-width:1068px;margin:0 auto">
-<div style="background:#fff;border:1px solid rgba(21,21,21,.1);padding:26px 30px 28px;height:100%;box-sizing:border-box;display:flex;flex-direction:column" data-comment-anchor="14b588a665-div">
-<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><span style="flex:none;width:40px;height:40px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="20" height="20" style="display:block"><use href="#i-seed"></use></svg></span><div style="min-width:0"><div style="font-size:16.5px;font-weight:700;line-height:1.35">誕生</div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.5);margin-top:2px">BORN IN ICHINOMIYA</div></div></div>
-<div style="flex:1 1 auto;min-height:180px;display:grid;grid-template-columns:1fr 1fr;gap:12px" data-patch="story-photo-2col">
-<span style="min-height:0;overflow:hidden;background:#151515;display:block"><img src="images/story/C52709C4-1F52-4480-BCFF-98D1193B1172IMG_0428.JPG" alt="ヒーローの衣装を着てポーズをとる幼少期" style="width:100%;height:100%;object-fit:cover;object-position:50% 24%;display:block" /></span>
-<span style="min-height:0;overflow:hidden;background:#151515;display:block"><img src="images/story/B7B223BC-207E-46F3-8A14-99842099A66AIMG_0673.JPG" alt="新聞紙の兜をかぶって鯉のぼりと並ぶ幼少期" style="width:100%;height:100%;object-fit:cover;object-position:42% 30%;display:block" /></span>
+<div style="position:relative;min-width:0" data-story-cards-col="" data-no-reveal="">
+<div data-story-mobile-nav="" data-no-reveal="">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+<span style="display:flex;align-items:baseline;gap:8px;min-width:0">
+<span data-story-mobile-year="" style="font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:700;color:#151515;white-space:nowrap">2000</span>
+<span data-story-mobile-title="" style="font-size:13px;color:rgba(21,21,21,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">誕生</span>
+</span>
+<span data-story-mobile-count="" style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:rgba(21,21,21,.4);white-space:nowrap">1 / 7</span>
 </div>
-<div style="margin-top:12px"><div style="display:flex;align-items:center;gap:9px"><span style="width:18px;height:1px;flex:none;background:rgba(21,21,21,.28)"></span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.13em;color:rgba(21,21,21,.5)">CHILDHOOD — 幼少期</span></div></div>
-<div style="flex:0 0 auto;margin-top:20px;max-width:780px">
-<p style="margin:0 0 12px;font-family:'Shippori Mincho B1',serif;font-size:20px;font-weight:600;line-height:1.7;letter-spacing:.02em" data-comment-anchor="8c4e38d4b6-p">愛知県一宮市で生まれ育つ。</p>
+<div style="position:relative;height:2px;background:rgba(21,21,21,.12);margin-top:7px;border-radius:999px;overflow:hidden">
+<div data-story-mobile-fill="" style="position:absolute;left:0;top:0;bottom:0;width:14.2857%;background:#3B82C4;border-radius:999px;transition:width .35s cubic-bezier(.22,.61,.36,1)"></div>
+</div>
+</div>
+<div data-story-card="0" data-story-year="2000" style="position:relative;margin-bottom:22px" data-comment-anchor="d8c9923333-div">
+<div style="position:relative;max-width:1068px;margin:0 auto">
+<div style="padding:8px 4px;box-sizing:border-box;display:flex;flex-direction:column" data-comment-anchor="14b588a665-div">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><span style="flex:none;width:40px;height:40px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="20" height="20" style="display:block"><use href="#i-seed"></use></svg></span><div style="min-width:0"><div style="font-size:23px;font-weight:700;line-height:1.35">誕生</div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.5);margin-top:2px">BORN IN ICHINOMIYA</div></div></div>
+<div style="display:flex;flex-direction:column;gap:18px" data-comment-anchor="8c4e38d4b6-grid">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<span style="width:100%;aspect-ratio:4/3;overflow:hidden;background:#151515;display:block"><img src="images/story/C52709C4-1F52-4480-BCFF-98D1193B1172IMG_0428.JPG" alt="ヒーローの衣装を着てポーズをとる幼少期" style="width:100%;height:100%;object-fit:cover;object-position:50% 24%;display:block" /></span>
+<span style="width:100%;aspect-ratio:4/3;overflow:hidden;background:#151515;display:block"><img src="images/story/B7B223BC-207E-46F3-8A14-99842099A66AIMG_0673.JPG" alt="新聞紙の兜をかぶって鯉のぼりと並ぶ幼少期" style="width:100%;height:100%;object-fit:cover;object-position:42% 30%;display:block" /></span>
+</div>
+<div style="min-width:0">
+<div style="display:flex;align-items:center;gap:9px"><span style="width:18px;height:1px;flex:none;background:rgba(21,21,21,.28)"></span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.13em;color:rgba(21,21,21,.5)">CHILDHOOD — 幼少期</span></div>
+<p style="margin:14px 0 12px;font-family:'Shippori Mincho B1',serif;font-size:20px;font-weight:600;line-height:1.7;letter-spacing:.02em" data-comment-anchor="8c4e38d4b6-p">愛知県一宮市で生まれ育つ。</p>
 <p style="margin:0;font-size:16px;line-height:2.05;color:rgba(21,21,21,.8);text-wrap:pretty" data-comment-anchor="ccab4af91c-p">図鑑と発掘のテレビ番組に夢中で、将来の夢は恐竜学者か考古学者。「まだ誰も知らないものを掘り当てたい」という気持ちが、いちばん最初にあったものでした。</p>
 </div>
-</div></div></div>
-
-<div data-story-card="1" style="position:absolute;top:0;left:0;right:0;bottom:8px;overflow:hidden;padding-right:2px;opacity:0;transform:translateY(22px);pointer-events:none;transition:opacity .5s ease,transform .7s cubic-bezier(.22,.61,.36,1)">
-<div style="position:relative;height:100%;max-width:1068px;margin:0 auto">
-<div style="background:#fff;border:1px solid rgba(21,21,21,.1);padding:26px 30px 28px;height:100%;box-sizing:border-box;display:flex;flex-direction:column" data-comment-anchor="ceef1f407a-div">
-<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><span style="flex:none;width:40px;height:40px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="20" height="20" style="display:block"><use href="#i-ball"></use></svg></span><div style="min-width:0"><div style="font-size:16.5px;font-weight:700;line-height:1.35">小学校</div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.5);margin-top:2px">ELEMENTARY SCHOOL</div></div></div>
-<div style="flex:1 1 auto;min-height:180px;display:grid;grid-template-columns:1fr;gap:12px" data-patch="story-photo-2col">
-<span style="min-height:0;overflow:hidden;background:#151515;display:block"><img src="images/story/story-elementary-1.jpg" alt="公園のアスレチックで遊ぶ" style="width:100%;height:100%;object-fit:cover;object-position:54% 40%;display:block" /></span>
 </div>
-<div style="margin-top:12px"><div style="display:flex;align-items:center;gap:9px"><span style="width:18px;height:1px;flex:none;background:rgba(21,21,21,.28)"></span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.13em;color:rgba(21,21,21,.5)">PARK &amp; CLUBS — 外で遊び、歴史に触れた6年間</span></div></div>
-<p style="margin:20px 0 0;max-width:780px;font-size:16px;line-height:2.05;color:rgba(21,21,21,.8);text-wrap:pretty" data-comment-anchor="775cfdfdae-p">友達と毎日のように公園でサッカーや野球をして体を動かしていました。小学生になっても、歴史的なものが好きで伝承遊びクラブや百人一首クラブへ所属していました。</p>
 </div></div></div>
 
-<div data-story-card="2" style="position:absolute;top:0;left:0;right:0;bottom:8px;overflow:hidden;padding-right:2px;opacity:0;transform:translateY(22px);pointer-events:none;transition:opacity .5s ease,transform .7s cubic-bezier(.22,.61,.36,1)">
-<div style="position:relative;height:100%;max-width:1068px;margin:0 auto">
-<div style="background:#fff;border-radius:10px;padding:22px 26px 24px;height:100%;box-sizing:border-box;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(21,21,21,.04),0 16px 32px -24px rgba(21,21,21,.5)" data-comment-anchor="a3fa5a50b5-div">
-<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><span style="flex:none;width:38px;height:38px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="19" height="19" style="display:block"><use href="#i-people"></use></svg></span><div style="min-width:0"><div style="font-size:17px;font-weight:700;line-height:1.35">中学校</div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.5);margin-top:3px">JUNIOR HIGH SCHOOL</div></div></div>
+<div data-story-card="1" data-story-year="2007" style="position:relative;margin-bottom:22px">
+<div style="position:relative;max-width:1068px;margin:0 auto">
+<div style="padding:8px 4px;box-sizing:border-box;display:flex;flex-direction:column" data-comment-anchor="ceef1f407a-div">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><span style="flex:none;width:40px;height:40px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="20" height="20" style="display:block"><use href="#i-ball"></use></svg></span><div style="min-width:0"><div style="font-size:23px;font-weight:700;line-height:1.35">小学校</div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.5);margin-top:2px">ELEMENTARY SCHOOL</div></div></div>
+<div style="display:grid;grid-template-columns:minmax(0,.34fr) minmax(0,.66fr);gap:20px;align-items:center" data-comment-anchor="ceef1f407a-grid">
+<span style="width:100%;aspect-ratio:4/3;overflow:hidden;background:#151515;display:block"><img src="images/story/story-elementary-1.jpg" alt="公園のアスレチックで遊ぶ" style="width:100%;height:100%;object-fit:cover;object-position:54% 40%;display:block" /></span>
+<div style="min-width:0">
+<div style="display:flex;align-items:center;gap:9px"><span style="width:18px;height:1px;flex:none;background:rgba(21,21,21,.28)"></span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.13em;color:rgba(21,21,21,.5)">PARK &amp; CLUBS — 外で遊び、歴史に触れた6年間</span></div>
+<p style="margin:14px 0 0;font-size:16px;line-height:2.05;color:rgba(21,21,21,.8);text-wrap:pretty" data-comment-anchor="775cfdfdae-p">友達と毎日のように公園でサッカーや野球をして体を動かしていました。小学生になっても、歴史的なものが好きで伝承遊びクラブや百人一首クラブへ所属していました。</p>
+</div>
+</div>
+</div></div></div>
+
+<div data-story-card="2" data-story-year="2013" style="position:relative;margin-bottom:22px">
+<div style="position:relative;max-width:1068px;margin:0 auto">
+<div style="padding:8px 4px;box-sizing:border-box;display:flex;flex-direction:column" data-comment-anchor="a3fa5a50b5-div">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><span style="flex:none;width:40px;height:40px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="20" height="20" style="display:block"><use href="#i-people"></use></svg></span><div style="min-width:0"><div style="font-size:23px;font-weight:700;line-height:1.35">中学校</div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.5);margin-top:3px">JUNIOR HIGH SCHOOL</div></div></div>
 <p style="margin:0 0 16px;max-width:860px;font-size:16px;line-height:1.95;color:rgba(21,21,21,.8);text-wrap:pretty" data-comment-anchor="ccab6cd44e-p">新しいことに挑戦することの楽しさを学んだ3年間でした。</p>
-<div style="flex:1 1 auto;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-content:start">
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-content:start">
 <div style="background:#FBF5DE;padding:15px 17px 16px;display:flex;flex-direction:column;gap:11px" data-comment-anchor="6aede0f93a-div">
-<div><div style="display:flex;align-items:center;gap:10px"><svg width="24" height="16" style="display:block;flex:none"><use href="#f-it"></use></svg><span style="font-size:16px;font-weight:700;line-height:1.4">海外派遣</span></div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.45);margin-top:5px">TREVISO, ITALY</div></div>
-<div style="height:150px;display:grid;grid-template-columns:repeat(3,1fr);gap:5px" data-patch="story-photo-3col-a" data-comment-anchor="0fbcd7b70e-div">
-<span style="min-height:0;overflow:hidden;background:transparent;display:block"><img src="images/story/story-junior-italy-3.jpg" alt="トレビーゾ市庁舎で日本文化を発表" style="width:100%;height:100%;object-fit:cover;display:block" /></span>
+<div style="min-height:40px"><div style="display:flex;align-items:center;gap:10px"><svg width="24" height="16" style="display:block;flex:none"><use href="#f-it"></use></svg><span style="font-size:16px;font-weight:700;line-height:1.4">海外派遣</span></div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.45);margin-top:5px">TREVISO, ITALY</div></div>
+<div style="height:190px;display:flex;flex-direction:column;gap:5px" data-comment-anchor="0fbcd7b70e-div">
+<span style="width:100%;flex:0 0 58%;min-height:0;overflow:hidden;background:transparent;display:block"><img src="images/story/story-junior-italy-3.jpg" alt="トレビーゾ市庁舎で日本文化を発表" style="width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block" /></span>
+<div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:5px">
 <span style="min-height:0;overflow:hidden;background:transparent;display:block"><img src="images/story/story-junior-italy-1.jpg" alt="現地の生徒と遊びを通して交流" style="width:100%;height:100%;object-fit:cover;display:block" /></span>
 <span style="min-height:0;overflow:hidden;background:transparent;display:block"><img src="images/story/story-junior-italy-2.jpg" alt="現地の街の模型を見学" style="width:100%;height:100%;object-fit:cover;display:block" /></span>
+</div>
 </div>
 <div style="font-size:16px;line-height:1.8;color:rgba(21,21,21,.72);text-wrap:pretty">姉妹都市トレビーゾへ派遣され、日本文化を伝えた。</div>
 </div>
 <div style="background:#FBF5DE;padding:15px 17px 16px;display:flex;flex-direction:column;gap:11px">
-<div style="font-size:16px;font-weight:700;line-height:1.4">日本史</div>
-<div style="height:200px;display:grid;grid-template-columns:repeat(2,1fr);gap:5px" data-patch="story-photo-2col-tall" data-comment-anchor="e32f254dba-div">
+<div style="font-size:16px;font-weight:700;line-height:1.4;min-height:40px">日本史</div>
+<div style="height:190px;display:grid;grid-template-columns:repeat(2,1fr);gap:5px" data-comment-anchor="e32f254dba-div">
 <span style="min-height:0;overflow:hidden;background:transparent;display:block"><img src="images/story/story-junior-heian.jpg" alt="平安装束を着て日本文化にふれる" style="width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block" data-comment-anchor="c3f519ef99-img" /></span>
 <span style="min-height:0;overflow:hidden;background:transparent;display:block"><img src="images/story/story-junior-yayoi.jpg" alt="弥生時代の衣装で歴史体験" style="width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block" data-comment-anchor="63a10c5a42-img" /></span>
 </div>
 <div style="font-size:16px;line-height:1.8;color:rgba(21,21,21,.72);text-wrap:pretty">日本史に没入し、日本100名城めぐりを始めた。</div>
 </div>
-<div style="display:flex;flex-direction:column;gap:12px">
-<div style="background:#FBF5DE;padding:15px 17px 16px;display:flex;flex-direction:column;gap:10px"><div style="font-size:16px;font-weight:700;line-height:1.4">生徒会</div><div style="font-size:16px;line-height:1.8;color:rgba(21,21,21,.72);text-wrap:pretty">会長・副会長2期・総務。学校のマスコットをつくり、行事を盛り上げた。いまも使われている。</div></div>
-<div style="background:#FBF5DE;padding:15px 17px 16px;display:flex;flex-direction:column;gap:10px"><div style="font-size:16px;font-weight:700;line-height:1.4">部活</div><div style="font-size:16px;line-height:1.8;color:rgba(21,21,21,.72);text-wrap:pretty">サッカー部・陸上部・ディベート部。</div></div>
-<div style="background:#FBF5DE;padding:15px 17px 16px;display:flex;flex-direction:column;gap:10px"><div style="font-size:16px;font-weight:700;line-height:1.4">ディズニー</div><div style="font-size:16px;line-height:1.8;color:rgba(21,21,21,.72);text-wrap:pretty">大人が本気でつくった世界の細部に衝撃を受け、その情熱に感銘を受けた。</div></div>
+<div style="display:flex;flex-direction:column;gap:14px;justify-content:space-between">
+<div style="border-left:2px solid rgba(59,130,196,.4);padding:1px 0 1px 14px;display:flex;flex-direction:column;gap:5px"><div style="font-size:16px;font-weight:700;line-height:1.4">生徒会</div><div style="font-size:16px;line-height:1.8;color:rgba(21,21,21,.72);text-wrap:pretty">会長・副会長2期・総務。学校のマスコットをつくり、行事を盛り上げた。いまも使われている。</div></div>
+<div style="border-left:2px solid rgba(59,130,196,.4);padding:1px 0 1px 14px;display:flex;flex-direction:column;gap:5px"><div style="font-size:16px;font-weight:700;line-height:1.4">部活</div><div style="font-size:16px;line-height:1.8;color:rgba(21,21,21,.72);text-wrap:pretty">サッカー部・陸上部・ディベート部。</div></div>
+<div style="border-left:2px solid rgba(59,130,196,.4);padding:1px 0 1px 14px;display:flex;flex-direction:column;gap:5px"><div style="font-size:16px;font-weight:700;line-height:1.4">ディズニー</div><div style="font-size:16px;line-height:1.8;color:rgba(21,21,21,.72);text-wrap:pretty">大人が本気でつくった世界の細部に衝撃を受け、その情熱に感銘を受けた。</div></div>
 </div>
 </div>
 </div></div></div>
 
-<div data-story-card="3" style="position:absolute;top:0;left:0;right:0;bottom:8px;overflow:hidden;padding-right:2px;opacity:0;transform:translateY(22px);pointer-events:none;transition:opacity .5s ease,transform .7s cubic-bezier(.22,.61,.36,1)">
-<div style="position:relative;height:100%;max-width:1068px;margin:0 auto">
-<div style="background:#fff;border-radius:10px;padding:22px 26px 24px;height:100%;box-sizing:border-box;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(21,21,21,.04),0 16px 32px -24px rgba(21,21,21,.5)" data-comment-anchor="920c73210c-div">
-<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><span style="flex:none;width:38px;height:38px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="19" height="19" style="display:block"><use href="#i-walk"></use></svg></span><div style="min-width:0"><div style="font-size:17px;font-weight:700;line-height:1.35">愛知県立一宮高等学校</div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.5);margin-top:3px">ICHINOMIYA HIGH SCHOOL</div></div></div>
-<p style="margin:0 0 16px;max-width:860px;font-size:16px;line-height:1.95;color:rgba(21,21,21,.8);text-wrap:pretty">できないことを選んで挑戦した3年間。手を動かしてつくる楽しさも知りました。</p>
-<div style="flex:1 1 auto;min-height:0;display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);gap:16px;align-content:start">
-<div style="display:flex;flex-direction:column;gap:13px;min-width:0">
-<div style="background:#FBF5DE;padding:15px 17px;display:flex;align-items:flex-start;gap:13px" data-patch="story-gym-row">
-<span style="flex:none;width:104px;height:104px;overflow:hidden;background:transparent;display:block"><img src="images/story/story-hs-gym.png" alt="大会でつり輪の演技をする" style="width:100%;height:100%;object-fit:cover;object-position:45% 32%;display:block" /></span>
+<div data-story-card="3" data-story-year="2016" style="position:relative;margin-bottom:22px">
+<div style="position:relative;max-width:1068px;margin:0 auto">
+<div style="padding:8px 4px;box-sizing:border-box;display:flex;flex-direction:column" data-comment-anchor="920c73210c-div">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px"><span style="flex:none;width:40px;height:40px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="20" height="20" style="display:block"><use href="#i-walk"></use></svg></span><div style="min-width:0"><div style="font-size:23px;font-weight:700;line-height:1.35">愛知県立一宮高等学校</div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.5);margin-top:3px">ICHINOMIYA HIGH SCHOOL</div></div></div>
+<p style="margin:0 0 10px;max-width:860px;font-size:16px;line-height:1.95;color:rgba(21,21,21,.8);text-wrap:pretty">できないことを選んで挑戦した3年間。手を動かしてつくる楽しさも知りました。</p>
+<div style="display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);gap:16px;align-content:start">
+<div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+<div style="background:#FBF5DE;padding:13px 15px;display:flex;flex-direction:column;gap:9px" data-patch="story-gym-row">
+<span style="width:100%;height:auto;aspect-ratio:2.35/1;overflow:hidden;background:transparent;display:block"><img src="images/story/story-hs-gym.png" alt="大会でつり輪の演技をする" style="width:100%;height:100%;object-fit:cover;object-position:45% 32%;display:block" /></span>
 <span style="min-width:0"><span style="display:block;font-size:16px;font-weight:700;line-height:1.4">体操部</span><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.45);margin-top:4px">GYMNASTICS</span><span style="display:block;font-size:16px;line-height:1.8;color:rgba(21,21,21,.72);margin-top:8px;text-wrap:pretty">側転もできない状態から、バク宙と鉄棒の車輪ができるようになった。</span></span>
 </div>
-<div style="background:#FBF5DE;padding:15px 17px 16px;display:flex;flex-direction:column;gap:10px"><div><div style="font-size:16px;font-weight:700;line-height:1.4">体育祭マスコット</div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.45);margin-top:4px">MASCOT MAKING</div></div><div style="font-size:16px;line-height:1.8;color:rgba(21,21,21,.72);text-wrap:pretty">木製の大型キャラクターを制作。手を動かしてつくる楽しさを知った。</div></div>
+<div style="background:#FBF5DE;padding:13px 15px 13px;display:flex;flex-direction:column;gap:8px"><div><div style="font-size:16px;font-weight:700;line-height:1.4">体育祭マスコット</div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.45);margin-top:4px">MASCOT MAKING</div></div><div style="font-size:16px;line-height:1.8;color:rgba(21,21,21,.72);text-wrap:pretty">木製の大型キャラクターを制作。手を動かしてつくる楽しさを知った。</div></div>
 </div>
-<div style="min-width:0;display:flex;flex-direction:column;gap:12px" data-comment-anchor="149f13e2bc-div">
+<div style="min-width:0;display:flex;flex-direction:column;gap:10px" data-comment-anchor="149f13e2bc-div">
 <div style="display:flex;align-items:flex-start;gap:12px">
 <svg width="28" height="18" style="display:block;flex:none;margin-top:3px"><use href="#f-gb"></use></svg>
 <span style="min-width:0"><span style="display:block;font-size:16px;font-weight:700;line-height:1.5">SSH 交換留学 — イギリス・ラドリー・カレッジ</span><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.45);margin-top:3px">RADLEY COLLEGE, UK</span></span>
@@ -1425,23 +1508,30 @@ a:hover{color:#2A6BA6}
 <span style="min-height:0;overflow:hidden;background:transparent;display:block"><img src="images/story/story-hs-radley-2.jpg" alt="現地の小学校で子どもたちと交流" style="width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block" data-comment-anchor="f3c8e6f2aa-img" /></span>
 <span style="min-height:0;overflow:hidden;background:transparent;display:block"><img src="images/story/story-hs-radley-3.jpg" alt="リアルテニスを体験" style="width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block" data-comment-anchor="a7d641c8d8-img" /></span>
 </div>
-<p style="margin:0;font-size:16px;line-height:1.9;color:rgba(21,21,21,.72);text-wrap:pretty" data-comment-anchor="e4f729d9b3-span">1年間かけた研究「電子レンジにおける卵の爆発メカニズム」を英語で発表。加熱時に卵が爆発する仕組みと、どうすれば防げるかまで実験で確かめた研究でした。研究をすることの目的や so what を考えきることができず、研究の難しさを学ぶことができました。</p>
-<p style="margin:0;font-size:16px;line-height:1.9;color:rgba(21,21,21,.72);text-wrap:pretty" data-comment-anchor="be69d4e30e-span">授業は質疑応答が中心で、生物ではカメレオンを飼育し体育ではカヌー。体験に価値を置く教育と、学生が主体的に発言する空気感にカルチャーショックを受けました。</p>
+<p style="margin:0;font-size:16px;line-height:1.75;color:rgba(21,21,21,.72);text-wrap:pretty" data-comment-anchor="e4f729d9b3-span">1年間かけた研究「電子レンジにおける卵の爆発メカニズム」を英語で発表。加熱時に卵が爆発する仕組みと、どうすれば防げるかまで実験で確かめた研究でした。研究をすることの目的や so what を考えきることができず、研究の難しさを学ぶことができました。</p>
+<p style="margin:0;font-size:16px;line-height:1.75;color:rgba(21,21,21,.72);text-wrap:pretty" data-comment-anchor="be69d4e30e-span">授業は質疑応答が中心で、生物ではカメレオンを飼育し体育ではカヌー。体験に価値を置く教育と、学生が主体的に発言する空気感にカルチャーショックを受けました。</p>
 </div>
 </div>
 </div></div></div>
 
-<div data-story-card="4" style="position:absolute;top:0;left:0;right:0;bottom:8px;overflow:hidden;padding-right:2px;opacity:0;transform:translateY(22px);pointer-events:none;transition:opacity .5s ease,transform .7s cubic-bezier(.22,.61,.36,1)">
-<div style="position:relative;height:100%;max-width:1068px;margin:0 auto">
-<div style="background:#fff;border-radius:10px;padding:22px 26px 24px;height:100%;box-sizing:border-box;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(21,21,21,.04),0 16px 32px -24px rgba(21,21,21,.5)" data-comment-anchor="43d0ffae03-div">
+<div data-story-card="4" data-story-year="2019" style="position:relative;margin-bottom:22px">
+<div style="position:relative;max-width:1068px;margin:0 auto">
+<div style="padding:8px 4px;box-sizing:border-box;display:flex;flex-direction:column" data-comment-anchor="43d0ffae03-div">
 <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px" data-patch="story-card-title-row">
 <div style="display:flex;align-items:center;gap:12px;min-width:0">
-<span style="flex:none;width:38px;height:38px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="19" height="19" style="display:block"><use href="#i-cap"></use></svg></span>
-<div style="min-width:0"><div style="font-size:17px;font-weight:700;line-height:1.4;color:#151515">名古屋大学 工学部</div><div style="font-size:16px;color:rgba(21,21,21,.55);margin-top:3px">機械・航空宇宙工学科</div></div>
+<span style="flex:none;width:40px;height:40px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="20" height="20" style="display:block"><use href="#i-cap"></use></svg></span>
+<div style="min-width:0"><div style="font-size:23px;font-weight:700;line-height:1.35;color:#151515">名古屋大学 工学部</div><div style="font-size:15px;color:rgba(21,21,21,.55);margin-top:3px">機械・航空宇宙工学科</div></div>
 </div>
 <div style="flex:none;display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;white-space:nowrap;padding-top:6px"><span style="color:#151515">2019—2023</span><span style="width:16px;height:1px;background:rgba(21,21,21,.18)"></span><span style="color:rgba(21,21,21,.42);letter-spacing:.14em">UNDERGRAD</span></div>
 </div>
-<div style="flex:1 1 auto;min-height:0;display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);gap:22px;align-content:start">
+<div style="display:grid;grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);gap:22px;align-content:start">
+<div style="min-width:0;display:flex;flex-direction:column;gap:9px">
+<div style="display:flex;align-items:center;gap:9px"><span style="width:18px;height:1px;flex:none;background:rgba(21,21,21,.28)"></span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.13em;color:rgba(21,21,21,.5)">CEREMONY COMMITTEE — 成人式実行委員</span></div>
+<div style="width:220px;display:flex;flex-direction:column;gap:9px" data-comment-anchor="bab9496304-div">
+<span style="width:100%;aspect-ratio:4/3;overflow:hidden;background:transparent;display:block"><img src="images/story/story-univ-ceremony-1.jpg" alt="成人式実行委員として取材を受ける様子" style="width:100%;height:100%;object-fit:cover;object-position:62% 48%;display:block" data-comment-anchor="c600ad3804-img" /></span>
+<span style="width:100%;aspect-ratio:4/3;overflow:hidden;background:transparent;display:block"><img src="images/story/story-univ-ceremony-2.jpg" alt="成人式の式典で憲章を読み上げる様子" style="width:100%;height:100%;object-fit:cover;object-position:49% 32%;display:block" data-comment-anchor="e023356b8b-img" /></span>
+</div>
+</div>
 <div style="min-width:0;display:flex;flex-direction:column;gap:13px">
 <p style="margin:0;font-size:16px;line-height:1.95;color:rgba(21,21,21,.7);text-wrap:pretty">材料・流体・熱・機械の4大力学を軸に、制御工学・電気回路・設計・マイクロナノ・航空機力学・宇宙工学まで、工学を幅広く学びました。</p>
 <div style="display:flex;flex-wrap:wrap;gap:7px">
@@ -1450,21 +1540,14 @@ a:hover{color:#2A6BA6}
 </div>
 <a href="#" onClick="{{ goTurning }}" style="display:flex;align-items:flex-start;gap:10px;border-top:1px solid rgba(21,21,21,.08);padding-top:13px;text-decoration:none;color:#151515;transition:transform .35s cubic-bezier(.22,.61,.36,1)" style-hover="transform:translateX(3px)"><span style="flex:none;margin-top:1px;color:#3B82C4"><svg width="20" height="20" style="display:block"><use href="#i-flag"></use></svg></span><span style="min-width:0"><span style="display:block;font-size:16px;font-weight:700;line-height:1.5">自分の考え方を変えた、挫折。</span><span style="display:block;font-size:16px;line-height:1.85;color:rgba(21,21,21,.7);margin-top:5px;text-wrap:pretty">成績を上げることが努力だと思っていた自分が、圧倒的に優秀な先輩たちに出会って崩れた話。うまくいった話ではないけれど、とても良い経験になりました。</span><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:#3B82C4;margin-top:7px">TURNING POINT →</span></span></a>
 </div>
-<div style="min-width:0;display:flex;flex-direction:column;gap:9px">
-<div style="display:flex;align-items:center;gap:9px"><span style="width:18px;height:1px;flex:none;background:rgba(21,21,21,.28)"></span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.13em;color:rgba(21,21,21,.5)">CEREMONY COMMITTEE — 成人式実行委員</span></div>
-<div style="display:flex;flex-direction:column;gap:9px" data-comment-anchor="bab9496304-div">
-<span style="aspect-ratio:4/3;overflow:hidden;background:transparent;display:block"><img src="images/story/story-univ-ceremony-1.jpg" alt="成人式実行委員として取材を受ける様子" style="width:100%;height:100%;object-fit:cover;object-position:62% 48%;display:block" data-comment-anchor="c600ad3804-img" /></span>
-<span style="aspect-ratio:4/3;overflow:hidden;background:transparent;display:block"><img src="images/story/story-univ-ceremony-2.jpg" alt="成人式の式典で憲章を読み上げる様子" style="width:100%;height:100%;object-fit:cover;object-position:49% 32%;display:block" data-comment-anchor="e023356b8b-img" /></span>
-</div>
-</div>
 </div>
 </div></div></div>
 
-<div data-story-card="5" style="position:absolute;top:0;left:0;right:0;bottom:8px;overflow:hidden;padding-right:2px;opacity:0;transform:translateY(22px);pointer-events:none;transition:opacity .5s ease,transform .7s cubic-bezier(.22,.61,.36,1)" data-comment-anchor="377952f033-div">
-<div style="position:relative;height:100%;max-width:1068px;margin:0 auto">
-<div style="background:#fff;border-radius:10px;height:100%;box-sizing:border-box;overflow:hidden;display:grid;grid-template-rows:auto minmax(0,1fr) auto;box-shadow:0 1px 2px rgba(21,21,21,.04),0 16px 32px -24px rgba(21,21,21,.5);transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease" style-hover="transform:translateY(-3px);box-shadow:0 2px 4px rgba(21,21,21,.05),0 24px 44px -24px rgba(21,21,21,.55)">
+<div data-story-card="5" data-story-year="2023" style="position:relative;margin-bottom:22px" data-comment-anchor="377952f033-div">
+<div style="position:relative;max-width:1068px;margin:0 auto">
+<div style="box-sizing:border-box;display:grid;grid-template-rows:auto auto auto">
 
-<div style="display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap;padding:16px 24px 14px;border-bottom:1px solid rgba(21,21,21,.09)">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap;padding:12px 4px 12px;border-bottom:1px solid rgba(21,21,21,.09)">
 <div style="display:flex;align-items:center;gap:12px;min-width:0">
 <span style="flex:none;width:36px;height:36px;border-radius:999px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="18" height="18" style="display:block"><use href="#i-flask"></use></svg></span>
 <div style="min-width:0">
@@ -1479,7 +1562,7 @@ a:hover{color:#2A6BA6}
 </div>
 
 <div style="min-height:0;display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr)">
-<div style="min-width:0;min-height:0;display:flex;flex-direction:column;gap:12px;padding:15px 22px 16px;border-right:1px solid rgba(21,21,21,.09)">
+<div style="min-width:0;min-height:0;display:flex;flex-direction:column;gap:12px;padding:12px 16px 12px 4px;border-right:1px solid rgba(21,21,21,.09)">
 <p style="margin:0;font-size:16px;line-height:1.8;color:rgba(21,21,21,.72);text-wrap:pretty">自動運転を研究。ロボットが歩行者を自然に導く「可誘導性」を提案し、制御理論とベイズ推定で評価手法を構築。査読付きジャーナル論文1件を含む計8件を発表しました。</p>
 <div style="flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:7px">
 <div style="display:flex;align-items:center;gap:8px"><span style="width:14px;height:1px;flex:none;background:rgba(21,21,21,.28)"></span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.5);white-space:nowrap">RESEARCH — 学会発表</span></div>
@@ -1495,7 +1578,7 @@ a:hover{color:#2A6BA6}
 </div>
 </div>
 
-<div style="min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:11px;padding:15px 24px 16px">
+<div style="min-width:0;min-height:0;display:flex;flex-direction:column;gap:11px;padding:12px 4px 12px 16px">
 <div style="flex:none;display:flex;align-items:baseline;justify-content:space-between;gap:12px">
 <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:rgba(21,21,21,.42)">PUBLICATIONS &amp; CONFERENCES</span>
 <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#151515">全 8 件</span>
@@ -1526,43 +1609,48 @@ a:hover{color:#2A6BA6}
 </div>
 </div>
 
-<div style="display:flex;align-items:center;justify-content:flex-end;gap:14px;padding:11px 24px 12px;border-top:1px solid rgba(21,21,21,.09);background:#FDFBF3">
+<div style="display:flex;align-items:center;justify-content:flex-end;gap:14px;padding:10px 4px 10px;border-top:1px solid rgba(21,21,21,.09);background:#FDFBF3">
 <a href="#" onClick="{{ goAchievements }}" style="display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:#3B82C4;text-decoration:none;border-bottom:1px solid rgba(59,130,196,.4);padding-bottom:3px;white-space:nowrap;transition:transform .45s cubic-bezier(.22,.61,.36,1),letter-spacing .45s cubic-bezier(.22,.61,.36,1),color .3s ease" style-hover="transform:translateX(5px);letter-spacing:.19em;color:#2A6BA6">研究成果を見る — ACHIEVEMENTS →</a>
 </div>
 
 </div>
 </div></div>
 
-<div data-story-card="6" style="position:absolute;top:0;left:0;right:0;bottom:8px;overflow:hidden;padding-right:2px;opacity:0;transform:translateY(22px);pointer-events:none;transition:opacity .5s ease,transform .7s cubic-bezier(.22,.61,.36,1)">
-<div style="position:relative;height:100%;max-width:1068px;margin:0 auto">
-<div style="background:#151515;border-radius:10px;padding:18px 20px 19px;height:100%;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;box-shadow:0 2px 4px rgba(21,21,21,.06),0 20px 40px -26px rgba(21,21,21,.85);transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease" style-hover="transform:translateY(-3px);box-shadow:0 4px 8px rgba(21,21,21,.08),0 26px 48px -26px rgba(21,21,21,.95)">
+<div data-story-card="6" data-story-year="2025" style="position:relative;margin-bottom:48px">
+<div style="position:relative;max-width:1068px;margin:0 auto">
+<div style="background:#151515;border-radius:10px;padding:22px 26px 24px;box-sizing:border-box;display:flex;flex-direction:column;box-shadow:0 2px 4px rgba(21,21,21,.06),0 20px 40px -26px rgba(21,21,21,.85)">
 <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px" data-patch="story-card-title-row">
 <div style="display:flex;align-items:center;gap:11px;min-width:0">
-<span style="flex:none;width:34px;height:34px;border-radius:999px;background:rgba(143,192,234,.12);display:flex;align-items:center;justify-content:center;color:#8FC0EA"><svg width="17" height="17" style="display:block"><use href="#i-case"></use></svg></span>
-<div style="min-width:0"><div style="font-size:16px;font-weight:700;line-height:1.4;color:#F6F2E7">大手自動車メーカー IT部門</div><div style="font-size:16px;color:rgba(246,242,231,.55);margin-top:3px">AI活用・DX推進</div></div>
+<span style="flex:none;width:40px;height:40px;border-radius:999px;background:rgba(143,192,234,.12);display:flex;align-items:center;justify-content:center;color:#8FC0EA"><svg width="20" height="20" style="display:block"><use href="#i-case"></use></svg></span>
+<div style="min-width:0"><div style="font-size:23px;font-weight:700;line-height:1.35;color:#F6F2E7">大手自動車メーカー IT部門</div><div style="font-size:15px;color:rgba(246,242,231,.55);margin-top:3px">AI活用・DX推進</div></div>
 </div>
 <div style="flex:none;display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;white-space:nowrap;padding-top:6px"><span style="color:#F6F2E7">2025—現在</span><span style="width:16px;height:1px;background:rgba(246,242,231,.25)"></span><span style="color:rgba(246,242,231,.5);letter-spacing:.14em">PROFESSIONAL</span></div>
 </div>
 <p style="margin:0;font-size:16px;line-height:1.9;color:rgba(246,242,231,.78);text-wrap:pretty">AIをはじめとするデジタル技術の社内活用を推進。業務プロセスの自動化・効率化や、新しい技術の業務適用にも幅広く携わっています。</p>
-<div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:13px">
+<div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:16px">
 <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(246,242,231,.09);border-radius:999px;padding:5px 12px;font-size:16px;color:#EFE9DA;white-space:nowrap"><span style="color:#8FC0EA"><svg width="13" height="13" style="display:block"><use href="#i-chip"></use></svg></span>AI活用推進</span>
 <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(246,242,231,.09);border-radius:999px;padding:5px 12px;font-size:16px;color:#EFE9DA;white-space:nowrap"><span style="color:#8FC0EA"><svg width="13" height="13" style="display:block"><use href="#i-gear"></use></svg></span>業務自動化</span>
 <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(246,242,231,.09);border-radius:999px;padding:5px 12px;font-size:16px;color:#EFE9DA;white-space:nowrap"><span style="color:#8FC0EA"><svg width="13" height="13" style="display:block"><use href="#i-chart"></use></svg></span>DX推進</span>
 </div>
-<a href="#" onClick="{{ goAiwork }}" style="display:inline-flex;align-items:center;gap:8px;margin-top:30px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:#8FC0EA;text-decoration:none;white-space:nowrap;transition:transform .45s cubic-bezier(.22,.61,.36,1),letter-spacing .45s cubic-bezier(.22,.61,.36,1),color .3s ease" style-hover="transform:translateX(5px);letter-spacing:.19em;color:#D9E8F7" data-comment-anchor="a538900a49-a">取り組みを見る — AI × WORK →</a></div></div></div>
+<a href="#" onClick="{{ goAiwork }}" style="display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:#8FC0EA;text-decoration:none;white-space:nowrap;transition:transform .45s cubic-bezier(.22,.61,.36,1),letter-spacing .45s cubic-bezier(.22,.61,.36,1),color .3s ease" style-hover="transform:translateX(5px);letter-spacing:.19em;color:#D9E8F7" data-comment-anchor="a538900a49-a">取り組みを見る — AI × WORK →</a></div>
+</div>
 </div>
 
-<div style="grid-row:2;position:relative;height:50px">
-<span data-story-stem="" style="position:absolute;left:6.0000%;top:-10px;height:40px;width:1px;background:rgba(21,21,21,.22);transition:left .45s cubic-bezier(.22,.61,.36,1)"></span>
-<span style="position:absolute;left:6%;right:6%;top:30px;height:1px;background:rgba(21,21,21,.15)"></span>
-<span data-story-dot="0" style="position:absolute;left:6.0000%;top:30px;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);transition:background .35s ease,width .35s ease,height .35s ease"></span><button type="button" data-story-jump="0" data-story-lab="0" style="position:absolute;left:6.0000%;top:37px;transform:translateX(-50%);background:none;border:0;padding:3px 6px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);cursor:pointer;white-space:nowrap;transition:color .3s ease" style-hover="color:#3B82C4">2000</button><span data-story-dot="1" style="position:absolute;left:20.6667%;top:30px;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);transition:background .35s ease,width .35s ease,height .35s ease"></span><button type="button" data-story-jump="1" data-story-lab="1" style="position:absolute;left:20.6667%;top:37px;transform:translateX(-50%);background:none;border:0;padding:3px 6px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);cursor:pointer;white-space:nowrap;transition:color .3s ease" style-hover="color:#3B82C4">2007</button><span data-story-dot="2" style="position:absolute;left:35.3333%;top:30px;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);transition:background .35s ease,width .35s ease,height .35s ease"></span><button type="button" data-story-jump="2" data-story-lab="2" style="position:absolute;left:35.3333%;top:37px;transform:translateX(-50%);background:none;border:0;padding:3px 6px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);cursor:pointer;white-space:nowrap;transition:color .3s ease" style-hover="color:#3B82C4">2013</button><span data-story-dot="3" style="position:absolute;left:50.0000%;top:30px;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);transition:background .35s ease,width .35s ease,height .35s ease"></span><button type="button" data-story-jump="3" data-story-lab="3" style="position:absolute;left:50.0000%;top:37px;transform:translateX(-50%);background:none;border:0;padding:3px 6px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);cursor:pointer;white-space:nowrap;transition:color .3s ease" style-hover="color:#3B82C4">2016</button><span data-story-dot="4" style="position:absolute;left:64.6667%;top:30px;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);transition:background .35s ease,width .35s ease,height .35s ease"></span><button type="button" data-story-jump="4" data-story-lab="4" style="position:absolute;left:64.6667%;top:37px;transform:translateX(-50%);background:none;border:0;padding:3px 6px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);cursor:pointer;white-space:nowrap;transition:color .3s ease" style-hover="color:#3B82C4">2019</button><span data-story-dot="5" style="position:absolute;left:79.3333%;top:30px;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);transition:background .35s ease,width .35s ease,height .35s ease"></span><button type="button" data-story-jump="5" data-story-lab="5" style="position:absolute;left:79.3333%;top:37px;transform:translateX(-50%);background:none;border:0;padding:3px 6px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);cursor:pointer;white-space:nowrap;transition:color .3s ease" style-hover="color:#3B82C4">2023</button><span data-story-dot="6" style="position:absolute;left:94.0000%;top:30px;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);transition:background .35s ease,width .35s ease,height .35s ease"></span><button type="button" data-story-jump="6" data-story-lab="6" style="position:absolute;left:94.0000%;top:37px;transform:translateX(-50%);background:none;border:0;padding:3px 6px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);cursor:pointer;white-space:nowrap;transition:color .3s ease" style-hover="color:#3B82C4">2025</button>
 </div>
 
-<div data-story-slider="" style="grid-row:3;position:relative;height:32px;cursor:grab;touch-action:none;user-select:none;animation:none">
-<span style="position:absolute;left:6%;right:6%;top:50%;height:1px;background:rgba(21,21,21,.15)"></span>
-<span data-story-pill="" style="position:absolute;top:50%;left:6.0000%;transform:translate(-50%,-50%);min-width:70px;height:34px;padding:0 14px;border-radius:999px;background:#151515;color:#F6F2E7;box-shadow:0 8px 18px -10px rgba(21,21,21,.75);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.04em;transition:left .12s linear">2000</span>
+<div style="position:relative" data-story-nav-col="" data-no-reveal="">
+<div data-story-nav-sticky="">
+<div data-story-nav="" style="position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:4px">
+<span data-story-navmark="" style="position:absolute;left:0;top:0;width:15px;height:15px;border-radius:999px;border:1.5px solid #3B82C4;background:#FDFBF3;transform:translate(-50%,-50%);transition:left .45s cubic-bezier(.22,.61,.36,1),top .45s cubic-bezier(.22,.61,.36,1);pointer-events:none;z-index:2"></span>
+<span data-story-baseline="" style="position:absolute;left:0;right:0;top:8px;height:1px;background:rgba(21,21,21,.15);z-index:0"></span>
+<button type="button" data-story-jump="2000" style="position:relative;z-index:1;background:none;border:0;padding:4px 3px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer"><span data-story-dot="" style="width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);flex:none;transition:background .35s ease,width .35s ease,height .35s ease"></span><span data-story-lab="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);white-space:nowrap;transition:color .3s ease,font-weight .3s ease">2000</span></button>
+<button type="button" data-story-jump="2007" style="position:relative;z-index:1;background:none;border:0;padding:4px 3px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer"><span data-story-dot="" style="width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);flex:none;transition:background .35s ease,width .35s ease,height .35s ease"></span><span data-story-lab="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);white-space:nowrap;transition:color .3s ease,font-weight .3s ease">2007</span></button>
+<button type="button" data-story-jump="2013" style="position:relative;z-index:1;background:none;border:0;padding:4px 3px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer"><span data-story-dot="" style="width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);flex:none;transition:background .35s ease,width .35s ease,height .35s ease"></span><span data-story-lab="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);white-space:nowrap;transition:color .3s ease,font-weight .3s ease">2013</span></button>
+<button type="button" data-story-jump="2016" style="position:relative;z-index:1;background:none;border:0;padding:4px 3px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer"><span data-story-dot="" style="width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);flex:none;transition:background .35s ease,width .35s ease,height .35s ease"></span><span data-story-lab="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);white-space:nowrap;transition:color .3s ease,font-weight .3s ease">2016</span></button>
+<button type="button" data-story-jump="2019" style="position:relative;z-index:1;background:none;border:0;padding:4px 3px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer"><span data-story-dot="" style="width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);flex:none;transition:background .35s ease,width .35s ease,height .35s ease"></span><span data-story-lab="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);white-space:nowrap;transition:color .3s ease,font-weight .3s ease">2019</span></button>
+<button type="button" data-story-jump="2023" style="position:relative;z-index:1;background:none;border:0;padding:4px 3px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer"><span data-story-dot="" style="width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);flex:none;transition:background .35s ease,width .35s ease,height .35s ease"></span><span data-story-lab="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);white-space:nowrap;transition:color .3s ease,font-weight .3s ease">2023</span></button>
+<button type="button" data-story-jump="2025" style="position:relative;z-index:1;background:none;border:0;padding:4px 3px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer"><span data-story-dot="" style="width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);flex:none;transition:background .35s ease,width .35s ease,height .35s ease"></span><span data-story-lab="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);white-space:nowrap;transition:color .3s ease,font-weight .3s ease">2025</span></button>
 </div>
-
 </div>
 </div>
 </div>
@@ -1732,10 +1820,9 @@ a:hover{color:#2A6BA6}
 <span style="width:52px;height:52px;flex:none;border-radius:999px;border:1px solid rgba(59,130,196,.3);background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="25" height="25" style="display:block"><use href="#i-globe"></use></svg></span>
 <div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.24em;color:#3B82C4">GOAL / 01</div>
-<h1 style="margin:3px 0 0;font-family:'Shippori Mincho B1',serif;font-size:42px;font-weight:600;line-height:1.3;letter-spacing:.03em">地域が強くなれば、<span style="white-space:nowrap">日本</span>はもっと<span style="white-space:nowrap">強くなる。</span></h1>
+<h1 style="margin:3px 0 0;font-family:'Shippori Mincho B1',serif;font-size:42px;font-weight:600;line-height:1.3;letter-spacing:.03em">一極集中を避け、<span style="white-space:nowrap">地域の中で</span>価値が<span style="white-space:nowrap">循環する。</span></h1>
 </div>
 </div>
-<p style="margin:0;max-width:640px;font-size:16px;line-height:2;color:rgba(21,21,21,.74)">FROM NAGOYA, TO JAPAN. — なぜ地域なのかを、順番に書きます。</p>
 </div>
 </div>
 
@@ -2210,7 +2297,7 @@ a:hover{color:#2A6BA6}
 <a href="https://twitter.com/kentaro571322" target="_blank" rel="noopener" title="X" aria-label="X" style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid rgba(21,21,21,.18);border-radius:999px;color:rgba(21,21,21,.6);transition:color .3s ease,border-color .3s ease,transform .35s cubic-bezier(.22,.61,.36,1)" style-hover="color:#3B82C4;border-color:rgba(59,130,196,.5);transform:translateY(-2px)"><svg width="15" height="15" style="display:block"><use href="#i-x"></use></svg></a>
 <a href="https://www.facebook.com/profile.php?id=100021908416677" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook" style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid rgba(21,21,21,.18);border-radius:999px;color:rgba(21,21,21,.6);transition:color .3s ease,border-color .3s ease,transform .35s cubic-bezier(.22,.61,.36,1)" style-hover="color:#3B82C4;border-color:rgba(59,130,196,.5);transform:translateY(-2px)"><svg width="15" height="15" style="display:block"><use href="#i-fb"></use></svg></a>
 </div>
-<span style="white-space:nowrap">CONSIDER. BUILD. CHANGE.</span>
+<span style="font-family:'Shippori Mincho B1',serif;font-size:16px;font-weight:700;letter-spacing:.18em;color:#3B82C4;white-space:nowrap">ドライブ</span>
 </div>
 </div>
 
@@ -2269,10 +2356,13 @@ class Component extends DCLogic {
       this.prog.style.width = (max > 0 ? Math.min(1, h.scrollTop / max) * 100 : 0) + '%';
     };
     window.addEventListener('scroll', this.onScroll, { passive: true });
-    this.onStoryScroll = () => { this.storySync(); this.heroSync(); };
+    this.onStoryScroll = () => { this.heroSync(); };
     window.addEventListener('scroll', this.onStoryScroll, { passive: true });
     this.onStoryResize = () => {
-      this.storyFit(); this.storySync(); this.heroSync();
+      this.heroSync();
+      // 年表(data-story-nav)は自身の座標をJSで計算しないが、リサイズでレイアウトが
+      // 変わるとリング(navMark)の位置だけはズレるため、現在のactive年で再同期する。
+      if (this._sy && this._sy.syncMark && this._sy.activeYear) this._sy.syncMark(this._sy.activeYear);
       if (window.ScrollTrigger) window.ScrollTrigger.refresh();
     };
     window.addEventListener('resize', this.onStoryResize);
@@ -2312,49 +2402,116 @@ class Component extends DCLogic {
   }
 
   storyInit() {
+    // ===== 年表ナビの設計方針 =====
+    // 年表(data-story-nav)は「Storyコンテンツの一部」ではなく、現在どの時代を
+    // 見ているかを示す独立したナビゲーションUIとして扱う。そのため:
+    //  1) 年表自身の位置・内部の年の間隔は、カード(data-story-card)の実際の
+    //     高さやY座標に一切依存させない（PC用CSSでposition:stickyかつ
+    //     flex-direction:columnの均等配置(justify-content:space-between)に
+    //     しているだけで、JSはその座標計算を一切行わない）。
+    //  2) JSの役割は「現在ビューポートに入っているカードはどれか」を
+    //     IntersectionObserverで判定し、対応する年(data-story-year)の
+    //     ボタンだけをactive状態に切り替えることに限定する。
+    //     毎フレームのスクロール量計算・年表自体の位置のJS制御は行わない。
+    //  3) カードと年表ボタンは year（例: "2000"）というdata属性の値で
+    //     1対1に対応付ける（インデックス番号への依存をやめ、どちらの
+    //     DOM構造が変わっても対応関係が崩れないようにする）。
     const track = document.querySelector('[data-story-track]');
     if (!track) { this._sy = null; return; }
-    if (track.__sy) { this._sy = track.__sy; this.storySync(); return; }
-    const sy = { track: track, meta: [{"y":2000,"to":"2006","l":"誕生"},{"y":2007,"to":"2012","l":"小学校"},{"y":2013,"to":"2015","l":"中学校"},{"y":2016,"to":"2018","l":"高校"},{"y":2019,"to":"2023","l":"学部"},{"y":2023,"to":"2025","l":"大学院"},{"y":2025,"to":"現在","l":"社会人"}], i: -1, drag: false,
-      cards: Array.prototype.slice.call(track.querySelectorAll('[data-story-card]')),
-      stems: Array.prototype.slice.call(track.querySelectorAll('[data-story-stem]')),
-      dots: Array.prototype.slice.call(track.querySelectorAll('[data-story-dot]')),
-      labs: Array.prototype.slice.call(track.querySelectorAll('[data-story-lab]')),
-      pill: track.querySelector('[data-story-pill]'),
-      slider: track.querySelector('[data-story-slider]') };
+    if (track.__sy) { this._sy = track.__sy; return; }
+    const cards = Array.prototype.slice.call(track.querySelectorAll('[data-story-card]'));
+    const navBtns = Array.prototype.slice.call(track.querySelectorAll('[data-story-jump]'));
+    // モバイル簡易進捗バー用: 年 → カードの短い呼び名の対応表。
+    const YEAR_TITLES = { '2000': '誕生', '2007': '小学校', '2013': '中学校', '2016': '高校', '2019': '学部', '2023': '大学院', '2025': '現職' };
+    const sy = {
+      track: track,
+      cards: cards,
+      navEl: track.querySelector('[data-story-nav]'),
+      navMark: track.querySelector('[data-story-navmark]'),
+      navBtns: navBtns,
+      // year(文字列) → カード要素 / 年表ボタン要素 の対応表。
+      cardByYear: {},
+      btnByYear: {},
+      yearOrder: cards.map(c => c.getAttribute('data-story-year')),
+      mobileYearEl: track.querySelector('[data-story-mobile-year]'),
+      mobileTitleEl: track.querySelector('[data-story-mobile-title]'),
+      mobileCountEl: track.querySelector('[data-story-mobile-count]'),
+      mobileFillEl: track.querySelector('[data-story-mobile-fill]'),
+      activeYear: null
+    };
+    cards.forEach(c => { sy.cardByYear[c.getAttribute('data-story-year')] = c; });
+    navBtns.forEach(b => { sy.btnByYear[b.getAttribute('data-story-jump')] = b; });
+    // 現在位置を示す丸いリング(navMark)を、activeなボタン内のドットの実際の
+    // 座標へスライドさせる。年表が横並び(モバイル)でも縦並び(PC)でも、
+    // ドットの実測位置を使うだけなので向きを問わず動く。
+    sy.syncMark = year => {
+      const btn = sy.btnByYear[year];
+      const dot = btn && btn.querySelector('[data-story-dot]');
+      if (!sy.navEl || !sy.navMark || !dot) return;
+      const navRect = sy.navEl.getBoundingClientRect();
+      const dotRect = dot.getBoundingClientRect();
+      sy.navMark.style.left = (dotRect.left + dotRect.width / 2 - navRect.left) + 'px';
+      sy.navMark.style.top = (dotRect.top + dotRect.height / 2 - navRect.top) + 'px';
+    };
+    // 指定年をactiveにする（ドット拡大・ラベル濃色化・リング移動）。
+    // IntersectionObserverのコールバックとクリック時の両方から呼ぶ共通処理。
+    sy.setActiveYear = year => {
+      if (!sy.btnByYear[year] || sy.activeYear === year) return;
+      sy.activeYear = year;
+      navBtns.forEach(btn => {
+        const on = btn === sy.btnByYear[year];
+        const dot = btn.querySelector('[data-story-dot]');
+        const lab = btn.querySelector('[data-story-lab]');
+        if (dot) {
+          dot.style.background = on ? '#151515' : 'rgba(21,21,21,.26)';
+          dot.style.width = on ? '11px' : '9px';
+          dot.style.height = on ? '11px' : '9px';
+        }
+        if (lab) {
+          lab.style.color = on ? '#151515' : 'rgba(21,21,21,.42)';
+          lab.style.fontWeight = on ? '700' : '400';
+        }
+      });
+      sy.syncMark(year);
+      // モバイル簡易進捗バーの更新(年・短縮タイトル・何番目/全何件・バーの幅)。
+      // PCでは非表示だが、要素自体は常にDOMにあるため無条件で更新して問題ない。
+      const idx = sy.yearOrder.indexOf(year);
+      if (sy.mobileYearEl) sy.mobileYearEl.textContent = year;
+      if (sy.mobileTitleEl) sy.mobileTitleEl.textContent = YEAR_TITLES[year] || '';
+      if (sy.mobileCountEl) sy.mobileCountEl.textContent = (idx + 1) + ' / ' + sy.yearOrder.length;
+      if (sy.mobileFillEl) sy.mobileFillEl.style.width = (((idx + 1) / sy.yearOrder.length) * 100) + '%';
+    };
     track.__sy = sy; this._sy = sy;
-    const sl = sy.slider;
-    if (!sl) return;
-    const frac = e => {
-      const r = sl.getBoundingClientRect();
-      const f = (e.clientX - r.left) / Math.max(1, r.width) * 100;
-      return Math.max(0, Math.min(7 - 1, (f - 6) / 14.666667));
-    };
-    sl.addEventListener('pointerdown', e => {
-      sy.drag = true;
-      sl.style.cursor = 'grabbing';
-      if (sy.pill) sy.pill.style.transition = 'none';
-      try { sl.setPointerCapture(e.pointerId); } catch (x) {}
-      this.storyScrollTo(frac(e), false);
-    });
-    sl.addEventListener('pointermove', e => { if (sy.drag) this.storyScrollTo(frac(e), false); });
-    const end = e => {
-      sy.drag = false;
-      sl.style.cursor = 'grab';
-      if (sy.pill) sy.pill.style.transition = 'left .12s linear';
-      try { sl.releasePointerCapture(e.pointerId); } catch (x) {}
-    };
-    sl.addEventListener('pointerup', end);
-    sl.addEventListener('pointercancel', end);
-    this.storyFit();
-    setTimeout(() => { this.storyFit(); this.storySync(); }, 1200);
-    Array.prototype.forEach.call(track.querySelectorAll('[data-story-jump]'), btn => {
+    // 年表のボタン(2000/2007/…)をクリックすると、対応するyearのカードへ
+    // 通常のページスクロールでそのまま移動する（scrollIntoViewなので複雑な
+    // スクロール量計算が一切不要）。カード側にscroll-margin-topを持たせて
+    // あるので、固定ヘッダーの下にきちんと収まる位置で止まる。
+    navBtns.forEach(btn => {
       btn.addEventListener('click', e => {
         e.preventDefault();
-        this.storyScrollTo(parseInt(btn.getAttribute('data-story-jump'), 10) + 0.45, true);
+        const year = btn.getAttribute('data-story-jump');
+        const card = sy.cardByYear[year];
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
-    this.storySync();
+    // 画面内に入ったカードに応じて、年表のactive yearを切り替える
+    // （スクロール位置からの逆算ではなく、実際に見えているかどうかで判定するため、
+    // ページの実際の高さがどう変わってもズレない）。rootMarginは viewport
+    // 中央付近に幅を持たせたバンド(45%〜55%)にすることで、短いカードが
+    // 一瞬で通過してもactiveの検知漏れが起きにくく、頻繁なon/off切り替えも防ぐ。
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(en => {
+          if (!en.isIntersecting) return;
+          const year = en.target.getAttribute('data-story-year');
+          if (year) sy.setActiveYear(year);
+        });
+      }, { threshold: 0, rootMargin: '-45% 0px -45% 0px' });
+      cards.forEach(c => io.observe(c));
+      sy.io = io;
+    }
+    // 初期状態（IntersectionObserverが発火する前）は先頭の年をactiveにしておく。
+    if (cards[0]) sy.setActiveYear(cards[0].getAttribute('data-story-year'));
   }
 
   heroSync() {
@@ -2410,77 +2567,6 @@ class Component extends DCLogic {
       .to({}, { duration: tail });                           // ④ 余韻
     this._heroST = tl.scrollTrigger;
     if (!img.complete) img.addEventListener('load', () => ST.refresh());
-  }
-
-  storyFit() {
-    const sy = this._sy;
-    if (!sy) return;
-    sy.cards.forEach(c => {
-      const inner = c.firstElementChild;
-      if (!inner) return;
-      inner.style.transform = 'none';
-      inner.style.width = '';
-      const avail = c.clientHeight;
-      inner.style.height = 'auto';           // 自然な高さを実測（height:100%だと常にavailと同値になる）
-      const need = Math.max(inner.offsetHeight, inner.scrollHeight);
-      inner.style.height = '100%';
-      // 本文サイズは維持し、収まらない短いウィンドウのときだけパネル内スクロールを許可
-      c.style.overflowY = need > avail + 1 ? 'auto' : 'hidden';
-      c.style.scrollbarWidth = 'thin';
-    });
-  }
-
-  storyGeom() {
-    const sy = this._sy;
-    if (!sy) return null;
-    const top = sy.track.getBoundingClientRect().top + window.scrollY - 66;
-    const travel = Math.max(1, sy.track.offsetHeight - (window.innerHeight - 66));
-    return { top: top, travel: travel, seg: travel / sy.cards.length };
-  }
-
-  storyScrollTo(u, smooth) {
-    const g = this.storyGeom();
-    if (!g) return;
-    const n = this._sy.cards.length;
-    const v = Math.max(0, Math.min(n - 0.002, u));
-    window.scrollTo({ top: g.top + v * g.seg, behavior: smooth ? 'smooth' : 'auto' });
-  }
-
-  storySync() {
-    const sy = this._sy;
-    if (!sy || !document.body.contains(sy.track)) return;
-    const g = this.storyGeom();
-    const N = sy.cards.length;
-    const p = Math.max(0, Math.min(1, (window.scrollY - g.top) / g.travel));
-    const u = Math.min(N - 0.0001, p * N);
-    const i = Math.floor(u), t = u - i;
-    const a = sy.meta[i].y, b = i + 1 < N ? sy.meta[i + 1].y : 2026;
-    if (sy.pill) {
-      sy.pill.style.left = (6 + Math.min(u, N - 1) * 14.666667).toFixed(4) + '%';
-      sy.pill.textContent = String(Math.floor(a + (b - a) * t));
-    }
-    if (i === sy.i) return;
-    sy.i = i;
-    const P = (6 + i * 14.666667).toFixed(4) + '%';
-    sy.stems.forEach(st => { st.style.left = P; });
-    sy.cards.forEach((c, k) => {
-      const on = k === i;
-      c.style.opacity = on ? '1' : '0';
-      c.style.transform = on ? 'translateY(0)' : (k < i ? 'translateY(-18px)' : 'translateY(18px)');
-      c.style.pointerEvents = on ? 'auto' : 'none';
-      if (!on) c.scrollTop = 0;
-    });
-    sy.dots.forEach((d, k) => {
-      const on = k === i;
-      d.style.background = on ? '#151515' : 'rgba(21,21,21,.26)';
-      d.style.width = on ? '11px' : '9px';
-      d.style.height = on ? '11px' : '9px';
-    });
-    sy.labs.forEach((l, k) => {
-      const on = k === i;
-      l.style.color = on ? '#151515' : 'rgba(21,21,21,.42)';
-      l.style.fontWeight = on ? '700' : '400';
-    });
   }
 
   charFx() {
@@ -2557,7 +2643,14 @@ class Component extends DCLogic {
           if (el.__rv) return;
           el.__rv = true;
           if ((el.getAttribute('style') || '').indexOf('animation:') > -1) return;
-          if (el.hasAttribute('data-charfx') || el.hasAttribute('data-rv')) return;
+          // data-no-reveal: この演出はDOM構造をヒューリスティックに走査して
+          // (親の子要素が2〜8個ならその各子要素に)transform/blurのフェードインを
+          // 自動で当てる仕組みのため、明示的にdata-rv等を付けていない要素にも
+          // 意図せず適用されてしまうことがある。position:stickyで自前の位置制御を
+          // している要素(STORY年表とカード列)にtransformが乗ると、アニメーション中
+          // だけstickyの基準がその要素にずれてカクつく／位置がずれる原因になるため、
+          // 明示的に除外する。
+          if (el.hasAttribute('data-charfx') || el.hasAttribute('data-rv') || el.hasAttribute('data-no-reveal')) return;
           const d = i * 130;
           const E = 'cubic-bezier(.16,1,.3,1)';
           el.style.opacity = '0';
