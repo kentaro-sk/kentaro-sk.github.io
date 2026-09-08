@@ -20,6 +20,7 @@
    セレクタも属性セレクタからこのクラスセレクタへ置き換えている（詳細は各ルール直前のコメント
    を参照）。値そのものは変更していない。 */
 .u-nowrap { white-space:nowrap }
+.u-pill { border-radius:999px }
 
 /* ===== 重複インラインstyleを機械的にクラス化したもの (refactor: 施策4) =====
    index.html内で完全一致するstyle値が複数箇所(3箇所以上)に出現していたパターンを
@@ -393,7 +394,10 @@
   /* flex-wrap コンテナ内の子（受賞・資格ピル等）がビューポート幅を超えないよう上限を設け、
      長文ピルはピル内で折り返させる（横見切れ防止） */
   [style*="flex-wrap: wrap"] > * { max-width: 100% !important; }
-  [style*="border-radius: 999px"] { white-space: normal !important; }
+  /* 施策8: border-radius:999px単体のstyle値(4隅均等・73箇所)はu-pillクラスへ置き換え済みのため、
+     このセレクタもクラスセレクタに対応させる(999px 999px 0 0のような部分一致は元々別の値の
+     装飾用途で対象外だが、属性セレクタ側は引き続き残しておき挙動を変えない)。 */
+  [style*="border-radius: 999px"], .u-pill { white-space: normal !important; }
 
   /* STORYカード見出し行: [アイコン+施設名]と[年代ラベル]が space-between で横並びだと、
      狭幅で年代ラベルが幅を取りタイトルが潰れて1〜2文字ずつ縦積み改行になる（例:「名古屋大学 工学部」）。
