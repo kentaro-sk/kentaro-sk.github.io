@@ -230,20 +230,22 @@
   /* ロゴ横の氏名テキスト（Zen系）は狭すぎるため小さく */
   [data-patch="mobile-nav-subtitle"] { font-size: 12px !important; }
 
-  /* ヒーローの点群(particle-field): モバイルでは見出しに重ねず、ヘッダー(タブ)と見出しの間の
-     上部余白に「横帯」として配置する。描画コンテナ(left:44%/width:60%/height:620px の絶対配置div)を
-     全幅・上部の帯に作り替え、テキストの手前ではなく上の空きスペースへ収める。
-     particle-field 本体はコンテナ全面(100%)を満たすので、コンテナを帯にするだけで位置が決まる。
+  /* ヒーローの点群(particle-field): デスクトップでは見出し(左)と横並び(右)のflexアイテムだが、
+     モバイルでは横並びにする余白が無いため、見出しの上の「横帯」として積み替える。
+     home-hero-pad を縦積み(column-reverse)にし、DOM順で後ろにある点群ボックスを視覚的に先頭(上)へ、
+     テキスト列を後ろ(下)へ回す。stretchで両方を全幅にし、点群ボックスは高さだけ帯サイズに固定する。
      図形の大きさは particle-field.js 内部で R = min(幅,高さ)×0.5×scale と計算されており、
-     帯は幅(画面幅)より高さの方が小さいため、実質「帯の高さ」で図形サイズが決まる。
-     もう二回り大きく見せたいとの要望のため、帯を158px→264pxに拡大（図形直径は約1.67倍）。 */
+     帯は幅(画面幅)より高さの方が小さいため、実質「帯の高さ」で図形サイズが決まる。 */
+  [data-patch="home-hero-pad"] {
+    flex-direction: column-reverse !important;
+    align-items: stretch !important;
+    gap: 24px !important;
+    padding: 40px 24px 56px !important;
+  }
   [data-patch="particle-field-box"] {
-    left: 0 !important; width: 100% !important; top: 0 !important; height: 264px !important; transform: none !important;
+    width: 100% !important; height: 264px !important;
   }
   particle-field { opacity: .92 !important; }
-  /* ヒーロー本文コンテナの上パディングを、点群の帯(約264px)より少し下げてテキスト開始位置を確保し、
-     帯と本文が重ならないようにする。下パディングも詰めて間延びを防ぐ。 */
-  [data-patch="home-hero-pad"] { padding-top: 280px !important; padding-bottom: 92px !important; }
 
   /* === モバイル・タイポグラフィ（ユーザー提示のサイズガイドに準拠） ===
      FV見出し 28–36px / セクション見出し(H2/H3) 20–24px / 本文 16px /
@@ -553,13 +555,15 @@ a:hover{color:#2A6BA6}
 
 <div style="position:relative;overflow:hidden;border-bottom:1px solid rgba(21,21,21,.12)">
 <div style="position:absolute;inset:0;background:radial-gradient(820px 600px at 76% 4%,#F9F0CE 0%,rgba(249,240,206,0) 68%),radial-gradient(560px 440px at 2% 88%,#FBF5DE 0%,rgba(251,245,222,0) 70%)" data-comment-anchor="435c226437-div"></div>
-<div style="position:absolute;left:50%;top:20px;width:60%;height:300px;transform:translateX(-50%)" data-patch="particle-field-box" data-no-reveal="">
+<div style="position:relative;max-width:1180px;margin:0 auto;padding:150px 56px 128px;display:flex;align-items:center;justify-content:space-between;gap:48px" data-patch="home-hero-pad">
+<div style="flex:1;min-width:0" data-patch="home-hero-text">
+<h1 style="margin:0 0 18px;font-family:'Parisienne',cursive;font-size:96px;font-weight:400;line-height:1.15;letter-spacing:.02em;color:#151515;animation:riseIn .9s .1s both ease-out" data-comment-anchor="cce50e47c6-h1">Drive</h1>
+<div style="width:64px;height:3px;background:#3B82C4;margin:0 0 30px;animation:riseIn .9s .2s both ease-out"></div>
+<p style="margin:0;font-size:18px;line-height:2.05;color:rgba(21,21,21,.74);animation:riseIn .9s .3s both ease-out" data-comment-anchor="f229a48750-p">AI、モビリティ、教育。<br>そしてその先にある社会へ。</p>
+</div>
+<div style="position:relative;flex:none;width:400px;height:400px" data-patch="particle-field-box">
 <x-import component-from-global-scope="particle-field" from="./js/particle-field.js" style="position:absolute;left:0;top:0;width:100%;height:100%" count="1800" shapes="🦕,globe,🏯,🚗,AI,~🗾" hold="4200" scale="0.96" color="#151515" accent="#3B82C4" hint-size="100%,100%"></x-import>
 </div>
-<div style="position:relative;max-width:1180px;margin:0 auto;padding:150px 56px 128px;text-align:center" data-patch="home-hero-pad">
-<h1 style="margin:0 0 18px;font-family:'Parisienne',cursive;font-size:96px;font-weight:400;line-height:1.15;letter-spacing:.02em;color:#151515;animation:riseIn .9s .1s both ease-out" data-comment-anchor="cce50e47c6-h1">Drive</h1>
-<div style="width:64px;height:3px;background:#3B82C4;margin:0 auto 30px;animation:riseIn .9s .2s both ease-out"></div>
-<p style="margin:0;font-size:18px;line-height:2.05;color:rgba(21,21,21,.74);animation:riseIn .9s .3s both ease-out" data-comment-anchor="f229a48750-p">AI、モビリティ、教育。<br>そしてその先にある社会へ。</p>
 </div>
 </div>
 
