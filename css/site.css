@@ -172,6 +172,82 @@
 .c-153 { color:#F6F2E7 }
 .c-154 { margin:0 }
 
+/* ===== 重複インラインstyleを機械的にクラス化したもの・追加分 (refactor: 施策7) =====
+   1周目(施策4)は「3箇所以上完全一致」を対象にしたが、施策3〜6のsc-for化で
+   HTML構造が変わり重複パターンが再集計されたため、閾値を「2箇所以上」に広げて
+   追加抽出した。responsive-patch内の[style*="..."]・[data-patch="..."]セレクタと
+   衝突する値(font-sizeの大見出しクランプ群・max-width:1180px・grid-template-columns・
+   border-radius:999px・white-space:nowrap・text-wrap:pretty・position:sticky、および
+   data-patch="baseball-row"配下のイニング見出し行の font-size/padding)は、
+   実際にそれらのセレクタが参照する範囲内かどうかをスクリプトで機械的に判定した上で
+   対象から除外し、元のままinline styleに残してある。値そのものは変更していない。 */
+.c-155 { display:flex; align-items:center; gap:6px; flex-wrap:wrap; font-size:16px; font-weight:700; line-height:1.35 }
+.c-156 { position:absolute; top:100%; left:-14px; min-width:236px; background:#FFFDF5; border:1px solid rgba(21,21,21,.14); box-shadow:0 20px 44px -26px rgba(21,21,21,.55); padding:7px; display:flex; flex-direction:column; gap:1px; animation:ddIn .26s cubic-bezier(.16,1,.3,1) both }
+.c-157 { background:#fff; border-radius:10px; padding:18px 20px 19px; box-shadow:0 1px 2px rgba(21,21,21,.04),0 16px 32px -24px rgba(21,21,21,.5); transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease }
+.c-158 { display:block; text-decoration:none; color:#151515; border-left:2px solid rgba(216,185,121,.8); padding:1px 0 1px 11px; min-width:0; transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .3s ease }
+.c-159 { display:block; text-decoration:none; color:#151515; border-left:2px solid rgba(59,130,196,.5); padding:1px 0 1px 11px; min-width:0; transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .3s ease }
+.c-160 { background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 1px 2px rgba(21,21,21,.04),0 16px 32px -24px rgba(21,21,21,.5); transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease }
+.c-161 { display:block; text-decoration:none; color:#151515; border-left:2px solid rgba(216,185,121,.9); padding:0 0 0 10px; min-width:0; transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .3s ease }
+.c-162 { display:block; text-decoration:none; color:#151515; border-left:2px solid rgba(59,130,196,.55); padding:0 0 0 10px; min-width:0; transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .3s ease }
+.c-163 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.12em; color:rgba(21,21,21,.32) }
+.c-164 { display:flex; flex-wrap:wrap; gap:5px; margin-top:auto; font-family:'IBM Plex Mono',monospace; font-size:12px; color:rgba(21,21,21,.7) }
+.c-165 { font-family:'IBM Plex Mono',monospace; font-size:14px; letter-spacing:.06em; color:#3B82C4 }
+.c-166 { display:flex; align-items:center; gap:9px; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.16em; color:rgba(246,242,231,.5); margin-bottom:28px }
+.c-167 { display:flex; flex-wrap:wrap; align-items:center; gap:12px; padding:16px 22px 13px }
+.c-168 { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:12px }
+.c-169 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.16em; color:rgba(246,242,231,.55); margin-top:7px }
+.c-170 { color:rgba(246,242,231,.5); font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.1em; margin-left:8px }
+.c-171 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:rgba(21,21,21,.5); margin-top:6px }
+.c-172 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:rgba(21,21,21,.5); margin-top:2px }
+.c-173 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:rgba(21,21,21,.5); margin-top:3px }
+.c-174 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.18em; color:#3B82C4; margin-bottom:9px }
+.c-175 { display:flex; flex-direction:column; gap:9px; border-top:1px solid rgba(246,242,231,.18); padding-top:16px }
+.c-176 { font-size:16px; font-weight:700; letter-spacing:.01em }
+.c-177 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:rgba(246,242,231,.5) }
+.c-178 { background:#fff; border:1px solid rgba(21,21,21,.1); border-top:3px solid #3B82C4; padding:18px 20px }
+.c-179 { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 62% }
+.c-180 { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 52% }
+.c-181 { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 55% }
+.c-182 { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:40px }
+.c-183 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.12em; color:#151515 }
+.c-184 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.2em; color:#2A6BA6 }
+.c-185 { background:#FBF5DE; padding:15px 17px 16px; display:flex; flex-direction:column; gap:11px }
+.c-186 { width:100%; height:100%; object-fit:cover; object-position:center 42%; display:block }
+.c-187 { width:100%; aspect-ratio:4/3; overflow:hidden; background:transparent; display:block }
+.c-188 { width:100%; height:100%; object-fit:cover; display:block }
+.c-189 { margin:0; max-width:640px; font-size:16px; line-height:2; color:rgba(21,21,21,.72) }
+.c-190 { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:5px }
+.c-191 { width:100%; aspect-ratio:7/8; border:0; display:block; background:transparent }
+.c-192 { position:relative; display:flex; justify-content:center; padding-bottom:18px }
+.c-193 { background:#fff; border:1px solid rgba(21,21,21,.1); padding:22px 26px 24px }
+.c-194 { display:flex; align-items:center; gap:9px; margin-bottom:8px; color:#3B82C4 }
+.c-195 { display:flex; align-items:center; justify-content:space-between; gap:16px }
+.c-196 { margin:0; font-size:16px; line-height:1.9; color:rgba(21,21,21,.7) }
+.c-197 { font-size:16px; font-weight:700; line-height:1.4; color:#151515 }
+.c-198 { display:flex; align-items:center; gap:10px }
+.c-199 { display:block; font-size:16px; font-weight:700; line-height:1.5 }
+.c-200 { color:inherit; text-decoration:none; transition:color .3s ease }
+.c-201 { display:flex; align-items:center; gap:12px; margin-bottom:26px }
+.c-202 { display:flex; align-items:center; gap:12px; margin-bottom:16px }
+.c-203 { display:flex; align-items:center; gap:16px; margin-bottom:16px }
+.c-204 { border-left:1px solid rgba(21,21,21,.09); padding-left:26px }
+.c-205 { display:flex; align-items:center; gap:13px; margin:0 0 18px }
+.c-206 { position:relative; overflow:hidden; background:transparent }
+.c-207 { font-size:16px; line-height:1.75; color:rgba(21,21,21,.8) }
+.c-208 { width:16px; height:1px; background:rgba(246,242,231,.25) }
+.c-209 { font-size:16px; color:rgba(21,21,21,.55); margin-top:3px }
+.c-210 { border:1px solid rgba(21,21,21,.12); background:#FBF5DE }
+.c-211 { position:absolute; left:0; top:0; width:100%; height:100% }
+.c-212 { display:flex; align-items:center; gap:12px; min-width:0 }
+.c-213 { display:flex; flex-wrap:wrap; gap:7px; margin-top:13px }
+.c-214 { border:1px solid rgba(21,21,21,.12); background:#fff }
+.c-215 { position:relative; height:390vh; background:#070C16 }
+.c-216 { position:absolute; inset:0; width:100%; height:100% }
+.c-217 { color:rgba(246,242,231,.5); letter-spacing:.14em }
+.c-218 { width:100%; height:100%; border:0; display:block }
+.c-219 { font-size:16px; font-weight:700; color:#151515 }
+.c-220 { display:flex; align-items:center; gap:11px }
+
 /* Parisienne を自己ホスト（外部woff2ファイル: fonts/Parisienne-Regular.woff2）。
    Google Fonts が社内ネットワーク等でブロック/失敗しても「My Journey, My Story.」の
    筆記体を確実に表示するため、外部依存なしのローカル @font-face を用意する。
