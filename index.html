@@ -1246,13 +1246,13 @@ a:hover{color:#2A6BA6}
 <div data-story-nav="" style="position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:4px">
 <span data-story-navmark="" style="position:absolute;left:0;top:0;width:15px;height:15px;border-radius:999px;border:1.5px solid #3B82C4;background:#FDFBF3;transform:translate(-50%,-50%);transition:left .45s cubic-bezier(.22,.61,.36,1),top .45s cubic-bezier(.22,.61,.36,1);pointer-events:none;z-index:2"></span>
 <span data-story-baseline="" style="position:absolute;left:0;right:0;top:8px;height:1px;background:rgba(21,21,21,.15);z-index:0"></span>
-<button type="button" data-story-jump="2000" class="c-010"><span data-story-dot="" style="width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);flex:none;transition:background .35s ease,width .35s ease,height .35s ease"></span><span data-story-lab="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);white-space:nowrap;transition:color .3s ease,font-weight .3s ease">2000</span></button>
-<button type="button" data-story-jump="2007" class="c-010"><span data-story-dot="" style="width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);flex:none;transition:background .35s ease,width .35s ease,height .35s ease"></span><span data-story-lab="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);white-space:nowrap;transition:color .3s ease,font-weight .3s ease">2007</span></button>
-<button type="button" data-story-jump="2013" class="c-010"><span data-story-dot="" style="width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);flex:none;transition:background .35s ease,width .35s ease,height .35s ease"></span><span data-story-lab="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);white-space:nowrap;transition:color .3s ease,font-weight .3s ease">2013</span></button>
-<button type="button" data-story-jump="2016" class="c-010"><span data-story-dot="" style="width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);flex:none;transition:background .35s ease,width .35s ease,height .35s ease"></span><span data-story-lab="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);white-space:nowrap;transition:color .3s ease,font-weight .3s ease">2016</span></button>
-<button type="button" data-story-jump="2019" class="c-010"><span data-story-dot="" style="width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);flex:none;transition:background .35s ease,width .35s ease,height .35s ease"></span><span data-story-lab="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);white-space:nowrap;transition:color .3s ease,font-weight .3s ease">2019</span></button>
-<button type="button" data-story-jump="2023" class="c-010"><span data-story-dot="" style="width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);flex:none;transition:background .35s ease,width .35s ease,height .35s ease"></span><span data-story-lab="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);white-space:nowrap;transition:color .3s ease,font-weight .3s ease">2023</span></button>
-<button type="button" data-story-jump="2025" class="c-010"><span data-story-dot="" style="width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);flex:none;transition:background .35s ease,width .35s ease,height .35s ease"></span><span data-story-lab="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);white-space:nowrap;transition:color .3s ease,font-weight .3s ease">2025</span></button>
+<!-- 年表ナビの年ボタン(7個)をsc-forでループ化。renderVals()のstoryYearsを参照する。
+     data-story-jump/data-story-dot/data-story-labの属性名・構造・初期インラインstyleは
+     元の静的HTMLと完全に同一のまま、値だけを{{ year }}で差し込む（heroSync側のJSは
+     実行時にquerySelectorAllでこれらの属性を参照するため、生成方法が変わっても影響しない）。 -->
+<sc-for list="{{ storyYears }}" as="year">
+<button type="button" data-story-jump="{{ year }}" class="c-010"><span data-story-dot="" style="width:9px;height:9px;border-radius:999px;background:rgba(21,21,21,.26);flex:none;transition:background .35s ease,width .35s ease,height .35s ease"></span><span data-story-lab="" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:rgba(21,21,21,.42);white-space:nowrap;transition:color .3s ease,font-weight .3s ease">{{ year }}</span></button>
+</sc-for>
 </div>
 </div>
 </div>
@@ -2254,6 +2254,8 @@ class Component extends DCLogic {
       nav['go' + k.charAt(0).toUpperCase() + k.slice(1)] = this.go(k);
     });
     return Object.assign(nav, {
+      // STORY年表ナビの年ボタン(sc-for)用データ。表示順はそのまま配列順。
+      storyYears: ['2000', '2007', '2013', '2016', '2019', '2023', '2025'],
       atProfile: at(['profile', 'achievements']),
       atWorks: at(['works', 'mobility', 'aiwork', 'education']),
       atStory: at(['story', 'turning']),
