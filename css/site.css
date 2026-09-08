@@ -1,0 +1,567 @@
+/* ============================================================
+   css/site.css — index.html から分離した外部CSS
+   (refactor: 施策5 外部CSSファイル化 / 施策4 重複インラインstyleのクラス化)
+
+   このファイルは2つのブロックで構成される:
+   1) 重複インラインstyleを機械的にクラス化した .c-XXX 定義
+   2) 元々 index.html の <style id="responsive-patch"> にあった
+      レスポンシブ対応の後付けパッチ(属性セレクタ + !important)
+
+   注意: 2)のパッチは、DCランタイムが生成する要素の inline style を
+   属性セレクタ([style*="..."]・[data-patch="..."])で上書きする設計。
+   1)のクラスで切り出した値は、このパッチが参照する部分文字列と重複しない
+   ことを事前に確認済み(重複するものは元のままinline styleに残してある)。
+   ============================================================ */
+
+/* ===== 重複インラインstyleを機械的にクラス化したもの (refactor: 施策4) =====
+   index.html内で完全一致するstyle値が複数箇所(3箇所以上)に出現していたパターンを
+   .c-XXX クラスとして切り出したもの。responsive-patch内の[style*="..."]属性セレクタと
+   衝突する値(font-sizeやmax-width:1180px等)は除外済み。値そのものは変更していない。 */
+.c-001 { width:14px;height:4px;background:#3B82C4 }
+.c-002 { width:14px;height:4px;background:rgba(21,21,21,.12) }
+.c-003 { display:block }
+.c-004 { display:flex;align-items:center;justify-content:space-between;gap:14px;text-decoration:none;color:#151515;padding:9px 12px;transition:background .28s ease,transform .32s cubic-bezier(.22,.61,.36,1) }
+.c-005 { display:block;flex:none;color:#3B82C4;opacity:.7 }
+.c-006 { display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.45);margin-top:4px }
+.c-007 { display:flex;align-items:center;justify-content:space-between;gap:12px }
+.c-008 { display:flex;align-items:center;gap:9px;margin-bottom:10px;color:#3B82C4 }
+.c-009 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.5);text-align:right;line-height:1.7 }
+.c-010 { position:relative;z-index:1;background:none;border:0;padding:4px 3px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer }
+.c-011 { width:100%;height:100%;object-fit:cover;display:block }
+.c-012 { display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-decoration:none;border-bottom:1px solid rgba(59,130,196,.5);padding-bottom:2px;transition:transform .45s cubic-bezier(.22,.61,.36,1),color .3s ease,border-color .35s ease,letter-spacing .45s cubic-bezier(.22,.61,.36,1) }
+.c-013 { display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.5);margin-bottom:28px }
+.c-014 { position:relative;display:flex;align-items:baseline;gap:14px;padding:16px 22px;text-decoration:none;color:#151515;border-top:1px solid rgba(21,21,21,.06) }
+.c-015 { border-bottom:1px solid rgba(21,21,21,.1);background:linear-gradient(180deg,#FBF5DE 0%,#FFFDF5 100%) }
+.c-016 { position:relative;display:block;color:rgba(21,21,21,.66);text-decoration:none;transition:color .3s ease,transform .35s cubic-bezier(.22,.61,.36,1) }
+.c-017 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.5) }
+.c-018 { display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700;line-height:1.4;margin-bottom:6px }
+.c-019 { text-decoration:none;color:#151515;display:block;background:#FFFDF5;border-radius:16px;overflow:hidden;box-shadow:0 1px 2px rgba(21,21,21,.06),0 10px 24px -8px rgba(21,21,21,.14);transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s cubic-bezier(.22,.61,.36,1) }
+.c-020 { font-size:16px;font-weight:700 }
+.c-021 { display:block;text-decoration:none;color:#151515;border-left:2px solid rgba(21,21,21,.18);padding:1px 0 1px 11px;min-width:0;transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .3s ease }
+.c-022 { display:block;text-decoration:none;color:#151515;border-left:2px solid rgba(21,21,21,.18);padding:0 0 0 10px;min-width:0;transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .3s ease }
+.c-023 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.26em;color:#3B82C4 }
+.c-024 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.5) }
+.c-025 { display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.48);margin-top:2px }
+.c-026 { text-decoration:none;color:#151515;background:#fff;border:1px solid rgba(21,21,21,.1);padding:0;display:flex;flex-direction:column;height:100%;overflow:hidden;transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease,border-color .4s ease }
+.c-027 { display:block;font-family:'Zen Kaku Gothic New',sans-serif;font-size:16px;font-weight:700;letter-spacing:.02em;line-height:1.4 }
+.c-028 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em }
+.c-029 { background:#FFFDF5;border:1px solid rgba(21,21,21,.16);padding:8px 14px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em }
+.c-030 { display:block;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em }
+.c-031 { color:rgba(21,21,21,.5);text-decoration:none;transition:color .3s ease }
+.c-032 { display:flex;align-items:center;gap:6px;font-size:16px;font-weight:700;line-height:1.4 }
+.c-033 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.55) }
+.c-034 { aspect-ratio:3/4;overflow:hidden;background:#EFEAE0;border:1px solid rgba(21,21,21,.12);transition:border-color .35s ease,transform .45s cubic-bezier(.22,.61,.36,1) }
+.c-035 { text-decoration:none;color:#151515;display:flex;flex-direction:column;background:#fff;border:1px solid rgba(21,21,21,.1);overflow:hidden;transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease }
+.c-036 { font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;color:rgba(21,21,21,.5);letter-spacing:.03em }
+.c-037 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.24em;color:#3B82C4 }
+.c-038 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:#3B82C4 }
+.c-039 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:rgba(21,21,21,.55) }
+.c-040 { width:8px;height:3px;background:#3B82C4 }
+.c-041 { font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;color:rgba(21,21,21,.42);text-align:right }
+.c-042 { font-size:16px;font-weight:700;line-height:1.5 }
+.c-043 { font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px }
+.c-044 { display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.45);margin-top:2px }
+.c-045 { width:8px;height:3px;background:rgba(21,21,21,.12) }
+.c-046 { position:relative;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.62);background:rgba(255,253,245,.92);padding:4px 8px }
+.c-047 { display:block;flex:none }
+.c-048 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(246,242,231,.5);margin:12px 0 14px }
+.c-049 { min-height:0;overflow:hidden;background:transparent;display:block }
+.c-050 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.45);margin-top:2px }
+.c-051 { position:absolute;left:0;right:0;bottom:-8px;height:1px;background:#3B82C4 }
+.c-052 { display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid rgba(21,21,21,.08);padding-top:13px;margin-top:auto }
+.c-053 { background:#fff;border:1px solid rgba(21,21,21,.1);padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px }
+.c-054 { font-size:16px;font-weight:700;line-height:1.4 }
+.c-055 { position:absolute;left:0;top:0;bottom:0;width:3px;background:#3B82C4 }
+.c-056 { color:#3B82C4 }
+.c-057 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;color:rgba(246,242,231,.42) }
+.c-058 { font-family:'IBM Plex Mono',monospace;font-size:12px;color:#3B82C4 }
+.c-059 { display:inline-flex;align-items:center;gap:9px;background:#FBF5DE;padding:11px 16px;font-size:16px }
+.c-060 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.55) }
+.c-061 { display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.5);margin-top:2px }
+.c-062 { display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px }
+.c-063 { background:#FBF5DE;border-bottom:1px solid rgba(21,21,21,.12) }
+.c-064 { position:absolute;left:0;top:9px;width:6px;height:6px;background:#3B82C4 }
+.c-065 { padding:8px 4px;box-sizing:border-box;display:flex;flex-direction:column }
+.c-066 { display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px }
+.c-067 { display:flex;align-items:center;gap:8px;margin-bottom:7px;color:#3B82C4 }
+.c-068 { display:flex;align-items:center;gap:12px;margin-bottom:22px }
+.c-069 { position:relative;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(246,242,231,.9) }
+.c-070 { aspect-ratio:4/3;position:relative;overflow:hidden;background:#F3F1EA;display:flex;align-items:flex-end;padding:14px }
+.c-071 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:#D9B979 }
+.c-072 { aspect-ratio:4/3;background:#F3F1EA;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:14px }
+.c-073 { border-top:1px solid rgba(21,21,21,.16);padding-top:10px;font-size:16px;line-height:1.7 }
+.c-074 { aspect-ratio:4/3;overflow:hidden;background:#EFEAE0;border:1px solid rgba(21,21,21,.12) }
+.c-075 { background:#fff;border:1px solid rgba(21,21,21,.1);border-top:3px solid #3B82C4;display:flex;flex-direction:column }
+.c-076 { position:relative;max-width:1068px;margin:0 auto }
+.c-077 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.5);margin-top:3px }
+.c-078 { background:#fff;border:1px solid rgba(21,21,21,.1);padding:18px 20px;display:flex;align-items:center;gap:14px }
+.c-079 { border-left:2px solid rgba(59,130,196,.4);padding:1px 0 1px 14px;display:flex;flex-direction:column;gap:5px }
+.c-080 { width:26px;height:1px;background:#3B82C4 }
+.c-081 { display:flex;gap:3px }
+.c-082 { display:flex;align-items:center;gap:12px }
+.c-083 { display:flex;flex-direction:column;align-items:flex-end;gap:4px }
+.c-084 { font-size:16px }
+.c-085 { display:flex;align-items:center;gap:16px;margin-bottom:18px }
+.c-086 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.58) }
+.c-087 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.55) }
+.c-088 { background:#fff;border:1px solid rgba(21,21,21,.1);padding:26px 28px 28px }
+.c-089 { color:rgba(246,242,231,.5);text-decoration:none;transition:color .3s ease }
+.c-090 { position:absolute;inset:0;background:linear-gradient(to top,rgba(7,11,22,.5),rgba(7,11,22,0) 58%) }
+.c-091 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.13em;color:rgba(21,21,21,.5) }
+.c-092 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.42) }
+.c-093 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.5) }
+.c-094 { min-width:0 }
+.c-095 { aspect-ratio:16/9;overflow:hidden;background:#F5EFDE;border-bottom:1px solid rgba(21,21,21,.08) }
+.c-096 { display:flex;align-items:center;gap:7px;margin-bottom:7px;color:#3B82C4 }
+.c-097 { width:84px;height:84px;border-radius:50%;overflow:hidden;border:1px solid rgba(21,21,21,.12) }
+.c-098 { margin:0 0 14px;font-family:'Shippori Mincho B1',serif;font-size:16px;line-height:1.75 }
+.c-099 { font-size:16px;font-weight:700;line-height:1.45;margin-top:9px }
+.c-100 { width:18px;height:1px;flex:none;background:rgba(21,21,21,.28) }
+.c-101 { display:block;font-size:16px;font-weight:700;line-height:1.45 }
+.c-102 { width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block }
+.c-103 { color:inherit;text-decoration:none;transition:color .3s ease }
+.c-104 { display:flex;align-items:center;gap:14px;margin-bottom:10px }
+.c-105 { display:flex;align-items:center;gap:12px;margin-bottom:20px }
+.c-106 { display:flex;align-items:center;gap:12px;margin-bottom:14px }
+.c-107 { display:flex;align-items:center;gap:9px }
+.c-108 { flex:none;color:#3B82C4 }
+.c-109 { display:flex;align-items:center;gap:9px;margin-bottom:7px }
+.c-110 { font-size:16px;letter-spacing:.14em;color:rgba(21,21,21,.45);margin-left:5px }
+.c-111 { width:100%;aspect-ratio:4/3;overflow:hidden;background:#151515;display:block }
+.c-112 { position:relative;margin-bottom:22px }
+.c-113 { display:block;font-size:16px;color:rgba(21,21,21,.7);margin-bottom:6px }
+.c-114 { display:flex;align-items:center;gap:11px;min-width:0 }
+.c-115 { width:34px;height:1px;flex:none;background:#3B82C4 }
+.c-116 { margin:0;font-size:16px;line-height:1.95;color:rgba(21,21,21,.78) }
+.c-117 { margin:0;font-size:16px;line-height:1.95;color:rgba(21,21,21,.76) }
+.c-118 { padding:22px 24px 24px;display:flex;flex-direction:column;flex:1 }
+.c-119 { margin:0;font-size:16px;line-height:1.9;color:rgba(21,21,21,.74) }
+.c-120 { padding:22px 24px 26px;flex:1;display:flex;flex-direction:column }
+.c-121 { width:16px;height:1px;flex:none;background:rgba(59,130,196,.55) }
+.c-122 { background:rgba(59,130,196,.1);padding:5px 10px }
+.c-123 { font-size:23px;font-weight:700;line-height:1.35 }
+.c-124 { display:flex;align-items:baseline;gap:10px;margin-bottom:10px }
+.c-125 { display:flex;align-items:baseline;gap:12px;margin-bottom:8px }
+.c-126 { border-top:2px solid #3B82C4;padding-top:11px }
+.c-127 { border-top:1px solid rgba(21,21,21,.18);padding:18px 0 22px }
+.c-128 { display:flex;align-items:center;gap:10px;margin-bottom:10px }
+.c-129 { display:flex;align-items:center;gap:10px;margin-bottom:11px }
+.c-130 { display:flex;align-items:center;gap:9px;margin-bottom:12px }
+.c-131 { background:#070B16;padding:30px 34px 32px }
+.c-132 { display:block;flex:none;margin-top:8px;color:#D9B979 }
+.c-133 { width:14px;height:1px;background:rgba(59,130,196,.5) }
+.c-134 { width:16px;height:1px;background:rgba(21,21,21,.18) }
+.c-135 { font-size:16px;font-weight:700;margin-bottom:7px }
+.c-136 { flex:1;height:1px;background:rgba(21,21,21,.1) }
+.c-137 { color:rgba(21,21,21,.42);letter-spacing:.14em }
+.c-138 { display:block;font-size:16px;font-weight:700 }
+.c-139 { color:#151515 }
+.c-140 { display:flex;flex-direction:column;gap:14px }
+.c-141 { display:flex;flex-direction:column;gap:12px }
+.c-142 { display:flex;align-items:flex-start;gap:8px }
+.c-143 { display:flex;flex-direction:column;gap:8px }
+.c-144 { margin:0;font-size:16px;line-height:1.9 }
+.c-145 { display:flex;gap:2px }
+.c-146 { display:block;opacity:.6 }
+.c-147 { background:#070B16;color:#F6F2E7 }
+.c-148 { color:#8FC0EA }
+.c-149 { padding:24px 28px 28px }
+.c-150 { padding-bottom:48px }
+.c-151 { padding:20px 22px 24px }
+.c-152 { margin-top:9px }
+.c-153 { color:#F6F2E7 }
+.c-154 { margin:0 }
+
+/* Parisienne を自己ホスト（base64埋め込み）。Google Fonts が社内ネットワーク等でブロック/失敗しても
+   「My Journey, My Story.」の筆記体を確実に表示するため、外部依存なしのローカル @font-face を用意する。 */
+@font-face { font-family: 'Parisienne'; font-style: normal; font-weight: 400; font-display: swap; src: url('../fonts/Parisienne-Regular.woff2') format('woff2'); }
+
+/* 注: DCランタイム(React)は style を「prop: value」（コロン後に空白）で描画するため、
+   属性セレクタは空白付き表記で一致させる必要がある。 */
+
+/* ===== STORYタイムライン写真: 画面幅が変わってもアスペクト比・見える範囲を一定にする =====
+   以前は各写真行に「固定px高さ」または「flex:1 1 auto の可変高さ」を与えていたため、
+   PC（2〜3カラム横並び）とスマホ（1カラムに縦積み）とで各写真の実効アスペクト比が変わり、
+   同じ写真でも表示される範囲（トリミング窓）が画面幅によって変わってしまっていた
+   （例: PCでは縦長にトリミングされるが、スマホでは横長の帯として切り取られる、等）。
+   各行の子（写真）に固定 aspect-ratio を与えることで、カラム数や画面幅が変わっても
+   常に同じ縦横比＝同じ見える範囲を維持する。行・box の高さはこの aspect-ratio から自動算出される。 */
+/* 重要: 以下のセレクタはすべて !important が必須。インラインの min-height/height 指定は
+   スタイルシートの通常ルールより優先されるため、!important を付けないと上書きが効かず
+   古い固定高さのまま残ってしまう（実際にこれが原因でPCの短いウィンドウ高さで写真とテキストが
+   重なる不具合が発生した）。あわせて overflow:hidden を行コンテナ自身にも与え、
+   aspect-ratio 由来の高さが利用可能な領域を超えた場合でも、後続のキャプション・本文へ
+   はみ出さず内側で収まるようにする（安全網）。 */
+[data-patch="story-photo-2col"] { flex: 0 1 auto !important; min-height: 0 !important; overflow: hidden !important; }
+[data-patch="story-photo-2col"] > span { aspect-ratio: 4 / 3; }
+
+[data-patch="story-photo-3col-a"] { height: auto !important; overflow: hidden !important; }
+[data-patch="story-photo-3col-a"] > span { aspect-ratio: 3 / 4; }
+
+[data-patch="story-photo-2col-tall"] { height: auto !important; overflow: hidden !important; }
+[data-patch="story-photo-2col-tall"] > span { aspect-ratio: 3 / 4; }
+
+[data-patch="story-photo-3col-b"] { height: auto !important; overflow: hidden !important; }
+[data-patch="story-photo-3col-b"] > span { aspect-ratio: 1 / 1; }
+
+[data-patch="story-photo-2col-flex"] { flex: 0 1 auto !important; min-height: 0 !important; overflow: hidden !important; }
+[data-patch="story-photo-2col-flex"] > div { aspect-ratio: 4 / 3; }
+
+/* ===== 発表論文・受賞タイトル行: 語のあいだで折り返せず「縦書き」風に1文字ずつ改行される不具合 =====
+   アイコン付きタイトルを display:flex で横並びにする際、flex-wrap を指定していないと、
+   コンテナ幅が狭まったときテキストの flex アイテムの最小幅(min-width:auto)が「1文字分」まで
+   縮んでしまい、日本語が1文字ずつ次の行へ送られて縦書きのように見えてしまう。
+   flex-wrap:wrap を与えて、単語（文字）単位で自然に折り返すようにする。 */
+[style*="align-items: center; gap: 6px; font-size: 16px; font-weight: 700; line-height: 1.4;"] {
+  flex-wrap: wrap;
+}
+
+/* ---- タブレット（~900px）: 主要コンテナの広い左右パディングを緩和 ---- */
+@media (max-width: 900px) {
+  [style*="max-width: 1180px"] { padding-left: 30px !important; padding-right: 30px !important; }
+}
+
+/* ---- スマホ/狭幅（~760px）: 1カラム化・ナビ圧縮・はみ出し防止 ---- */
+@media (max-width: 760px) {
+  /* 横はみ出しの安全網。
+     ※ overflow-x:hidden は overflow-y:auto を誘発して html/body をスクロールコンテナ化し、
+        子孫の position:sticky を無効化してしまう（STORYのピン留めタイムラインが崩壊する）。
+        overflow-x:clip はスクロールコンテナを作らないため sticky を壊さず横クリップだけ効く。 */
+  html, body { overflow-x: clip !important; }
+
+  /* 主要コンテナ（max-width:1180px が共通アンカー）の左右パディングを詰める */
+  [style*="max-width: 1180px"] { padding-left: 16px !important; padding-right: 16px !important; }
+
+  /* 多カラムグリッドはすべて1カラムに積み上げる。
+     素の 1fr は minmax(auto,1fr) 相当で、子の min-content 幅がトラック下限になり
+     ビューポートを超過してしまう。min を 0 にした minmax(0,1fr) で確実に縮小させる。 */
+  [style*="grid-template-columns"] { grid-template-columns: minmax(0, 1fr) !important; }
+  /* 子要素側も min-width:0 を保証して、長い語や nowrap 要素での押し広げを防ぐ */
+  [style*="grid-template-columns"] > * { min-width: 0 !important; }
+
+  /* 例外: 野球観戦ページの得点表(9イニング分のスコアボード)は、1カラムに潰すと
+     数字が縦に22行連なり全く読めなくなる（実際に発生した不具合）。
+     このグリッドだけは元の横並びテンプレート構造を維持しつつ、列幅・文字サイズを
+     320px幅でも横スクロールなしで収まるところまで縮小する。 */
+  [data-patch="baseball-row"] {
+    grid-template-columns: minmax(62px, 1fr) repeat(9, minmax(13px, 1fr)) 21px !important;
+  }
+  /* イニング見出し数字・チーム名・得点数字・合計数字（いずれも元は12/15/16/18px）を縮小 */
+  [data-patch="baseball-row"] [style*="font-size: 12px"] { font-size: 8px !important; }
+  [data-patch="baseball-row"] [style*="font-size: 15px"] { font-size: 10px !important; }
+  [data-patch="baseball-row"] [style*="font-size: 16px"] { font-size: 10px !important; }
+  [data-patch="baseball-row"] [style*="font-size: 18px"] { font-size: 11.5px !important; }
+  /* セル内パディングも詰めて、縮小した列幅に対して余白が相対的に大きくなりすぎないようにする */
+  [data-patch="baseball-row"] > [style*="padding: 9px 12px"] { padding: 6px 5px !important; }
+  [data-patch="baseball-row"] > [style*="padding: 9px 0px"] { padding: 6px 0px !important; }
+  [data-patch="baseball-row"] > [style*="padding: 7px 12px"] { padding: 5px 5px !important; }
+  [data-patch="baseball-row"] > [style*="padding: 7px 0px"] { padding: 5px 0px !important; }
+  /* チーム名の nowrap+ellipsis は縮小後の列幅でも有効に働くため維持。念のため親のスクロールは残すが、
+     縮小後は収まるため通常は発動しない安全網とする。 */
+  [data-patch="baseball-row-wrap"] {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* HOME/GOAL下部の「夢の街」(朝昼晩で切り替わる都市の演出, dream-city.js)。
+     PCでは390vh分スクロールする間、sticky固定した100vhの窓の中を写真がパン(地上⇄地下)する
+     演出になっている。写真自体は横長(1536x1024, 約3:2)なので、
+     スマホの縦長100vh窓にそのまま contain で収めると上下に大きな黒帯が残ってしまい、
+     逆に cover で敷くと左右が大きく切り取られてしまう(=どちらの見せ方も一長一短)。
+     「写真は切り取らない」「黒帯も出さない」を両立させるには、窓の縦横比そのものを
+     写真の縦横比(3:2)に合わせて黒帯が生まれる余白自体をなくすしかない。
+     一度 position:sticky で「スクロールが一旦止まって居座る」演出を試したが、
+     スマホでは間延びして不要とのフィードバックのため撤回。スマホでは地上⇄地下の
+     スクロール連動パン演出そのものをやめ、朝昼晩の自動切り替わりアニメだけが動く
+     普通の横幅いっぱいブロック（写真の比率(3:2)ぴったり、スクロール連動なし）にする。 */
+  [data-patch="dream-city-wrap"] { height: auto !important; }
+  [data-patch="dream-city-wrap"] > [style*="position: sticky"] {
+    position: relative !important;
+    height: auto !important;
+    aspect-ratio: 3 / 2;
+    overflow: hidden !important;
+  }
+  /* dcam の高さ・パン用transformはJSが毎フレーム上書きしてくるが、
+     !important を付けたCSS側のルールは(インラインstyleより後勝ちするため)描画上は
+     常にこちらが有効になる。dcam の高さを窓と同じ100%に固定し、上下パンのtransformも
+     打ち消すことで、写真がちょうど窓いっぱいに(トリミングなしで)収まるようにする。 */
+  dream-city .dcam { height: 100% !important; transform: none !important; }
+  dream-city .dcimg { object-fit: contain !important; }
+  /* 右下の時間帯パネル(再生ボタン・区切り線・和暦/英語ラベル・ダイヤル)が
+     スマホでは窓が小さくなった分、相対的に大きく感じられるため一回り縮小する。
+     dream-city.js が自前で注入するスタイルと同じ詳細度で後勝ちさせるため !important。 */
+  dream-city .dpanel { padding: 6px 10px 6px 7px !important; gap: 9px !important; right: 10px !important; bottom: 10px !important; }
+  dream-city .dplay { width: 28px !important; height: 28px !important; }
+  dream-city .dplay svg { width: 12px !important; height: 12px !important; }
+  dream-city .dsep { height: 17px !important; }
+  dream-city .dtext { min-width: 44px !important; }
+  dream-city .djp { font-size: 11px !important; }
+  dream-city .den { font-size: 10px !important; }
+  dream-city .ddial { width: 42px !important; height: 42px !important; }
+  dream-city .ddial svg { width: 42px !important; height: 42px !important; }
+  /* 左側の「地上/地下」インジケーター(.ddepth)は、地上⇄地下のスクロール連動パン演出が
+     あってこそ意味を持つUIだった。スマホではその演出自体をやめたため、
+     このインジケーターだけが浮いて見えるので非表示にする。 */
+  dream-city .ddepth { display: none !important; }
+
+  /* flex-wrap コンテナ内の子（受賞・資格ピル等）がビューポート幅を超えないよう上限を設け、
+     長文ピルはピル内で折り返させる（横見切れ防止） */
+  [style*="flex-wrap: wrap"] > * { max-width: 100% !important; }
+  [style*="border-radius: 999px"] { white-space: normal !important; }
+
+  /* STORYカード見出し行: [アイコン+施設名]と[年代ラベル]が space-between で横並びだと、
+     狭幅で年代ラベルが幅を取りタイトルが潰れて1〜2文字ずつ縦積み改行になる（例:「名古屋大学 工学部」）。
+     縦積みにして年代ラベルをタイトルの下へ回し、タイトルに横幅いっぱいを与える。
+     margin-bottom はカードによって 12px/14px と揺れがあるため、そこは条件から外して
+     [align-items:flex-start; justify-content:space-between; gap:16px] の組だけで判定する。 */
+  [data-patch="story-card-title-row"] {
+    flex-direction: column !important; gap: 4px !important;
+  }
+
+  /* STORY「SSH交換留学」3枚組の1枚目(研究成果を英語で発表)の写真。
+     3枚を並べるためこの並びのマスは1:1の正方形に揃えているが、
+     この写真は横長(約1.79:1)で、object-fit:cover(正方形に合わせて拡大)だと
+     左右が大きく切り取られてしまう。この1枚だけ contain にして、
+     トリミングせず写真全体（横方向も含めて）が収まるようにする。
+     スマホでは3列グリッドが1列に潰れてこの1枚だけ単独の行になるため、
+     マス自体の縦横比も写真の実寸(2092x1171)に合わせておくことで、
+     containによる上下の余白（レターボックス）をほぼなくしバランスよく見せる。 */
+  img[src*="story-hs-radley-1"] { object-fit: contain !important; }
+  [data-patch="story-photo-3col-b"] > span:first-child {
+    aspect-ratio: 2092 / 1171 !important;
+  }
+
+  /* STORY「体操部」: 写真(104px角の固定サイズ)とテキストが横並び(flexの行)になっており、
+     狭幅では写真とテキスト列が窮屈に同居してしまう。横並びをやめて、写真の段→
+     テキストの段の順に縦積みにする。 */
+  [data-patch="story-gym-row"] {
+    flex-direction: column !important;
+  }
+  [data-patch="story-gym-row"] > span:first-child {
+    width: 100% !important; height: auto !important; aspect-ratio: 16 / 9;
+  }
+
+  /* STORY「名古屋大学大学院」の見出しだけ、他の学歴カード（名古屋大学 工学部、
+     一宮高等学校 等）と違う書体(明朝体 Shippori Mincho B1・21px)になっており
+     浮いて見える。他カードの見出しと同じサイズ・太さ・標準フォント(Zen Kaku Gothic New)
+     に揃える。 */
+  [data-patch="story-grad-title"] {
+    font-family: 'Zen Kaku Gothic New', system-ui, sans-serif !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    letter-spacing: normal !important;
+    line-height: 1.4 !important;
+  }
+
+  /* フォーム入力: iOS は font-size<16px の入力にフォーカスすると自動ズームして
+     ページ全体が拡大される（挙動がおかしく見える）。モバイルでは16pxに上げて防ぐ。 */
+  input, textarea { font-size: 16px !important; }
+
+  /* PROFILE見出しエリア: PCでは[本文(氏名・生年月日等) | 写真]の2カラムグリッドだが、
+     モバイルは1カラムに積むため、DOM順どおり本文が先→写真が後(下側)に来てしまう。
+     写真をトップに見せたいので、見た目の並び順だけを order で写真を先頭に繰り上げる
+     （DOM順=読み上げ順は本文が先のまま維持し、アクセシビリティ上の影響を避ける）。 */
+  [data-patch="profile-hero-grid"] > div:nth-child(2) { order: -1 !important; margin-bottom: 22px; }
+
+  /* 自己紹介エリア: 写真(212px固定)と紹介ラベルの横並び行が狭幅で収まらず、
+     「VIEW FULL "PROFILE"」リンクが右に見切れる。縦積みにしてラベルに全幅を与える。
+     縦積み後は写真が左端に寄り、右側に大きな余白ができて中央揃えが崩れて見えるため、
+     写真とINTRODUCTIONラベル行は中央揃えにする（見出し・本文は可読性のため左揃えのまま）。 */
+  [data-patch="home-intro-row"] { flex-direction: column !important; align-items: center !important; }
+  [data-patch="home-intro-row"] > div:nth-child(2) { align-items: center !important; text-align: center !important; }
+
+  /* ナビ（PROFILE〜CONTACT）: モバイルでは横並びインラインナビ(data-desktop-nav)を隠し、
+     ハンバーガーボタン(data-hamburger)を表示してメニュー(data-mobile-menu)に集約する。
+     これにより狭幅でも各項目を十分なサイズ・タップ領域で提供でき、ロゴ横の氏名も表示できる。 */
+  [data-desktop-nav] { display: none !important; }
+  [data-hamburger] { display: inline-flex !important; }
+
+  /* ロゴ横の氏名テキスト（Zen系）は狭すぎるため小さく */
+  [data-patch="mobile-nav-subtitle"] { font-size: 12px !important; }
+
+  /* ヒーローの点群(particle-field): デスクトップでは見出し(左)と横並び(右)のflexアイテムだが、
+     モバイルでは横並びにする余白が無いため、見出しの上の「横帯」として積み替える。
+     home-hero-pad を縦積み(column-reverse)にし、DOM順で後ろにある点群ボックスを視覚的に先頭(上)へ、
+     テキスト列を後ろ(下)へ回す。stretchで両方を全幅にし、点群ボックスは高さだけ帯サイズに固定する。
+     図形の大きさは particle-field.js 内部で R = min(幅,高さ)×0.5×scale と計算されており、
+     帯は幅(画面幅)より高さの方が小さいため、実質「帯の高さ」で図形サイズが決まる。 */
+  [data-patch="home-hero-pad"] {
+    flex-direction: column-reverse !important;
+    align-items: stretch !important;
+    gap: 24px !important;
+    padding: 40px 24px 56px !important;
+  }
+  [data-patch="particle-field-box"] {
+    width: 100% !important; height: 264px !important;
+  }
+  particle-field { opacity: .92 !important; }
+
+  /* === モバイル・タイポグラフィ（ユーザー提示のサイズガイドに準拠） ===
+     FV見出し 28–36px / セクション見出し(H2/H3) 20–24px / 本文 16px /
+     注記・キャプション 12–14px / CTA 16–18px(太字)。
+     実行時の実サイズ(110〜50pxはFV級、44〜26pxは見出し級)を役割ごとに clamp で縮小する。
+     日本語見出しは text-wrap:balance と word-break:auto-phrase で「語の途中改行」「1〜2文字残り」を抑える
+     （auto-phrase 非対応ブラウザでは normal 相当にフォールバックし副作用は無い）。 */
+
+  /* FV/ページ大見出し（50〜110px級）→ 28〜36px */
+  [style*="font-size: 110px"], [style*="font-size: 100px"], [style*="font-size: 96px"], [style*="font-size: 90px"],
+  [style*="font-size: 72px"], [style*="font-size: 68px"], [style*="font-size: 64px"], [style*="font-size: 62px"],
+  [style*="font-size: 56px"], [style*="font-size: 54px"], [style*="font-size: 52px"], [style*="font-size: 50px"] {
+    font-size: clamp(28px, 8vw, 36px) !important;
+    text-wrap: balance; word-break: auto-phrase; line-break: strict;
+  }
+  /* 装飾スクリプト体（Parisienne "My Journey, My Story." 46px）は雰囲気を残しやや大きめに */
+  [style*="font-size: 46px"] { font-size: clamp(28px, 9vw, 40px) !important; text-wrap: balance; }
+  /* セクション見出し（26〜44px級）→ 20〜24px */
+  [style*="font-size: 44px"], [style*="font-size: 42px"], [style*="font-size: 41px"],
+  [style*="font-size: 30px"], [style*="font-size: 29px"], [style*="font-size: 28px"],
+  [style*="font-size: 27px"], [style*="font-size: 26px"] {
+    font-size: clamp(20px, 5.6vw, 24px) !important;
+    text-wrap: balance; word-break: auto-phrase; line-break: strict;
+  }
+  /* 既に範囲内(20〜25px)の小見出しは、サイズはそのままに改行だけ整える */
+  [style*="font-size: 25px"], [style*="font-size: 24px"], [style*="font-size: 22px"],
+  [style*="font-size: 21px"], [style*="font-size: 20px"] {
+    text-wrap: balance; word-break: auto-phrase;
+  }
+  /* 「日本」「つくり方」「野球観戦」等、意味のまとまりを white-space:nowrap の <span> で
+     保護した見出し（h1直下にnowrap spanを持つもの）は、text-wrap:balance の行長再配分が
+     nowrap保護区間を避けて別の場所（活用語尾の途中など）で新たな悪い改行を作ってしまうことが
+     あったため、この3見出しに限り balance を無効化し通常の詰め込み折返しに戻す。
+     h1直下の style="" 属性に text-wrap:normal を直接足す方法は、DCランタイムの style パーサーが
+     未知の値を落としてしまい効かなかったため、スタイルシート側の :has() で確実に上書きする。 */
+  h1:has(> span[style*="white-space: nowrap"]) { text-wrap: wrap !important; }
+  /* 本文・リード・ラベルの 17/18px は、ガイドの「本文16px」に合わせて16pxへ統一する。
+     これにより著者がPC幅前提で入れた <br> 位置のズレで生じる語の途中改行（例:「名古屋大学大学院で
+     自動運転を研究し、」が1行に収まらず「研/究し」に割れる）も、行に収まって解消する。
+     CTA(GET IN TOUCH 等)も16pxはガイドのCTA範囲(16〜18px太字)内なので問題ない。 */
+  [style*="font-size: 18px"], [style*="font-size: 17px"] { font-size: 16px !important; }
+
+  /* 本文・箇条書きの日本語を、対応ブラウザ(Chrome/Android)では語の途中で折り返さない
+     （「研究」→「研/究」等を抑制）。auto-phrase 非対応(Safari等)では normal 相当で副作用なし。 */
+  p, li { word-break: auto-phrase; }
+
+  /* PROFILEの黒バッジ「AI & DIGITAL ENGINEER — AUTOMOTIVE」等、padding:10px 16px の
+     inline-flexバッジ内の nowrap テキストが狭幅で右に見切れる。折り返しを許可して収める。 */
+  [data-patch="profile-badge"] { max-width: 100% !important; flex-wrap: wrap !important; }
+  [data-patch="profile-badge"] span[style*="white-space: nowrap"] { white-space: normal !important; }
+
+  /* STORY導入の夜景(journey-scene)は、1カラム化で本文の真下に明るい光跡が来ると
+     文字が読みづらくなる。モバイルでは輝度(不透明度)を落として本文の可読性を確保する。
+     .5でも中央の光線が本文右側の数文字に被るため .38 までさらに減光する。 */
+  journey-scene { opacity: .38 !important; }
+
+  /* HOBBYヒーロー: PC前提の「左→右で薄くなる」横グラデ scrim だと、1カラム化した本文の右側が
+     滝写真の明部に載りコントラストが落ちる。モバイルでは全幅を一様に明るく覆う縦寄り scrim へ
+     置き換え、写真の雰囲気を残しつつ本文の可読性を確保する。 */
+  [data-patch="hobby-hero-scrim"] {
+    background: linear-gradient(180deg, rgba(255,253,245,.84) 0%, rgba(255,253,245,.66) 55%, rgba(255,253,245,.78) 100%) !important;
+  }
+
+}
+
+/* ---- 狭い端末（≤400px）: ロゴの氏名ワードマークを隠してアイコンのみにし（氏名はベアテキスト
+        なので font-size:0 で消える。アイコンは固定サイズ span なので残る）、空いた横幅で
+        ナビ6項目(PROFILE〜CONTACT)を読みやすいサイズで確実に収める。320pxでも CONTACT が
+        見切れないようにする。 ---- */
+@media (max-width: 400px) {
+  /* リード段落(text-wrap:pretty)は狭幅で字間を詰め、「研究し、」等の熟語を行内に収める。
+     ナビや氏名ワードマークの扱いは上の ≤760 ブロックに一本化済み（幅の境界での段差を無くすため）。 */
+  [style*="text-wrap: pretty"] { letter-spacing: 0 !important; }
+}
+
+/* ---- 極狭端末（≤345px, iPhone SE 等）: リード段落を15pxへ下げて語中改行（「研究」→「研/究」）を解消する。
+        ナビはハンバーガーに集約済みのためサイズ調整は不要。 ---- */
+@media (max-width: 345px) {
+  [style*="text-wrap: pretty"] { font-size: 15px !important; }
+}
+
+/* ---- デスクトップ（≥761px）: モバイル→PCへリサイズした際にメニューが開いたままでも
+        パネルが残らないよう、PC幅ではモバイルメニューを確実に隠す（ハンバーガーはインライン既定で非表示）。 ---- */
+@media (min-width: 761px) {
+  [data-mobile-menu], [data-hamburger] { display: none !important; }
+}
+
+/* ---- 大画面（≥1680px）: max-width:1180px 中央寄せだと左右が空きすぎ間延びするため、
+        コンテナ最大幅を少しだけ広げて締める。本文段落は各自の内側 max-width を持つため
+        行長が極端に伸びない範囲（1320px）に留める。 ---- */
+@media (min-width: 1680px) {
+  [style*="max-width: 1180px"] { max-width: 1320px !important; }
+}
+
+/* ===== STORYカード間の区切り: カード幅が全カード共通になったことで、余白だけでは
+   カードの境目が分かりづらくなった。先頭(誕生)を除く各カードの上に薄い罫線を入れ、
+   境目を視覚的に明確にする。 ===== */
+[data-story-card]:not([data-story-card="0"]) {
+  border-top: 1px solid rgba(21, 21, 21, .1);
+  padding-top: 28px;
+}
+[data-story-card="0"] {
+  padding-top: 40px;
+}
+[data-story-card] {
+  scroll-margin-top: 88px;
+}
+
+/* ===== STORY年表ナビ: モバイルではカード一覧の下に横並びで表示する（デフォルト）。
+   PC(≥761px)では左側に縦向きのサイドバーとして常時表示し、スクロールに応じて
+   現在地を示すリングが該当年のドットへスライドする演出にする（詳細はPC専用ブロック参照）。 ===== */
+[data-story-nav] { position: relative; }
+[data-story-navmark] { display: none; }
+
+/* ===== STORYモバイル用: 簡易進捗バー =====
+   PC版は左サイドの縦タイムラインが常時見えるため現在地が分かるが、モバイルでは
+   その年表ナビがカード一覧の一番下に流れてしまい(sticky化していない)、スクロール中
+   「今どのくらいの位置にいるか」を示す手がかりが無かった。モバイルでは固定ヘッダー
+   (高さ約69px)の直下にこの簡易バーをstickyで表示し、現在の年・カード名・何番目/
+   全何件かをテキストで、進み具合を細いプログレスバーで示す。
+   PC(≥761px)では左の縦タイムラインと重複するため非表示にする(下記PC用ブロック参照)。 */
+[data-story-mobile-nav] {
+  position: sticky;
+  top: 69px;
+  z-index: 3;
+  background: #FDFBF3;
+  padding: 10px 0 9px;
+  margin-bottom: 6px;
+}
+
+/* ===== STORY年表: PC専用レイアウト =====
+   grid の行はデフォルト(align-items:stretch)でカード列の高さに揃うため、
+   年表(data-story-nav-col)の背が「Storyカード一覧の全高」まで確保され、
+   その中で年表自身(data-story-nav)がposition:stickyで浮く「移動可能な
+   範囲」になる。ただし年表自身の画面上の位置(top:50vh)・内部の年の間隔
+   (flexの均等配置)はカードの高さと一切連動しない。カードが1枚だけ極端に
+   長くても、年表側の見え方・間隔は変わらない。 */
+@media (min-width: 761px) {
+  [data-story-layout] {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    column-gap: 24px;
+  }
+  [data-story-nav-col] { order: -1; }
+  /* PCでは左の縦タイムラインが常に見えているため、モバイル専用の簡易進捗バーは不要。 */
+  [data-story-mobile-nav] { display: none; }
+  /* 年表は「Storyコンテンツに追従して動く要素」ではなく「Story内に固定された
+     ナビゲーションUI」として扱う。そのため、カード一覧の高さや各カードの
+     内容量には一切連動させず、ビューポートの垂直中央に常に固定する。 */
+  [data-story-nav-sticky] {
+    position: sticky !important;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  [data-story-nav-col] > [data-story-nav-sticky] > [data-story-nav] {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: clamp(260px, 46vh, 440px);
+  }
+  [data-story-nav-col] [data-story-baseline] {
+    left: 50%; right: auto; top: 0; bottom: 0; height: auto; width: 1px;
+    transform: translateX(-50%);
+  }
+  [data-story-navmark] { display: block; }
+  [data-story-nav-col] [data-story-lab] { font-size: 11px; }
+}
