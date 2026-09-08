@@ -1882,6 +1882,11 @@ const AWARD_ITEMS = [
     '2024年度採択。歩行者計測実験の環境整備に充て、研究の実験基盤を整えました。')
 ];
 
+// フェードイン等の演出で共通して使うイージング関数。charFx()/homeReveal()/reveal()の3箇所で
+// 同じ値が重複定義されていたため、ここに1箇所だけ定義してモジュール全体で共有する
+// (値そのものは変更しないため、演出結果は従来と完全に同じ)。
+const EASE_OUT = 'cubic-bezier(.16,1,.3,1)';
+
 class Component extends DCLogic {
   // menu: モバイルのハンバーガーメニューの開閉状態（true=開）。狭幅ではナビをこのメニューに集約する。
   state = { page: 'home', name: '', mail: '', msg: '', err: false, sent: false, open: '', nav: '', menu: false };
@@ -1961,8 +1966,8 @@ class Component extends DCLogic {
       this._pg = this.state.page;
       if (this.io) { this.io.disconnect(); this.io = null; }
       if (this.hio) { this.hio.disconnect(); this.hio = null; }
-      Array.prototype.forEach.call(document.querySelectorAll('[data-rv]'), el => { el.__rv = false; });
-      Array.prototype.forEach.call(document.querySelectorAll('[data-count]'), n => { n.__c = false; });
+      document.querySelectorAll('[data-rv]').forEach(el => { el.__rv = false; });
+      document.querySelectorAll('[data-count]').forEach(n => { n.__c = false; });
     }
     this.reveal();
     this.charFx();
@@ -1998,8 +2003,8 @@ class Component extends DCLogic {
     const track = document.querySelector('[data-story-track]');
     if (!track) { this._sy = null; return; }
     if (track.__sy) { this._sy = track.__sy; return; }
-    const cards = Array.prototype.slice.call(track.querySelectorAll('[data-story-card]'));
-    const navBtns = Array.prototype.slice.call(track.querySelectorAll('[data-story-jump]'));
+    const cards = Array.from(track.querySelectorAll('[data-story-card]'));
+    const navBtns = Array.from(track.querySelectorAll('[data-story-jump]'));
     // モバイル簡易進捗バー用: 年 → カードの短い呼び名の対応表。
     const YEAR_TITLES = { '2000': '誕生', '2007': '小学校', '2013': '中学校', '2016': '高校', '2019': '学部', '2023': '大学院', '2025': '現職' };
     const sy = {
@@ -2119,7 +2124,7 @@ class Component extends DCLogic {
       return;
     }
     g.registerPlugin(ST);
-    const lines = Array.prototype.slice.call(wrap.querySelectorAll('[data-hero-line]'));
+    const lines = Array.from(wrap.querySelectorAll('[data-hero-line]'));
     const copy = wrap.querySelector('[data-hero-copy]');
     g.set(lines, { opacity: 0, y: 30 });
     g.set(copy, { opacity: 0 }); // 白い靄（グラデーション）も文字と同時に出す
@@ -2150,19 +2155,18 @@ class Component extends DCLogic {
 
   charFx() {
     requestAnimationFrame(() => {
-      const E = 'cubic-bezier(.16,1,.3,1)';
-      Array.prototype.forEach.call(document.querySelectorAll('[data-charfx]'), el => {
+      document.querySelectorAll('[data-charfx]').forEach(el => {
         if (el.__cfx) return;
         el.__cfx = true;
         const step = parseFloat(el.getAttribute('data-charfx')) || 40;
         const base = parseFloat(el.getAttribute('data-charfx-delay')) || 0;
         const txt = el.textContent;
         el.textContent = '';
-        const spans = Array.prototype.map.call(txt, (ch, i) => {
+        const spans = Array.from(txt).map((ch, i) => {
           const s = document.createElement('span');
           s.textContent = ch === ' ' ? '\u00a0' : ch;
           const d = base + i * step;
-          s.style.cssText = 'display:inline-block;opacity:0;transform:translateY(26px);filter:blur(7px);transition:opacity .85s ' + E + ' ' + d + 'ms, transform 1.05s ' + E + ' ' + d + 'ms, filter .85s ' + E + ' ' + d + 'ms';
+          s.style.cssText = 'display:inline-block;opacity:0;transform:translateY(26px);filter:blur(7px);transition:opacity .85s ' + EASE_OUT + ' ' + d + 'ms, transform 1.05s ' + EASE_OUT + ' ' + d + 'ms, filter .85s ' + EASE_OUT + ' ' + d + 'ms';
           el.appendChild(s);
           return s;
         });
@@ -2178,6 +2182,19 @@ class Component extends DCLogic {
         io.observe(el);
       });
     });
+  }
+
+  // screenの子要素を走査し、子要素数3以上かつ高さがビューポート1.5倍超のセクションだけ
+  // 孫要素まで分解する共通ロジック。homeReveal()とtag()で一字一句同一の処理が
+  // 重複していたため、ここに1箇所切り出して両メソッドから呼び出す（結果は従来と同じ）。
+  flattenScreenSections(screen, vh) {
+    const result = [];
+    Array.from(screen.children).forEach(c => {
+      if (c.children.length >= 3 && c.getBoundingClientRect().height > vh * 1.5) {
+        Array.from(c.children).forEach(g => result.push(g));
+      } else result.push(c);
+    });
+    return result;
   }
 
   homeReveal() {
@@ -2199,12 +2216,7 @@ class Component extends DCLogic {
         }, { threshold: 0.04, rootMargin: '0px 0px -14% 0px' });
       }
       const vh = window.innerHeight;
-      const blocks = [];
-      Array.prototype.forEach.call(screen.children, c => {
-        if (c.children.length >= 3 && c.getBoundingClientRect().height > vh * 1.5) {
-          Array.prototype.forEach.call(c.children, g => blocks.push(g));
-        } else blocks.push(c);
-      });
+      const blocks = this.flattenScreenSections(screen, vh);
       const show = el => {
         el.__shown = true;
         el.style.opacity = '1';
@@ -2216,7 +2228,7 @@ class Component extends DCLogic {
       blocks.forEach(b => {
         let node = b;
         while (node.children.length === 1 && node.children[0].children.length) node = node.children[0];
-        const kids = Array.prototype.slice.call(node.children);
+        const kids = Array.from(node.children);
         const set = kids.length > 1 && kids.length <= 8 ? kids : [node];
         set.forEach((el, i) => {
           if (el.__rv) return;
@@ -2231,12 +2243,11 @@ class Component extends DCLogic {
           // 明示的に除外する。
           if (el.hasAttribute('data-charfx') || el.hasAttribute('data-rv') || el.hasAttribute('data-no-reveal')) return;
           const d = i * 130;
-          const E = 'cubic-bezier(.16,1,.3,1)';
           el.style.opacity = '0';
           el.style.transform = 'translateY(44px) scale(.985)';
           el.style.filter = 'blur(9px)';
           el.style.willChange = 'opacity, transform, filter';
-          el.style.transition = 'opacity 1.1s ' + E + ' ' + d + 'ms, transform 1.35s ' + E + ' ' + d + 'ms, filter 1.1s ' + E + ' ' + d + 'ms';
+          el.style.transition = 'opacity 1.1s ' + EASE_OUT + ' ' + d + 'ms, transform 1.35s ' + EASE_OUT + ' ' + d + 'ms, filter 1.1s ' + EASE_OUT + ' ' + d + 'ms';
           targets.push(el);
         });
       });
@@ -2251,12 +2262,7 @@ class Component extends DCLogic {
       const screen = document.querySelector('[data-screen-label="HOME"]');
       if (!screen) return;
       const vh = window.innerHeight;
-      const sections = [];
-      Array.prototype.forEach.call(screen.children, c => {
-        if (c.children.length >= 3 && c.getBoundingClientRect().height > vh * 1.5) {
-          Array.prototype.forEach.call(c.children, g => sections.push(g));
-        } else sections.push(c);
-      });
+      const sections = this.flattenScreenSections(screen, vh);
       const RULES = [
         [/WHY DO WE BUILD/, '\u{1F995},globe,\u{1F3EF},\u{1F697},AI,~\u{1F5FE}', 1],
         [/HOW SHOULD ROBOTS MOVE/, '\u{1F697}', .8],
@@ -2315,29 +2321,28 @@ class Component extends DCLogic {
             el.style.opacity = '1';
             el.style.transform = 'none';
             setTimeout(() => { el.style.willChange = ''; el.style.transition = el.__tr || ''; el.style.transform = ''; }, 1500);
-            const c = el.matches('[data-count]') ? [el] : Array.prototype.slice.call(el.querySelectorAll('[data-count]'));
+            const c = el.matches('[data-count]') ? [el] : Array.from(el.querySelectorAll('[data-count]'));
             c.forEach(n => { if (!n.__c) { n.__c = true; this.countUp(n); } });
             this.io.unobserve(el);
           });
         }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
       }
-      const E = 'cubic-bezier(.16,1,.3,1)';
       const queued = [];
-      Array.prototype.forEach.call(document.querySelectorAll('[data-rv]'), (el, i) => {
+      document.querySelectorAll('[data-rv]').forEach((el, i) => {
         if (el.__rv) return;
         el.__rv = true;
         el.__tr = el.style.transition;
         el.style.opacity = '0';
         el.style.transform = 'translateY(34px)';
         el.style.willChange = 'opacity, transform';
-        el.style.transition = 'opacity 1s ' + E + ' ' + ((i % 6) * 90) + 'ms, transform 1.2s ' + E + ' ' + ((i % 6) * 90) + 'ms';
+        el.style.transition = 'opacity 1s ' + EASE_OUT + ' ' + ((i % 6) * 90) + 'ms, transform 1.2s ' + EASE_OUT + ' ' + ((i % 6) * 90) + 'ms';
         queued.push(el);
       });
       if (queued.length) {
         void document.body.offsetHeight;
         requestAnimationFrame(() => queued.forEach(el => this.io && this.io.observe(el)));
       }
-      Array.prototype.forEach.call(document.querySelectorAll('[data-count]'), n => {
+      document.querySelectorAll('[data-count]').forEach(n => {
         if (n.__c || n.closest('[data-rv]')) return;
         n.__c = true;
         this.countUp(n);
