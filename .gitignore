@@ -28,3 +28,8 @@ _import-scratch/
 
 # デザインハンドオフの展開済みフォルダ（*-handoff.zip 同様、展開済みで追跡不要）
 fig/new/
+
+# Astro / Node（依存パッケージ・ビルド生成物は追跡不要。npm ci + npm run build で再生成できる）
+node_modules/
+dist/
+.astro/
