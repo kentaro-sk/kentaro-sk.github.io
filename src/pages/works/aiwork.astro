@@ -1,0 +1,45 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+---
+<Layout title="AI × 仕事 — Kentaro Sugiura" description="AIで、仕事のつくり方を変える。大手メーカーIT部門での取り組みです。">
+<main data-screen-label="WORKS / AI x WORK">
+<PageHero
+  crumbs={[{ label: 'HOME', href: '/' }, { label: 'WORKS', href: '/works/' }, { label: 'AI × WORK' }]}
+  icon="i-chip"
+  kicker="WORKS / 02"
+>
+<Fragment slot="title">AIで、仕事の<span class="u-nowrap">つくり方</span>を変える。</Fragment>
+<p style="margin:0 0 22px;max-width:640px;font-size:16px;line-height:2;color:rgba(21,21,21,.72)">大手メーカーIT部門での取り組みです。</p>
+<div style="display:flex;flex-wrap:wrap;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2A6BA6">
+<span class="c-122">Generative AI</span>
+<span class="c-122">AI-driven development</span>
+<span class="c-122">Automation</span>
+<span class="c-122">DX</span>
+</div>
+</PageHero>
+
+<div class="u-container" style="padding:56px 56px 72px">
+<div style="display:flex;align-items:center;gap:11px;margin-bottom:26px"><span class="c-056"><svg width="19" height="19" class="c-003"><use href="#i-clock"></use></svg></span><span class="c-020">担当してきたこと</span></div>
+<div style="position:relative;display:flex;flex-direction:column;gap:18px;max-width:760px">
+<span style="position:absolute;left:6px;top:10px;bottom:10px;width:1px;background:rgba(59,130,196,.3)"></span>
+<div data-rv style="position:relative;padding-left:30px">
+<span class="u-pill" style="position:absolute;left:0;top:6px;width:13px;height:13px;background:#FBF5DE;border:2px solid #3B82C4;box-shadow:0 0 0 5px #F6F2E7"></span>
+<div class="c-193">
+<div class="c-190"><span class="u-fs-22" style="font-family:'IBM Plex Mono',monospace;letter-spacing:.03em;line-height:1;color:#151515">2025</span><span class="c-184">FY2025</span></div>
+<ul style="margin:0;padding:0;list-style:none"><li class="u-pretty" style="position:relative;margin:0 0 11px;padding-left:17px;font-size:16px;line-height:1.85;color:rgba(21,21,21,.8)"><span class="c-064"></span>業務効率化のためのAIエージェント企画・開発・維持運用（PM）</li><li class="u-pretty" style="position:relative;margin:0 0 11px;padding-left:17px;font-size:16px;line-height:1.85;color:rgba(21,21,21,.8)"><span class="c-064"></span>全社AI利活用促進・社内教育 企画</li><li class="u-pretty" style="position:relative;margin:0 0 11px;padding-left:17px;font-size:16px;line-height:1.85;color:rgba(21,21,21,.8)"><span class="c-064"></span>SLM試行・開発</li></ul>
+</div></div>
+<div data-rv style="position:relative;padding-left:30px">
+<span class="u-pill" style="position:absolute;left:0;top:6px;width:13px;height:13px;background:#3B82C4;border:2px solid #3B82C4;box-shadow:0 0 0 5px #F6F2E7"></span>
+<div class="c-193">
+<div class="c-190"><span class="u-fs-22" style="font-family:'IBM Plex Mono',monospace;letter-spacing:.03em;line-height:1;color:#151515">2026</span><span class="c-184">FY2026 — 現在</span></div>
+<ul style="margin:0;padding:0;list-style:none"><li class="u-pretty" style="position:relative;margin:0 0 11px;padding-left:17px;font-size:16px;line-height:1.85;color:rgba(21,21,21,.8)"><span class="c-064"></span>業務効率化のためのAIエージェント企画・開発・維持運用（PM）</li><li class="u-pretty" style="position:relative;margin:0 0 11px;padding-left:17px;font-size:16px;line-height:1.85;color:rgba(21,21,21,.8)"><span class="c-064"></span>社内導入AIツール検討 他</li></ul>
+</div></div>
+</div>
+</div>
+</main>
+
+<script>
+import '../../scripts/reveal.js';
+</script>
+</Layout>
