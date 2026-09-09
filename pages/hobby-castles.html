@@ -283,17 +283,7 @@ d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json').the
     try { parent.postMessage({ type: 'hobbyFrameHeight', h: h }, '*'); } catch (e) {}
   }
   window.addEventListener('load', function () { report(true); });
-  // 350ms間隔のポーリングをやめ、.wrap要素の実際のサイズ変化を検知したときだけ
-  // report()を呼ぶようResizeObserverに置き換える（常時CPUを使うポーリングを廃止）。
-  // 高さの計算方法・親への通知内容（postMessage）は一切変更しない。
-  var wrapEl = document.querySelector('.wrap');
-  if (wrapEl && window.ResizeObserver) {
-    var ro = new ResizeObserver(function () { report(); });
-    ro.observe(wrapEl);
-  } else {
-    // ResizeObserver未対応ブラウザ向けフォールバック（従来のポーリング）
-    setInterval(report, 350);
-  }
+  setInterval(report, 350);
 })();
 </script>
 </body>
