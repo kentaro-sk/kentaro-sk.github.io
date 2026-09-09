@@ -324,20 +324,13 @@
 [data-patch="story-photo-2col-flex"] { flex: 0 1 auto !important; min-height: 0 !important; overflow: hidden !important; }
 [data-patch="story-photo-2col-flex"] > div { aspect-ratio: 4 / 3; }
 
-/* ===== 発表論文・受賞タイトル行: 語のあいだで折り返せず「縦書き」風に1文字ずつ改行される不具合 =====
-   アイコン付きタイトルを display:flex で横並びにする際、flex-wrap を指定していないと、
-   コンテナ幅が狭まったときテキストの flex アイテムの最小幅(min-width:auto)が「1文字分」まで
-   縮んでしまい、日本語が1文字ずつ次の行へ送られて縦書きのように見えてしまう。
-   flex-wrap:wrap を与えて、単語（文字）単位で自然に折り返すようにする。 */
-[style*="align-items: center; gap: 6px; font-size: 16px; font-weight: 700; line-height: 1.4;"] {
-  flex-wrap: wrap;
-}
-
 /* ---- タブレット（~900px）: 主要コンテナの広い左右パディングを緩和 ---- */
 @media (max-width: 900px) {
-  /* 施策8: max-width:1180px;margin:0 auto(70箇所)はu-containerクラスへ置き換え済みのため、
-     このセレクタもクラスセレクタに対応させる。 */
-  [style*="max-width: 1180px"], .u-container { padding-left: 30px !important; padding-right: 30px !important; }
+  /* 施策8でmax-width:1180px;margin:0 auto(70箇所)はu-containerクラスへ置き換え済み。
+     属性セレクタ[style*="max-width: 1180px"]は、実際にレンダリングされたDOM上で
+     全ルート・PC/モバイルともに1件もマッチしないことをPlaywrightで確認済み(施策4)のため削除し、
+     クラスセレクタに一本化した。 */
+  .u-container { padding-left: 30px !important; padding-right: 30px !important; }
 }
 
 /* ---- スマホ/狭幅（~760px）: 1カラム化・ナビ圧縮・はみ出し防止 ---- */
@@ -348,8 +341,9 @@
         overflow-x:clip はスクロールコンテナを作らないため sticky を壊さず横クリップだけ効く。 */
   html, body { overflow-x: clip !important; }
 
-  /* 主要コンテナ（max-width:1180px が共通アンカー）の左右パディングを詰める */
-  [style*="max-width: 1180px"], .u-container { padding-left: 16px !important; padding-right: 16px !important; }
+  /* 主要コンテナ（max-width:1180px が共通アンカー）の左右パディングを詰める。
+     属性セレクタは死んだセレクタのため削除しクラスセレクタに一本化(施策4)。 */
+  .u-container { padding-left: 16px !important; padding-right: 16px !important; }
 
   /* 多カラムグリッドはすべて1カラムに積み上げる。
      素の 1fr は minmax(auto,1fr) 相当で、子の min-content 幅がトラック下限になり
@@ -366,9 +360,12 @@
     grid-template-columns: minmax(62px, 1fr) repeat(9, minmax(13px, 1fr)) 21px !important;
   }
   /* イニング見出し数字・チーム名・得点数字・合計数字（いずれも元は12/15/16/18px）を縮小。
-     イニング見出しの「1」〜「9」セルはbb-inning-labelクラスに切り出したため(施策6)、
-     属性セレクタとクラスセレクタを併記して両方(クラス化前の「計」セル等も)を確実に拾う。 */
-  [data-patch="baseball-row"] [style*="font-size: 12px"], [data-patch="baseball-row"] .bb-inning-label { font-size: 8px !important; }
+     イニング見出しの「1」〜「9」セルはbb-inning-labelクラスに切り出したため(施策6)。
+     このうち[style*="font-size: 12px"]は、実際の/baseball経路(sc-forで4試合分レンダリング)を
+     含む全ルートでPlaywright実測しても1件もマッチしないことを確認済みのため削除した(施策4)。
+     一方、直後の15/16/18px・パディング系の属性セレクタはsc-forで生成される得点セルに実際に
+     マッチしており(クラスの保険が無い状態で現役のため)、見た目を変えないよう変更していない。 */
+  [data-patch="baseball-row"] .bb-inning-label { font-size: 8px !important; }
   [data-patch="baseball-row"] [style*="font-size: 15px"] { font-size: 10px !important; }
   [data-patch="baseball-row"] [style*="font-size: 16px"] { font-size: 10px !important; }
   [data-patch="baseball-row"] [style*="font-size: 18px"] { font-size: 11.5px !important; }
@@ -527,30 +524,26 @@
      日本語見出しは text-wrap:balance と word-break:auto-phrase で「語の途中改行」「1〜2文字残り」を抑える
      （auto-phrase 非対応ブラウザでは normal 相当にフォールバックし副作用は無い）。 */
 
-  /* 施策8: font-sizeのレスポンシブ縮小グループ(このブロック以下、計28段階)は、実際に
-     index.html内で使われている値についてu-fs-Nクラス(N=元のpx値)へ置き換え済みのため、
-     各セレクタも属性セレクタとクラスセレクタの両方に対応させる。使われていない値
-     (110/100/90/72/68/64/54px)はクラスを用意していないため属性セレクタのみ残している。 */
+  /* 施策8: font-sizeのレスポンシブ縮小グループ(このブロック以下)は、実際にindex.html内で
+     使われている値についてu-fs-Nクラス(N=元のpx値)へ置き換え済み。以前はクラスと属性セレクタ
+     ([style*="font-size: NNpx"])を併記していたが、Playwrightで全ルート(PC/モバイル)を
+     実機レンダリングして確認した結果、属性セレクタ側は(110/100/96/90/72/68/64/62/56/54/52/50px
+     を含め)1件もマッチしていなかったため削除し、クラスセレクタのみに一本化した(施策4)。 */
 
   /* FV/ページ大見出し（50〜110px級）→ 28〜36px */
-  [style*="font-size: 110px"], [style*="font-size: 100px"], [style*="font-size: 96px"], .u-fs-96, [style*="font-size: 90px"],
-  [style*="font-size: 72px"], [style*="font-size: 68px"], [style*="font-size: 64px"], [style*="font-size: 62px"], .u-fs-62,
-  [style*="font-size: 56px"], .u-fs-56, [style*="font-size: 54px"], [style*="font-size: 52px"], .u-fs-52, [style*="font-size: 50px"], .u-fs-50 {
+  .u-fs-96, .u-fs-62, .u-fs-56, .u-fs-52, .u-fs-50 {
     font-size: clamp(28px, 8vw, 36px) !important;
     text-wrap: balance; word-break: auto-phrase; line-break: strict;
   }
   /* 装飾スクリプト体（Parisienne "My Journey, My Story." 46px）は雰囲気を残しやや大きめに */
-  [style*="font-size: 46px"], .u-fs-46 { font-size: clamp(28px, 9vw, 40px) !important; text-wrap: balance; }
+  .u-fs-46 { font-size: clamp(28px, 9vw, 40px) !important; text-wrap: balance; }
   /* セクション見出し（26〜44px級）→ 20〜24px */
-  [style*="font-size: 44px"], .u-fs-44, [style*="font-size: 42px"], .u-fs-42, [style*="font-size: 41px"], .u-fs-41,
-  [style*="font-size: 30px"], .u-fs-30, [style*="font-size: 29px"], .u-fs-29, [style*="font-size: 28px"], .u-fs-28,
-  [style*="font-size: 27px"], .u-fs-27, [style*="font-size: 26px"], .u-fs-26 {
+  .u-fs-44, .u-fs-42, .u-fs-41, .u-fs-30, .u-fs-29, .u-fs-28, .u-fs-27, .u-fs-26 {
     font-size: clamp(20px, 5.6vw, 24px) !important;
     text-wrap: balance; word-break: auto-phrase; line-break: strict;
   }
   /* 既に範囲内(20〜25px)の小見出しは、サイズはそのままに改行だけ整える */
-  [style*="font-size: 25px"], .u-fs-25, [style*="font-size: 24px"], .u-fs-24, [style*="font-size: 22px"], .u-fs-22,
-  [style*="font-size: 21px"], .u-fs-21, [style*="font-size: 20px"], .u-fs-20 {
+  .u-fs-25, .u-fs-24, .u-fs-22, .u-fs-21, .u-fs-20 {
     text-wrap: balance; word-break: auto-phrase;
   }
   /* 「日本」「つくり方」「野球観戦」等、意味のまとまりを white-space:nowrap の <span> で
@@ -559,10 +552,10 @@
      あったため、この3見出しに限り balance を無効化し通常の詰め込み折返しに戻す。
      h1直下の style="" 属性に text-wrap:normal を直接足す方法は、DCランタイムの style パーサーが
      未知の値を落としてしまい効かなかったため、スタイルシート側の :has() で確実に上書きする。 */
-  /* 施策8: white-space:nowrapのみのstyle値(11箇所)はu-nowrapクラスへ置き換え済みのため、
-     このセレクタも属性セレクタとクラスセレクタの両方に対応させる(他プロパティと組み合わさった
-     nowrapは対象外のため、属性セレクタ側は引き続き残す)。 */
-  h1:has(> span[style*="white-space: nowrap"]), h1:has(> span.u-nowrap) { text-wrap: wrap !important; }
+  /* 施策8: white-space:nowrapのみのstyle値(11箇所)はu-nowrapクラスへ置き換え済み。
+     h1直下span向けの属性セレクタ側はPlaywright実測で1件もマッチしないことを確認したため
+     削除し、クラスセレクタに一本化した(施策4)。 */
+  h1:has(> span.u-nowrap) { text-wrap: wrap !important; }
   /* 本文・リード・ラベルの 17/18px は、ガイドの「本文16px」に合わせて16pxへ統一する。
      これにより著者がPC幅前提で入れた <br> 位置のズレで生じる語の途中改行（例:「名古屋大学大学院で
      自動運転を研究し、」が1行に収まらず「研/究し」に割れる）も、行に収まって解消する。
@@ -599,15 +592,16 @@
 @media (max-width: 400px) {
   /* リード段落(text-wrap:pretty)は狭幅で字間を詰め、「研究し、」等の熟語を行内に収める。
      ナビや氏名ワードマークの扱いは上の ≤760 ブロックに一本化済み（幅の境界での段差を無くすため）。 */
-  /* 施策8: text-wrap:pretty単体のstyle値(89箇所)はu-prettyクラスへ置き換え済みのため、
-     このセレクタもクラスセレクタに対応させる。 */
-  [style*="text-wrap: pretty"], .u-pretty { letter-spacing: 0 !important; }
+  /* 施策8でtext-wrap:pretty単体のstyle値(89箇所)はu-prettyクラスへ置き換え済み。
+     属性セレクタ側はPlaywright実測で1件もマッチしないことを確認したため削除し、
+     クラスセレクタに一本化した(施策4)。 */
+  .u-pretty { letter-spacing: 0 !important; }
 }
 
 /* ---- 極狭端末（≤345px, iPhone SE 等）: リード段落を15pxへ下げて語中改行（「研究」→「研/究」）を解消する。
         ナビはハンバーガーに集約済みのためサイズ調整は不要。 ---- */
 @media (max-width: 345px) {
-  [style*="text-wrap: pretty"], .u-pretty { font-size: 15px !important; }
+  .u-pretty { font-size: 15px !important; }
 }
 
 /* ---- デスクトップ（≥761px）: モバイル→PCへリサイズした際にメニューが開いたままでも
@@ -620,7 +614,8 @@
         コンテナ最大幅を少しだけ広げて締める。本文段落は各自の内側 max-width を持つため
         行長が極端に伸びない範囲（1320px）に留める。 ---- */
 @media (min-width: 1680px) {
-  [style*="max-width: 1180px"], .u-container { max-width: 1320px !important; }
+  /* 属性セレクタは死んだセレクタのため削除しクラスセレクタに一本化(施策4)。 */
+  .u-container { max-width: 1320px !important; }
 }
 
 /* ===== STORYカード間の区切り: カード幅が全カード共通になったことで、余白だけでは
