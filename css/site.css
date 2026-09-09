@@ -450,6 +450,25 @@
     aspect-ratio: 2092 / 1171 !important;
   }
 
+  /* STORY「中学校」カードのイタリア海外派遣・日本史の写真がスマホ幅で極端に潰れる不具合の修正。
+     どちらも固定height(190px)の枠内に写真を並べる作りだが、直前のルール
+     ([style*="grid-template-columns"])が2カラムグリッドを問答無用で1カラム化してしまい、
+     2枚の写真が同じ190px（イタリアは58%を大きい写真に取られた残り約75px）の枠に
+     縦に押し込められ、極端に薄い帯状に潰れていた。ここではPC表示に影響しない
+     モバイル専用の上書きとして、2カラムを維持したまま各写真にaspect-ratioを与え、
+     枠の高さ自体をautoにして中身に合わせて伸びるようにする。 */
+  [data-patch="story-junior-italy-photos"] { height: auto !important; }
+  [data-patch="story-junior-italy-photos"] > span { flex: none !important; aspect-ratio: 2.9; }
+  [data-patch="story-junior-italy-photos"] > div {
+    grid-template-columns: 1fr 1fr !important; flex: none !important; min-height: 0 !important;
+  }
+  [data-patch="story-junior-italy-photos"] > div > span { aspect-ratio: 16 / 9; }
+
+  [data-patch="story-junior-history-photos"] {
+    height: auto !important; grid-template-columns: 1fr 1fr !important;
+  }
+  [data-patch="story-junior-history-photos"] > span { aspect-ratio: 3 / 4; }
+
   /* STORY「体操部」: 写真(104px角の固定サイズ)とテキストが横並び(flexの行)になっており、
      狭幅では写真とテキスト列が窮屈に同居してしまう。横並びをやめて、写真の段→
      テキストの段の順に縦積みにする。 */

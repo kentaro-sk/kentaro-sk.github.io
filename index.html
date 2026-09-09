@@ -1047,7 +1047,7 @@ a:hover{color:#2A6BA6}
 <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-content:start">
 <div class="c-185" data-comment-anchor="6aede0f93a-div">
 <div style="min-height:40px"><div class="c-198"><svg width="24" height="16" class="c-047"><use href="#f-it"></use></svg><span class="c-054">海外派遣</span></div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.45);margin-top:5px">TREVISO, ITALY</div></div>
-<div style="height:190px;display:flex;flex-direction:column;gap:5px" data-comment-anchor="0fbcd7b70e-div">
+<div style="height:190px;display:flex;flex-direction:column;gap:5px" data-comment-anchor="0fbcd7b70e-div" data-patch="story-junior-italy-photos">
 <span style="width:100%;flex:0 0 58%;min-height:0;overflow:hidden;background:transparent;display:block"><img loading="lazy" decoding="async" src="images/story/story-junior-italy-3.jpg" alt="トレビーゾ市庁舎で日本文化を発表" class="c-102" /></span>
 <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:5px">
 <span class="c-049"><img loading="lazy" decoding="async" src="images/story/story-junior-italy-1.jpg" alt="現地の生徒と遊びを通して交流" class="c-011" /></span>
@@ -1058,7 +1058,7 @@ a:hover{color:#2A6BA6}
 </div>
 <div class="c-185">
 <div style="font-size:16px;font-weight:700;line-height:1.4;min-height:40px">日本史</div>
-<div style="height:190px;display:grid;grid-template-columns:repeat(2,1fr);gap:5px" data-comment-anchor="e32f254dba-div">
+<div style="height:190px;display:grid;grid-template-columns:repeat(2,1fr);gap:5px" data-comment-anchor="e32f254dba-div" data-patch="story-junior-history-photos">
 <span class="c-049"><img loading="lazy" decoding="async" src="images/story/story-junior-heian.jpg" alt="平安装束を着て日本文化にふれる" class="c-186" data-comment-anchor="c3f519ef99-img" /></span>
 <span class="c-049"><img loading="lazy" decoding="async" src="images/story/story-junior-yayoi.jpg" alt="弥生時代の衣装で歴史体験" class="c-102" data-comment-anchor="63a10c5a42-img" /></span>
 </div>
@@ -1954,7 +1954,18 @@ class Component extends DCLogic {
     window.addEventListener('scroll', this.onScroll, { passive: true });
     this.onStoryScroll = () => { this.heroSync(); };
     window.addEventListener('scroll', this.onStoryScroll, { passive: true });
+    // モバイルではスクロール中にアドレスバーが表示/非表示になるたびに幅は変わらず
+    // 高さだけが変わる resize イベントが発生する。これをそのまま ScrollTrigger.refresh()
+    // に流すと、ピン留め中のヒーロー演出(heroSync)の end 位置(window.innerHeight基準)が
+    // スクロールの途中で再計算されてしまい、パン中の画像や文字がガクッとジャンプする
+    // ＝STORYページでの「スクロールの違和感」の原因になっていた。
+    // 幅が変わらないリサイズ(=アドレスバーの開閉)は無視し、実際に幅が変わった
+    // リサイズ(端末回転・ウィンドウ幅変更)のときだけ再計算する。
+    this._lastResizeWidth = window.innerWidth;
     this.onStoryResize = () => {
+      const w = window.innerWidth;
+      if (w === this._lastResizeWidth) return;
+      this._lastResizeWidth = w;
       this.heroSync();
       // 年表(data-story-nav)は自身の座標をJSで計算しないが、リサイズでレイアウトが
       // 変わるとリング(navMark)の位置だけはズレるため、現在のactive年で再同期する。
@@ -2136,6 +2147,11 @@ class Component extends DCLogic {
       return;
     }
     g.registerPlugin(ST);
+    // モバイルはスクロール中にアドレスバーが出入りして window.innerHeight が細かく
+    // 変動する。ScrollTriggerは既定でこれをある程度無視するが、明示的に有効化しておき、
+    // ピン留め中のend位置(innerHeight基準)が意図せず再計算されてスクロール位置が
+    // ジャンプする不具合を防ぐ(STORYページでの「スクロールの違和感」の原因の一つ)。
+    ST.config({ ignoreMobileResize: true });
     const lines = Array.from(wrap.querySelectorAll('[data-hero-line]'));
     const copy = wrap.querySelector('[data-hero-copy]');
     g.set(lines, { opacity: 0, y: 30 });
