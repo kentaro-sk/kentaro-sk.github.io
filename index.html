@@ -26,8 +26,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <!-- Parisienne(装飾スクリプト体)はcss/site.css側で自己ホスト(fonts/Parisienne-Regular.woff2)
      しているため、Google Fontsからの二重読み込みを避けるためfamily=Parisienneを外している。
-     自己ホストの@font-face定義(font-weight:400/normal)はGoogle Fonts側の配信内容と一致させてある。 -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap">
+     自己ホストの@font-face定義(font-weight:400/normal)はGoogle Fonts側の配信内容と一致させてある。
+     font-weight:800(Shippori Mincho B1)・900(Zen Kaku Gothic New)は index.html・css/site.css・
+     pages/*.html・手書きWeb Componentsのいずれからも使用されていないことを確認済みのため、
+     リクエストするウェイトから除外し転送量を削減している。 -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600&family=IBM+Plex+Mono:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
 <style>
 body{margin:0;background:#FFFDF5;color:#151515;font-family:'Zen Kaku Gothic New',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:#3B82C4}
