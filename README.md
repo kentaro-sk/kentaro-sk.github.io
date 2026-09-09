@@ -4,7 +4,7 @@
 
 これまでの研究・仕事・趣味などの歩みを、1つのページの中で紹介しています。
 
-🔗 https://kentaro-sk.github.io/#home
+🔗 https://kentaro-sk.github.io/
 
 ## Built with
 
