@@ -255,6 +255,22 @@
       }
       // 文字が小さすぎてサンプル点が足りない場合もsphereにフォールバックする。
       if (pool.length < 200) return this.makeShape('sphere', n);
+      // textAlign:'center'はテキストの advance width 基準でキャンバス中央に配置するため、
+      // フォントのサイドベアリング(文字の左右の余白)が偏っていると、実際のインク(点群になる
+      // 部分)が見た目上は中央からズレて見えることがある(特に絵文字と和文フォントが混在する
+      // フォントスタックで顕著)。ここでpool(インクの全ピクセル)から実際の外接矩形を求め、
+      // その中心が原点(0,0)に来るようpool/edge両方の座標を補正してから使う。
+      {
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+        for (let i = 0; i < pool.length; i += 2) {
+          const px = pool[i], py = pool[i + 1];
+          if (px < minX) minX = px; if (px > maxX) maxX = px;
+          if (py < minY) minY = py; if (py > maxY) maxY = py;
+        }
+        const offX = (minX + maxX) / 2, offY = (minY + maxY) / 2;
+        for (let i = 0; i < pool.length; i += 2) { pool[i] -= offX; pool[i + 1] -= offY; }
+        for (let i = 0; i < edge.length; i += 2) { edge[i] -= offX; edge[i + 1] -= offY; }
+      }
       const a = new Float32Array(n * 3);
       const cnt = pool.length / 2, ecnt = edge.length / 2;
       for (let i = 0; i < n; i++) {

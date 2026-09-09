@@ -147,7 +147,6 @@
 .c-089 { color:rgba(246,242,231,.5);text-decoration:none;transition:color .3s ease }
 .c-090 { position:absolute;inset:0;background:linear-gradient(to top,rgba(7,11,22,.5),rgba(7,11,22,0) 58%) }
 .c-091 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.13em;color:rgba(21,21,21,.5) }
-.c-092 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.42) }
 .c-093 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.5) }
 .c-094 { min-width:0 }
 .c-095 { aspect-ratio:16/9;overflow:hidden;background:#F5EFDE;border-bottom:1px solid rgba(21,21,21,.08) }
@@ -167,7 +166,7 @@
 .c-109 { display:flex;align-items:center;gap:9px;margin-bottom:7px }
 .c-110 { font-size:16px;letter-spacing:.14em;color:rgba(21,21,21,.45);margin-left:5px }
 .c-111 { width:100%;aspect-ratio:4/3;overflow:hidden;background:#151515;display:block }
-.c-112 { position:relative;margin-bottom:22px }
+.c-112 { position:relative;margin-bottom:164px }
 .c-113 { display:block;font-size:16px;color:rgba(21,21,21,.7);margin-bottom:6px }
 .c-114 { display:flex;align-items:center;gap:11px;min-width:0 }
 .c-115 { width:34px;height:1px;flex:none;background:#3B82C4 }
@@ -191,7 +190,6 @@
 .c-133 { width:14px;height:1px;background:rgba(59,130,196,.5) }
 .c-134 { width:16px;height:1px;background:rgba(21,21,21,.18) }
 .c-135 { font-size:16px;font-weight:700;margin-bottom:7px }
-.c-136 { flex:1;height:1px;background:rgba(21,21,21,.1) }
 .c-137 { color:rgba(21,21,21,.42);letter-spacing:.14em }
 .c-138 { display:block;font-size:16px;font-weight:700 }
 .c-139 { color:#151515 }
@@ -462,18 +460,6 @@
     width: 100% !important; height: auto !important; aspect-ratio: 16 / 9;
   }
 
-  /* STORY「名古屋大学大学院」の見出しだけ、他の学歴カード（名古屋大学 工学部、
-     一宮高等学校 等）と違う書体(明朝体 Shippori Mincho B1・21px)になっており
-     浮いて見える。他カードの見出しと同じサイズ・太さ・標準フォント(Zen Kaku Gothic New)
-     に揃える。 */
-  [data-patch="story-grad-title"] {
-    font-family: 'Zen Kaku Gothic New', system-ui, sans-serif !important;
-    font-size: 17px !important;
-    font-weight: 700 !important;
-    letter-spacing: normal !important;
-    line-height: 1.4 !important;
-  }
-
   /* フォーム入力: iOS は font-size<16px の入力にフォーカスすると自動ズームして
      ページ全体が拡大される（挙動がおかしく見える）。モバイルでは16pxに上げて防ぐ。 */
   input, textarea { font-size: 16px !important; }
@@ -618,16 +604,8 @@
   .u-container { max-width: 1320px !important; }
 }
 
-/* ===== STORYカード間の区切り: カード幅が全カード共通になったことで、余白だけでは
-   カードの境目が分かりづらくなった。先頭(誕生)を除く各カードの上に薄い罫線を入れ、
-   境目を視覚的に明確にする。 ===== */
-[data-story-card]:not([data-story-card="0"]) {
-  border-top: 1px solid rgba(21, 21, 21, .1);
-  padding-top: 28px;
-}
-[data-story-card="0"] {
-  padding-top: 40px;
-}
+/* ===== STORYカード間の区切り: カード間の余白を164pxまで拡大したことで、
+   余白だけで境目が十分明確になったため、罫線は廃止した。 ===== */
 [data-story-card] {
   scroll-margin-top: 88px;
 }
