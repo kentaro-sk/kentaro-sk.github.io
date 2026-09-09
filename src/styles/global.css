@@ -1,17 +1,33 @@
 /* ============================================================
-   css/site.css — index.html から分離した外部CSS
-   (refactor: 施策5 外部CSSファイル化 / 施策4 重複インラインstyleのクラス化)
+   global.css — Astro移行前は index.html <helmet><style> と
+   css/site.css の2ファイルに分かれていたCSSを1本にまとめたもの。
 
-   このファイルは2つのブロックで構成される:
+   このファイルは3つのブロックで構成される:
+   0) 旧 index.html <helmet><style> にあったbaseリセット・共通keyframes
    1) 重複インラインstyleを機械的にクラス化した .c-XXX 定義
    2) 元々 index.html の <style id="responsive-patch"> にあった
       レスポンシブ対応の後付けパッチ(属性セレクタ + !important)
 
-   注意: 2)のパッチは、DCランタイムが生成する要素の inline style を
-   属性セレクタ([style*="..."]・[data-patch="..."])で上書きする設計。
+   注意: 2)のパッチは、要素の inline style を属性セレクタ
+   ([style*="..."]・[data-patch="..."])で上書きする設計。
    1)のクラスで切り出した値は、このパッチが参照する部分文字列と重複しない
    ことを事前に確認済み(重複するものは元のままinline styleに残してある)。
    ============================================================ */
+
+body{margin:0;background:#FFFDF5;color:#151515;font-family:'Zen Kaku Gothic New',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+/* hidden属性はブラウザによってはsvg要素に効かない(UAスタイルシート内でsvgのdisplay指定と
+   競合するため)既知の挙動があるため、確実に隠れるよう明示的に上書きしておく。 */
+[hidden]{display:none !important}
+a{color:#3B82C4}
+a:hover{color:#2A6BA6}
+@keyframes riseIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+@keyframes dashRun{to{stroke-dashoffset:-120}}
+@keyframes ddIn{from{opacity:0;transform:translateY(-7px)}to{opacity:1;transform:none}}
+@keyframes rvUp{from{opacity:0;transform:translateY(46px)}to{opacity:1;transform:none}}
+@keyframes pulseRing{0%{transform:scale(.9);opacity:.55}70%{transform:scale(1.5);opacity:0}100%{opacity:0}}
 
 /* ===== responsive-patchが参照する意味のあるユーティリティクラス (refactor: 施策8) =====
    [style*="..."]による部分文字列一致は、値の一部が別の値に偶然含まれるだけで誤発火しうる
@@ -289,7 +305,7 @@
    Google Fonts が社内ネットワーク等でブロック/失敗しても「My Journey, My Story.」の
    筆記体を確実に表示するため、外部依存なしのローカル @font-face を用意する。
    （旧版はindex.html内にbase64で直接埋め込んでいたが、軽量化のため外部ファイル化した） */
-@font-face { font-family: 'Parisienne'; font-style: normal; font-weight: 400; font-display: swap; src: url('../fonts/Parisienne-Regular.woff2') format('woff2'); }
+@font-face { font-family: 'Parisienne'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/Parisienne-Regular.woff2') format('woff2'); }
 
 /* 注: DCランタイム(React)は style を「prop: value」（コロン後に空白）で描画するため、
    属性セレクタは空白付き表記で一致させる必要がある。 */
