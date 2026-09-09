@@ -613,6 +613,19 @@
         パネルが残らないよう、PC幅ではモバイルメニューを確実に隠す（ハンバーガーはインライン既定で非表示）。 ---- */
 @media (min-width: 761px) {
   [data-mobile-menu], [data-hamburger] { display: none !important; }
+
+  /* STORY「SSH交換留学」3枚組(story-photo-3col-b)のPC表示調整。
+     1枚目(研究成果を英語で発表)は正方形(aspect-ratio:1/1)だと横方向のクロップが大きく、
+     写真右側で発表している本人がほぼ切れて見えなくなっていた。列の配分を
+     1.5fr:.75fr:.75fr(合計3で従来のrepeat(3,1fr)と同じ)に変え、各列のaspect-ratioを
+     その配分と揃える(1.5 / .75 / .75)ことで、行の高さ自体は変えずに1枚目だけ横長化し、
+     本人が写る範囲まで見えるようにする。2・3枚目は幅が縮む分だけ縦長になるが、
+     どちらも被写体は画面幅いっぱいに写っており(object-fit:coverで常に全幅表示、
+     上下方向のみクロップされる構図)、横方向の見切れは発生しない。 */
+  [data-patch="story-photo-3col-b"] { grid-template-columns: 1.5fr .75fr .75fr !important; }
+  [data-patch="story-photo-3col-b"] > span:nth-child(1) { aspect-ratio: 1.5; }
+  [data-patch="story-photo-3col-b"] > span:nth-child(2),
+  [data-patch="story-photo-3col-b"] > span:nth-child(3) { aspect-ratio: .75; }
 }
 
 /* ---- 大画面（≥1680px）: max-width:1180px 中央寄せだと左右が空きすぎ間延びするため、
