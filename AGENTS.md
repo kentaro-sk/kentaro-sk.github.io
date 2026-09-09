@@ -93,11 +93,16 @@ chore: .gitignore に一時ファイルを追加
 - 外部ライブラリは既存の CDN バージョンを維持する（勝手にアップデートしない）
 
 ### CSS
-- 新しいスタイルは各ページの `stylesheet.css` に追記する
-- 共通スタイルは `css/stylesheet.css` に追記する
-- インラインスタイル（`style="..."` 属性）は使用しない
+- 共通スタイルは単一の `css/site.css` に追記する（ページ別の `stylesheet.css` は存在しない）
+- インラインスタイル（`style="..."` 属性）は基本的に許容する。同一の style 値が
+  3箇所以上で重複した場合のみ、意味のあるクラス名に切り出して `css/site.css` に定義する
+  （2箇所以下の重複はインラインのまま維持してよい）
 
 ### JavaScript
-- jQuery 3.4.1 を使用（バージョン変更禁止）
+- `js/support.js` は `dc-runtime`（DCランタイム）のビルド生成物であり、直接編集禁止
+  （ファイル冒頭に `GENERATED from dc-runtime/src/*.ts` の注記あり。変更が必要な場合は
+  `dc-runtime/src/*.ts` を編集し `cd dc-runtime && bun run build` で再生成する）
+- `js/particle-field.js`・`js/flow-cycle.js`・`js/journey-scene.js`・`js/dream-city.js` は
+  手書きの Web Components（Custom Elements）であり、直接編集してよい
 - `var` ではなく `const` / `let` を使用する
 - すべての関数・処理ブロックに日本語コメントを付ける（親 AGENTS.md のルール厳守）
