@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+---
+<Layout title="これからの道筋 — Kentaro Sugiura" description="地域創生に向けて、具体的にどう動いていくかの構想です。">
+<main data-screen-label="GOAL / ROADMAP">
+<PageHero
+  crumbs={[{ label: 'HOME', href: '/' }, { label: 'GOAL', href: '/goal/' }, { label: 'ROADMAP' }]}
+  icon="i-map"
+  kicker="GOAL / 02"
+>
+<Fragment slot="title">これからの道筋</Fragment>
+<p class="u-pretty" style="margin:0;max-width:640px;font-size:16px;line-height:2.05;color:rgba(21,21,21,.76)">地域創生に向けて、具体的にどう動いていくかの構想です。</p>
+</PageHero>
+
+<div class="c-063">
+<div class="u-container" style="padding:96px 56px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
+<div class="c-082"><span class="c-080"></span><span class="c-023">COMING SOON</span><span class="c-080"></span></div>
+<p class="u-pretty" style="margin:0;max-width:520px;font-size:16px;line-height:2;color:rgba(21,21,21,.68)">構想が形になりしだい、道筋の内容を追加していきます。</p>
+</div>
+</div>
+
+<div class="u-container" style="padding:40px 56px 56px">
+<a href="/goal/" style="display:inline-flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-decoration:none;white-space:nowrap;color:rgba(21,21,21,.62);transition:color .3s ease,transform .4s cubic-bezier(.22,.61,.36,1)" style-hover="color:#3B82C4;transform:translateX(-6px)">← GOAL に戻る</a>
+</div>
+</main>
+</Layout>

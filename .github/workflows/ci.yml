@@ -1,0 +1,26 @@
+name: CI (Astro build check)
+
+# Astro移行作業中(astro-migration ブランチ)の疎通確認用ワークフロー。
+# 本番デプロイは行わず、npm run build が通ることだけを検証する。
+# 本番デプロイ用の deploy.yml は、移行完了(Phase 6)でGitHub Pagesの配信方式を
+# 「GitHub Actions」に切り替えるタイミングで別途追加する。
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [astro-migration]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
