@@ -34,3 +34,6 @@ jobs:
 
       - name: CSS構文チェック（stylelint）
         run: npm run check:css
+
+      - name: 画像サイズチェック（1MB超は警告のみ）
+        run: npm run check:images
