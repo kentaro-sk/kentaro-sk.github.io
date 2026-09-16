@@ -20,9 +20,12 @@ Desktop.ini
 # ローカル開発ツールのログ
 npm-debug.log*
 
-# CI/CD検証用ツール（html-validate・linkinator）の依存パッケージ
+# CI/CD検証用ツール（html-validate・linkinator等）の依存パッケージ
 # package-lock.json は再現性のためコミットするが、node_modules/ 自体は追跡しない
 node_modules/
+
+# Lighthouse CIの計測結果（実行のたびに生成される一時データ）
+.lighthouseci/
 
 # Claude Design からの受領ZIP（大容量・展開済みのため追跡不要）
 *-handoff.zip

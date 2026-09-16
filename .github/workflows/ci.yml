@@ -40,3 +40,9 @@ jobs:
 
       - name: アクセシビリティチェック（pa11y, WCAG2AA・警告のみ）
         run: npm run check:a11y
+
+      - name: Lighthouse CI（パフォーマンス/SEO等のスコア計測・警告のみ）
+        # 閾値未達はlighthouserc.json側で"warn"設定済みだが、初回導入のため
+        # ステップ自体が予期せず失敗してもジョブ全体は止めない保険としてcontinue-on-errorも付ける。
+        run: npm run check:lighthouse
+        continue-on-error: true

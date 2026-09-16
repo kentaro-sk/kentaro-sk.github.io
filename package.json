@@ -8,9 +8,11 @@
     "check:css": "stylelint \"css/**/*.css\"",
     "check:images": "node scripts/check-image-sizes.mjs",
     "check:a11y": "node scripts/check-accessibility.mjs",
+    "check:lighthouse": "lhci autorun --config=lighthouserc.json",
     "check": "npm run check:html && npm run check:links && npm run check:css && npm run check:images && npm run check:a11y"
   },
   "devDependencies": {
+    "@lhci/cli": "^0.15.1",
     "html-validate": "^11.16.0",
     "linkinator": "^8.1.0",
     "pa11y": "^10.0.0",
