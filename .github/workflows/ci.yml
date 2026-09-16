@@ -37,3 +37,6 @@ jobs:
 
       - name: 画像サイズチェック（1MB超は警告のみ）
         run: npm run check:images
+
+      - name: アクセシビリティチェック（pa11y, WCAG2AA・警告のみ）
+        run: npm run check:a11y
