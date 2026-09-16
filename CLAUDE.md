@@ -82,6 +82,31 @@ chore: .gitignore に一時ファイルを追加
 　本番反映: https://kentaro-sk.github.io（数秒〜1分で反映）
 ```
 
+### CI/CD による自動検証（push後）
+
+`main` への push は GitHub Pages にそのまま即時反映されるため、Claude の目視確認だけに
+頼らず、push 後に GitHub Actions（`.github/workflows/ci.yml`）が機械的にチェックする：
+
+- HTML構文チェック（`html-validate`）
+- リンク切れ・画像パス切れチェック（`linkinator`）
+
+現時点では「後追いで気づけるようにする」段階（push 自体はブロックしない）。CIが失敗した場合は
+GitHub上で赤い✗が付くので、次にこのリポジトリで作業するときに確認し、原因を修正して再度コミット
+＆プッシュする。チェック内容を追加・強化したい場合は `.github/workflows/ci.yml` と
+`package.json` の devDependencies を編集する。
+
+補足:
+- `html-validate` の標準ルール（`html-validate:recommended`）はこのプロジェクトのコーディング
+  規約（インラインstyle許容・`<x-dc>` `<helmet>` 等の独自タグ使用）と衝突するため、
+  `.htmlvalidate.cjs` でスタイル/アクセシビリティ上の好みに関するルールのみをoffにし、
+  タグの閉じ忘れ等の本当の構文崩れを検知するルールは有効なまま残している。
+- `linkinator` は `{{ item.href }}` のようなDCランタイムのテンプレート構文（クライアント側JSで
+  実際のURLに置換される）を「壊れたリンク」と誤検知するため、`--skip %7B%7B` で除外している
+  （`%7B%7B` は `{{` のURLエンコード形）。
+- 導入時点（2026-09-16）で `<html lang>` 属性未設定・`<title>` タグ未設定というSEO/
+  アクセシビリティ上の既知の課題が見つかっている（`.htmlvalidate.cjs` 内でルールをoffにして
+  対応を保留中）。対応する際は該当ルールをonに戻すこと。
+
 ---
 
 ## このプロジェクト固有のコーディング規約
@@ -99,10 +124,9 @@ chore: .gitignore に一時ファイルを追加
   （2箇所以下の重複はインラインのまま維持してよい）
 
 ### JavaScript
-- `js/support.js` は `dc-runtime`（DCランタイム）のビルド生成物であり、直接編集禁止
-  （ファイル冒頭に `GENERATED from dc-runtime/src/*.ts` の注記あり。変更が必要な場合は
-  `dc-runtime/src/*.ts` を編集し `cd dc-runtime && bun run build` で再生成する）
-- `js/particle-field.js`・`js/flow-cycle.js`・`js/journey-scene.js`・`js/dream-city.js` は
-  手書きの Web Components（Custom Elements）であり、直接編集してよい
+- `js/support.js`・`js/particle-field.js`・`js/flow-cycle.js`・`js/journey-scene.js`・
+  `js/dream-city.js` はいずれも手書きファイルであり、直接編集してよい
+  （`js/support.js` は過去に `dc-runtime` という独自ビルドツールの生成物として運用されていたが、
+  `dc-runtime` 自体がリポジトリに存在しないことが2026-09-16に判明し、手書きファイル運用に統一した）
 - `var` ではなく `const` / `let` を使用する
 - すべての関数・処理ブロックに日本語コメントを付ける（親 CLAUDE.md のルール厳守）

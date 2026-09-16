@@ -1,0 +1,33 @@
+name: サイトの静的チェック
+
+# main への push は GitHub Pages に即時反映されるため、
+# Claude(AI)の目視確認だけに頼らず、機械的な検証を後追いで行う。
+# 現時点では push 自体をブロックしない「気づけるようにする」段階。
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Node.jsをセットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: 依存パッケージをインストール
+        run: npm ci
+
+      - name: HTML構文チェック（html-validate）
+        run: npm run check:html
+
+      - name: リンク切れ・画像パス切れチェック（linkinator）
+        run: npm run check:links

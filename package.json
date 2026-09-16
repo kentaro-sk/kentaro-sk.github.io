@@ -1,0 +1,14 @@
+{
+  "name": "kentaro-sk-portfolio",
+  "private": true,
+  "description": "杉浦健太郎 パーソナルポートフォリオサイト用の検証ツール一式（サイト自体はビルド不要の素のHTML/CSS/JS）",
+  "scripts": {
+    "check:html": "html-validate index.html \"pages/**/*.html\"",
+    "check:links": "linkinator index.html --recurse --skip %7B%7B",
+    "check": "npm run check:html && npm run check:links"
+  },
+  "devDependencies": {
+    "html-validate": "^11.16.0",
+    "linkinator": "^8.1.0"
+  }
+}
