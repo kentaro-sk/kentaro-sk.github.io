@@ -34,9 +34,5 @@ module.exports = {
     "no-deprecated-attr": "off",
     // <x-dc>・<helmet> 等、このサイト独自の非標準タグを使っているため許容
     "element-name": "off",
-    // <html lang>・<title>未設定は既知の改善余地として別途対応するためCIでは一旦許容
-    // （2026-09-16時点で未対応。対応時にこの2行を削除してよい）
-    "element-required-attributes": "off",
-    "element-required-content": "off",
   },
 };
