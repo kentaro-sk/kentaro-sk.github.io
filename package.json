@@ -5,10 +5,13 @@
   "scripts": {
     "check:html": "html-validate index.html \"pages/**/*.html\"",
     "check:links": "linkinator index.html --recurse --skip %7B%7B",
-    "check": "npm run check:html && npm run check:links"
+    "check:css": "stylelint \"css/**/*.css\"",
+    "check": "npm run check:html && npm run check:links && npm run check:css"
   },
   "devDependencies": {
     "html-validate": "^11.16.0",
-    "linkinator": "^8.1.0"
+    "linkinator": "^8.1.0",
+    "stylelint": "^17.15.0",
+    "stylelint-config-recommended": "^18.0.0"
   }
 }

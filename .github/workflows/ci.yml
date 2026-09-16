@@ -31,3 +31,6 @@ jobs:
 
       - name: リンク切れ・画像パス切れチェック（linkinator）
         run: npm run check:links
+
+      - name: CSS構文チェック（stylelint）
+        run: npm run check:css
