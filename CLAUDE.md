@@ -195,6 +195,13 @@ devDependencies を編集する。
 - インラインスタイル（`style="..."` 属性）は基本的に許容する。同一の style 値が
   3箇所以上で重複した場合のみ、意味のあるクラス名に切り出して `css/site.css` に定義する
   （2箇所以下の重複はインラインのまま維持してよい）
+- **エレベーション（box-shadow）はhover主導にする**: カード・ボタンは静止時shadowなし
+  （1px hairline borderのみ）とし、hoverしたときだけ`translateY`＋2層box-shadowを
+  立ち上げる。常時shadowを付けない（詳細は`DESIGN.md`の「Elevation & Depth」参照）。
+- **border-radiusは0px（角丸なし）を基調にする**: CTAボタン・大半のカードは角丸0で
+  統一する。例外は「現在地・アイコン」用途の50%（円形）と、バッジ用途限定の999px
+  （pill）のみ。カードで10px/16pxの角丸を使う場合も既存の3段階（0/10/16px）の枠内に
+  収める（詳細は`DESIGN.md`の「Shapes」参照）。
 
 ### JavaScript
 - `js/support.js`・`js/particle-field.js`・`js/flow-cycle.js`・`js/journey-scene.js`・
