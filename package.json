@@ -7,7 +7,7 @@
   },
   "scripts": {
     "check:html": "html-validate index.html \"pages/**/*.html\"",
-    "check:links": "linkinator index.html --recurse --skip %7B%7B",
+    "check:links": "linkinator index.html --recurse --skip %7B%7B --status-code 429:warn",
     "check:css": "stylelint \"css/**/*.css\"",
     "check:images": "node scripts/check-image-sizes.mjs",
     "check:a11y": "node scripts/check-accessibility.mjs",
