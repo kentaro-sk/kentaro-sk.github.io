@@ -5,9 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MY TRAVEL MAP — 行ったことがある国</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Cormorant+Garamond:wght@500;600;700&family=Caveat:wght@500;600&family=Shippori+Mincho+B1:wght@600&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap">
-<script src="https://unpkg.com/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
+<!-- Google Fontsの読み込みがレンダリングをブロックしないよう、preloadで先読みしつつ
+     onloadでstylesheetに昇格させる（読み込み中はフォールバックフォントで表示される）。 -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Cormorant+Garamond:wght@500;600;700&family=Caveat:wght@500;600&family=Shippori+Mincho+B1:wght@600&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Cormorant+Garamond:wght@500;600;700&family=Caveat:wght@500;600&family=Shippori+Mincho+B1:wght@600&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap"></noscript>
+<!-- d3・topojson-clientをdeferにしてレンダリングブロックを解消。139行目付近の
+     地図描画ロジック(インラインscript)もdeferにして、実行順序(d3読み込み→
+     topojson-client読み込み→地図描画)を維持している。 -->
+<script defer src="https://unpkg.com/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
+<script defer src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
 <style>
   *{box-sizing:border-box}
   body{margin:0;background:#C6B08A;color:#3E3323;font-family:'Zen Kaku Gothic New',sans-serif;-webkit-font-smoothing:antialiased}
@@ -136,6 +142,10 @@
 </div>
 
 <script>
+// d3・topojson-clientをdefer化したため、それらの読み込み完了(=DOMContentLoaded発火前に
+// 保証される)を待ってから実行する。scriptタグ自体にdefer属性を付けても、
+// srcを持たないインラインscriptには効果がない(ブラウザ仕様)ため、この形にしている。
+document.addEventListener('DOMContentLoaded', function () {
 const COUNTRIES = {
   'Italy':                    { ja:'イタリア',       en:'ITALY',          tint:'#8FA98C', meta:['2回訪問','トレビーゾ（一宮市の姉妹都市）'] },
   'United Kingdom':           { ja:'イギリス',       en:'UNITED KINGDOM', tint:'#C4826C', meta:[] },
@@ -563,6 +573,7 @@ fit();
     setInterval(report, 350);
   }
 })();
+});
 </script>
 </body>
 </html>

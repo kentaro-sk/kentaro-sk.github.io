@@ -11,10 +11,21 @@
 
 - **プロジェクト名**: portfolio（杉浦健太郎 パーソナルポートフォリオサイト）
 - **GitHubリポジトリ**: https://github.com/kentaro-sk/kentaro-sk.github.io
-  （**2026-09-17よりPublicリポジトリ**。理由: GitHubのBranch protection ruleはプライベート
-  リポジトリでは有料プランでないと使えないため。Public化前に、Git履歴に残っていた不適切な
-  記述（機密情報にあたる文言）は`git-filter-repo`で削除済み〈全ブランチ・強制push済み〉。
-  今後もコミット・PRの内容が公開されることを常に意識すること）
+  （**⚠️暫定運用(2026-09-17〜)**: このリポジトリは常時Publicにはしない方針。GitHubの
+  Branch protection ruleはPrivateリポジトリだと有料プランが必要なため、**作業を開始する
+  ときにPublic化し、作業を終える（このプロジェクトでの一連の作業が完了する）ときに
+  必ずPrivateへ戻す**運用にしている。
+
+  - 作業開始時: `gh repo edit kentaro-sk/kentaro-sk.github.io --visibility public --accept-visibility-change-consequences`
+  - 作業終了時（区切りの良いタイミング・会話の終盤等）: `gh repo edit kentaro-sk/kentaro-sk.github.io --visibility private --accept-visibility-change-consequences`
+  - Private化を忘れないよう、その作業セッションの最後の完了報告をする前に
+    `gh api repos/kentaro-sk/kentaro-sk.github.io --jq .visibility` で確認する習慣をつける。
+  - **常時Public運用に切り替えることが決まったら、この暫定運用に関する記述（この⚠️の
+    箇条書き全体）を削除すること。**
+
+  なお、初回Public化前（2026-09-17）にGit履歴に残っていた不適切な記述（機密情報にあたる
+  文言）は`git-filter-repo`で削除済み〈全ブランチ・強制push済み〉。作業中は一時的にでも
+  公開状態になることを常に意識すること）
 - **本番URL**: https://kentaro-sk.github.io
 - **ブランチ戦略**: `main` への直接pushはGitHub Branch protection ruleで禁止（2026-09-17〜）。
   作業ブランチ→Pull Request作成→CI通過を確認→マージ、という流れに統一する
