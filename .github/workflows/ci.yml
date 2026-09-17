@@ -58,3 +58,6 @@ jobs:
           name: lighthouse-reports
           path: .lighthouseci
           retention-days: 14
+          # .lighthouseciはドット始まり(隠しディレクトリ)のため、
+          # デフォルト(false)だと中身が除外されてしまう
+          include-hidden-files: true
