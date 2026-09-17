@@ -50,3 +50,14 @@ jobs:
         # ステップ自体が予期せず失敗してもジョブ全体は止めない保険としてcontinue-on-errorも付ける。
         run: npm run check:lighthouse
         continue-on-error: true
+
+      - name: Lighthouseレポートをアーティファクトとして保存
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci
+          retention-days: 14
+          # .lighthouseciはドット始まり(隠しディレクトリ)のため、
+          # デフォルト(false)だと中身が除外されてしまう
+          include-hidden-files: true
