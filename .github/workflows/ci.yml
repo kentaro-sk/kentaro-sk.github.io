@@ -1,10 +1,12 @@
 name: サイトの静的チェック
 
-# main への push は GitHub Pages に即時反映されるため、
-# Claude(AI)の目視確認だけに頼らず、機械的な検証を後追いで行う。
-# 現時点では push 自体をブロックしない「気づけるようにする」段階。
+# PR必須化(2026-09-17)により、mainへのマージ前にこのチェックを必須ステータスとして
+# ブロックできるよう pull_request でも実行する。push:main は、保護ルールをすり抜けて
+# 直接pushされた場合の保険として残している。
 on:
   push:
+    branches: [main]
+  pull_request:
     branches: [main]
 
 permissions:
