@@ -32,7 +32,13 @@
      font-weight:800(Shippori Mincho B1)・900(Zen Kaku Gothic New)は index.html・css/site.css・
      pages/*.html・手書きWeb Componentsのいずれからも使用されていないことを確認済みのため、
      リクエストするウェイトから除外し転送量を削減している。 -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600&family=IBM+Plex+Mono:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<!-- Google Fontsの読み込みがレンダリングをブロックしないよう、
+     preloadで先読みしつつonloadでstylesheetに昇格させる（読み込み中は
+     system-uiのフォールバックフォントで表示され、読み込み完了後に切り替わる。
+     Web Componentの登録タイミングには影響しないため、file://直開き対応の
+     制約とは無関係に安全に適用できる）。 -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600&family=IBM+Plex+Mono:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600&family=IBM+Plex+Mono:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"></noscript>
 <style>
 body{margin:0;background:#FFFDF5;color:#151515;font-family:'Zen Kaku Gothic New',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:#3B82C4}
