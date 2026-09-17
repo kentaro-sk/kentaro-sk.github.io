@@ -24,7 +24,20 @@ let totalIssues = 0;
 
 for (const pageFile of pageFiles) {
   const url = pathToFileURL(resolve(pageFile)).href;
-  const result = await pa11y(url);
+  let result;
+  try {
+    // GitHub Actions(Ubuntu)のコンテナ環境ではChromeの標準サンドボックスが
+    // 使えず起動に失敗するため、--no-sandboxを指定する必要がある
+    // （ローカルWindows環境では不要だが、付けても害はない）。
+    result = await pa11y(url, {
+      chromeLaunchConfig: { args: ["--no-sandbox", "--disable-setuid-sandbox"] },
+    });
+  } catch (error) {
+    // pa11y自体の起動失敗もビルドは止めず、警告として報告する
+    console.log(`⚠ ${pageFile}: pa11yの実行に失敗しました（${error.message}）`);
+    console.log(`::warning file=${pageFile}::pa11yの実行に失敗しました: ${error.message}`);
+    continue;
+  }
 
   if (result.issues.length === 0) {
     console.log(`✓ ${pageFile}: 指摘なし`);

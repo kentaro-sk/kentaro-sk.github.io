@@ -9,7 +9,10 @@
         "/pages/japan-glow.html",
         "/pages/mobility-3d.html"
       ],
-      "numberOfRuns": 1
+      "numberOfRuns": 1,
+      "settings": {
+        "chromeFlags": "--no-sandbox --disable-setuid-sandbox"
+      }
     },
     "assert": {
       "assertions": {
