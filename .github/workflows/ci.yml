@@ -22,7 +22,9 @@ jobs:
       - name: Node.jsをセットアップ
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          # html-validate等の一部devDependenciesがNode 22+を要求するため、
+          # ローカル開発環境(Node 24)に合わせている。
+          node-version: 24
           cache: npm
 
       - name: 依存パッケージをインストール

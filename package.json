@@ -2,6 +2,9 @@
   "name": "kentaro-sk-portfolio",
   "private": true,
   "description": "杉浦健太郎 パーソナルポートフォリオサイト用の検証ツール一式（サイト自体はビルド不要の素のHTML/CSS/JS）",
+  "engines": {
+    "node": ">=22.22.0"
+  },
   "scripts": {
     "check:html": "html-validate index.html \"pages/**/*.html\"",
     "check:links": "linkinator index.html --recurse --skip %7B%7B",
