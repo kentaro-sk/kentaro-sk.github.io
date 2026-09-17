@@ -1,0 +1,51 @@
+name: GitHub Pagesへのデプロイ
+
+# mainへのpush(=PRマージ後)のたびに、GitHub Pagesへ配信する。
+# レガシー方式(Jekyll経由でリポジトリ直下をそのまま配信)から、
+# GitHub Actions方式(自分でビルド・配信内容を制御する)に移行した(2026-09-17)。
+# 理由: Jekyllがindex.html以外のMarkdownファイル(AGENTS.md等)まで処理しようとして、
+# 中の{{ }}記法をLiquidテンプレート構文と誤認しビルドエラーになっていたため。
+# 将来フレームワークを導入する際は、「公開対象ファイルを抽出」ステップを
+# `npm run build`等のビルドコマンドに差し替え、コピー元をビルド出力先(dist/等)に
+# 変更するだけで移行できるように設計している。
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同時に複数のデプロイが走らないようにする(Pages公式推奨設定)
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: 公開対象ファイルを抽出
+        # 現状はビルド不要の素のHTML/CSS/JSのため、公開すべきファイルだけを
+        # _site/ にコピーするだけ。CLAUDE.md・package.json・scripts/等の
+        # 開発用ファイルは配信対象から自然に除外される。
+        run: |
+          mkdir _site
+          cp index.html _site/
+          cp -r css js images fonts pages _site/
+
+      - name: Pages用にアーティファクト化
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: GitHub Pagesへデプロイ
+        id: deployment
+        uses: actions/deploy-pages@v4
