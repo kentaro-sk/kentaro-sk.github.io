@@ -40,7 +40,6 @@
 .u-fs-42 { font-size:42px }
 .u-fs-41 { font-size:41px }
 .u-fs-30 { font-size:30px }
-.u-fs-29 { font-size:29px }
 .u-fs-28 { font-size:28px }
 .u-fs-27 { font-size:27px }
 .u-fs-26 { font-size:26px }
@@ -519,7 +518,7 @@
   /* 装飾スクリプト体（Parisienne "My Journey, My Story." 46px）は雰囲気を残しやや大きめに */
   .u-fs-46 { font-size: clamp(28px, 9vw, 40px) !important; text-wrap: balance; }
   /* セクション見出し（26〜44px級）→ 20〜24px */
-  .u-fs-44, .u-fs-42, .u-fs-41, .u-fs-30, .u-fs-29, .u-fs-28, .u-fs-27, .u-fs-26 {
+  .u-fs-44, .u-fs-42, .u-fs-41, .u-fs-30, .u-fs-28, .u-fs-27, .u-fs-26 {
     font-size: clamp(20px, 5.6vw, 24px) !important;
     text-wrap: balance; word-break: auto-phrase; line-break: strict;
   }
