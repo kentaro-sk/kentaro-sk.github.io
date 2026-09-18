@@ -23,6 +23,10 @@
 .u-pill { border-radius:999px }
 .u-pretty { text-wrap:pretty }
 .u-container { max-width:1180px; margin:0 auto }
+/* DESIGN.md「Text > Ink Muted」規定(12px以下の小ラベルはalpha .6以上でWCAG AA達成)を
+   実装に反映する共有トークン。#FFFDF5/#FDFBF3/#FBF5DE背景に対し実測4.6〜4.74:1。
+   STORYページのマルチエージェント設計レビュー(2026-09-18)で導入。 */
+:root { --ink-muted-aa: rgba(21, 21, 21, .6); }
 /* 野球観戦カードのイニング見出しセル(「1」〜「9」、1試合9個×4試合=36箇所)専用クラス
    (refactor: 施策6)。「計」セルはfont-size/letter-spacingが異なるため対象外とし、
    従来どおりinline styleのまま残している。値そのものは変更していない。 */
@@ -73,7 +77,6 @@
 .c-019 { text-decoration:none;color:#151515;display:block;background:#FFFDF5;border-radius:16px;overflow:hidden;box-shadow:0 1px 2px rgba(21,21,21,.06),0 10px 24px -8px rgba(21,21,21,.14);transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s cubic-bezier(.22,.61,.36,1) }
 .c-020 { font-size:16px;font-weight:700 }
 .c-021 { display:block;text-decoration:none;color:#151515;border-left:2px solid rgba(21,21,21,.18);padding:1px 0 1px 11px;min-width:0;transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .3s ease }
-.c-022 { display:block;text-decoration:none;color:#151515;border-left:2px solid rgba(21,21,21,.18);padding:0 0 0 10px;min-width:0;transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .3s ease }
 .c-023 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.26em;color:#3B82C4 }
 .c-024 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.5) }
 .c-025 { display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.48);margin-top:2px }
@@ -100,7 +103,7 @@
 .c-051 { position:absolute;left:0;right:0;bottom:-8px;height:1px;background:#3B82C4 }
 .c-052 { display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid rgba(21,21,21,.08);padding-top:13px;margin-top:auto }
 .c-053 { background:#fff;border:1px solid rgba(21,21,21,.1);padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px }
-.c-054 { font-size:16px;font-weight:700;line-height:1.4 }
+.c-054 { font-size:13px;font-weight:700;line-height:1.5 }
 .c-055 { position:absolute;left:0;top:0;bottom:0;width:3px;background:#3B82C4 }
 .c-056 { color:#3B82C4 }
 .c-057 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;color:rgba(246,242,231,.42) }
@@ -134,7 +137,7 @@
 .c-088 { background:#fff;border:1px solid rgba(21,21,21,.1);padding:32px 32px 34px }
 .c-089 { color:rgba(246,242,231,.5);text-decoration:none;transition:color .3s ease }
 .c-090 { position:absolute;inset:0;background:linear-gradient(to top,rgba(7,11,22,.5),rgba(7,11,22,0) 58%) }
-.c-091 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.13em;color:rgba(21,21,21,.5) }
+.c-091 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.13em;color:var(--ink-muted-aa) }
 .c-093 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.5) }
 .c-094 { min-width:0 }
 .c-095 { aspect-ratio:16/9;overflow:hidden;background:#F5EFDE;border-bottom:1px solid rgba(21,21,21,.08) }
@@ -152,6 +155,17 @@
 .c-110 { font-size:16px;letter-spacing:.14em;color:rgba(21,21,21,.45);margin-left:5px }
 .c-111 { width:100%;aspect-ratio:4/3;overflow:hidden;background:#151515;display:block }
 .c-112 { position:relative;margin-bottom:164px }
+/* カテゴリアイコン円の無彩色バリアント(STORYタイムライン専用)。
+   Action Blueはクリーム面での唯一のクリック可能シグナル(DESIGN.md)だが、
+   このアイコンは非クリック要素(誕生/小学校/中学校/高校/大学/大学院の分類記号)のため、
+   従来のBlue塗りを無彩色に変更してクリック可能シグナルの意味を守る。 */
+.c-221 { flex:none;width:40px;height:40px;background:rgba(21,21,21,.06);display:flex;align-items:center;justify-content:center;color:rgba(21,21,21,.62) }
+/* STORY「2025・現職」カード(濃紺面)。以前はborder-radius:10px+常時shadowが常設され、
+   DESIGN.mdの「静止時のカード・ボタンにshadowを足さない」「大型コンテンツカードに
+   rounded.smを使わない」に違反し他6枚と異質だった(マルチエージェント設計レビューで指摘)。
+   他カードと同じ静止時フラット→hoverでのみshadow立ち上げの動的エレベーションに統一する。 */
+.c-222 { background:#151515;padding:22px 26px 24px;box-sizing:border-box;display:flex;flex-direction:column;transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease }
+.c-222:hover { transform:translateY(-4px); box-shadow:0 2px 4px rgba(0,0,0,.15),0 20px 40px -20px rgba(0,0,0,.6) }
 .c-113 { display:block;font-size:16px;color:rgba(21,21,21,.7);margin-bottom:6px }
 .c-114 { display:flex;align-items:center;gap:11px;min-width:0 }
 .c-115 { width:34px;height:1px;flex:none;background:#3B82C4 }
@@ -162,7 +176,7 @@
 .c-120 { padding:22px 24px 26px;flex:1;display:flex;flex-direction:column }
 .c-121 { width:16px;height:1px;flex:none;background:rgba(59,130,196,.55) }
 .c-122 { background:rgba(59,130,196,.1);padding:5px 10px }
-.c-123 { font-size:23px;font-weight:700;line-height:1.35 }
+.c-123 { font-size:18px;font-weight:700;line-height:1.45;margin:0 }
 .c-124 { display:flex;align-items:baseline;gap:10px;margin-bottom:10px }
 .c-125 { display:flex;align-items:baseline;gap:12px;margin-bottom:8px }
 .c-127 { border-top:1px solid rgba(21,21,21,.18);padding:18px 0 22px }
@@ -203,7 +217,6 @@
 .c-156 { position:absolute; top:100%; left:-14px; min-width:236px; background:#FFFDF5; border:1px solid rgba(21,21,21,.14); box-shadow:0 20px 44px -26px rgba(21,21,21,.55); padding:7px; display:flex; flex-direction:column; gap:1px; animation:ddIn .26s cubic-bezier(.16,1,.3,1) both }
 .c-157 { background:#fff; border-radius:0; border:1px solid rgba(21,21,21,.1); padding:18px 20px 19px; transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease }
 .c-160 { background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 1px 2px rgba(21,21,21,.04),0 16px 32px -24px rgba(21,21,21,.5); transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease }
-.c-161 { display:block; text-decoration:none; color:#151515; border-left:2px solid rgba(216,185,121,.9); padding:0 0 0 10px; min-width:0; transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .3s ease }
 .c-162 { display:block; text-decoration:none; color:#151515; border-left:2px solid rgba(59,130,196,.55); padding:0 0 0 10px; min-width:0; transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .3s ease }
 .c-163 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.12em; color:rgba(21,21,21,.32) }
 .c-164 { display:flex; flex-wrap:wrap; gap:5px; margin-top:auto; font-family:'IBM Plex Mono',monospace; font-size:12px; color:rgba(21,21,21,.7) }
@@ -214,8 +227,8 @@
 .c-169 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.16em; color:rgba(246,242,231,.55); margin-top:7px }
 .c-170 { color:rgba(246,242,231,.5); font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.1em; margin-left:8px }
 .c-171 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:rgba(21,21,21,.5); margin-top:6px }
-.c-172 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:rgba(21,21,21,.5); margin-top:2px }
-.c-173 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:rgba(21,21,21,.5); margin-top:3px }
+.c-172 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:var(--ink-muted-aa); margin-top:2px }
+.c-173 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:var(--ink-muted-aa); margin-top:3px }
 .c-174 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.18em; color:#3B82C4; margin-bottom:9px }
 .c-175 { display:flex; flex-direction:column; gap:9px; border-top:1px solid rgba(246,242,231,.18); padding-top:16px }
 .c-176 { font-size:16px; font-weight:700; letter-spacing:.01em }
@@ -240,7 +253,7 @@
 .c-196 { margin:0; font-size:16px; line-height:1.9; color:rgba(21,21,21,.7) }
 .c-197 { font-size:18px; font-weight:700; line-height:1.4; color:#151515 }
 .c-198 { display:flex; align-items:center; gap:10px }
-.c-199 { display:block; font-size:16px; font-weight:700; line-height:1.5 }
+.c-199 { display:block; font-size:13px; font-weight:700; line-height:1.5 }
 .c-200 { color:inherit; text-decoration:none; transition:color .3s ease }
 .c-201 { display:flex; align-items:center; gap:12px; margin-bottom:26px }
 .c-202 { display:flex; align-items:center; gap:12px; margin-bottom:16px }
@@ -453,6 +466,16 @@
   [data-patch="story-gym-row"] > span:first-child {
     width: 100% !important; height: auto !important; aspect-ratio: 16 / 9;
   }
+
+  /* STORY年表ナビ(モバイル): PC専用の縦sticky年ジャンプ列(data-story-nav-col)を
+     非表示にするルールがこれまで存在せず、data-story-mobile-nav(進捗バー)と
+     機能が重複したまま全カード最後尾・フッター直前に平置きで出現していた不具合を修正
+     (マルチエージェント設計レビュー2026-09-18で発見)。現在地表示はモバイル進捗バーに一本化する。 */
+  [data-story-nav-col] { display: none; }
+
+  /* STORYカードへジャンプした際、sticky進捗バー(高さ約47px、top:69px)の下に
+     見出しが約20px隠れる問題を是正。バーの実測下端(約116px)に余裕を持たせた値。 */
+  [data-story-card] { scroll-margin-top: 128px; }
 
   /* フォーム入力: iOS は font-size<16px の入力にフォーカスすると自動ズームして
      ページ全体が拡大される（挙動がおかしく見える）。モバイルでは16pxに上げて防ぐ。 */
@@ -676,7 +699,10 @@
     left: 50%; right: auto; top: 0; bottom: 0; height: auto; width: 1px;
     transform: translateX(-50%);
   }
-  [data-story-navmark] { display: block; }
+  /* 現在地表示はドット拡大+ラベル濃色化の2シグナルのみに一本化する。
+     以前はここでリング(data-story-navmark)もdisplay:blockにしており、
+     ドット拡大・ラベル濃色化と合わせて3つの現在地シグナルが同時に発生していた
+     (マルチエージェント設計レビュー2026-09-18で過剰演出と指摘され撤去)。 */
   [data-story-nav-col] [data-story-lab] { font-size: 11px; }
 }
 
@@ -690,3 +716,23 @@
    ここでピンポイントに上書きする（他の箇所の見た目は変えない）。
    ============================================================ */
 [data-patch="a11y-dark-text"] { color: #000; }
+
+/* ============================================================
+   フォーカスリング(2026-09-18)
+   キーボード操作時の現在地がブラウザ既定のアウトラインに委ねられ、
+   DESIGN.md定義のPale Blue Ring(#D9E8F7)が未適用だった(STORYページの
+   マルチエージェント設計レビューで発覚。サイト全体で:focus-visibleが
+   0件だったため、STORYに限らず全画面へ適用する)。
+   ============================================================ */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid #3B82C4;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px #D9E8F7;
+}
+/* STORY年表ナビの年ボタンはPC縦列で幅56pxしかなく、box-shadowが隣要素と
+   干渉しやすいためoutlineのみに簡略化する。 */
+[data-story-jump]:focus-visible {
+  outline: 2px solid #3B82C4;
+  outline-offset: 3px;
+  box-shadow: none;
+}
