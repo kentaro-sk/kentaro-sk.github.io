@@ -76,6 +76,11 @@ Branch protection ruleにより、`main` への直接pushはできず、CIを通
 - **CI/CDによる機械的な検証**: 上記の通り、AIの目視確認だけに頼らず、HTML構文・アクセシビリティ・パフォーマンス等を毎回自動チェックしています
 - **Pull Requestベースの承認フロー**: `main` への変更は必ずPull Request経由。AIが自動でブランチ作成・コミット・PR作成・CI結果の確認までを行いますが、**本番環境（GitHub Pages）へのマージは必ず人間の最終承認を経てから実行**します
 - **段階的な安全設計**: 「壊れている可能性が高いもの」はビルドを失敗させてブロックし、「デザイン判断が必要なもの（配色・画像品質等）」は警告に留めて人間が判断する、という使い分けをしています
+- **専用サブエージェント（[`.claude/agents/`](.claude/agents/)）**: このリポジトリ専属の役割を持つAIエージェントを19体定義しています
+  - デザイン批評×提案パイプライン: Apple / Google / Minimalist（Dieter Rams）の思想でデザインを批判する3体（`design-critic-*`）と、その指摘を統合する `design-critique-summarizer`、さらにApple・Google・MUJI・Airbnb・Stripe等10通りの視点から具体的な改修案を出す `designer-*` 群
+  - レイアウトレビュー: スマホ幅・PC複数画面幅で実際にレンダリングして崩れを検出する `mobile-responsive-reviewer` / `pc-layout-reviewer`
+  - リファクタリング3段階パイプライン: 見た目を一切変えずに軽量化する方針を提案する `portfolio-refactor-proposer` → 実装する `portfolio-refactor-coder` → 変更前後の見た目が完全一致するか検証する `portfolio-refactor-qa`
+- **品質基準スキル（[`.claude/skills/uiux-standards/`](.claude/skills/uiux-standards/)）**: UI実装・変更のたびに、WCAG 2.2・Nielsenのユーザビリティ原則・Core Web Vitals等の世界標準に基づいたチェックリストを強制適用しています
 
 ## License
 

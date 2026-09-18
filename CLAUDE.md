@@ -20,6 +20,17 @@
   - 作業終了時（区切りの良いタイミング・会話の終盤等）: `gh repo edit kentaro-sk/kentaro-sk.github.io --visibility private --accept-visibility-change-consequences`
   - Private化を忘れないよう、その作業セッションの最後の完了報告をする前に
     `gh api repos/kentaro-sk/kentaro-sk.github.io --jq .visibility` で確認する習慣をつける。
+  - **既知の副作用（2026-09-17判明）**: 無料プランではPrivateリポジトリでGitHub Pagesを
+    公開できないため、**Private化するとGitHub Pagesサイトの設定自体が削除される**
+    （`GET /repos/.../pages` が404になる）。そのため次回Public化した直後は、以下の
+    手順でPagesサイトを再作成し、直近のデプロイを再実行すること（忘れると本番サイトが
+    落ちたままになる）：
+    ```powershell
+    gh api -X POST repos/kentaro-sk/kentaro-sk.github.io/pages -f 'build_type=workflow' -f 'source[branch]=main' -f 'source[path]=/'
+    gh run rerun <直近のdeploy.ymlのrun ID> --repo kentaro-sk/kentaro-sk.github.io
+    # 確認
+    gh api repos/kentaro-sk/kentaro-sk.github.io/pages --jq '{status,html_url,build_type}'
+    ```
   - **常時Public運用に切り替えることが決まったら、この暫定運用に関する記述（この⚠️の
     箇条書き全体）を削除すること。**
 
