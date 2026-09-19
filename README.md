@@ -105,7 +105,7 @@ Branch protection ruleにより、`main` への直接pushはできず、CIを通
 
 ## Security
 
-静的サイトのため、サーバ側の処理や訪問者の個人情報の保存はありません。脆弱性や、誤って公開された情報を見つけた場合は、公開の Issue には書かず、[GitHub の非公開の脆弱性報告](https://github.com/kentaro-sk/kentaro-sk.github.io/security/advisories/new)からお知らせください。詳細は [SECURITY.md](SECURITY.md) を参照してください（English summary included）。
+静的サイトのため、サーバ側の処理はなく、このサイト自身は訪問者の情報を保存しません（お問い合わせフォームの内容は、外部のフォーム送信サービス Web3Forms を経由して運営者にメールで届きます）。脆弱性や、誤って公開された情報を見つけた場合は、公開の Issue には書かず、[GitHub の非公開の脆弱性報告](https://github.com/kentaro-sk/kentaro-sk.github.io/security/advisories/new)からお知らせください。詳細は [SECURITY.md](SECURITY.md) を参照してください（English summary included）。
 
 ## License
 
