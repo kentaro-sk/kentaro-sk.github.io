@@ -79,7 +79,6 @@
 .c-018 { display:flex;align-items:center;gap:8px;font-size:18px;line-height:1.4;margin-bottom:8px }
 .c-019 { text-decoration:none;color:#151515;display:block;background:#FFFDF5;border-radius:16px;overflow:hidden;box-shadow:0 1px 2px rgba(21,21,21,.06),0 10px 24px -8px rgba(21,21,21,.14);transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s cubic-bezier(.22,.61,.36,1) }
 .c-020 { font-size:16px;font-weight:700 }
-.c-021 { display:block;text-decoration:none;color:#151515;border-left:2px solid rgba(21,21,21,.18);padding:1px 0 1px 11px;min-width:0;transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .3s ease }
 .c-023 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.26em;color:#3B82C4 }
 .c-024 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.5) }
 /* WORKSの活動カード: 沈めた面(#FBF5DE)の上に白いカードを重ねて奥行きを出す(DESIGN.md: L1 面の段差)。
@@ -96,25 +95,17 @@
 .c-042 { font-size:16px;font-weight:700;line-height:1.5 }
 .c-043 { font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px }
 .c-044 { display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.45);margin-top:2px }
-.c-046 { position:relative;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.62);background:rgba(255,253,245,.92);padding:4px 8px }
 .c-047 { display:block;flex:none }
 .c-048 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(246,242,231,.5);margin:12px 0 14px }
-.c-049 { min-height:0;overflow:hidden;background:transparent;display:block }
 .c-051 { position:absolute;left:0;right:0;bottom:-8px;height:1px;background:#3B82C4 }
-.c-053 { background:#fff;border:1px solid rgba(21,21,21,.1);padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px }
-.c-054 { font-size:13px;font-weight:700;line-height:1.5 }
 .c-055 { position:absolute;left:0;top:0;bottom:0;width:3px;background:#3B82C4 }
 .c-056 { color:#3B82C4 }
-.c-057 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;color:rgba(246,242,231,.42) }
 .c-060 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.55) }
-.c-061 { display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.5);margin-top:2px }
 .c-062 { display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px }
 .c-063 { background:#FBF5DE;border-bottom:1px solid rgba(21,21,21,.12) }
 .c-064 { position:absolute;left:0;top:9px;width:6px;height:6px;background:#3B82C4 }
-.c-065 { padding:8px 4px;box-sizing:border-box;display:flex;flex-direction:column }
 .c-066 { display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px }
 .c-067 { display:flex;align-items:center;gap:8px;margin-bottom:7px;color:#3B82C4 }
-.c-068 { display:flex;align-items:center;gap:12px;margin-bottom:22px }
 .c-070 { aspect-ratio:4/3;position:relative;overflow:hidden;background:#F3F1EA;display:flex;align-items:flex-end;padding:14px }
 .c-071 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:#D9B979 }
 .c-072 { aspect-ratio:4/3;background:#F7F2E6;position:relative;overflow:hidden }
@@ -122,66 +113,41 @@
 .c-074 { aspect-ratio:4/3;overflow:hidden;background:#EFEAE0;border:1px solid rgba(21,21,21,.12) }
 .c-076 { position:relative;max-width:1068px;margin:0 auto }
 .c-077 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.5);margin-top:3px }
-.c-078 { background:#fff;border:1px solid rgba(21,21,21,.1);padding:18px 20px;display:flex;align-items:center;gap:14px }
-.c-079 { border-left:2px solid rgba(59,130,196,.4);padding:1px 0 1px 14px;display:flex;flex-direction:column;gap:5px }
 .c-080 { width:26px;height:1px;background:#3B82C4 }
 .c-082 { display:flex;align-items:center;gap:12px }
 .c-084 { font-size:16px }
 .c-085 { display:flex;align-items:center;gap:16px;margin-bottom:18px }
 .c-086 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.58) }
-.c-087 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.55) }
-.c-088 { background:#fff;border:1px solid rgba(21,21,21,.1);padding:32px 32px 34px }
 .c-089 { color:rgba(246,242,231,.5);text-decoration:none;transition:color .3s ease }
-.c-091 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.13em;color:var(--ink-muted-aa) }
 .c-094 { min-width:0 }
 /* WORKSの補足段落。以前は明朝だったが、本文は原則ゴシックという方針に合わせて
    font-familyを指定せずbody既定(Zen Kaku Gothic New)を継承させる */
 .c-098 { margin:0;font-size:15px;line-height:1.9;color:rgba(21,21,21,.7) }
 .c-101 { display:block;font-size:16px;font-weight:700;line-height:1.45 }
-.c-102 { width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block }
 .c-103 { color:inherit;text-decoration:none;transition:color .3s ease }
 .c-105 { display:flex;align-items:center;gap:12px;margin-bottom:24px }
-.c-106 { display:flex;align-items:center;gap:12px;margin-bottom:14px }
-.c-107 { display:flex;align-items:center;gap:9px }
-.c-109 { display:flex;align-items:center;gap:9px;margin-bottom:7px }
-.c-110 { font-size:16px;letter-spacing:.14em;color:rgba(21,21,21,.45);margin-left:5px }
-.c-111 { width:100%;aspect-ratio:4/3;overflow:hidden;background:#151515;display:block }
 .c-112 { position:relative;margin-bottom:164px }
 /* カテゴリアイコン円の無彩色バリアント(STORYタイムライン専用)。
    Action Blueはクリーム面での唯一のクリック可能シグナル(DESIGN.md)だが、
    このアイコンは非クリック要素(誕生/小学校/中学校/高校/大学/大学院の分類記号)のため、
    従来のBlue塗りを無彩色に変更してクリック可能シグナルの意味を守る。 */
-.c-221 { flex:none;width:40px;height:40px;background:rgba(21,21,21,.06);display:flex;align-items:center;justify-content:center;color:rgba(21,21,21,.62) }
 /* STORY「2025・現職」カード(濃紺面)。以前はborder-radius:10px+常時shadowが常設され、
    DESIGN.mdの「静止時のカード・ボタンにshadowを足さない」「大型コンテンツカードに
    rounded.smを使わない」に違反し他6枚と異質だった(マルチエージェント設計レビューで指摘)。
    他カードと同じ静止時フラット→hoverでのみshadow立ち上げの動的エレベーションに統一する。 */
-.c-222 { background:#151515;padding:22px 26px 24px;box-sizing:border-box;display:flex;flex-direction:column;transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease }
 .c-222:hover { transform:translateY(-4px); box-shadow:0 2px 4px rgba(0,0,0,.15),0 20px 40px -20px rgba(0,0,0,.6) }
 .c-113 { display:block;font-size:16px;color:rgba(21,21,21,.7);margin-bottom:6px }
-.c-114 { display:flex;align-items:center;gap:11px;min-width:0 }
-.c-116 { margin:0;font-size:16px;line-height:1.95;color:rgba(21,21,21,.78) }
 .c-118 { padding:24px 24px 28px;display:flex;flex-direction:column;flex:1 }
-.c-121 { width:16px;height:1px;flex:none;background:rgba(59,130,196,.55) }
 .c-122 { background:rgba(59,130,196,.1);padding:5px 10px }
-.c-123 { font-size:22px;line-height:1.45;margin:0 }
 .c-124 { display:flex;align-items:baseline;gap:10px;margin-bottom:10px }
-.c-125 { display:flex;align-items:baseline;gap:12px;margin-bottom:8px }
-.c-127 { border-top:1px solid rgba(21,21,21,.18);padding:18px 0 22px }
 .c-128 { display:flex;align-items:center;gap:10px;margin-bottom:10px }
 .c-130 { display:flex;align-items:center;gap:9px;margin-bottom:12px }
 .c-131 { border-top:1px solid rgba(246,242,231,.18);padding:28px 0 40px }
 .c-132 { display:block;flex:none;margin-top:8px;color:#D9B979 }
-.c-134 { width:16px;height:1px;background:rgba(21,21,21,.18) }
-.c-137 { color:rgba(21,21,21,.62);letter-spacing:.14em }
-.c-138 { display:block;font-size:16px;font-weight:700 }
 .c-139 { color:#151515 }
-.c-142 { display:flex;align-items:flex-start;gap:8px }
-.c-143 { display:flex;flex-direction:column;gap:8px }
 .c-144 { margin:0;font-size:15px;line-height:1.9 }
 .c-146 { display:block;opacity:.6 }
 .c-147 { background:#070B16;color:#F6F2E7 }
-.c-148 { color:#8FC0EA }
 .c-151 { padding:20px 22px 24px }
 .c-152 { margin-top:9px }
 .c-153 { color:#F6F2E7 }
@@ -196,9 +162,7 @@
    data-patch="baseball-row"配下のイニング見出し行の font-size/padding)は、
    実際にそれらのセレクタが参照する範囲内かどうかをスクリプトで機械的に判定した上で
    対象から除外し、元のままinline styleに残してある。値そのものは変更していない。 */
-.c-155 { display:flex; align-items:center; gap:6px; flex-wrap:wrap; font-size:16px; font-weight:700; line-height:1.35 }
 .c-156 { position:absolute; top:100%; left:-14px; min-width:176px; background:#FFFDF5; border:1px solid rgba(21,21,21,.14); padding:6px; display:flex; flex-direction:column; gap:1px; animation:ddIn .26s cubic-bezier(.16,1,.3,1) both }
-.c-162 { display:block; text-decoration:none; color:#151515; border-left:2px solid rgba(59,130,196,.55); padding:0 0 0 10px; min-width:0; transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .3s ease }
 .c-163 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.12em; color:rgba(21,21,21,.32) }
 .c-165 { font-family:'IBM Plex Mono',monospace; font-size:14px; letter-spacing:.06em; color:#3B82C4 }
 .c-166 { display:flex; align-items:center; gap:9px; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.16em; color:rgba(246,242,231,.5); margin-bottom:28px }
@@ -207,9 +171,6 @@
 .c-169 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.16em; color:rgba(246,242,231,.55); margin-top:7px }
 .c-170 { color:rgba(246,242,231,.5); font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.1em; margin-left:8px }
 .c-171 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:rgba(21,21,21,.5); margin-top:6px }
-.c-172 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:var(--ink-muted-aa); margin-top:2px }
-.c-173 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:var(--ink-muted-aa); margin-top:3px }
-.c-174 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.18em; color:#3B82C4; margin-bottom:9px }
 .c-175 { display:flex; flex-direction:column; gap:9px; border-top:1px solid rgba(246,242,231,.18); padding-top:16px }
 .c-176 { font-size:16px; font-weight:700; letter-spacing:.01em }
 .c-177 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:rgba(246,242,231,.5) }
@@ -218,11 +179,7 @@
 .c-180 { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 52% }
 .c-181 { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 55% }
 .c-182 { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:40px }
-.c-183 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.12em; color:#151515 }
 .c-184 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.2em; color:#2A6BA6 }
-.c-185 { background:#FBF5DE; padding:15px 17px 16px; display:flex; flex-direction:column; gap:11px }
-.c-186 { width:100%; height:100%; object-fit:cover; object-position:center 42%; display:block }
-.c-187 { width:100%; aspect-ratio:4/3; overflow:hidden; background:transparent; display:block }
 .c-188 { width:100%; height:100%; object-fit:cover; display:block }
 .c-189 { margin:0; max-width:640px; font-size:16px; line-height:2; color:rgba(21,21,21,.72) }
 .c-190 { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:5px }
@@ -231,23 +188,16 @@
 .c-194 { display:flex; align-items:center; gap:9px; margin-bottom:8px; color:#3B82C4 }
 .c-195 { display:flex; align-items:center; justify-content:space-between; gap:16px }
 .c-196 { margin:0; font-size:16px; line-height:1.9; color:rgba(21,21,21,.7) }
-.c-197 { font-size:18px; font-weight:700; line-height:1.4; color:#151515 }
 .c-198 { display:flex; align-items:center; gap:10px }
-.c-199 { display:block; font-size:13px; font-weight:700; line-height:1.5 }
 .c-200 { color:inherit; text-decoration:none; transition:color .3s ease }
-.c-202 { display:flex; align-items:center; gap:12px; margin-bottom:16px }
 .c-203 { display:flex; align-items:center; gap:16px; margin-bottom:16px }
-.c-206 { position:relative; overflow:hidden; background:transparent }
 .c-207 { font-size:16px; line-height:1.75; color:rgba(21,21,21,.8) }
-.c-208 { width:16px; height:1px; background:rgba(246,242,231,.25) }
 .c-209 { font-size:14px; color:rgba(21,21,21,.58); margin-top:3px }
 .c-210 { border:1px solid rgba(21,21,21,.12); background:#FBF5DE }
 .c-211 { position:absolute; left:0; top:0; width:100%; height:100% }
-.c-212 { display:flex; align-items:center; gap:12px; min-width:0 }
 .c-214 { border:1px solid rgba(21,21,21,.12); background:#fff }
 .c-215 { position:relative; height:390vh; background:#070C16 }
 .c-216 { position:absolute; inset:0; width:100%; height:100% }
-.c-217 { color:rgba(246,242,231,.5); letter-spacing:.14em }
 .c-218 { width:100%; height:100%; border:0; display:block }
 .c-220 { display:flex; align-items:center; gap:11px }
 
@@ -259,34 +209,6 @@
 
 /* 注: DCランタイム(React)は style を「prop: value」（コロン後に空白）で描画するため、
    属性セレクタは空白付き表記で一致させる必要がある。 */
-
-/* ===== STORYタイムライン写真: 画面幅が変わってもアスペクト比・見える範囲を一定にする =====
-   以前は各写真行に「固定px高さ」または「flex:1 1 auto の可変高さ」を与えていたため、
-   PC（2〜3カラム横並び）とスマホ（1カラムに縦積み）とで各写真の実効アスペクト比が変わり、
-   同じ写真でも表示される範囲（トリミング窓）が画面幅によって変わってしまっていた
-   （例: PCでは縦長にトリミングされるが、スマホでは横長の帯として切り取られる、等）。
-   各行の子（写真）に固定 aspect-ratio を与えることで、カラム数や画面幅が変わっても
-   常に同じ縦横比＝同じ見える範囲を維持する。行・box の高さはこの aspect-ratio から自動算出される。 */
-/* 重要: 以下のセレクタはすべて !important が必須。インラインの min-height/height 指定は
-   スタイルシートの通常ルールより優先されるため、!important を付けないと上書きが効かず
-   古い固定高さのまま残ってしまう（実際にこれが原因でPCの短いウィンドウ高さで写真とテキストが
-   重なる不具合が発生した）。あわせて overflow:hidden を行コンテナ自身にも与え、
-   aspect-ratio 由来の高さが利用可能な領域を超えた場合でも、後続のキャプション・本文へ
-   はみ出さず内側で収まるようにする（安全網）。 */
-[data-patch="story-photo-2col"] { flex: 0 1 auto !important; min-height: 0 !important; overflow: hidden !important; }
-[data-patch="story-photo-2col"] > span { aspect-ratio: 4 / 3; }
-
-[data-patch="story-photo-3col-a"] { height: auto !important; overflow: hidden !important; }
-[data-patch="story-photo-3col-a"] > span { aspect-ratio: 3 / 4; }
-
-[data-patch="story-photo-2col-tall"] { height: auto !important; overflow: hidden !important; }
-[data-patch="story-photo-2col-tall"] > span { aspect-ratio: 3 / 4; }
-
-[data-patch="story-photo-3col-b"] { height: auto !important; overflow: hidden !important; }
-[data-patch="story-photo-3col-b"] > span { aspect-ratio: 1 / 1; }
-
-[data-patch="story-photo-2col-flex"] { flex: 0 1 auto !important; min-height: 0 !important; overflow: hidden !important; }
-[data-patch="story-photo-2col-flex"] > div { aspect-ratio: 4 / 3; }
 
 /* ---- タブレット（~900px）: 主要コンテナの広い左右パディングを緩和 ---- */
 @media (max-width: 900px) {
@@ -393,57 +315,6 @@
      このセレクタもクラスセレクタに対応させる(999px 999px 0 0のような部分一致は元々別の値の
      装飾用途で対象外だが、属性セレクタ側は引き続き残しておき挙動を変えない)。 */
   [style*="border-radius: 999px"], .u-pill { white-space: normal !important; }
-
-  /* STORYカード見出し行: [アイコン+施設名]と[年代ラベル]が space-between で横並びだと、
-     狭幅で年代ラベルが幅を取りタイトルが潰れて1〜2文字ずつ縦積み改行になる（例:「名古屋大学 工学部」）。
-     縦積みにして年代ラベルをタイトルの下へ回し、タイトルに横幅いっぱいを与える。
-     margin-bottom はカードによって 12px/14px と揺れがあるため、そこは条件から外して
-     [align-items:flex-start; justify-content:space-between; gap:16px] の組だけで判定する。 */
-  [data-patch="story-card-title-row"] {
-    flex-direction: column !important; gap: 4px !important;
-  }
-
-  /* STORY「SSH交換留学」3枚組の1枚目(研究成果を英語で発表)の写真。
-     3枚を並べるためこの並びのマスは1:1の正方形に揃えているが、
-     この写真は横長(約1.79:1)で、object-fit:cover(正方形に合わせて拡大)だと
-     左右が大きく切り取られてしまう。この1枚だけ contain にして、
-     トリミングせず写真全体（横方向も含めて）が収まるようにする。
-     スマホでは3列グリッドが1列に潰れてこの1枚だけ単独の行になるため、
-     マス自体の縦横比も写真の実寸(2092x1171)に合わせておくことで、
-     containによる上下の余白（レターボックス）をほぼなくしバランスよく見せる。 */
-  img[src*="story-hs-radley-1"] { object-fit: contain !important; }
-  [data-patch="story-photo-3col-b"] > span:first-child {
-    aspect-ratio: 2092 / 1171 !important;
-  }
-
-  /* STORY「中学校」カードのイタリア海外派遣・日本史の写真がスマホ幅で極端に潰れる不具合の修正。
-     どちらも固定height(190px)の枠内に写真を並べる作りだが、直前のルール
-     ([style*="grid-template-columns"])が2カラムグリッドを問答無用で1カラム化してしまい、
-     2枚の写真が同じ190px（イタリアは58%を大きい写真に取られた残り約75px）の枠に
-     縦に押し込められ、極端に薄い帯状に潰れていた。ここではPC表示に影響しない
-     モバイル専用の上書きとして、2カラムを維持したまま各写真にaspect-ratioを与え、
-     枠の高さ自体をautoにして中身に合わせて伸びるようにする。 */
-  [data-patch="story-junior-italy-photos"] { height: auto !important; }
-  [data-patch="story-junior-italy-photos"] > span { flex: none !important; aspect-ratio: 2.9; }
-  [data-patch="story-junior-italy-photos"] > div {
-    grid-template-columns: 1fr 1fr !important; flex: none !important; min-height: 0 !important;
-  }
-  [data-patch="story-junior-italy-photos"] > div > span { aspect-ratio: 16 / 9; }
-
-  [data-patch="story-junior-history-photos"] {
-    height: auto !important; grid-template-columns: 1fr 1fr !important;
-  }
-  [data-patch="story-junior-history-photos"] > span { aspect-ratio: 3 / 4; }
-
-  /* STORY「体操部」: 写真(104px角の固定サイズ)とテキストが横並び(flexの行)になっており、
-     狭幅では写真とテキスト列が窮屈に同居してしまう。横並びをやめて、写真の段→
-     テキストの段の順に縦積みにする。 */
-  [data-patch="story-gym-row"] {
-    flex-direction: column !important;
-  }
-  [data-patch="story-gym-row"] > span:first-child {
-    width: 100% !important; height: auto !important; aspect-ratio: 16 / 9;
-  }
 
   /* STORY年表ナビ(モバイル): PC専用の縦sticky年ジャンプ列(data-story-nav-col)を
      非表示にするルールがこれまで存在せず、data-story-mobile-nav(進捗バー)と
@@ -590,18 +461,6 @@
 @media (min-width: 761px) {
   [data-mobile-menu], [data-hamburger] { display: none !important; }
 
-  /* STORY「SSH交換留学」3枚組(story-photo-3col-b)のPC表示調整。
-     1枚目(研究成果を英語で発表)は正方形(aspect-ratio:1/1)だと横方向のクロップが大きく、
-     写真右側で発表している本人がほぼ切れて見えなくなっていた。列の配分を
-     1.5fr:.75fr:.75fr(合計3で従来のrepeat(3,1fr)と同じ)に変え、各列のaspect-ratioを
-     その配分と揃える(1.5 / .75 / .75)ことで、行の高さ自体は変えずに1枚目だけ横長化し、
-     本人が写る範囲まで見えるようにする。2・3枚目は幅が縮む分だけ縦長になるが、
-     どちらも被写体は画面幅いっぱいに写っており(object-fit:coverで常に全幅表示、
-     上下方向のみクロップされる構図)、横方向の見切れは発生しない。 */
-  [data-patch="story-photo-3col-b"] { grid-template-columns: 1.5fr .75fr .75fr !important; }
-  [data-patch="story-photo-3col-b"] > span:nth-child(1) { aspect-ratio: 1.5; }
-  [data-patch="story-photo-3col-b"] > span:nth-child(2),
-  [data-patch="story-photo-3col-b"] > span:nth-child(3) { aspect-ratio: .75; }
 }
 
 /* ---- 大画面（≥1680px）: max-width:1180px 中央寄せだと左右が空きすぎ間延びするため、

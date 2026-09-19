@@ -208,7 +208,7 @@ STORY年表の164pxマージンのように「罫線の代わりに余白で語�
 
 **`panel-tinted`** — 意味の色分けが必要な面(PROFILE「強みと弱み」)。`{rounded.none}`、影なし、padding 32px 28px 36px。強み=`{colors.primary-pale}`(#D9E8F7)+青いpillバッジ(`#2A6BA6`地・白文字)、弱み=`{colors.canvas-deep}`(#FBF5DE)+Ink(`#151515`)地のpillバッジ。**クリーム面で金は使わない**(金は濃紺面のアクセント)。
 
-**`story-timeline-card`** — STORY年表本体。`{rounded.none}`、margin-bottom 164pxの広い余白のみで区切り(罫線なし)。
+**`story-timeline-card`** — STORY年表本体。`{rounded.none}`、margin-bottom 164pxの広い余白のみで区切り(罫線なし)。2026-09-19に7枚すべてを刷新した。見出しは[英字の小ラベル(等幅12px) → h2(`.u-display`、`clamp(24px,3vw,30px)`) → 副題(15px)]と右寄せの期間だけ(アイコン円・英語の期間ラベルは廃止)。本文はリード文(`.u-display`、`clamp(20px,2.2vw,24px)`)+本文16px。色面の箱や左ボーダーのブロックはやめ、補足情報は区切り線の行(`row-list`)、論文・学会は「グループ名 | 区切り線の行」の表にする。写真は枠なし・角丸なしで`aspect-ratio`指定(スマホで潰れない)。色面は「TURNING POINT」への導線(`#FBF5DE`、hoverで浮き上がる)と、職歴の濃紺カードだけ。外枠の`data-story-card`・`data-story-year`・`c-112`・`c-076`は年表ナビと進捗バーが参照するため変えない。
 
 ### STORY年表(唯一の完全分岐コンポーネント)
 
