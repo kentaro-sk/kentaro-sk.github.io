@@ -89,12 +89,9 @@
 .c-028 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em }
 .c-030 { display:block;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em }
 .c-031 { color:rgba(21,21,21,.5);text-decoration:none;transition:color .3s ease }
-.c-033 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.55) }
 .c-034 { aspect-ratio:3/4;overflow:hidden;background:#EFEAE0;border:1px solid rgba(21,21,21,.12);transition:border-color .35s ease,transform .45s cubic-bezier(.22,.61,.36,1) }
-.c-035 { text-decoration:none;color:#151515;display:flex;flex-direction:column;background:#fff;border:1px solid rgba(21,21,21,.1);overflow:hidden;transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease }
 .c-036 { font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;color:rgba(21,21,21,.5);letter-spacing:.03em }
 .c-037 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.24em;color:#3B82C4 }
-.c-038 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:#3B82C4 }
 .c-039 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:rgba(21,21,21,.55) }
 .c-042 { font-size:16px;font-weight:700;line-height:1.5 }
 .c-043 { font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px }
@@ -104,7 +101,6 @@
 .c-048 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(246,242,231,.5);margin:12px 0 14px }
 .c-049 { min-height:0;overflow:hidden;background:transparent;display:block }
 .c-051 { position:absolute;left:0;right:0;bottom:-8px;height:1px;background:#3B82C4 }
-.c-052 { display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid rgba(21,21,21,.08);padding-top:13px;margin-top:auto }
 .c-053 { background:#fff;border:1px solid rgba(21,21,21,.1);padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px }
 .c-054 { font-size:13px;font-weight:700;line-height:1.5 }
 .c-055 { position:absolute;left:0;top:0;bottom:0;width:3px;background:#3B82C4 }
@@ -137,7 +133,6 @@
 .c-088 { background:#fff;border:1px solid rgba(21,21,21,.1);padding:32px 32px 34px }
 .c-089 { color:rgba(246,242,231,.5);text-decoration:none;transition:color .3s ease }
 .c-091 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.13em;color:var(--ink-muted-aa) }
-.c-093 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.5) }
 .c-094 { min-width:0 }
 /* WORKSの補足段落。以前は明朝だったが、本文は原則ゴシックという方針に合わせて
    font-familyを指定せずbody既定(Zen Kaku Gothic New)を継承させる */
@@ -169,7 +164,6 @@
 .c-116 { margin:0;font-size:16px;line-height:1.95;color:rgba(21,21,21,.78) }
 .c-118 { padding:24px 24px 28px;display:flex;flex-direction:column;flex:1 }
 .c-119 { margin:0;font-size:16px;line-height:1.9;color:rgba(21,21,21,.74) }
-.c-120 { padding:22px 24px 26px;flex:1;display:flex;flex-direction:column }
 .c-121 { width:16px;height:1px;flex:none;background:rgba(59,130,196,.55) }
 .c-122 { background:rgba(59,130,196,.1);padding:5px 10px }
 .c-123 { font-size:18px;font-weight:700;line-height:1.45;margin:0 }
@@ -177,11 +171,9 @@
 .c-125 { display:flex;align-items:baseline;gap:12px;margin-bottom:8px }
 .c-127 { border-top:1px solid rgba(21,21,21,.18);padding:18px 0 22px }
 .c-128 { display:flex;align-items:center;gap:10px;margin-bottom:10px }
-.c-129 { display:flex;align-items:center;gap:10px;margin-bottom:11px }
 .c-130 { display:flex;align-items:center;gap:9px;margin-bottom:12px }
 .c-131 { border-top:1px solid rgba(246,242,231,.18);padding:28px 0 40px }
 .c-132 { display:block;flex:none;margin-top:8px;color:#D9B979 }
-.c-133 { width:14px;height:1px;background:rgba(59,130,196,.5) }
 .c-134 { width:16px;height:1px;background:rgba(21,21,21,.18) }
 .c-135 { font-size:16px;font-weight:700;margin-bottom:7px }
 .c-137 { color:rgba(21,21,21,.62);letter-spacing:.14em }
