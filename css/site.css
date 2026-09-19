@@ -103,7 +103,6 @@
 .c-060 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.55) }
 .c-062 { display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px }
 .c-063 { background:#FBF5DE;border-bottom:1px solid rgba(21,21,21,.12) }
-.c-064 { position:absolute;left:0;top:9px;width:6px;height:6px;background:#3B82C4 }
 .c-066 { display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px }
 .c-067 { display:flex;align-items:center;gap:8px;margin-bottom:7px;color:#3B82C4 }
 .c-070 { aspect-ratio:4/3;position:relative;overflow:hidden;background:#F3F1EA;display:flex;align-items:flex-end;padding:14px }
@@ -138,7 +137,6 @@
 .c-222:hover { transform:translateY(-4px); box-shadow:0 2px 4px rgba(0,0,0,.15),0 20px 40px -20px rgba(0,0,0,.6) }
 .c-113 { display:block;font-size:16px;color:rgba(21,21,21,.7);margin-bottom:6px }
 .c-118 { padding:24px 24px 28px;display:flex;flex-direction:column;flex:1 }
-.c-122 { background:rgba(59,130,196,.1);padding:5px 10px }
 .c-124 { display:flex;align-items:baseline;gap:10px;margin-bottom:10px }
 .c-128 { display:flex;align-items:center;gap:10px;margin-bottom:10px }
 .c-130 { display:flex;align-items:center;gap:9px;margin-bottom:12px }
@@ -178,12 +176,9 @@
 .c-180 { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 52% }
 .c-181 { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 55% }
 .c-182 { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:40px }
-.c-184 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.2em; color:#2A6BA6 }
 .c-188 { width:100%; height:100%; object-fit:cover; display:block }
 .c-189 { margin:0; max-width:640px; font-size:16px; line-height:2; color:rgba(21,21,21,.72) }
-.c-190 { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:5px }
 .c-191 { width:100%; aspect-ratio:7/8; border:0; display:block; background:transparent }
-.c-193 { background:#fff; border:1px solid rgba(21,21,21,.1); padding:22px 26px 24px }
 .c-194 { display:flex; align-items:center; gap:9px; margin-bottom:8px; color:#3B82C4 }
 .c-195 { display:flex; align-items:center; justify-content:space-between; gap:16px }
 .c-196 { margin:0; font-size:16px; line-height:1.9; color:rgba(21,21,21,.7) }
