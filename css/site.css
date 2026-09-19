@@ -84,7 +84,8 @@
 .c-023 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.26em;color:#3B82C4 }
 .c-024 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.5) }
 .c-025 { display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.48);margin-top:2px }
-.c-026 { text-decoration:none;color:#151515;background:#fff;border:1px solid rgba(21,21,21,.1);padding:0;display:flex;flex-direction:column;height:100%;overflow:hidden;transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease,border-color .4s ease }
+/* WORKSの活動カード: 箱(背景・枠線)をやめ、画像と文字だけのタイルにする(DESIGN.md: Apple風のシンプルさ) */
+.c-026 { text-decoration:none;color:#151515;display:flex;flex-direction:column;height:100%;transition:transform .5s cubic-bezier(.22,.61,.36,1) }
 .c-027 { display:block;font-family:'Zen Kaku Gothic New',sans-serif;font-size:16px;font-weight:700;letter-spacing:.02em;line-height:1.4 }
 .c-028 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em }
 .c-029 { background:#FFFDF5;border:1px solid rgba(21,21,21,.16);padding:8px 14px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em }
@@ -123,7 +124,7 @@
 .c-068 { display:flex;align-items:center;gap:12px;margin-bottom:22px }
 .c-070 { aspect-ratio:4/3;position:relative;overflow:hidden;background:#F3F1EA;display:flex;align-items:flex-end;padding:14px }
 .c-071 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:#D9B979 }
-.c-072 { aspect-ratio:4/3;background:#F3F1EA;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:14px }
+.c-072 { aspect-ratio:4/3;background:#F7F2E6;position:relative;overflow:hidden }
 .c-073 { border-top:1px solid rgba(21,21,21,.16);padding-top:10px;font-size:16px;line-height:1.7 }
 .c-074 { aspect-ratio:4/3;overflow:hidden;background:#EFEAE0;border:1px solid rgba(21,21,21,.12) }
 .c-075 { background:#fff;border:1px solid rgba(21,21,21,.1);border-top:3px solid #3B82C4;display:flex;flex-direction:column }
@@ -139,14 +140,13 @@
 .c-087 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.55) }
 .c-088 { background:#fff;border:1px solid rgba(21,21,21,.1);padding:32px 32px 34px }
 .c-089 { color:rgba(246,242,231,.5);text-decoration:none;transition:color .3s ease }
-.c-090 { position:absolute;inset:0;background:linear-gradient(to top,rgba(7,11,22,.5),rgba(7,11,22,0) 58%) }
 .c-091 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.13em;color:var(--ink-muted-aa) }
 .c-093 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.5) }
 .c-094 { min-width:0 }
 .c-095 { aspect-ratio:16/9;overflow:hidden;background:#F5EFDE;border-bottom:1px solid rgba(21,21,21,.08) }
 /* WORKSの補足段落。以前は明朝だったが、本文は原則ゴシックという方針に合わせて
    font-familyを指定せずbody既定(Zen Kaku Gothic New)を継承させる */
-.c-098 { margin:0 0 14px;font-size:16px;line-height:1.75 }
+.c-098 { margin:0;font-size:15px;line-height:1.9;color:rgba(21,21,21,.7) }
 .c-100 { width:18px;height:1px;flex:none;background:rgba(21,21,21,.28) }
 .c-101 { display:block;font-size:16px;font-weight:700;line-height:1.45 }
 .c-102 { width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block }
@@ -174,7 +174,7 @@
 .c-114 { display:flex;align-items:center;gap:11px;min-width:0 }
 .c-116 { margin:0;font-size:16px;line-height:1.95;color:rgba(21,21,21,.78) }
 .c-117 { margin:0;font-size:16px;line-height:1.95;color:rgba(21,21,21,.76) }
-.c-118 { padding:22px 24px 24px;display:flex;flex-direction:column;flex:1 }
+.c-118 { padding:24px 0 0;display:flex;flex-direction:column;flex:1 }
 .c-119 { margin:0;font-size:16px;line-height:1.9;color:rgba(21,21,21,.74) }
 .c-120 { padding:22px 24px 26px;flex:1;display:flex;flex-direction:column }
 .c-121 { width:16px;height:1px;flex:none;background:rgba(59,130,196,.55) }
@@ -223,7 +223,7 @@
 .c-165 { font-family:'IBM Plex Mono',monospace; font-size:14px; letter-spacing:.06em; color:#3B82C4 }
 .c-166 { display:flex; align-items:center; gap:9px; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.16em; color:rgba(246,242,231,.5); margin-bottom:28px }
 .c-167 { display:flex; flex-wrap:wrap; align-items:center; gap:12px; padding:16px 22px 13px }
-.c-168 { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:12px }
+.c-168 { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:8px }
 .c-169 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.16em; color:rgba(246,242,231,.55); margin-top:7px }
 .c-170 { color:rgba(246,242,231,.5); font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.1em; margin-left:8px }
 .c-171 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:rgba(21,21,21,.5); margin-top:6px }
