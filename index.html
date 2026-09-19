@@ -299,7 +299,7 @@ a:hover{color:#2A6BA6}
 
 <div class="u-container" style="padding:112px 56px 104px;border-top:1px solid rgba(21,21,21,.12);display:flex;flex-direction:column;align-items:center;text-align:center" data-comment-anchor="55a6dea80c-div">
 <div style="margin:0 0 40px;font-family:'Zen Kaku Gothic New',sans-serif;font-weight:500;font-size:clamp(34px,5vw,52px);letter-spacing:.04em;line-height:1.1;color:#151515" data-comment-anchor="0e0222d721-div">CONTACT</div>
-<a href="#" onClick="{{ goContact }}" style="font-family:'Zen Kaku Gothic New',sans-serif;font-weight:500;font-size:15px;letter-spacing:.1em;text-decoration:none;color:#FFFDF5;background:#151515;padding:16px 40px;display:inline-block;transition:background .35s ease,transform .4s cubic-bezier(.22,.61,.36,1),box-shadow .4s ease" style-hover="background:#3B82C4;transform:translateY(-2px);box-shadow:0 12px 24px -12px rgba(59,130,196,.5)">GET IN TOUCH</a>
+<a href="#" onClick="{{ goContact }}" class="u-pill" style="font-family:'Zen Kaku Gothic New',sans-serif;font-weight:500;font-size:15px;letter-spacing:.1em;text-decoration:none;color:#FFFDF5;background:#151515;padding:16px 40px;display:inline-block;transition:background .35s ease,transform .4s cubic-bezier(.22,.61,.36,1),box-shadow .4s ease" style-hover="background:#3B82C4;transform:translateY(-2px);box-shadow:0 12px 24px -12px rgba(59,130,196,.5)">GET IN TOUCH</a>
 </div>
 </main>
 </sc-if>
@@ -1081,7 +1081,7 @@ a:hover{color:#2A6BA6}
 <div class="u-container" style="padding:56px 56px 40px">
 <div data-rv="">
 <div class="u-fs-24 u-display" style="line-height:1.8;letter-spacing:.03em;margin-bottom:12px">この起点から、いまの目標につながっています。</div>
-<a href="#" onClick="{{ goGoal }}" class="u-fs-18" style="display:inline-flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:.12em;text-decoration:none;color:#FFFDF5;background:#151515;padding:17px 30px;transition:background .35s ease,transform .4s cubic-bezier(.22,.61,.36,1)" style-hover="background:#3B82C4;transform:translateY(-3px)">GOAL を見る<svg width="15" height="15" class="c-047"><use href="#i-arrow"></use></svg></a>
+<a href="#" onClick="{{ goGoal }}" class="u-fs-18 u-pill" style="display:inline-flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:.12em;text-decoration:none;color:#FFFDF5;background:#151515;padding:17px 30px;transition:background .35s ease,transform .4s cubic-bezier(.22,.61,.36,1)" style-hover="background:#3B82C4;transform:translateY(-3px)">GOAL を見る<svg width="15" height="15" class="c-047"><use href="#i-arrow"></use></svg></a>
 </div>
 </div>
 
@@ -1093,14 +1093,11 @@ a:hover{color:#2A6BA6}
 
 <sc-if value="{{ isGoal }}" hint-placeholder-val="{{ false }}">
 <main data-screen-label="GOAL" data-comment-anchor="a4e52123d2-div">
-<div class="c-015">
-<div class="u-container" style="padding:72px 56px 56px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center">
+<div class="c-015" style="border-bottom:0">
+<div class="u-container" style="padding:72px 56px 72px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center">
 <div>
-<div class="c-068"><span class="c-080"></span><span class="c-023">GOAL / REGIONAL REVITALIZATION</span></div>
-<div class="u-fs-62" style="font-family:'Shippori Mincho B1',serif;font-weight:600;letter-spacing:.12em;line-height:1.15">地域創生</div>
-<div style="width:72px;height:2px;background:#3B82C4;margin:24px 0 28px"></div>
-<p class="u-pretty u-fs-25 u-display" style="margin:0 0 22px;max-width:520px;line-height:1.75;letter-spacing:.03em">生まれ育った地域から、挑戦が生まれる状態をつくる。</p>
-<p class="u-pretty" style="margin:0;max-width:520px;font-size:16px;line-height:2.05;color:rgba(21,21,21,.76)">東京への一極集中ではなく、それぞれの地域が自分たちの強みで動き出す。まずは地元の名古屋を起点に、東海・中部の発展に寄与する活動をしたいと考えています。</p>
+<h1 class="u-fs-62" style="margin:0 0 32px;font-family:'Shippori Mincho B1',serif;font-weight:600;letter-spacing:.12em;line-height:1.15">地域創生</h1>
+<p class="u-pretty u-fs-25 u-display" style="word-break:auto-phrase;margin:0;max-width:520px;line-height:1.75;letter-spacing:.03em">生まれ育った地域から、挑戦が生まれる状態をつくる。</p>
 </div>
 <div>
 <iframe src="./pages/japan-glow.html" title="日本地図 — 地方中枢都市から地域へ広がる光" scrolling="no" loading="lazy" class="c-191"></iframe>
@@ -1108,47 +1105,16 @@ a:hover{color:#2A6BA6}
 </div>
 </div>
 
-<div class="u-container" style="padding:64px 56px 24px">
-<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px">
-<a href="#" onClick="{{ goVision }}" data-rv="" style="text-decoration:none;color:#151515;background:#fff;border:1px solid rgba(21,21,21,.1);padding:26px 28px 28px;display:flex;flex-direction:column;gap:14px;transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease,border-color .4s ease" style-hover="transform:translateY(-8px);box-shadow:0 24px 44px -24px rgba(21,21,21,.42);border-color:rgba(59,130,196,.5)">
-<span style="display:flex;align-items:center;justify-content:flex-end"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(21,21,21,.35)">01</span></span>
-<span data-comment-anchor="feb75ca0ac-span"><span style="display:block;font-size:19px;font-weight:700">ビジョン</span></span>
-<span style="font-size:16px;line-height:1.9;color:rgba(21,21,21,.72)" data-comment-anchor="771a212cbe-span">一極集中を避け、地域の中で価値が循環する。</span>
-<span class="c-038">VIEW →</span>
+<div class="u-container" style="padding:72px 56px 96px">
+<div style="border-bottom:1px solid rgba(21,21,21,.14)">
+<a href="#" onClick="{{ goVision }}" data-rv="" style="display:flex;align-items:center;justify-content:space-between;gap:24px;border-top:1px solid rgba(21,21,21,.14);padding:32px 0;text-decoration:none;color:#151515;transition:transform .45s cubic-bezier(.22,.61,.36,1)" style-hover="transform:translateY(-2px)">
+<span><span class="u-fs-22 u-display" style="display:block;line-height:1.4">ビジョン</span><span style="display:block;margin-top:8px;font-size:15px;line-height:1.9;color:rgba(21,21,21,.7)">一極集中を避け、地域の中で価値が循環する。</span></span>
+<svg width="18" height="18" class="c-003" style="flex:none;color:#3B82C4"><use href="#i-arrow"></use></svg>
 </a>
-<a href="#" onClick="{{ goRoadmap }}" data-rv="" style="text-decoration:none;color:#151515;background:#fff;border:1px solid rgba(21,21,21,.1);padding:26px 28px 28px;display:flex;flex-direction:column;gap:14px;transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease,border-color .4s ease" style-hover="transform:translateY(-8px);box-shadow:0 24px 44px -24px rgba(21,21,21,.42);border-color:rgba(59,130,196,.5)">
-<span style="display:flex;align-items:center;justify-content:flex-end"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(21,21,21,.35)">02</span></span>
-<span data-comment-anchor="e92d3e56e5-span"><span style="display:block;font-size:19px;font-weight:700">ロードマップ</span></span>
-<span style="font-size:16px;line-height:1.9;color:rgba(21,21,21,.72)" data-comment-anchor="9c2b44b84d-span">ボランティアを通して、地域創成に貢献したいです。</span>
-<span class="c-038">VIEW →</span>
+<a href="#" onClick="{{ goRoadmap }}" data-rv="" style="display:flex;align-items:center;justify-content:space-between;gap:24px;border-top:1px solid rgba(21,21,21,.14);padding:32px 0;text-decoration:none;color:#151515;transition:transform .45s cubic-bezier(.22,.61,.36,1)" style-hover="transform:translateY(-2px)">
+<span><span class="u-fs-22 u-display" style="display:block;line-height:1.4">ロードマップ</span><span style="display:block;margin-top:8px;font-size:15px;line-height:1.9;color:rgba(21,21,21,.7)">ボランティアを通して、地域創成に貢献したいです。</span></span>
+<svg width="18" height="18" class="c-003" style="flex:none;color:#3B82C4"><use href="#i-arrow"></use></svg>
 </a>
-</div>
-</div>
-
-<div class="u-container" style="padding:40px 56px 64px">
-<div class="c-201"><span class="c-056"><svg width="19" height="19" class="c-003"><use href="#i-target"></use></svg></span><span class="u-fs-17" style="font-weight:700">目指している3つの状態</span></div>
-<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px" data-comment-anchor="e73994c28f-div">
-<div data-rv="" class="c-075">
-<div class="c-095"><img loading="lazy" decoding="async" src="images/goal/挑戦が生まれる-0724fea1.png" alt="挑戦が生まれる — 地域の中から何かをはじめる人が出てくる" class="c-011" /></div>
-<div class="c-149">
-<div class="c-106"><span class="u-pill" style="width:42px;height:42px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="21" height="21" class="c-003"><use href="#i-seed"></use></svg></span><div><div class="c-020">挑戦が生まれる</div><div class="c-024">CHALLENGE</div></div></div>
-<p class="c-117">何かをはじめようとする人が、地域の中から出てくる。</p>
-</div>
-</div>
-<div data-rv="" class="c-075">
-<div class="c-095"><img loading="lazy" decoding="async" src="images/goal/人が集まり残る-ea9b9b7b.png" alt="人が集まり残る — 住み続けたい地域の風景" class="c-011" /></div>
-<div class="c-149">
-<div class="c-106"><span class="u-pill" style="width:42px;height:42px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="21" height="21" class="c-003"><use href="#i-people"></use></svg></span><div><div class="c-020">人が集まり、残る</div><div class="c-024">PEOPLE</div></div></div>
-<p class="c-117">出ていくしかない場所ではなく、生活し続けたい地域、戻ってきたい地域、そして住み続けたい地域に。</p>
-</div>
-</div>
-<div data-rv="" class="c-075">
-<div class="c-095"><img loading="lazy" decoding="async" src="images/goal/価値が循環する-a7c8a6f3.png" alt="価値が循環する — 生まれた価値が次の挑戦に回っていく" class="c-011" /></div>
-<div class="c-149">
-<div class="c-106"><span class="u-pill" style="width:42px;height:42px;background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="21" height="21" class="c-003"><use href="#i-city"></use></svg></span><div><div class="c-020">価値が循環する</div><div class="c-024">CIRCULATION</div></div></div>
-<p class="c-117">生まれた価値を、また次の挑戦に回していく。</p>
-</div>
-</div>
 </div>
 </div>
 
@@ -1164,92 +1130,80 @@ a:hover{color:#2A6BA6}
 <sc-if value="{{ isVision }}" hint-placeholder-val="{{ false }}">
 <main data-screen-label="GOAL / VISION">
 <div class="c-015">
-<div class="u-container" style="padding:36px 56px 56px">
-<div class="c-013">
+<div class="u-container" style="padding:36px 56px 72px">
+<div style="display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.6)">
 <a href="#" onClick="{{ goHome }}" class="c-031" style-hover="color:#3B82C4">HOME</a><span>/</span>
 <a href="#" onClick="{{ goGoal }}" class="c-031" style-hover="color:#3B82C4">GOAL</a><span>/</span>
 <span class="c-139">VISION</span>
 </div>
-<div class="c-085">
-<span class="u-pill" style="width:52px;height:52px;flex:none;border:1px solid rgba(59,130,196,.3);background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="25" height="25" class="c-003"><use href="#i-globe"></use></svg></span>
-<div>
-<div class="c-037">GOAL / 01</div>
-<h1 class="u-fs-42 u-display" style="margin:3px 0 0;line-height:1.3;letter-spacing:.03em">一極集中を避け、<span class="u-nowrap">地域の中で</span>価値が<span class="u-nowrap">循環する。</span></h1>
-</div>
-</div>
+<h1 class="u-fs-42 u-display" style="margin:56px 0 0;max-width:820px;line-height:1.4;letter-spacing:.03em">一極集中を避け、<span class="u-nowrap">地域の中で</span>価値が<span class="u-nowrap">循環する。</span></h1>
 </div>
 </div>
 
-<div class="u-container" style="padding:56px 56px 24px;display:grid;grid-template-columns:200px 1fr;gap:52px;border-bottom:1px solid rgba(21,21,21,.12)">
-<div data-rv=""><div class="c-008"><svg width="20" height="20" class="c-003"><use href="#i-city"></use></svg><span class="c-028">01 ISSUE</span></div><div class="c-020">一極集中のいびつさ</div></div>
-<div data-rv="" class="c-150">
-<p class="u-pretty" style="margin:0 0 24px;max-width:700px;font-size:16px;line-height:2.1;color:rgba(21,21,21,.84)">進学や就職のたびに、人は東京へ向かいます。選択肢が一箇所に集まるほど、地域からは挑戦する理由が減っていく。地元に戻る選択が「妥協」に見えてしまう状態を、変えたいと思っています。</p>
-<div style="display:flex;flex-wrap:wrap;gap:8px">
-<span class="c-029">SAPPORO</span>
-<span class="c-029">SENDAI</span>
-<span style="background:#3B82C4;border:1px solid #3B82C4;color:#FFFDF5;padding:8px 14px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em">NAGOYA</span>
-<span class="c-029">OSAKA</span>
-<span class="c-029">HIROSHIMA</span>
-<span class="c-029">FUKUOKA</span>
+<div class="u-container" style="padding:0 56px">
+<div style="display:grid;grid-template-columns:360px minmax(0,1fr);gap:56px;padding:72px 0" data-rv="">
+<div><h2 class="u-display" style="margin:0;font-size:clamp(24px,3vw,30px);letter-spacing:.06em;line-height:1.3">一極集中のいびつさ</h2></div>
+<div>
+<p class="u-pretty" style="word-break:auto-phrase;margin:0 0 28px;max-width:700px;font-size:16px;line-height:2.1;color:rgba(21,21,21,.8)">進学や就職のたびに、人は東京へ向かいます。選択肢が一箇所に集まるほど、地域からは挑戦する理由が減っていく。地元に戻る選択が「妥協」に見えてしまう状態を、変えたいと思っています。</p>
+<div style="display:flex;flex-wrap:wrap;gap:8px 24px;font-size:15px;color:rgba(21,21,21,.66)"><span>札幌</span><span>仙台</span><span style="color:#3B82C4;font-weight:500">名古屋</span><span>大阪</span><span>広島</span><span>福岡</span></div>
 </div>
 </div>
 </div>
 
 <div class="c-063">
-<div class="u-container" style="padding:56px 56px;display:grid;grid-template-columns:200px 1fr;gap:52px">
-<div data-rv=""><div class="c-008"><svg width="20" height="20" class="c-003"><use href="#i-wave"></use></svg><span class="c-028">02 STRUCTURE</span></div><div class="c-020">価値が回る形をつくる</div><p style="margin:12px 0 0;font-size:16px;line-height:1.9;color:rgba(21,21,21,.7)">教育から始まり、まちづくりを経て、また教育に戻ってくる循環。</p></div>
-<div data-rv="" style="display:flex;justify-content:center">
+<div class="u-container" style="padding:0 56px">
+<div style="display:grid;grid-template-columns:360px minmax(0,1fr);gap:56px;padding:72px 0" data-rv="">
+<div><h2 class="u-display" style="margin:0;font-size:clamp(24px,3vw,30px);letter-spacing:.06em;line-height:1.3">価値が回る形をつくる</h2><p style="margin:16px 0 0;font-size:15px;line-height:1.9;color:rgba(21,21,21,.7)">教育から始まり、まちづくりを経て、また教育に戻ってくる循環。</p></div>
+<div style="display:flex;justify-content:center">
 <x-import component-from-global-scope="flow-cycle" from="./js/flow-cycle.js" style="width:100%;max-width:560px;display:block" items="教育|EDUCATION,人材|TALENT,産業|INDUSTRY,収益|REVENUE,まちづくり|URBAN" center="地域創生" center-en="REGIONAL REVITALIZATION" accent="#3B82C4" hint-size="100%,480px"></x-import>
 </div>
 </div>
 </div>
+</div>
 
-<div class="u-container" style="padding:56px 56px 24px;display:grid;grid-template-columns:200px 1fr;gap:52px;border-bottom:1px solid rgba(21,21,21,.12)">
-<div data-rv=""><div class="c-008"><svg width="20" height="20" class="c-003"><use href="#i-castle"></use></svg><span class="c-028">03 REFERENCE</span></div><div class="c-020">江戸時代のヒント</div></div>
-<div data-rv="" class="c-150">
-<p class="u-pretty" style="margin:0 0 24px;max-width:700px;font-size:16px;line-height:2.1;color:rgba(21,21,21,.84)">江戸時代は、各藩がそれぞれの産業と文化を育てていました。中心が一つではなかったからこそ、地域ごとに個性が残った。同じ構造を、いまの技術とやり方で作り直せないかと考えています。</p>
-<figure style="margin:0;max-width:700px" data-comment-anchor="84780fd76d-div">
-<div style="aspect-ratio:16/9;overflow:hidden;background:#F5EFDE;border:1px solid rgba(21,21,21,.12)"><img src="images/goal/江戸時代の風景-b1921be7.png" alt="江戸時代の城下町と港のにぎわい" class="c-011" /></div>
-<figcaption style="display:flex;align-items:center;gap:10px;margin-top:11px"><span class="c-100"></span><span class="c-017">EDO PERIOD — 江戸時代の地域の風景</span></figcaption>
+<div class="u-container" style="padding:0 56px">
+<div style="display:grid;grid-template-columns:360px minmax(0,1fr);gap:56px;padding:72px 0" data-rv="">
+<div><h2 class="u-display" style="margin:0;font-size:clamp(24px,3vw,30px);letter-spacing:.06em;line-height:1.3">江戸時代のヒント</h2></div>
+<div>
+<p class="u-pretty" style="word-break:auto-phrase;margin:0 0 0;max-width:700px;font-size:16px;line-height:2.1;color:rgba(21,21,21,.8)">江戸時代は、各藩がそれぞれの産業と文化を育てていました。中心が一つではなかったからこそ、地域ごとに個性が残った。同じ構造を、いまの技術とやり方で作り直せないかと考えています。</p>
+<figure style="margin:32px 0 0;max-width:700px" data-comment-anchor="84780fd76d-div">
+<div style="aspect-ratio:16/9;overflow:hidden;background:#F7F2E6"><img src="images/goal/江戸時代の風景-b1921be7.png" alt="江戸時代の城下町と港のにぎわい" class="c-011" /></div>
+<figcaption style="margin-top:12px;font-size:13px;color:rgba(21,21,21,.62)">江戸時代の地域の風景</figcaption>
 </figure>
 </div>
 </div>
-
-<div class="u-container" style="padding:56px 56px 40px;display:grid;grid-template-columns:200px 1fr;gap:52px">
-<div data-rv=""><div class="c-008"><svg width="20" height="20" class="c-003"><use href="#i-pin"></use></svg><span class="c-028">04 START</span></div><div class="c-020">名古屋から始める</div></div>
-<div data-rv="">
-<p class="u-pretty" style="margin:0 0 26px;max-width:700px;font-size:16px;line-height:2.1;color:rgba(21,21,21,.84)">日本全体を語る前に、自分が一番よく知っている場所から。産業の集積があり、大学があり、人もいる。名古屋・東海は、試すには十分な条件がそろっていると思っています。</p>
-<a href="#" onClick="{{ goRoadmap }}" class="u-fs-18" style="display:inline-flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:.12em;text-decoration:none;color:#FFFDF5;background:#151515;padding:17px 30px;transition:background .35s ease,transform .4s cubic-bezier(.22,.61,.36,1)" style-hover="background:#3B82C4;transform:translateY(-3px)">ロードマップを見る<svg width="15" height="15" class="c-047"><use href="#i-arrow"></use></svg></a>
-</div>
 </div>
 
+<div class="u-container" style="padding:0 56px">
+<div style="display:grid;grid-template-columns:360px minmax(0,1fr);gap:56px;border-top:1px solid rgba(21,21,21,.14);padding:72px 0" data-rv="">
+<div><h2 class="u-display" style="margin:0;font-size:clamp(24px,3vw,30px);letter-spacing:.06em;line-height:1.3">名古屋から始める</h2></div>
+<div>
+<p class="u-pretty" style="word-break:auto-phrase;margin:0 0 0;max-width:700px;font-size:16px;line-height:2.1;color:rgba(21,21,21,.8)">日本全体を語る前に、自分が一番よく知っている場所から。産業の集積があり、大学があり、人もいる。名古屋・東海は、試すには十分な条件がそろっていると思っています。</p>
+<a href="#" onClick="{{ goRoadmap }}" class="u-pill" style="margin-top:32px;font-family:'Zen Kaku Gothic New',sans-serif;font-weight:500;font-size:15px;letter-spacing:.1em;text-decoration:none;color:#FFFDF5;background:#151515;padding:16px 40px;display:inline-block;transition:background .35s ease,transform .4s cubic-bezier(.22,.61,.36,1),box-shadow .4s ease" style-hover="background:#3B82C4;transform:translateY(-2px);box-shadow:0 12px 24px -12px rgba(59,130,196,.5)">ロードマップを見る</a>
+</div>
+</div>
+</div>
+<div style="height:24px"></div>
 </main>
 </sc-if>
 
 <sc-if value="{{ isRoadmap }}" hint-placeholder-val="{{ false }}">
 <main data-screen-label="GOAL / ROADMAP">
 <div class="c-015">
-<div class="u-container" style="padding:36px 56px 56px">
-<div class="c-013">
+<div class="u-container" style="padding:36px 56px 72px">
+<div style="display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.6)">
 <a href="#" onClick="{{ goHome }}" class="c-031" style-hover="color:#3B82C4">HOME</a><span>/</span>
 <a href="#" onClick="{{ goGoal }}" class="c-031" style-hover="color:#3B82C4">GOAL</a><span>/</span>
 <span class="c-139">ROADMAP</span>
 </div>
-<div class="c-085">
-<span class="u-pill" style="width:52px;height:52px;flex:none;border:1px solid rgba(59,130,196,.3);background:rgba(59,130,196,.08);display:flex;align-items:center;justify-content:center;color:#3B82C4"><svg width="25" height="25" class="c-003"><use href="#i-map"></use></svg></span>
-<div>
-<div class="c-037">GOAL / 02</div>
-<h1 class="u-fs-42 u-display" style="margin:3px 0 0;line-height:1.3;letter-spacing:.03em">これからの道筋</h1>
-</div>
-</div>
+<h1 class="u-fs-42 u-display" style="margin:56px 0 24px;line-height:1.4;letter-spacing:.03em">これからの道筋</h1>
 <p class="u-pretty" style="margin:0;max-width:640px;font-size:16px;line-height:2.05;color:rgba(21,21,21,.76)">地域創生に向けて、具体的にどう動いていくかの構想です。</p>
 </div>
 </div>
 
 <div class="c-063">
-<div class="u-container" style="padding:96px 56px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
-<div class="c-082"><span class="c-080"></span><span class="c-023">COMING SOON</span><span class="c-080"></span></div>
-<p class="u-pretty" style="margin:0;max-width:520px;font-size:16px;line-height:2;color:rgba(21,21,21,.68)">構想が形になりしだい、道筋の内容を追加していきます。</p>
+<div class="u-container" style="padding:96px 56px;display:flex;flex-direction:column;align-items:center;text-align:center">
+<p class="u-pretty" style="margin:0;max-width:520px;font-size:16px;line-height:2;color:rgba(21,21,21,.7)">構想が形になりしだい、道筋の内容を追加していきます。</p>
 </div>
 </div>
 
@@ -1506,7 +1460,7 @@ a:hover{color:#2A6BA6}
 <sc-if value="{{ err }}" hint-placeholder-val="{{ false }}">
 <div style="margin-top:12px;font-size:16px;color:#B4442B">お名前・メールアドレス・ご用件をご入力ください。</div>
 </sc-if>
-<button onClick="{{ send }}" class="u-fs-18" style="margin-top:28px;width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#151515;color:#FFFDF5;border:0;padding:18px;font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:.14em;cursor:pointer;transition:background .35s ease,transform .35s cubic-bezier(.22,.61,.36,1),box-shadow .4s ease" style-hover="background:#3B82C4;transform:translateY(-2px);box-shadow:0 12px 24px -12px rgba(59,130,196,.5)">SEND<svg width="15" height="15" class="c-047"><use href="#i-arrow"></use></svg></button>
+<button onClick="{{ send }}" class="u-fs-18 u-pill" style="margin-top:28px;width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#151515;color:#FFFDF5;border:0;padding:18px;font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:.14em;cursor:pointer;transition:background .35s ease,transform .35s cubic-bezier(.22,.61,.36,1),box-shadow .4s ease" style-hover="background:#3B82C4;transform:translateY(-2px);box-shadow:0 12px 24px -12px rgba(59,130,196,.5)">SEND<svg width="15" height="15" class="c-047"><use href="#i-arrow"></use></svg></button>
 <div style="display:flex;align-items:center;justify-content:center;gap:9px;margin-top:20px;color:rgba(21,21,21,.55)"><svg width="15" height="15" class="c-047"><use href="#i-clock"></use></svg><span class="c-084">通常2〜3日以内に返信しています。</span></div>
 </div>
 </sc-if>
