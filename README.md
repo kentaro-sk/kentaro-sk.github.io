@@ -103,6 +103,10 @@ Branch protection ruleにより、`main` への直接pushはできず、CIを通
   - リファクタリング3段階パイプライン: 見た目を一切変えずに軽量化する方針を提案する `portfolio-refactor-proposer` → 実装する `portfolio-refactor-coder` → 変更前後の見た目が完全一致するか検証する `portfolio-refactor-qa`
 - **品質基準スキル（[`.claude/skills/uiux-standards/`](.claude/skills/uiux-standards/)）**: UI実装・変更のたびに、WCAG 2.2・Nielsenのユーザビリティ原則・Core Web Vitals等の世界標準に基づいたチェックリストを強制適用しています
 
+## Security
+
+静的サイトのため、サーバ側の処理や訪問者の個人情報の保存はありません。脆弱性や、誤って公開された情報を見つけた場合は、公開の Issue には書かず、[GitHub の非公開の脆弱性報告](https://github.com/kentaro-sk/kentaro-sk.github.io/security/advisories/new)からお知らせください。詳細は [SECURITY.md](SECURITY.md) を参照してください（English summary included）。
+
 ## License
 
 このリポジトリのソースコードは個人ポートフォリオサイト用です。画像・文章等のコンテンツは無断転載をご遠慮ください。
