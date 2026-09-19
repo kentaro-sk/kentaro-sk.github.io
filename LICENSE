@@ -1,0 +1,45 @@
+License scope / ライセンスの適用範囲
+=======================================
+
+The MIT License below applies ONLY to the files under the following directories:
+下記の MIT License が適用されるのは、次のディレクトリ配下のファイルだけです。
+
+  - .claude/    (hooks, skills, and agent definitions / フック・スキル・エージェント定義)
+  - scripts/    (verification and helper scripts / 検証・補助スクリプト)
+  - .github/    (CI workflows / CIワークフロー)
+
+Everything else in this repository is NOT covered by this license and remains
+"All rights reserved" by Kentaro Sugiura. This includes, without limitation:
+上記以外のすべては、このライセンスの対象外で、杉浦健太郎がすべての権利を留保します。次を含みます。
+
+  - The website's text, design, photographs, and illustrations (index.html, pages/, css/, images/)
+    サイトの文章・デザイン・写真・イラスト（index.html、pages/、css/、images/）
+  - js/support.js, which is a bundled build artifact of a third-party tool and
+    remains subject to the terms of its original authors
+    js/support.js（第三者のツールが出力したバンドルであり、元の作者の条件に従います）
+  - The font file in fonts/, which is licensed separately (see fonts/OFL-Parisienne.txt)
+    fonts/ のフォント（別のライセンス。fonts/OFL-Parisienne.txt を参照）
+
+-----------------------------------------------------------------------
+
+MIT License
+
+Copyright (c) 2026 Kentaro Sugiura (杉浦健太郎)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of the files covered by the scope above (the "Software"), to deal in the
+Software without restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
