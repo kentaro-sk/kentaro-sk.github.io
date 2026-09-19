@@ -87,7 +87,6 @@
 .c-026 { text-decoration:none;color:#151515;background:#fff;display:flex;flex-direction:column;height:100%;overflow:hidden;transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease }
 .c-027 { display:block;font-family:'Zen Kaku Gothic New',sans-serif;font-size:15px;font-weight:500;letter-spacing:.04em;line-height:1.4 }
 .c-028 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em }
-.c-029 { background:#FFFDF5;border:1px solid rgba(21,21,21,.16);padding:8px 14px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em }
 .c-030 { display:block;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em }
 .c-031 { color:rgba(21,21,21,.5);text-decoration:none;transition:color .3s ease }
 .c-033 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.55) }
