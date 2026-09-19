@@ -67,7 +67,6 @@
 .c-004 { display:block;text-decoration:none;color:#151515;padding:10px 14px;transition:background .28s ease }
 .c-005 { display:block;flex:none;color:#3B82C4;opacity:.7 }
 .c-006 { display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.62);margin-top:4px }
-.c-008 { display:flex;align-items:center;gap:9px;margin-bottom:10px;color:#3B82C4 }
 .c-009 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.62);text-align:right;line-height:1.7 }
 .c-010 { position:relative;z-index:1;background:none;border:0;padding:4px 3px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer }
 .c-011 { width:100%;height:100%;object-fit:cover;display:block }
@@ -75,7 +74,6 @@
 .c-014 { position:relative;display:flex;align-items:baseline;gap:14px;padding:16px 22px;text-decoration:none;color:#151515;border-top:1px solid rgba(21,21,21,.06) }
 .c-015 { border-bottom:1px solid rgba(21,21,21,.1);background:linear-gradient(180deg,#FBF5DE 0%,#FFFDF5 100%) }
 .c-016 { position:relative;display:block;color:rgba(21,21,21,.66);text-decoration:none;transition:color .3s ease,transform .35s cubic-bezier(.22,.61,.36,1) }
-.c-017 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.5) }
 .c-018 { display:flex;align-items:center;gap:8px;font-size:18px;line-height:1.4;margin-bottom:8px }
 .c-019 { text-decoration:none;color:#151515;display:block;background:#FFFDF5;border-radius:16px;overflow:hidden;box-shadow:0 1px 2px rgba(21,21,21,.06),0 10px 24px -8px rgba(21,21,21,.14);transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s cubic-bezier(.22,.61,.36,1) }
 .c-020 { font-size:16px;font-weight:700 }
@@ -85,14 +83,11 @@
    静止時はshadowなし、hoverでtransformとshadowが立ち上がる(L3) */
 .c-026 { text-decoration:none;color:#151515;background:#fff;display:flex;flex-direction:column;height:100%;overflow:hidden;transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease }
 .c-027 { display:block;font-family:'Zen Kaku Gothic New',sans-serif;font-size:15px;font-weight:500;letter-spacing:.04em;line-height:1.4 }
-.c-028 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em }
 .c-030 { display:block;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em }
 .c-031 { color:rgba(21,21,21,.5);text-decoration:none;transition:color .3s ease }
 .c-034 { aspect-ratio:3/4;overflow:hidden;background:#EFEAE0;border:1px solid rgba(21,21,21,.12);transition:border-color .35s ease,transform .45s cubic-bezier(.22,.61,.36,1) }
 .c-036 { font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;color:rgba(21,21,21,.5);letter-spacing:.03em }
 .c-037 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.24em;color:#3B82C4 }
-.c-039 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:rgba(21,21,21,.55) }
-.c-042 { font-size:16px;font-weight:700;line-height:1.5 }
 .c-043 { font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px }
 .c-044 { display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.45);margin-top:2px }
 .c-047 { display:block;flex:none }
@@ -100,16 +95,13 @@
 .c-051 { position:absolute;left:0;right:0;bottom:-8px;height:1px;background:#3B82C4 }
 .c-055 { position:absolute;left:0;top:0;bottom:0;width:3px;background:#3B82C4 }
 .c-056 { color:#3B82C4 }
-.c-060 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.55) }
 .c-062 { display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px }
 .c-063 { background:#FBF5DE;border-bottom:1px solid rgba(21,21,21,.12) }
 .c-064 { position:absolute;left:0;top:9px;width:6px;height:6px;background:#3B82C4 }
 .c-066 { display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px }
-.c-067 { display:flex;align-items:center;gap:8px;margin-bottom:7px;color:#3B82C4 }
 .c-070 { aspect-ratio:4/3;position:relative;overflow:hidden;background:#F3F1EA;display:flex;align-items:flex-end;padding:14px }
 .c-071 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:#D9B979 }
 .c-072 { aspect-ratio:4/3;background:#F7F2E6;position:relative;overflow:hidden }
-.c-073 { border-top:1px solid rgba(21,21,21,.16);padding-top:10px;font-size:16px;line-height:1.7 }
 .c-074 { aspect-ratio:4/3;overflow:hidden;background:#EFEAE0;border:1px solid rgba(21,21,21,.12) }
 .c-076 { position:relative;max-width:1068px;margin:0 auto }
 .c-077 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.5);margin-top:3px }
@@ -169,11 +161,8 @@
 .c-168 { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:8px }
 .c-169 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.16em; color:rgba(246,242,231,.55); margin-top:7px }
 .c-170 { color:rgba(246,242,231,.5); font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.1em; margin-left:8px }
-.c-171 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:rgba(21,21,21,.5); margin-top:6px }
 .c-175 { display:flex; flex-direction:column; gap:9px; border-top:1px solid rgba(246,242,231,.18); padding-top:16px }
 .c-176 { font-size:16px; font-weight:700; letter-spacing:.01em }
-.c-177 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:rgba(246,242,231,.5) }
-.c-178 { background:#fff; border:1px solid rgba(21,21,21,.1); border-top:3px solid #3B82C4; padding:18px 20px }
 .c-179 { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 62% }
 .c-180 { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 52% }
 .c-181 { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 55% }
@@ -184,7 +173,6 @@
 .c-190 { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:5px }
 .c-191 { width:100%; aspect-ratio:7/8; border:0; display:block; background:transparent }
 .c-193 { background:#fff; border:1px solid rgba(21,21,21,.1); padding:22px 26px 24px }
-.c-194 { display:flex; align-items:center; gap:9px; margin-bottom:8px; color:#3B82C4 }
 .c-195 { display:flex; align-items:center; justify-content:space-between; gap:16px }
 .c-196 { margin:0; font-size:16px; line-height:1.9; color:rgba(21,21,21,.7) }
 .c-198 { display:flex; align-items:center; gap:10px }
