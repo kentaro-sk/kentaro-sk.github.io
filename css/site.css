@@ -137,7 +137,6 @@
 /* WORKSの補足段落。以前は明朝だったが、本文は原則ゴシックという方針に合わせて
    font-familyを指定せずbody既定(Zen Kaku Gothic New)を継承させる */
 .c-098 { margin:0;font-size:15px;line-height:1.9;color:rgba(21,21,21,.7) }
-.c-100 { width:18px;height:1px;flex:none;background:rgba(21,21,21,.28) }
 .c-101 { display:block;font-size:16px;font-weight:700;line-height:1.45 }
 .c-102 { width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block }
 .c-103 { color:inherit;text-decoration:none;transition:color .3s ease }
@@ -163,10 +162,9 @@
 .c-114 { display:flex;align-items:center;gap:11px;min-width:0 }
 .c-116 { margin:0;font-size:16px;line-height:1.95;color:rgba(21,21,21,.78) }
 .c-118 { padding:24px 24px 28px;display:flex;flex-direction:column;flex:1 }
-.c-119 { margin:0;font-size:16px;line-height:1.9;color:rgba(21,21,21,.74) }
 .c-121 { width:16px;height:1px;flex:none;background:rgba(59,130,196,.55) }
 .c-122 { background:rgba(59,130,196,.1);padding:5px 10px }
-.c-123 { font-size:18px;font-weight:700;line-height:1.45;margin:0 }
+.c-123 { font-size:22px;line-height:1.45;margin:0 }
 .c-124 { display:flex;align-items:baseline;gap:10px;margin-bottom:10px }
 .c-125 { display:flex;align-items:baseline;gap:12px;margin-bottom:8px }
 .c-127 { border-top:1px solid rgba(21,21,21,.18);padding:18px 0 22px }
@@ -175,7 +173,6 @@
 .c-131 { border-top:1px solid rgba(246,242,231,.18);padding:28px 0 40px }
 .c-132 { display:block;flex:none;margin-top:8px;color:#D9B979 }
 .c-134 { width:16px;height:1px;background:rgba(21,21,21,.18) }
-.c-135 { font-size:16px;font-weight:700;margin-bottom:7px }
 .c-137 { color:rgba(21,21,21,.62);letter-spacing:.14em }
 .c-138 { display:block;font-size:16px;font-weight:700 }
 .c-139 { color:#151515 }
@@ -185,7 +182,6 @@
 .c-146 { display:block;opacity:.6 }
 .c-147 { background:#070B16;color:#F6F2E7 }
 .c-148 { color:#8FC0EA }
-.c-150 { padding-bottom:48px }
 .c-151 { padding:20px 22px 24px }
 .c-152 { margin-top:9px }
 .c-153 { color:#F6F2E7 }
@@ -253,7 +249,6 @@
 .c-216 { position:absolute; inset:0; width:100%; height:100% }
 .c-217 { color:rgba(246,242,231,.5); letter-spacing:.14em }
 .c-218 { width:100%; height:100%; border:0; display:block }
-.c-219 { font-size:16px; font-weight:700; color:#151515 }
 .c-220 { display:flex; align-items:center; gap:11px }
 
 /* Parisienne を自己ホスト（外部woff2ファイル: fonts/Parisienne-Regular.woff2）。
