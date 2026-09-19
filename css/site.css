@@ -34,7 +34,7 @@
 /* 野球観戦カードのイニング見出しセル(「1」〜「9」、1試合9個×4試合=36箇所)専用クラス
    (refactor: 施策6)。「計」セルはfont-size/letter-spacingが異なるため対象外とし、
    従来どおりinline styleのまま残している。値そのものは変更していない。 */
-.bb-inning-label { padding:7px 0; text-align:center; background:#0A1A2F; font-family:'IBM Plex Mono',monospace; font-size:12px; color:rgba(246,242,231,.42) }
+.bb-inning-label { padding:7px 0; text-align:center; border-bottom:1px solid rgba(21,21,21,.1); font-family:'IBM Plex Mono',monospace; font-size:12px; color:rgba(21,21,21,.42) }
 /* モバイルでのレスポンシブ縮小グループが参照するfont-size単体クラス群(u-fs-N)。
    Nは元のpx値そのもの(PC/デスクトップでの表示はこれまでと完全に同じ)。
    実際にindex.html内で使われている値のみ用意している。 */
@@ -94,7 +94,6 @@
 .c-039 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:rgba(21,21,21,.55) }
 .c-042 { font-size:16px;font-weight:700;line-height:1.5 }
 .c-043 { font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px }
-.c-044 { display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.45);margin-top:2px }
 .c-047 { display:block;flex:none }
 .c-048 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(246,242,231,.5);margin:12px 0 14px }
 .c-051 { position:absolute;left:0;right:0;bottom:-8px;height:1px;background:#3B82C4 }
@@ -109,7 +108,6 @@
 .c-071 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:#D9B979 }
 .c-072 { aspect-ratio:4/3;background:#F7F2E6;position:relative;overflow:hidden }
 .c-073 { border-top:1px solid rgba(21,21,21,.16);padding-top:10px;font-size:16px;line-height:1.7 }
-.c-074 { aspect-ratio:4/3;overflow:hidden;background:#EFEAE0;border:1px solid rgba(21,21,21,.12) }
 .c-076 { position:relative;max-width:1068px;margin:0 auto }
 .c-077 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.5);margin-top:3px }
 .c-080 { width:26px;height:1px;background:#3B82C4 }
@@ -122,9 +120,6 @@
 /* WORKSの補足段落。以前は明朝だったが、本文は原則ゴシックという方針に合わせて
    font-familyを指定せずbody既定(Zen Kaku Gothic New)を継承させる */
 .c-098 { margin:0;font-size:15px;line-height:1.9;color:rgba(21,21,21,.7) }
-.c-101 { display:block;font-size:16px;font-weight:700;line-height:1.45 }
-.c-103 { color:inherit;text-decoration:none;transition:color .3s ease }
-.c-105 { display:flex;align-items:center;gap:12px;margin-bottom:24px }
 .c-112 { position:relative;margin-bottom:164px }
 /* カテゴリアイコン円の無彩色バリアント(STORYタイムライン専用)。
    Action Blueはクリーム面での唯一のクリック可能シグナル(DESIGN.md)だが、
@@ -146,7 +141,6 @@
 .c-144 { margin:0;font-size:15px;line-height:1.9 }
 .c-147 { background:#070B16;color:#F6F2E7 }
 .c-151 { padding:20px 22px 24px }
-.c-152 { margin-top:9px }
 .c-153 { color:#F6F2E7 }
 .c-154 { margin:0 }
 
@@ -160,16 +154,9 @@
    実際にそれらのセレクタが参照する範囲内かどうかをスクリプトで機械的に判定した上で
    対象から除外し、元のままinline styleに残してある。値そのものは変更していない。 */
 .c-156 { position:absolute; top:100%; left:-14px; min-width:176px; background:#FFFDF5; border:1px solid rgba(21,21,21,.14); padding:6px; display:flex; flex-direction:column; gap:1px; animation:ddIn .26s cubic-bezier(.16,1,.3,1) both }
-.c-163 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.12em; color:rgba(21,21,21,.32) }
-.c-165 { font-family:'IBM Plex Mono',monospace; font-size:14px; letter-spacing:.06em; color:#3B82C4 }
 .c-166 { display:flex; align-items:center; gap:9px; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.16em; color:rgba(246,242,231,.5); margin-bottom:28px }
-.c-167 { display:flex; flex-wrap:wrap; align-items:center; gap:12px; padding:16px 22px 13px }
 .c-168 { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:8px }
-.c-169 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.16em; color:rgba(246,242,231,.55); margin-top:7px }
-.c-170 { color:rgba(246,242,231,.5); font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.1em; margin-left:8px }
 .c-171 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:rgba(21,21,21,.5); margin-top:6px }
-.c-175 { display:flex; flex-direction:column; gap:9px; border-top:1px solid rgba(246,242,231,.18); padding-top:16px }
-.c-176 { font-size:16px; font-weight:700; letter-spacing:.01em }
 .c-177 { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; color:rgba(246,242,231,.5) }
 .c-178 { background:#fff; border:1px solid rgba(21,21,21,.1); border-top:3px solid #3B82C4; padding:18px 20px }
 .c-179 { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 62% }
@@ -177,23 +164,15 @@
 .c-181 { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 55% }
 .c-182 { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:40px }
 .c-188 { width:100%; height:100%; object-fit:cover; display:block }
-.c-189 { margin:0; max-width:640px; font-size:16px; line-height:2; color:rgba(21,21,21,.72) }
 .c-191 { width:100%; aspect-ratio:7/8; border:0; display:block; background:transparent }
 .c-194 { display:flex; align-items:center; gap:9px; margin-bottom:8px; color:#3B82C4 }
-.c-195 { display:flex; align-items:center; justify-content:space-between; gap:16px }
 .c-196 { margin:0; font-size:16px; line-height:1.9; color:rgba(21,21,21,.7) }
-.c-198 { display:flex; align-items:center; gap:10px }
-.c-200 { color:inherit; text-decoration:none; transition:color .3s ease }
-.c-203 { display:flex; align-items:center; gap:16px; margin-bottom:16px }
 .c-207 { font-size:16px; line-height:1.75; color:rgba(21,21,21,.8) }
 .c-209 { font-size:14px; color:rgba(21,21,21,.58); margin-top:3px }
-.c-210 { border:1px solid rgba(21,21,21,.12); background:#FBF5DE }
 .c-211 { position:absolute; left:0; top:0; width:100%; height:100% }
-.c-214 { border:1px solid rgba(21,21,21,.12); background:#fff }
 .c-215 { position:relative; height:390vh; background:#070C16 }
 .c-216 { position:absolute; inset:0; width:100%; height:100% }
 .c-218 { width:100%; height:100%; border:0; display:block }
-.c-220 { display:flex; align-items:center; gap:11px }
 
 /* Parisienne を自己ホスト（外部woff2ファイル: fonts/Parisienne-Regular.woff2）。
    Google Fonts が社内ネットワーク等でブロック/失敗しても「My Journey, My Story.」の
