@@ -125,7 +125,7 @@
 .c-072 { aspect-ratio:4/3;background:#F7F2E6;position:relative;overflow:hidden }
 .c-073 { border-top:1px solid rgba(21,21,21,.16);padding-top:10px;font-size:16px;line-height:1.7 }
 .c-074 { aspect-ratio:4/3;overflow:hidden;background:#EFEAE0;border:1px solid rgba(21,21,21,.12) }
-.c-075 { background:#fff;border:1px solid rgba(21,21,21,.1);border-top:3px solid #3B82C4;display:flex;flex-direction:column }
+.c-075 { background:#fff;display:flex;flex-direction:column }
 .c-076 { position:relative;max-width:1068px;margin:0 auto }
 .c-077 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.5);margin-top:3px }
 .c-078 { background:#fff;border:1px solid rgba(21,21,21,.1);padding:18px 20px;display:flex;align-items:center;gap:14px }
@@ -141,7 +141,7 @@
 .c-091 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.13em;color:var(--ink-muted-aa) }
 .c-093 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.5) }
 .c-094 { min-width:0 }
-.c-095 { aspect-ratio:16/9;overflow:hidden;background:#F5EFDE;border-bottom:1px solid rgba(21,21,21,.08) }
+.c-095 { aspect-ratio:4/3;overflow:hidden;background:#F7F2E6 }
 /* WORKSの補足段落。以前は明朝だったが、本文は原則ゴシックという方針に合わせて
    font-familyを指定せずbody既定(Zen Kaku Gothic New)を継承させる */
 .c-098 { margin:0;font-size:15px;line-height:1.9;color:rgba(21,21,21,.7) }
@@ -170,7 +170,7 @@
 .c-113 { display:block;font-size:16px;color:rgba(21,21,21,.7);margin-bottom:6px }
 .c-114 { display:flex;align-items:center;gap:11px;min-width:0 }
 .c-116 { margin:0;font-size:16px;line-height:1.95;color:rgba(21,21,21,.78) }
-.c-117 { margin:0;font-size:16px;line-height:1.95;color:rgba(21,21,21,.76) }
+.c-117 { margin:0;font-size:15px;line-height:1.9;color:rgba(21,21,21,.7) }
 .c-118 { padding:24px 24px 28px;display:flex;flex-direction:column;flex:1 }
 .c-119 { margin:0;font-size:16px;line-height:1.9;color:rgba(21,21,21,.74) }
 .c-120 { padding:22px 24px 26px;flex:1;display:flex;flex-direction:column }
@@ -197,7 +197,7 @@
 .c-146 { display:block;opacity:.6 }
 .c-147 { background:#070B16;color:#F6F2E7 }
 .c-148 { color:#8FC0EA }
-.c-149 { padding:30px 34px 34px }
+.c-149 { padding:24px 24px 28px }
 .c-150 { padding-bottom:48px }
 .c-151 { padding:20px 22px 24px }
 .c-152 { margin-top:9px }
@@ -252,7 +252,6 @@
 .c-198 { display:flex; align-items:center; gap:10px }
 .c-199 { display:block; font-size:13px; font-weight:700; line-height:1.5 }
 .c-200 { color:inherit; text-decoration:none; transition:color .3s ease }
-.c-201 { display:flex; align-items:center; gap:12px; margin-bottom:26px }
 .c-202 { display:flex; align-items:center; gap:12px; margin-bottom:16px }
 .c-203 { display:flex; align-items:center; gap:16px; margin-bottom:16px }
 .c-206 { position:relative; overflow:hidden; background:transparent }
