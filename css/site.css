@@ -23,6 +23,10 @@
 .u-pill { border-radius:999px }
 .u-pretty { text-wrap:pretty }
 .u-container { max-width:1180px; margin:0 auto }
+/* PROFILEページの見出し用フォント。Avenir Next(Apple端末)→Nunito Sans(それ以外の欧文)→
+   Zen Kaku Gothic Antique(漢字・かな)の順で、Apple風の洗練された見出しにする。
+   Avenir Nextは漢字を持たないため、日本語は必ず後続の和文フォントで描画される。 */
+.u-display { font-family:'Avenir Next','Avenir','Nunito Sans','Zen Kaku Gothic Antique','Zen Kaku Gothic New',sans-serif; font-weight:500 }
 /* DESIGN.md「Text > Ink Muted」規定(12px以下の小ラベルはalpha .6以上でWCAG AA達成)を
    実装に反映する共有トークン。#FFFDF5/#FDFBF3/#FBF5DE背景に対し実測4.6〜4.74:1。
    STORYページのマルチエージェント設計レビュー(2026-09-18)で導入。 */
