@@ -70,13 +70,11 @@
 .c-009 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:rgba(21,21,21,.62);text-align:right;line-height:1.7 }
 .c-010 { position:relative;z-index:1;background:none;border:0;padding:4px 3px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer }
 .c-011 { width:100%;height:100%;object-fit:cover;display:block }
-.c-013 { display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.5);margin-bottom:28px }
 .c-014 { position:relative;display:flex;align-items:baseline;gap:14px;padding:16px 22px;text-decoration:none;color:#151515;border-top:1px solid rgba(21,21,21,.06) }
 .c-015 { border-bottom:1px solid rgba(21,21,21,.1);background:linear-gradient(180deg,#FBF5DE 0%,#FFFDF5 100%) }
 .c-016 { position:relative;display:block;color:rgba(21,21,21,.66);text-decoration:none;transition:color .3s ease,transform .35s cubic-bezier(.22,.61,.36,1) }
 .c-018 { display:flex;align-items:center;gap:8px;font-size:18px;line-height:1.4;margin-bottom:8px }
 .c-019 { text-decoration:none;color:#151515;display:block;background:#FFFDF5;border-radius:16px;overflow:hidden;box-shadow:0 1px 2px rgba(21,21,21,.06),0 10px 24px -8px rgba(21,21,21,.14);transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s cubic-bezier(.22,.61,.36,1) }
-.c-020 { font-size:16px;font-weight:700 }
 .c-023 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.26em;color:#3B82C4 }
 .c-024 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.5) }
 /* WORKSの活動カード: 沈めた面(#FBF5DE)の上に白いカードを重ねて奥行きを出す(DESIGN.md: L1 面の段差)。
@@ -87,7 +85,6 @@
 .c-031 { color:rgba(21,21,21,.5);text-decoration:none;transition:color .3s ease }
 .c-034 { aspect-ratio:3/4;overflow:hidden;background:#EFEAE0;border:1px solid rgba(21,21,21,.12);transition:border-color .35s ease,transform .45s cubic-bezier(.22,.61,.36,1) }
 .c-036 { font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;color:rgba(21,21,21,.5);letter-spacing:.03em }
-.c-037 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.24em;color:#3B82C4 }
 .c-043 { font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.16em;min-width:92px }
 .c-047 { display:block;flex:none }
 .c-048 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(246,242,231,.5);margin:12px 0 14px }
@@ -105,7 +102,6 @@
 .c-080 { width:26px;height:1px;background:#3B82C4 }
 .c-082 { display:flex;align-items:center;gap:12px }
 .c-084 { font-size:16px }
-.c-085 { display:flex;align-items:center;gap:16px;margin-bottom:18px }
 .c-086 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.58) }
 .c-089 { color:rgba(246,242,231,.5);text-decoration:none;transition:color .3s ease }
 .c-094 { min-width:0 }
@@ -134,7 +130,6 @@
 .c-147 { background:#070B16;color:#F6F2E7 }
 .c-151 { padding:20px 22px 24px }
 .c-153 { color:#F6F2E7 }
-.c-154 { margin:0 }
 
 /* ===== 重複インラインstyleを機械的にクラス化したもの・追加分 (refactor: 施策7) =====
    1周目(施策4)は「3箇所以上完全一致」を対象にしたが、施策3〜6のsc-for化で
