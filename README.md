@@ -54,6 +54,9 @@ npm run check:css      # CSS構文チェック（stylelint）
 npm run check:images   # 画像サイズチェック（1MB超で警告）
 npm run check:a11y     # アクセシビリティチェック（pa11y, WCAG2AA）
 npm run check:lighthouse  # パフォーマンス/SEO等のスコア計測（Lighthouse CI）
+npm run check:assets      # 未使用の画像・フォントの候補を一覧表示（削除はしない）
+npm run visual -- --page PROFILE   # 指定ページをPC幅・スマホ幅で撮影し、コンソールエラー・横はみ出しを検査
+npm run ci:warnings -- <PR番号>    # CIログから失敗・警告をカテゴリ別に要約
 ```
 
 ### 検証の段階（どのチェックがいつ走るか）
@@ -93,6 +96,7 @@ Branch protection ruleにより、`main` への直接pushはできず、CIを通
 - **段階的な安全設計**: 「壊れている可能性が高いもの」はビルドを失敗させてブロックし、「デザイン判断が必要なもの（配色・画像品質等）」は警告に留めて人間が判断する、という使い分けをしています
 - **Hooks（[`.claude/hooks/`](.claude/hooks/)）**: 「守らせたいルール」をAIの判断に任せず機械的に強制する仕組み。誤ったアカウントへのpushをブロックする `git-identity-guard.js`、APIキー等の書き込みをブロックする `secret-scan-guard.js`、編集直後とターン終了時にHTML/CSSの構文を自動検証する `portfolio-lint-check.js` / `fast-check-on-stop.js`、一時検証スクリプトの消し忘れを警告する `stray-scratch-check.js` を運用しています
 - **パイプライン・スキル（[`.claude/skills/`](.claude/skills/)）**: 複数のサブエージェントを決まった順序・受け渡し・承認ゲートで回す手順書。`portfolio-refactor`（提案→実装→QA。見た目を変えない軽量化。QA不合格は最大2回まで差し戻し）と `portfolio-design-review`（批評3体を並列→統合→デザイナーを並列で提案→人間が採用案を選んでから実装）があり、どちらも「本番へのマージは人間の承認」を前提にしています
+- **作業手順のスキル（[`.claude/skills/`](.claude/skills/)）**: 繰り返し発生する作業を、判断基準と実行スクリプトつきの手順書にしています。`refactoring-playbook`（見た目を変えない整理の安全手順。共有クラスの影響範囲の確認、削除は一覧を見せて許可を得てから、など）、`find-unused-assets`（未使用の画像の洗い出し。削除はしない）、`portfolio-visual-check`（撮影と簡易検査を1コマンドで）、`portfolio-pr-flow`（ブランチ→PR→CI警告の確認→マージ前確認）
 - **専用サブエージェント（[`.claude/agents/`](.claude/agents/)）**: このリポジトリ専属の役割を持つAIエージェントを19体定義しています
   - デザイン批評×提案パイプライン: Apple / Google / Minimalist（Dieter Rams）の思想でデザインを批判する3体（`design-critic-*`）と、その指摘を統合する `design-critique-summarizer`、さらにApple・Google・MUJI・Airbnb・Stripe等10通りの視点から具体的な改修案を出す `designer-*` 群
   - レイアウトレビュー: スマホ幅・PC複数画面幅で実際にレンダリングして崩れを検出する `mobile-responsive-reviewer` / `pc-layout-reviewer`

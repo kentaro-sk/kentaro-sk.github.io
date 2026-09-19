@@ -71,6 +71,8 @@ description: ポートフォリオ（ws/personal/portfolio/）を「見た目・
 - CIの警告（画像サイズ・a11y・Lighthouse等）は、ジョブが成功していても必ず報告する。
 
 ## 補足
+- 実装・QAの各段階では、`refactoring-playbook`（安全手順・影響範囲の確認・削除は確認を取る）と
+  `portfolio-visual-check`（変更前後の撮影・検査）の手順に従う。PR作成は `portfolio-pr-flow` に従う。
 - サブエージェントの種類（`portfolio-refactor-*`）は、Claude Code の**セッション開始時に**
   読み込まれる。作成・更新した直後のセッションで見つからない場合は、
   `.claude/agents/<名前>.md` を読み込んだ `general-purpose` エージェントに、その定義を

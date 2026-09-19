@@ -75,6 +75,8 @@ description: ポートフォリオ（ws/personal/portfolio/）の特定ページ
   **マージはしない**（マージ確認のフォーマットで承認を求める）。CIの警告は必ず報告する。
 
 ## 補足
+- 検証は `portfolio-visual-check`（撮影・簡易検査）、共有クラスの編集前の確認は `refactoring-playbook` の
+  「共有されているものを変える前に、使用箇所を調べる」、PR作成は `portfolio-pr-flow` に従う。
 - サブエージェントの種類は Claude Code の**セッション開始時に**読み込まれる。見つからない場合は、
   `.claude/agents/<名前>.md` を読み込んだ `general-purpose` エージェントに、その定義を役割指示として
   渡して代替する。
