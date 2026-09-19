@@ -90,7 +90,6 @@
 .c-030 { display:block;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em }
 .c-031 { color:rgba(21,21,21,.5);text-decoration:none;transition:color .3s ease }
 .c-034 { aspect-ratio:3/4;overflow:hidden;background:#EFEAE0;border:1px solid rgba(21,21,21,.12);transition:border-color .35s ease,transform .45s cubic-bezier(.22,.61,.36,1) }
-.c-035 { text-decoration:none;color:#151515;display:flex;flex-direction:column;background:#fff;border:1px solid rgba(21,21,21,.1);overflow:hidden;transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease }
 .c-036 { font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;color:rgba(21,21,21,.5);letter-spacing:.03em }
 .c-037 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.24em;color:#3B82C4 }
 .c-039 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:rgba(21,21,21,.55) }
@@ -165,7 +164,6 @@
 .c-116 { margin:0;font-size:16px;line-height:1.95;color:rgba(21,21,21,.78) }
 .c-118 { padding:24px 24px 28px;display:flex;flex-direction:column;flex:1 }
 .c-119 { margin:0;font-size:16px;line-height:1.9;color:rgba(21,21,21,.74) }
-.c-120 { padding:22px 24px 26px;flex:1;display:flex;flex-direction:column }
 .c-121 { width:16px;height:1px;flex:none;background:rgba(59,130,196,.55) }
 .c-122 { background:rgba(59,130,196,.1);padding:5px 10px }
 .c-123 { font-size:18px;font-weight:700;line-height:1.45;margin:0 }
