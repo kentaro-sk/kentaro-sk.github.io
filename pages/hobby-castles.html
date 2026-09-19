@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>日本100名城めぐり — CASTLES</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600&family=IBM+Plex+Mono:wght@400;500&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@500&family=Nunito+Sans:wght@500&family=IBM+Plex+Mono:wght@400;500&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
 <script src="https://unpkg.com/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
 <style>
@@ -27,7 +27,7 @@
   .pop{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(7,11,22,.44);z-index:8;padding:22px}
   .pop.on{display:flex}
   .card{width:min(460px,100%);background:#FFFDF5;border:1px solid rgba(21,21,21,.18);box-shadow:0 30px 60px -30px rgba(7,11,22,.6)}
-  .card h3{margin:0;font-family:'Shippori Mincho B1',serif;font-size:26px;font-weight:600;letter-spacing:.03em}
+  .card h3{margin:0;font-family:'Avenir Next','Avenir','Nunito Sans','Zen Kaku Gothic Antique','Zen Kaku Gothic New',sans-serif;font-size:26px;font-weight:500;letter-spacing:.03em}
   .close{background:none;border:1px solid rgba(21,21,21,.2);width:32px;height:32px;cursor:pointer;font-size:16px;line-height:1;color:#151515}
   .close:hover{border-color:#3B82C4;color:#3B82C4}
   .memo{border:1px dashed rgba(21,21,21,.28);background:repeating-linear-gradient(45deg,#FBF6E8 0 9px,#FFFDF5 9px 18px);padding:24px 20px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:rgba(21,21,21,.42);line-height:1.9}
@@ -67,7 +67,7 @@
     <svg class="map" id="map" viewBox="0 0 1120 620" role="img" aria-label="日本100名城の位置を示す日本地図"></svg>
     <div id="panel" style="position:absolute;left:20px;top:20px;width:240px;background:rgba(255,253,245,.92);border:1px solid rgba(21,21,21,.14);padding:18px 18px 20px;z-index:5">
       <div class="mono" style="font-size:12px;letter-spacing:.2em;color:#3B82C4;margin-bottom:10px">CASTLE MAP</div>
-      <div style="font-family:'Shippori Mincho B1',serif;font-size:24px;font-weight:600;letter-spacing:.03em;line-height:1.45;margin-bottom:14px">日本100名城<br>続日本100名城</div>
+      <div style="font-family:'Avenir Next','Avenir','Nunito Sans','Zen Kaku Gothic Antique','Zen Kaku Gothic New',sans-serif;font-size:24px;font-weight:500;letter-spacing:.03em;line-height:1.45;margin-bottom:14px">日本100名城<br>続日本100名城</div>
       <div id="panelStats" style="display:flex;flex-direction:column;gap:8px;border-top:1px solid rgba(21,21,21,.12);padding-top:13px"></div>
       <div class="mono" style="margin-top:13px;border-top:1px solid rgba(21,21,21,.12);padding-top:11px;font-size:12px;letter-spacing:.1em;line-height:1.9;color:rgba(21,21,21,.45)">ピンをクリックすると<br>城の情報が開きます</div>
     </div>

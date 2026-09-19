@@ -7,8 +7,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Google Fontsの読み込みがレンダリングをブロックしないよう、preloadで先読みしつつ
      onloadでstylesheetに昇格させる（読み込み中はフォールバックフォントで表示される）。 -->
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Cormorant+Garamond:wght@500;600;700&family=Caveat:wght@500;600&family=Shippori+Mincho+B1:wght@600&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Cormorant+Garamond:wght@500;600;700&family=Caveat:wght@500;600&family=Shippori+Mincho+B1:wght@600&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap"></noscript>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Cormorant+Garamond:wght@500;600;700&family=Caveat:wght@500;600&family=Zen+Kaku+Gothic+Antique:wght@500&family=Nunito+Sans:wght@500&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Cormorant+Garamond:wght@500;600;700&family=Caveat:wght@500;600&family=Zen+Kaku+Gothic+Antique:wght@500&family=Nunito+Sans:wght@500&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap"></noscript>
 <!-- d3・topojson-clientをdeferにしてレンダリングブロックを解消。139行目付近の
      地図描画ロジック(インラインscript)もdeferにして、実行順序(d3読み込み→
      topojson-client読み込み→地図描画)を維持している。 -->
@@ -64,10 +64,10 @@
     mask-image:radial-gradient(122% 122% at 50% 50%,#000 44%,rgba(0,0,0,.58) 74%,rgba(0,0,0,0) 100%)}
   .slotcard .cap{margin-top:2px;text-align:center;line-height:1.35}
   .slotcard .en{display:block;font-family:'Caveat',cursive;font-size:21px;color:#4A3A24}
-  .slotcard .ja{display:block;font-family:'Shippori Mincho B1',serif;font-size:12px;letter-spacing:.08em;color:#6B573A;margin-top:1px}
+  .slotcard .ja{display:block;font-family:'Avenir Next','Avenir','Nunito Sans','Zen Kaku Gothic Antique','Zen Kaku Gothic New',sans-serif;font-size:12px;letter-spacing:.08em;color:#6B573A;margin-top:1px}
 
   .legend{position:absolute;left:52px;bottom:44px;width:262px;border:1px solid #6E5535;background:rgba(247,238,213,.72);padding:14px 16px}
-  .legend .row{display:flex;align-items:center;gap:11px;font-family:'Shippori Mincho B1',serif;font-size:13.5px;color:#3E3323}
+  .legend .row{display:flex;align-items:center;gap:11px;font-family:'Avenir Next','Avenir','Nunito Sans','Zen Kaku Gothic Antique','Zen Kaku Gothic New',sans-serif;font-size:13.5px;color:#3E3323}
   .legend .row + .row{margin-top:11px}
   .sw{width:22px;height:14px;flex:none;border:1px solid #8B6F45}
   .dotmark{width:9px;height:9px;flex:none;border-radius:999px;background:#3E3323;margin:0 6.5px}
@@ -85,11 +85,11 @@
   .card{width:min(460px,100%);
     background:radial-gradient(140% 120% at 50% 0%, #F3E7C6 0%, #E6D5AE 72%, #D6BE96 100%);
     border:2px solid #6E5535;box-shadow:0 30px 60px -28px rgba(45,32,16,.8);padding:26px 28px 28px;position:relative}
-  .card h3{margin:6px 0 0;font-family:'Shippori Mincho B1',serif;font-size:27px;font-weight:600;letter-spacing:.05em;color:#3B2C18}
+  .card h3{margin:6px 0 0;font-family:'Avenir Next','Avenir','Nunito Sans','Zen Kaku Gothic Antique','Zen Kaku Gothic New',sans-serif;font-size:27px;font-weight:500;letter-spacing:.05em;color:#3B2C18}
   .card .kick{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:12px;letter-spacing:.26em;color:#7A6238}
   .card .rule{height:1px;background:#8B6F45;opacity:.5;margin:16px 0}
   .card .metas{display:flex;flex-wrap:wrap;gap:8px}
-  .card .metas span{font-family:'Shippori Mincho B1',serif;font-size:12px;letter-spacing:.06em;color:#4A3A24;border:1px solid rgba(110,85,53,.5);padding:5px 11px}
+  .card .metas span{font-family:'Avenir Next','Avenir','Nunito Sans','Zen Kaku Gothic Antique','Zen Kaku Gothic New',sans-serif;font-size:12px;letter-spacing:.06em;color:#4A3A24;border:1px solid rgba(110,85,53,.5);padding:5px 11px}
   .close{position:absolute;right:14px;top:12px;background:none;border:none;font-family:'Cormorant Garamond',serif;font-size:20px;color:#6E5535;cursor:pointer;line-height:1}
   .close:hover{color:#3B2C18}
 </style>
@@ -487,7 +487,7 @@ d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json').th
     gJapan.append('text').attr('x', 300).attr('y', 240).attr('class', 'clab').attr('text-anchor', 'start')
       .attr('font-size', 26).text('JAPAN');
     gJapan.append('text').attr('x', 300).attr('y', 276).attr('text-anchor', 'start')
-      .attr('font-family', "'Shippori Mincho B1',serif").attr('font-size', 15).attr('fill', '#6B573A')
+      .attr('font-family', "'Avenir Next','Avenir','Nunito Sans','Zen Kaku Gothic Antique','Zen Kaku Gothic New',sans-serif").attr('font-size', 15).attr('fill', '#6B573A')
       .text('訪れた都道府県 ' + PREFS.filter(p => p[3]).length + ' / 47');
 
     /* 沖縄インセット（左上・天気予報のかたち） */
@@ -507,7 +507,7 @@ d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json').th
       .attr('font-family', "'Cormorant Garamond',serif").attr('font-weight', 600).attr('font-size', 13)
       .attr('letter-spacing', '.2em').attr('fill', '#5A4626').text('OKINAWA');
     gOki.append('text').attr('x', OKI.x + OKI.w - 12).attr('y', OKI.y + 22).attr('text-anchor', 'end')
-      .attr('font-family', "'Shippori Mincho B1',serif").attr('font-size', 11).attr('fill', '#6B573A').text('沖縄');
+      .attr('font-family', "'Avenir Next','Avenir','Nunito Sans','Zen Kaku Gothic Antique','Zen Kaku Gothic New',sans-serif").attr('font-size', 11).attr('fill', '#6B573A').text('沖縄');
 
     PREFS.forEach(([name, lat, lon, v]) => {
       const oki = name === '沖縄県';

@@ -145,7 +145,9 @@
 .c-093 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.5) }
 .c-094 { min-width:0 }
 .c-095 { aspect-ratio:16/9;overflow:hidden;background:#F5EFDE;border-bottom:1px solid rgba(21,21,21,.08) }
-.c-098 { margin:0 0 14px;font-family:'Shippori Mincho B1',serif;font-size:16px;line-height:1.75 }
+/* WORKSの補足段落。以前は明朝だったが、本文は原則ゴシックという方針に合わせて
+   font-familyを指定せずbody既定(Zen Kaku Gothic New)を継承させる */
+.c-098 { margin:0 0 14px;font-size:16px;line-height:1.75 }
 .c-100 { width:18px;height:1px;flex:none;background:rgba(21,21,21,.28) }
 .c-101 { display:block;font-size:16px;font-weight:700;line-height:1.45 }
 .c-102 { width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block }

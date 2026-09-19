@@ -59,7 +59,7 @@
       const core = mk('g', {});
       mk('circle', { cx: CX, cy: CY, r: 54, fill: '#FFFDF5', stroke: accent, 'stroke-opacity': .3 }, core);
       const coreRing = mk('circle', { cx: CX, cy: CY, r: 62, fill: 'none', stroke: accent, 'stroke-opacity': .3, 'stroke-width': 1 }, core);
-      const t1 = mk('text', { x: CX, y: CY - 4, 'text-anchor': 'middle', fill: ink, 'font-size': 19, 'font-family': '"Shippori Mincho B1",serif', 'font-weight': 600, 'letter-spacing': '.08em' }, core);
+      const t1 = mk('text', { x: CX, y: CY - 4, 'text-anchor': 'middle', fill: ink, 'font-size': 19, 'font-family': "'Avenir Next','Avenir','Nunito Sans','Zen Kaku Gothic Antique','Zen Kaku Gothic New',sans-serif", 'font-weight': 500, 'letter-spacing': '.08em' }, core);
       t1.textContent = this.getAttribute('center') || '地域創生';
       const t2 = mk('text', { x: CX, y: CY + 17, 'text-anchor': 'middle', fill: ink, 'fill-opacity': .48, 'font-size': 8.5, 'letter-spacing': '.16em' }, core);
       t2.textContent = this.getAttribute('center-en') || 'REGIONAL REVITALIZATION';
