@@ -13,6 +13,9 @@
     "check:a11y": "node scripts/check-accessibility.mjs",
     "check:lighthouse": "lhci autorun --config=lighthouserc.json",
     "check:fast": "npm run check:html && npm run check:css",
+    "check:assets": "node scripts/find-unused-assets.mjs",
+    "visual": "node scripts/visual-check.mjs",
+    "ci:warnings": "node scripts/ci-warnings.mjs",
     "check": "npm run check:html && npm run check:links && npm run check:css && npm run check:images && npm run check:a11y"
   },
   "devDependencies": {
