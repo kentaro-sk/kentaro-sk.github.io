@@ -172,6 +172,8 @@ CIの結果を確認したら、`gh pr merge` を実行する **前に** 必ず�
 - HTML構文チェック（`html-validate`）
 - リンク切れ・画像パス切れチェック（`linkinator`）
 - CSS構文チェック（`stylelint`）
+- シークレットスキャン（`gitleaks`・Git履歴全体。CI最初のステップ。公開リポジトリで鍵が漏れると即事故のため必須扱い。
+  編集時は `.claude/hooks/secret-scan-guard.js` が書き込み前にブロックする）
 
 **警告のみ（マージはブロックしないが、上記「CI警告の報告義務」により必ず報告する）**
 - 画像サイズチェック（1MB超、`scripts/check-image-sizes.mjs`）

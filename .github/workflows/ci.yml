@@ -18,6 +18,9 @@ jobs:
     steps:
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v4
+        with:
+          # gitleaksでGit履歴全体をスキャンするため、全履歴を取得する
+          fetch-depth: 0
 
       - name: Node.jsをセットアップ
         uses: actions/setup-node@v4
@@ -29,6 +32,19 @@ jobs:
 
       - name: 依存パッケージをインストール
         run: npm ci
+
+      - name: シークレットスキャン（gitleaks・Git履歴全体・検出時は失敗）
+        # 公開リポジトリでは漏洩が即事故になるため、他のチェックより先に実行する。
+        # 公式Actionではなくリリースバイナリを直接取得する（Actionのライセンス条件・
+        # Nodeバージョン依存を避け、版を固定して再現性を保つため）。
+        # 検出値は --redact で伏せ字にしてログに残さない。
+        env:
+          GITLEAKS_VERSION: 8.30.1
+        run: |
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" -o gitleaks.tar.gz
+          tar -xzf gitleaks.tar.gz gitleaks
+          ./gitleaks git --redact --no-banner -v .
+          rm -f gitleaks gitleaks.tar.gz
 
       - name: HTML構文チェック（html-validate）
         run: npm run check:html
