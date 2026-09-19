@@ -46,6 +46,7 @@ npm install
 ### ローカルでの検証
 
 ```sh
+npm run check:fast     # HTML構文 + CSS構文だけの軽量チェック（数秒。フックからも呼ばれる）
 npm run check          # HTML/リンク/CSS/画像サイズ/アクセシビリティを一括チェック
 npm run check:html     # HTML構文チェック（html-validate）
 npm run check:links    # リンク切れ・画像パス切れチェック（linkinator）
@@ -54,6 +55,17 @@ npm run check:images   # 画像サイズチェック（1MB超で警告）
 npm run check:a11y     # アクセシビリティチェック（pa11y, WCAG2AA）
 npm run check:lighthouse  # パフォーマンス/SEO等のスコア計測（Lighthouse CI）
 ```
+
+### 検証の段階（どのチェックがいつ走るか）
+
+同じ `npm run` スクリプトを、速いものほど手前の段階で、重いものほど後の段階で実行します。定義は `package.json` に一元化しているため、手元・フック・CIで判定基準がずれません。
+
+| 段階 | タイミング | 実行するもの | 失敗時の扱い |
+|---|---|---|---|
+| 1. 編集直後 | AIが `.html`/`.css` を編集するたび（PostToolUseフック） | `check:html` / `check:css` | 警告をAIにフィードバック（ブロックしない） |
+| 2. ターン終了時 | AIの応答が終わるたび（Stopフック） | `check:fast`（未コミットの `.html`/`.css` 変更があるときのみ） | 警告のみ（編集ごとの警告の見落としを最終状態で拾う） |
+| 3. Pull Request | PR作成・更新時（GitHub Actions） | `check`（HTML・リンク・CSS）＋ 警告系（画像サイズ・a11y・Lighthouse） | HTML・リンク・CSSは**マージをブロック**、警告系は報告のみ |
+| 4. マージ後 | `main` への反映時 | GitHub Pagesへ自動デプロイ | — |
 
 ## CI/CD
 
@@ -76,6 +88,7 @@ Branch protection ruleにより、`main` への直接pushはできず、CIを通
 - **CI/CDによる機械的な検証**: 上記の通り、AIの目視確認だけに頼らず、HTML構文・アクセシビリティ・パフォーマンス等を毎回自動チェックしています
 - **Pull Requestベースの承認フロー**: `main` への変更は必ずPull Request経由。AIが自動でブランチ作成・コミット・PR作成・CI結果の確認までを行いますが、**本番環境（GitHub Pages）へのマージは必ず人間の最終承認を経てから実行**します
 - **段階的な安全設計**: 「壊れている可能性が高いもの」はビルドを失敗させてブロックし、「デザイン判断が必要なもの（配色・画像品質等）」は警告に留めて人間が判断する、という使い分けをしています
+- **Hooks（[`.claude/hooks/`](.claude/hooks/)）**: 「守らせたいルール」をAIの判断に任せず機械的に強制する仕組み。誤ったアカウントへのpushをブロックする `git-identity-guard.js`、編集直後とターン終了時にHTML/CSSの構文を自動検証する `portfolio-lint-check.js` / `fast-check-on-stop.js`、一時検証スクリプトの消し忘れを警告する `stray-scratch-check.js` を運用しています
 - **専用サブエージェント（[`.claude/agents/`](.claude/agents/)）**: このリポジトリ専属の役割を持つAIエージェントを19体定義しています
   - デザイン批評×提案パイプライン: Apple / Google / Minimalist（Dieter Rams）の思想でデザインを批判する3体（`design-critic-*`）と、その指摘を統合する `design-critique-summarizer`、さらにApple・Google・MUJI・Airbnb・Stripe等10通りの視点から具体的な改修案を出す `designer-*` 群
   - レイアウトレビュー: スマホ幅・PC複数画面幅で実際にレンダリングして崩れを検出する `mobile-responsive-reviewer` / `pc-layout-reviewer`

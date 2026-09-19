@@ -12,6 +12,7 @@
     "check:images": "node scripts/check-image-sizes.mjs",
     "check:a11y": "node scripts/check-accessibility.mjs",
     "check:lighthouse": "lhci autorun --config=lighthouserc.json",
+    "check:fast": "npm run check:html && npm run check:css",
     "check": "npm run check:html && npm run check:links && npm run check:css && npm run check:images && npm run check:a11y"
   },
   "devDependencies": {

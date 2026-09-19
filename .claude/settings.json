@@ -28,6 +28,10 @@
           {
             "type": "command",
             "command": "node \".claude/hooks/stray-scratch-check.js\""
+          },
+          {
+            "type": "command",
+            "command": "node \".claude/hooks/fast-check-on-stop.js\""
           }
         ]
       }
