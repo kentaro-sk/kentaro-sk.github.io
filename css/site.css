@@ -79,7 +79,6 @@
 .c-018 { display:flex;align-items:center;gap:8px;font-size:18px;line-height:1.4;margin-bottom:8px }
 .c-019 { text-decoration:none;color:#151515;display:block;background:#FFFDF5;border-radius:16px;overflow:hidden;box-shadow:0 1px 2px rgba(21,21,21,.06),0 10px 24px -8px rgba(21,21,21,.14);transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s cubic-bezier(.22,.61,.36,1) }
 .c-020 { font-size:16px;font-weight:700 }
-.c-023 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.26em;color:#3B82C4 }
 .c-024 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:rgba(21,21,21,.5) }
 /* WORKSの活動カード: 沈めた面(#FBF5DE)の上に白いカードを重ねて奥行きを出す(DESIGN.md: L1 面の段差)。
    静止時はshadowなし、hoverでtransformとshadowが立ち上がる(L3) */
@@ -113,7 +112,6 @@
 .c-074 { aspect-ratio:4/3;overflow:hidden;background:#EFEAE0;border:1px solid rgba(21,21,21,.12) }
 .c-076 { position:relative;max-width:1068px;margin:0 auto }
 .c-077 { font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:rgba(21,21,21,.5);margin-top:3px }
-.c-080 { width:26px;height:1px;background:#3B82C4 }
 .c-082 { display:flex;align-items:center;gap:12px }
 .c-084 { font-size:16px }
 .c-085 { display:flex;align-items:center;gap:16px;margin-bottom:18px }
