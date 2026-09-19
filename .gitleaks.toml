@@ -1,0 +1,19 @@
+# gitleaks（シークレットスキャン）の設定。CIの `gitleaks git .` がリポジトリ直下のこのファイルを自動で読む。
+
+# 既定の検出ルール一式はそのまま使い、下の許可リストで「例外」だけを足す
+[extend]
+useDefault = true
+
+# 例外: お問い合わせフォームの Web3Forms アクセスキー（index.html の WEB3FORMS_KEY の行だけ）。
+# このキーは、ブラウザから送信するために公開されることが前提の値で、秘密ではない（公式FAQ）。
+# 運営者のメールアドレス自体はサイトのどこにも書かれない。ただし値の見た目が一般的なAPIキーに
+# 似ているため、`generic-api-key` ルールが誤検知する。
+#
+# 例外を「index.html」かつ「WEB3FORMS_KEY を定義している行」に限定している（condition = "AND"）。
+# 他のファイルや、他の名前の鍵は、これまで通り検出してビルドを失敗させる。
+[[allowlists]]
+description = "Web3Forms の公開アクセスキー（index.html の WEB3FORMS_KEY の行のみ）"
+condition = "AND"
+paths = ['''^index\.html$''']
+regexTarget = "line"
+regexes = ['''const WEB3FORMS_KEY = ''']

@@ -1449,8 +1449,12 @@ a:hover{color:#2A6BA6}
 <sc-if value="{{ err }}" hint-placeholder-val="{{ false }}">
 <div style="margin-top:12px;font-size:16px;color:#B4442B">お名前・メールアドレス・ご用件をご入力ください。</div>
 </sc-if>
-<button onClick="{{ send }}" class="u-fs-18 u-pill" style="margin-top:28px;width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#151515;color:#FFFDF5;border:0;padding:18px;font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:.14em;cursor:pointer;transition:background .35s ease,transform .35s cubic-bezier(.22,.61,.36,1),box-shadow .4s ease" style-hover="background:#3B82C4;transform:translateY(-2px);box-shadow:0 12px 24px -12px rgba(59,130,196,.5)">SEND<svg width="15" height="15" class="c-047"><use href="#i-arrow"></use></svg></button>
+<sc-if value="{{ failed }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:12px;font-size:16px;color:#B4442B">送信できませんでした。時間をおいて、もう一度お試しください。</div>
+</sc-if>
+<button onClick="{{ send }}" class="u-fs-18 u-pill" style="margin-top:28px;width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#151515;color:#FFFDF5;border:0;padding:18px;font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:.14em;cursor:pointer;transition:background .35s ease,transform .35s cubic-bezier(.22,.61,.36,1),box-shadow .4s ease" style-hover="background:#3B82C4;transform:translateY(-2px);box-shadow:0 12px 24px -12px rgba(59,130,196,.5)">{{ sendLabel }}<svg width="15" height="15" class="c-047"><use href="#i-arrow"></use></svg></button>
 <div style="display:flex;align-items:center;justify-content:center;gap:9px;margin-top:20px;color:rgba(21,21,21,.55)"><svg width="15" height="15" class="c-047"><use href="#i-clock"></use></svg><span class="c-084">通常2〜3日以内に返信しています。</span></div>
+<p style="margin:14px 0 0;text-align:center;font-size:12px;line-height:1.7;color:rgba(21,21,21,.55)">入力内容は、フォーム送信サービス（Web3Forms）を経由してメールで届きます。このサイトには保存されません。</p>
 </div>
 </sc-if>
 </div>
@@ -1608,9 +1612,18 @@ const AWARD_ITEMS = [
 // (値そのものは変更しないため、演出結果は従来と完全に同じ)。
 const EASE_OUT = 'cubic-bezier(.16,1,.3,1)';
 
+// お問い合わせフォームの送信先: フォーム送信サービス Web3Forms のアクセスキー。
+// このサイトは静的（サーバなし）でメールを直接送れないため、入力内容をWeb3FormsのAPIへ送り、
+// サービス側が運営者のメールアドレスへ転送する。このキーは公開して問題ない設計（公式FAQ）で、
+// 運営者のメールアドレス自体はHTMLに現れない。キーを作り直した場合はここだけ差し替える。
+// 'YOUR_' で始まる値のままだと未設定とみなし、送信せずに失敗表示にする（ダミーのまま公開して
+// 「送れたように見えるのに届かない」状態にならないための安全策）。
+const WEB3FORMS_KEY = 'c585b8b6-5781-4189-b0f6-846b0666f42e';
+
 class Component extends DCLogic {
   // menu: モバイルのハンバーガーメニューの開閉状態（true=開）。狭幅ではナビをこのメニューに集約する。
-  state = { page: 'home', name: '', mail: '', msg: '', err: false, sent: false, open: '', nav: '', menu: false };
+  // sending: フォーム送信中（二重送信を防ぐ）。failed: 送信に失敗した（通信エラー・サービス側のエラー）。
+  state = { page: 'home', name: '', mail: '', msg: '', err: false, sent: false, sending: false, failed: false, open: '', nav: '', menu: false };
 
   go(p) {
     return e => {
@@ -2126,12 +2139,34 @@ class Component extends DCLogic {
       toggleMenu: e => { if (e && e.preventDefault) e.preventDefault(); this.setState({ menu: !this.state.menu }); },
       progRef: el => { this.prog = el; },
       name: s.name, mail: s.mail, msg: s.msg, err: s.err, sent: s.sent, notSent: !s.sent,
+      failed: s.failed, sendLabel: s.sending ? 'SENDING…' : 'SEND',
       onName: e => this.setState({ name: e.target.value }),
       onMail: e => this.setState({ mail: e.target.value }),
       onMsg: e => this.setState({ msg: e.target.value }),
+      // send: 入力を検証し、OKならフォーム送信サービス(Web3Forms)へ送る。
+      // 「送信できた」と表示するのは、サービスが成功を返したときだけ。通信エラーやサービス側のエラー、
+      // アクセスキー未設定のときは failed を立てて失敗を表示し、入力内容は消さない（やり直せるように）。
       send: () => {
+        if (s.sending) return; // 送信中の連打による二重送信を防ぐ
         const ok = s.name.trim() && /.+@.+\..+/.test(s.mail) && s.msg.trim();
-        this.setState(ok ? { sent: true, err: false } : { err: true });
+        if (!ok) { this.setState({ err: true, failed: false }); return; }
+        if (/^YOUR_/.test(WEB3FORMS_KEY)) { this.setState({ err: false, failed: true }); return; }
+        this.setState({ err: false, failed: false, sending: true });
+        fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_KEY,
+            subject: 'ポートフォリオサイトからのお問い合わせ',
+            from_name: 'ポートフォリオサイト',
+            name: s.name.trim(),
+            email: s.mail.trim(),
+            message: s.msg.trim()
+          })
+        })
+          .then(res => res.json())
+          .then(json => this.setState(json && json.success ? { sent: true, sending: false } : { failed: true, sending: false }))
+          .catch(() => this.setState({ failed: true, sending: false }));
       }
     });
   }

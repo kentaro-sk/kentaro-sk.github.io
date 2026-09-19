@@ -4,7 +4,8 @@
 
 ## このサイトの性質
 
-- **静的サイト**です。サーバ側の処理・データベース・ユーザーアカウントはなく、訪問者の個人情報を収集・保存しません。
+- **静的サイト**です。サーバ側の処理・データベース・ユーザーアカウントはなく、このサイト自身は訪問者の情報を収集・保存しません。
+- お問い合わせフォームに入力された内容（お名前・メールアドレス・ご用件）は、外部のフォーム送信サービス（[Web3Forms](https://web3forms.com)）を経由して、運営者にメールで届きます。サービス側は送信内容を保存せず転送のみ行う、と説明されています。
 - 公開しているのは `main` ブランチの最新版だけです（古い版の保守はありません）。
 
 ## 脆弱性・問題の報告
@@ -22,7 +23,7 @@
 
 ### 対象外
 
-- 第三者サービス（GitHub Pages、jsDelivr、unpkg、Google Fonts など）自体の脆弱性（各提供元へ報告してください）
+- 第三者サービス（GitHub Pages、jsDelivr、unpkg、Google Fonts、Web3Forms など）自体の脆弱性（各提供元へ報告してください）
 - 具体的な悪用方法や影響が示されていない、自動スキャナの出力だけの報告
 - サービス妨害（DoS）や、なりすまし・フィッシング等のソーシャルエンジニアリング
 
@@ -36,8 +37,8 @@
 
 ## English summary
 
-This repository contains the source of a personal portfolio website (<https://kentaro-sk.github.io>). It is a **static site** with no server-side code, database, user accounts, or collection of visitors' personal data. Only the latest `main` branch is maintained.
+This repository contains the source of a personal portfolio website (<https://kentaro-sk.github.io>). It is a **static site** with no server-side code, database, or user accounts, and the site itself does not store visitor data. Messages typed into the contact form are forwarded by e-mail to the owner through a third-party form service (Web3Forms), which states that it does not store submissions. Only the latest `main` branch is maintained.
 
 **Reporting a vulnerability:** please do **not** open a public issue. Use GitHub's private vulnerability reporting instead: <https://github.com/kentaro-sk/kentaro-sk.github.io/security/advisories/new>
 
-This is a personal, unpaid project, so responses are best-effort (we aim to acknowledge within about a week, without guarantee). Issues in third-party services (GitHub Pages, jsDelivr, unpkg, Google Fonts), scanner-only reports without a demonstrated impact, denial-of-service, and social engineering are out of scope.
+This is a personal, unpaid project, so responses are best-effort (we aim to acknowledge within about a week, without guarantee). Issues in third-party services (GitHub Pages, jsDelivr, unpkg, Google Fonts, Web3Forms), scanner-only reports without a demonstrated impact, denial-of-service, and social engineering are out of scope.
