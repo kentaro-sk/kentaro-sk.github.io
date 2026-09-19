@@ -16,7 +16,15 @@ html,body{margin:0;height:100%;background:#070B16;overflow:hidden}
 #hud b{font-weight:400;color:#EFC24A}
 #hud s{text-decoration:none;color:#E4664F}
 #hud u{text-decoration:none;color:rgba(233,226,208,.45)}
+/* ?clean のとき: 凡例のROBOT/OUT OF SCOPE/MOTION LOCUS、HUDの見出しとPACE行、下部のDRAGヒントを隠す。
+   凡例側は #lgd div{display:flex} (IDセレクタ)に詳細度で負けないよう #lgd を含めて指定する */
+.clean #lgd .lg-hide,.clean .hud-title,.clean .hud-pace,.clean #hint{display:none}
 </style>
+<script>
+// ?clean 付きで開かれたとき(WORKSページの埋め込み)は、説明用の英語ラベルを非表示にする。
+// MOBILITYページの埋め込みは従来どおり全て表示する。
+if (/[?&]clean(&|=|$)/.test(location.search)) document.documentElement.className = 'clean';
+</script>
 <script type="importmap">
 {
   "imports": {
@@ -34,13 +42,13 @@ html,body{margin:0;height:100%;background:#070B16;overflow:hidden}
 <body>
 <canvas id="c"></canvas>
 <div id="lgd">
-  <div><i style="background:#3B82C4"></i>ROBOT</div>
+  <div class="lg-hide"><i style="background:#3B82C4"></i>ROBOT</div>
   <div><i style="background:#EFC24A"></i>INDUCIBLE — 誘導できる</div>
   <div><i style="background:#E4664F"></i>NON-INDUCIBLE — 誘導できない</div>
-  <div><i style="background:#78849A"></i>OUT OF SCOPE — 制御対象外</div>
-  <div><i style="background:#6FA8D8"></i>MOTION LOCUS — 軌跡</div>
+  <div class="lg-hide"><i style="background:#78849A"></i>OUT OF SCOPE — 制御対象外</div>
+  <div class="lg-hide"><i style="background:#6FA8D8"></i>MOTION LOCUS — 軌跡</div>
 </div>
-<div id="hud">INDUCIBILITY SCAN<br><b>INDUCIBLE 0</b> / <s>NON 0</s> / <u>OUT 0</u></div>
+<div id="hud"><span class="hud-title">INDUCIBILITY SCAN<br></span><b>INDUCIBLE 0</b> / <s>NON 0</s> / <u>OUT 0</u></div>
 <div id="hint">DRAG TO ORBIT — 進行方向の判定範囲で可誘導性を評価 / ACTIVE vs PASSIVE</div>
 <script type="module">
 import * as THREE from 'three';
@@ -475,9 +483,9 @@ function frame() {
   hudT += dt;
   if (hudT > .22) {
     hudT = 0;
-    hud.innerHTML = 'INDUCIBILITY SCAN<br><b>INDUCIBLE ' + nInd + '</b> / <s>NON ' + nNon +
-      '</s> / <u>OUT ' + (PED_N - nInd - nNon) + '</u><br><u>PACE ' + Math.round(pace * 100) +
-      '% — ' + (nNon ? 'ROBOT DETOURS' : 'PEDS YIELD') + '</u>';
+    hud.innerHTML = '<span class="hud-title">INDUCIBILITY SCAN<br></span><b>INDUCIBLE ' + nInd + '</b> / <s>NON ' + nNon +
+      '</s> / <u>OUT ' + (PED_N - nInd - nNon) + '</u><span class="hud-pace"><br><u>PACE ' + Math.round(pace * 100) +
+      '% — ' + (nNon ? 'ROBOT DETOURS' : 'PEDS YIELD') + '</u></span>';
   }
 
   controls.update();
