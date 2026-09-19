@@ -209,6 +209,16 @@ devDependencies を編集する。
 
 ## このプロジェクト固有のコーディング規約
 
+### デザイン（見た目・UIを変更するときは必ず先に `DESIGN.md` を読む）
+- **`index.html`・`css/site.css`・`pages/*.html` の見た目（色・書体・余白・角丸・影・レイアウト・
+  コンポーネント）を追加・変更するときは、編集前に必ず `DESIGN.md` を読み、その方針に従う。**
+  `DESIGN.md` がこのサイトのデザインの正本であり、下記のCSS規約はその要約にすぎない。
+  食い違う場合は `DESIGN.md` を優先する。
+- サイト全体の方針は「Apple風のおしゃれでシンプルなデザイン」（HOMEだけ明朝を維持）。
+  新しい見た目を決めたとき・方針を変えたときは、実装と同じ作業の中で `DESIGN.md` も更新して
+  実装と食い違わせない（進捗の記述・トークン・コンポーネント・例外）。
+- 文言だけの変更など、見た目に関わらない編集では参照は不要。
+
 ### HTML
 - インデントはスペース2文字
 - 属性値は必ずダブルクォートで囲む（`class="foo"` ○ / `class='foo'` ×）
@@ -223,10 +233,9 @@ devDependencies を編集する。
 - **エレベーション（box-shadow）はhover主導にする**: カード・ボタンは静止時shadowなし
   （1px hairline borderのみ）とし、hoverしたときだけ`translateY`＋2層box-shadowを
   立ち上げる。常時shadowを付けない（詳細は`DESIGN.md`の「Elevation & Depth」参照）。
-- **border-radiusは0px（角丸なし）を基調にする**: CTAボタン・大半のカードは角丸0で
-  統一する。例外は「現在地・アイコン」用途の50%（円形）と、バッジ用途限定の999px
-  （pill）のみ。カードで10px/16pxの角丸を使う場合も既存の3段階（0/10/16px）の枠内に
-  収める（詳細は`DESIGN.md`の「Shapes」参照）。
+- **border-radiusは少数の文法に統一する**: カードは角丸0px、主要CTAボタン・バッジは
+  pill（999px）、「現在地・アイコン・円形トリミング」は50%（円形）。カードで10px/16pxの
+  角丸を使う場合も既存の3段階（0/10/16px）の枠内に収める（詳細は`DESIGN.md`の「Shapes」参照）。
 
 ### JavaScript
 - `js/support.js`・`js/particle-field.js`・`js/flow-cycle.js`・`js/journey-scene.js`・
