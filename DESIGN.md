@@ -2,17 +2,19 @@
 
 このサイトは「和の情緒」と「エンジニアの精密さ」を同居させたパーソナルポートフォリオである。単一HTML内で画面切り替えを行うSPA的ルーター構造を持ち、各画面はクリーム紙(`{colors.canvas}`系)を基調としながら、ビジョンや夜景を語る場面でだけ濃紺(`{colors.canvas-dark}`系)へ切り替わる。書体は4種を役割別に厳密に使い分ける——明朝体(Shippori Mincho B1)が情緒的な見出し・語り、等幅体(IBM Plex Mono)がラベル・ナビ・数値、ゴシック体(Zen Kaku Gothic New)が本文可読性、筆記体(Parisienne)が署名的な一点豪華主義——という4層の書体ヒエラルキーが、このサイトで最も一貫した設計原則になっている。
 
+**2026-09-19の方針転換。** サイト全体の方向を「Apple風のおしゃれでシンプルなデザイン」へ移す。カード・影・装飾を減らし、細い区切り線・大きな余白・控えめな配色で構成する。書体も、**HOMEを除く全ページ**で見出しを明朝から Avenir Next系ゴシック(共通クラス `.u-display`)へ切り替えた。**HOMEだけは従来どおり明朝を維持する**(例外として、WORKS「これまでの活動内容。」・STORY「ここまでの道のり。」・GOAL「地域創生」の3つの大見出しも明朝のまま残す)。転換の進捗は、PROFILE・CONTACT・HOME末尾のCTAがレイアウトまで刷新済み、WORKS / STORY / GOAL / HOBBY / ACHIEVEMENTS は書体のみ転換済みでレイアウトは旧方針のまま(順次刷新の対象)。従来の禁止事項「Apple的な単一グラマーに寄せる判断を持ち込まない」は**全面的に撤回**し、むしろ「カード・ボタン・アイコンの文法を少数に統一する」ことを推奨する。以降の記述のうち旧方針に由来する箇所は、この転換に合わせて更新してある。
+
 配色は単一アクセントではなく、面によってアクセントを切り替える**2アクセント運用**を取る。クリーム面ではAction Blue (`#3B82C4`) が、濃紺面ではGold (`#D9B979`) が「クリックできる/特別である」を示す。青=日常の導線・行動喚起、金=ビジョン・実績・特別な瞬間、という意味分担になっており、これはこのサイトの意図的な設計であって崩すべき不統一ではない。
 
 エレベーション(奥行き表現)は「常時ほぼフラット、hoverで初めてshadowが立ち上がる」という動的な設計を取る。カード・ボタン・SNSアイコンのいずれも、ホバー時に `translateY(-3px〜-8px)` と2層box-shadowが同時に発生し、「操作可能であることをインタラクションで証明する」手触りを作っている。
 
 **Key Characteristics:**
-- 4書体ヒエラルキー: 明朝(見出し・情緒) / 等幅(ラベル・数値) / ゴシック(本文) / 筆記体(署名的装飾、年に1〜2箇所)。
+- 書体ヒエラルキー: 見出し=Avenir Next系ゴシック `.u-display`(HOMEのみ明朝) / 等幅(ラベル・数値) / ゴシック(本文) / 筆記体(署名的装飾、年に1〜2箇所)。
 - 2アクセント運用: クリーム面=Action Blue、濃紺面=Gold。単一アクセントに統一しない。
 - 動的エレベーション: 静止時フラット→hoverで`translateY`+2層shadowが立ち上がる。
-- CTA・カードは角丸0基調(四角)。丸(50%)は「現在地・アイコン」、pillは「バッジ」に用途を限定。
+- CTA・カードは現状、角丸0の矩形で統一している(少数の文法に揃える方針)。丸(50%)は「現在地・アイコン・円形トリミング」、pillは「バッジ」に使う。CTAをpillへ寄せるかどうかは、サイト全体で一括して決める。
 - 4つのcanvas/SVGカスタム要素(particle-field / journey-scene / dream-city / flow-cycle)が、製品写真の代わりに「概念・ビジョン」を象徴的に演出する。
-- セクション区切りは色面の切替だけでなく、余白(56–96px)とhairline border-bottomの併用で明示される。
+- セクション区切りは色面の切替だけでなく、余白(56–96px)とhairline borderの併用で明示される。転換済みページは、カードの箱ではなく区切り線ベースの行リスト(`row-list`)で構成する。
 - STORY年表はPC/モバイルで実装が完全に分岐する唯一のコンポーネント(PC: 縦stickyナビ、モバイル: sticky進捗バー)。
 
 ## Colors
@@ -21,8 +23,8 @@
 
 ### Brand & Accent — クリーム面
 - **Action Blue** (`{colors.primary}` — #3B82C4): クリーム面での唯一のクリック可能シグナル。ナビ現在地、テキストリンク、フォーカスボーダー、CTAのホバー背景。
-- **Action Blue Deep** (`{colors.primary-deep}` — #2A6BA6): Action Blueの押下/ホバー濃色バリエーション。
-- **Pale Blue Ring** (`{colors.primary-pale}` — #D9E8F7): フォーカスリング・選択状態の淡いハイライト。
+- **Action Blue Deep** (`{colors.primary-deep}` — #2A6BA6): Action Blueの押下/ホバー濃色バリエーション。**15px以下の小さいテキストリンクにはこちらを使う**(Action Blueは#FFFDF5上で約3.6:1となりAA未達のため)。
+- **Pale Blue Ring** (`{colors.primary-pale}` — #D9E8F7): フォーカスリング・選択状態の淡いハイライト。PROFILE「強みと弱み」の**強みパネルの背景**にも使う(意味の色分けには新色を作らず既存トークンを使う)。
 
 ### Brand & Accent — 濃紺面
 - **Gold** (`{colors.accent-gold}` — #D9B979): 濃紺面での唯一のクリック可能/特別シグナル。Action Blueのダーク面対応物。実績・年号・ビジョンの強調に使用。
@@ -32,7 +34,7 @@
 
 ### Surface
 - **Canvas Cream** (`{colors.canvas}` — #FFFDF5): 全ページの基調背景色。
-- **Canvas Cream Deep** (`{colors.canvas-deep}` — #FBF5DE / #FAF3DC): クリーム面の中で一段沈めた区画(フォームパネル、情報ボックス)。
+- **Canvas Cream Deep** (`{colors.canvas-deep}` — #FBF5DE / #FAF3DC): クリーム面の中で一段沈めた区画(情報ボックス、PROFILEのサイドバーと「弱み」パネル)。
 - **Canvas Cream Pale** (`{colors.canvas-pale}` — #F9F0CE / #FDFBF3 / #F7F2E6 / #FBF7EF): 微差のクリーム濃淡。セクションごとの呼吸を作る。
 - **Canvas Dark** (`{colors.canvas-dark}` — #070B16 / #070C16): ビジョン・夜景・実績を語る主要な濃紺面。
 - **Canvas Dark Deep** (`{colors.canvas-dark-deep}` — #0A1A2F): 野球観戦セクションのスコアボード背景。
@@ -56,15 +58,16 @@
 ## Typography
 
 ### Font Family
-- **明朝 (Shippori Mincho B1)**: weight 400/600。情緒的な見出しと、STORY/CONTACT等のリード文。「和」のトーンを担う。
+- **明朝 (Shippori Mincho B1)**: weight 400/600。**HOME限定**の見出し・リード文(「和」のトーンを担う)。HOME以外のページでは使わない(2026-09-19〜)。例外は WORKS「これまでの活動内容。」・STORY「ここまでの道のり。」・GOAL「地域創生」の3つの大見出し。
+- **見出しフォント (`.u-display`、`css/site.css`)**: `'Avenir Next','Avenir','Nunito Sans','Zen Kaku Gothic Antique','Zen Kaku Gothic New',sans-serif`、weight 500のみ。Avenir Nextを持つApple端末では欧文がAvenir Next、それ以外はNunito Sans。Avenir Nextは漢字を持たずライセンス上Webフォント配信もできないため、**日本語はどの端末でもZen Kaku Gothic Antiqueで描画される**。HOME以外の全ページの見出し・引用文・大きな日本語の題に使う。
 - **等幅 (IBM Plex Mono)**: weight 400/500/600。ラベル・ナビ項目・年号・数値・セクションアイラベル。letter-spacingを`.1em〜.26em`と広く取り「ラベルらしさ」を演出。
 - **ゴシック (Zen Kaku Gothic New)**: weight 400/500/700。body既定フォント。本文段落・フォーム入力など可読性最優先の箇所。
 - **筆記体 (Parisienne)**: weight 400、自己ホストwoff2。装飾専用。年に1〜2箇所の署名的使用に留める。
 
 ### 使い分けの原則(最重要・崩さない)
-- **見出し・情緒 → 明朝。ラベル・データ → 等幅。本文 → ゴシック。署名 → 筆記体。** 3層+1の役割分担がこのサイトの一貫性の核。
+- **見出し・情緒 → `.u-display`(HOMEのみ明朝)。ラベル・データ → 等幅。本文 → ゴシック。署名 → 筆記体。** 3層+1の役割分担がこのサイトの一貫性の核。
 - 等幅ラベルは原則すべて大文字 + letter-spacing `.1em`以上。「システムのラベル」であることを一目で示す。
-- 明朝は400(リード文・本文)と600(見出し)の2ウェイトのみ。
+- 明朝(HOMEと、例外の3大見出し)は400(リード文・本文)と600(見出し)の2ウェイトのみ。`.u-display`は500のみ(Zen Kaku Gothic Antiqueを500だけ読み込んでいるため、太字指定すると擬似太字になる。`font-weight`は書かず、クラスに任せる)。
 - 本文サイズはモバイルで16pxに統一(PC由来の17/18px指定は760px以下で16pxへ強制縮小)。
 
 ### ゴシック体のサイズスケール
@@ -87,8 +90,19 @@
 スケールは主に「見出し・タイトル・サブ情報が本文と同サイズに潰れる」ことを防ぐための
 下限/上限の目安であり、全箇所を機械的に置き換える強制ルールではない。
 
+### 見出し階層(`.u-display`)
+上記6段階のゴシック本文スケールとは別に、見出し用の階層を持つ(2026-09-19、PROFILE刷新で導入)。
+
+| 用途 | サイズ | 備考 |
+|------|--------|------|
+| ページタイトル(h1) | 40〜64px(`clamp`) | PROFILEの名前は`u-fs-56`、CONTACTは`clamp(40px,6vw,64px)` |
+| セクション見出し(h2) | 24〜30px(`clamp`) | 「経歴」「強みと弱み」「問い合わせ内容」等 |
+| 項目名(カード・パネルの題) | 22px | 「行動力」「目的思考」等。`u-fs-22`と併用 |
+
+letter-spacingは`.04〜.1em`と広めに取る。760px以下では既存の`u-fs-*`の縮小ルールがそのまま効く。
+
 ### Note on 書体調達
-- 4書体すべてGoogle Fonts経由。Parisienneのみ自己ホストwoff2を併用し、外部フォントブロック時も署名的見出しが確実に表示されるようフォールバックを確保する。
+- Google Fonts経由。Parisienneのみ自己ホストwoff2を併用し、外部フォントブロック時も署名的見出しが確実に表示されるようフォールバックを確保する。Nunito SansとZen Kaku Gothic Antiqueは見出し用として2026-09-19に追加した(計6書体。読み込み量が増えるため、今後さらに増やさない)。
 - 和文/欧文混在のためline-height比率を用途ごとに個別調整する(明朝1.75〜2.05、ゴシック1.4〜1.9、等幅1.0〜1.7)。単一のline-heightスケールに揃えない——書体ごとに最適値を優先する。STORY/TURNING POINTの長文ナラティブ本文(自分の言葉で経緯を語る段落)に限り、"ジャーナル/年表としての読み物密度"を優先してゴシック1.9〜2.1まで許容する(2026-09-18、STORYページのマルチエージェント設計レビューで実態を追認)。
 
 ## Layout
@@ -104,7 +118,7 @@
 - その他のグリッドは概ね2〜3カラムで、760px以下で1カラムへ縮退。
 
 ### Whitespace Philosophy
-STORY年表の164pxマージンのように「罫線の代わりに余白で語る」姿勢を随所に持つ一方、情報密度は全体としてかなり高い(等幅ラベル・年代・キャプションが常に併走する)。製品カタログ的な余白最優先ではなく、"ジャーナル/年表"としての読み物密度を優先する。
+STORY年表の164pxマージンのように「罫線の代わりに余白で語る」姿勢を持つ。2026-09-19以降は「Apple風のシンプルさ」を優先し、情報密度よりも余白と細い区切り線での構成を基本とする(従来の「読み物密度を優先」する方針は、STORY/TURNING POINTの長文ナラティブに限って残す)。転換済みページのセクション垂直余白は**56〜96pxの範囲に収める**。
 
 ## Elevation & Depth
 
@@ -118,6 +132,8 @@ STORY年表の164pxマージンのように「罫線の代わりに余白で語�
 
 **エレベーション哲学。** shadowは「静止画に重みを与える」ためではなく「操作可能であることをインタラクションで証明する」ために使う。静止時はフラットにして情報の読みやすさを優先し、hoverで初めてshadowとリフトが発生する。ヘッダーの`{elevation.frosted}`だけは常時適用される例外(スクロール時も可読性を保つ機能的要請のため)。**新しいカードを追加するときは`card-flat-bordered`(静止時flat)をデフォルトとし、`card-soft-rounded`の常時shadowは既存の小型バッジ状カードのみの例外として扱う(新規の大型コンテンツカードに常時shadowを持ち込まない)。**（2026-09-18: PROFILEダッシュボード改修時のデザインレビューで、この原則と`card-soft-rounded`の定義が実装上あいまいになっていたことが判明し、明文化した。）
 
+区切り線ベースの行リスト(`row-list`)はカードではないため、hoverは`translateY(-2px)`のみでshadowは出さない。リンクでない面(強みと弱みのパネル等)はhover演出を持たない。
+
 ## Shapes
 
 ### Border Radius Scale
@@ -127,10 +143,10 @@ STORY年表の164pxマージンのように「罫線の代わりに余白で語�
 | `{rounded.none}` | 0px | CTAボタン全般、STORY年表カード、大半のカード。最頻出=このサイトの基調シルエット |
 | `{rounded.sm}` | 10px | バッジ状の小型カード限定。経歴カード等、情報量の多い大型コンテンツカードには適用しない(`{rounded.none}`のcard-flat-borderedを使う) |
 | `{rounded.lg}` | 16px | HOMEのSELECTED WORKS 3枚カードなど、目玉コンテンツ限定 |
-| `{rounded.full}` | 50% | ロゴアイコン、STORY年表の現在地マーク等「点・現在地」を示す要素。PROFILEダッシュボードの人物ポートレート(顔写真)のような、人物識別を目的とする円形トリミングもこのトークンの対象に含む |
+| `{rounded.full}` | 50% | ロゴアイコン、STORY年表の現在地マーク等「点・現在地」を示す要素。人物識別を目的とする円形トリミング(PROFILEの顔写真)、および象徴的なイラストの円形トリミング(PROFILE「行動力」の3枚)もこのトークンの対象に含む |
 | `{rounded.pill}` | 999px | 一部のタグ・バッジ(「COMING SOON」等)限定 |
 
-**Radiusの意味分担。** 角丸ゼロが「情報を扱う真面目な面」の基調で最頻出。10px/16pxは段階的に「カードの重要度・特別感」を示す2段のエスカレーションとして機能する(小カード=10px、目玉カード=16px)。丸(50%)は「現在地・アイコン」を示す記号、pillは「バッジ」に用途を絞り、Appleのような「pill=行動喚起」の文法は採用しない——CTAは角丸0の矩形で統一する。
+**Radiusの意味分担。** 角丸ゼロが基調で最頻出(現状の統一された文法)。10px/16pxは段階的な強調として残っているが、Apple風の方針では**カード・ボタン・アイコンの文法をできるだけ少数に統一する**ことを優先し、新しい値は増やさない。丸(50%)は「現在地・アイコン・円形トリミング」を示す記号、pillは「バッジ」(PROFILEの「強み」「弱み」等)に使う。Appleのような「pill=行動喚起」の文法は禁止事項ではなく選択肢であり、採用するときは全ページのCTAを同時に切り替えて1つの文法に揃える(現状のCTAは角丸0の矩形)。
 
 ### Illustration / Photography Geometry
 - 製品写真の代わりに、canvas/SVGによる4種のカスタム要素がビジュアルの主役を担う(Componentsを参照)。
@@ -146,13 +162,11 @@ STORY年表の164pxマージンのように「罫線の代わりに余白で語�
 
 ### ボタン
 
-**`cta-primary`** — 主要CTA(「GET IN TOUCH →」等)。`{rounded.none}`、背景`{colors.neutral-dark}`→hover`{colors.primary}`+`translateY(-3px)`+shadow出現、等幅・letter-spacing `.14em`、padding 22px 44px。フルブロック矩形。
+**`cta-primary`** — 主要CTA(「GET IN TOUCH」等)。`{rounded.none}`、背景`{colors.neutral-dark}`→hover`{colors.primary}`+`translateY(-2px)`+shadow出現、Zen Kaku Gothic New 500・15px・letter-spacing `.1em`、padding 16px 40px。フルブロック矩形。矢印「→」は付けない(2026-09-19に廃止)。
 
 **`text-link-cta`** — 「VIEW FULL "PROFILE" →」等。下線ボーダー+ホバーでletter-spacing展開するテキストリンク型。角丸ボタンではない。
 
-**`social-icon-contact`** — CONTACT本文の46×46px円形SNSアイコン。ブランド公式色背景+カラーシャドウ、hoverで`translateY(-3px)`+`brightness(1.08)`。
-
-**`social-icon-footer`** — フッターの34×34px円形SNSアイコン。透明背景+ニュートラルborder、hoverでAction Blueへ色変化。CONTACT本文とは意図的に別グラマー(実線塗り vs アウトライン)。
+**`social-icon-outline`** — SNSアイコンの共通形。CONTACT本文(46px)・PROFILEヒーロー(42px)・フッター(34px)で使う円形。透明背景+1px border(alpha .18)+`rgba(21,21,21,.7)`のアイコン、hoverでAction Blueへ色変化+`translateY(-2px)`。掲載は Instagram / LinkedIn / X / Facebook / GitHub(CONTACT本文はInstagramを除く3つ)。2026-09-19に、CONTACT・PROFILEの公式ブランド色ベタ塗り(旧`social-icon-contact`)をやめて統一した。
 
 ### カード
 
@@ -165,6 +179,10 @@ STORY年表の164pxマージンのように「罫線の代わりに余白で語�
 **`card-accent-top`** — 白背景、1pxborder+上端だけ3px accentボーダー(`{colors.primary}`)。実績バッジに使用。
 
 **`panel-cream-inset`** — `{colors.canvas-deep}`のパディング小箱。地の色から一段沈めた情報ボックス。
+
+**`row-list`** — 転換済みページの標準的な情報の並べ方。箱・背景・影を持たず、上下1pxの区切り線(alpha .14)と余白だけで行を区切る。経歴(PROFILE)や問い合わせ内容(CONTACT)で使う。リンクの行はhoverで`translateY(-2px)`のみ。旧`card-flat-bordered`より軽く、Apple風のシンプルさを担う。
+
+**`panel-tinted`** — 意味の色分けが必要な面(PROFILE「強みと弱み」)。`{rounded.none}`、影なし、padding 32px 28px 36px。強み=`{colors.primary-pale}`(#D9E8F7)+青いpillバッジ(`#2A6BA6`地・白文字)、弱み=`{colors.canvas-deep}`(#FBF5DE)+Ink(`#151515`)地のpillバッジ。**クリーム面で金は使わない**(金は濃紺面のアクセント)。
 
 **`story-timeline-card`** — STORY年表本体。`{rounded.none}`、margin-bottom 164pxの広い余白のみで区切り(罫線なし)。
 
@@ -188,30 +206,32 @@ STORY年表の164pxマージンのように「罫線の代わりに余白で語�
 
 ### フォーム
 
-**`contact-form`** — `{colors.canvas-deep}`パネル内に設置。入力欄は背景`{colors.canvas}`、border `1px solid rgba(21,21,21,.2)`、`{rounded.none}`、padding 11px 12px、フォーカス時はborder-colorのみ`{colors.primary}`へ変化(shadowなし)。氏名/用件欄はゴシック16px、メール欄のみ等幅12.5px(半角入力であることを書体で示唆)。送信後はチェックアイコン+完了メッセージへ差し替え。エラー時は`{colors.error}`の注意文。
+**`contact-form`** — パネルを持たず、ページの余白の中に置く(2026-09-19に`{colors.canvas-deep}`パネルをやめた)。入力欄は背景`#fff`、border `1px solid rgba(21,21,21,.2)`、`{rounded.none}`、padding 14px、フォーカス時はborder-colorのみ`{colors.primary}`へ変化(shadowなし)。氏名/用件欄はゴシック16px、メール欄のみ等幅(半角入力であることを書体で示唆)。送信ボタンは黒地でhoverに青。送信後はチェックアイコン+完了メッセージへ差し替え。エラー時は`{colors.error}`の注意文。
 
 ### フッター
 
-**`footer`** — 筆記体の署名ロゴ+ `social-icon-footer` + 補助リンク。
+**`footer`** — 筆記体の署名ロゴ+ `social-icon-outline`(34px) + 補助リンク。
 
 ## Do's and Don'ts
 
 ### Do
 - クリーム面のクリック可能要素は`{colors.primary}`(Action Blue)、濃紺面は`{colors.accent-gold}`(Gold)——面によってアクセントを使い分ける。
-- 見出し・情緒的リード文は明朝、ラベル・数値・ナビは等幅、本文はゴシック。この3層の役割を混同しない。
+- 見出しは`.u-display`(HOMEのみ明朝)、ラベル・数値・ナビは等幅、本文はゴシック。この役割を混同しない。
 - カード・ボタンは静止時フラット、hoverで`translateY`+2層box-shadowを立ち上げて操作可能性を示す。
-- CTAとカードは`{rounded.none}`を基調とし、丸(`{rounded.full}`)は「現在地・アイコン」、pillは「バッジ」に用途を絞る。
+- CTAとカードは1つの文法に統一する(現状は`{rounded.none}`)。丸(`{rounded.full}`)は「現在地・アイコン・円形トリミング」、pillは「バッジ」に使う。
+- 新しいカード・ボタン・アイコンは既存の型に寄せて、少数の文法に統一する。`border-radius`やshadowの新しい値を増やさない(現状の0/10/16pxも、今後は統一の方向で整理する)。
+- 意味の色分け(強み/弱み等)には既存トークン(`primary-pale` / `canvas-deep` / `ink`)を使う。クリーム面で金を使わない。
+- 転換済みページは、箱で囲うより区切り線と余白で構成する(`row-list`)。
 - Parisienne(筆記体)は年に1〜2箇所の署名的な使用に留め、多用しない。
 - STORY年表以外の画面はPC/モバイルで構造そのものを変えず、レイアウトのみブレークポイントで調整する。
 - 新しい演出コンポーネントを追加する場合も「概念を象徴するcanvas/SVG」という位置づけに留め、実写真ヒーローに頼らない。
 
 ### Don't
 - 単一アクセントカラーに統一しない——2アクセント運用(青/金)は意図的な設計であり、1色ルールを持ち込むと面の意味分担が壊れる。
-- カードの`border-radius`を機械的に1種類へ統一しない——`{rounded.none}`/`{rounded.sm}`/`{rounded.lg}`の3段階は用途(通常/小カード/特別カード)に対応した意味のある差である。
 - 静止時のカード・ボタンにshadowを足さない——「hoverで初めて浮き上がる」動きがこのサイトの手触りの核。
 - 本文を明朝・等幅で長文表示しない——ゴシック以外は可読性が落ちる。
 - 濃紺セクションを増やしすぎない——「ビジョン・実績・特別な瞬間」を語る場に限定されているからこそ効果を持つ。
-- pillやCTAの丸角化など、Apple的な「単一グラマーに寄せる」判断を安易に持ち込まない——このサイトのCTAグラマーは角丸0の矩形である。
+- HOME以外のページで明朝を使わない。例外はWORKS「これまでの活動内容。」・STORY「ここまでの道のり。」・GOAL「地域創生」の3つの大見出しだけ(ユーザー指定)。
 
 ## Responsive Behavior
 
@@ -244,7 +264,7 @@ STORY年表の164pxマージンのように「罫線の代わりに余白で語�
 ## Iteration Guide
 
 1. まず「クリーム面か濃紺面か」を決め、対応するアクセント(青 or 金)を選ぶ。
-2. 見出し=明朝、ラベル=等幅、本文=ゴシックの3層を崩さない。筆記体は追加しない。
+2. 見出し=`.u-display`(HOMEのみ明朝)、ラベル=等幅、本文=ゴシックの3層を崩さない。筆記体は追加しない。
 3. 新規カードは既存3パターン(`card-flat-bordered` / `card-soft-rounded` / `card-showcase`)のいずれかに寄せ、border-radiusを勝手に増やさない。
 4. shadowは静止時ゼロ、hoverで2層shadow+わずかな`translateY`——この「動的エレベーション」の型を踏襲する。
 5. 新しい演出コンポーネントを追加する場合も、`particle-field`/`journey-scene`/`dream-city`/`flow-cycle`と同様に「概念を象徴するcanvas/SVG」という位置づけに留める。
@@ -253,8 +273,10 @@ STORY年表の164pxマージンのように「罫線の代わりに余白で語�
 
 ## Known Gaps
 
-- カードの`border-radius`(0/10/16px)とbox-shadowの数値バリエーション(4〜5パターン)は意図的な使い分けの側面もあるが、正式なトークン表としては本ドキュメントで初めて整理した段階。今後さらに増やす場合は3段階(`{rounded.none}`/`{rounded.sm}`/`{rounded.lg}`)の枠内に収めることを推奨する。
+- カードの`border-radius`(0/10/16px)とbox-shadowの数値バリエーション(4〜5パターン)は、正式なトークン表としては本ドキュメントで初めて整理した段階。Apple風の方針では少数の文法への統一を優先するため、今後は増やさず、統一の方向で整理していく。
 - ダークモード(OS設定連動の自動切替)は実装されていない。濃紺セクションは常設のダーク演出であり、ライト/ダークの自動切替とは別物。
 - フォームのバリデーション仕様(必須項目・文字数制限等の詳細)はJS実装側にあり、本ドキュメントには構造のみ記載した。
 - 4つの演出コンポーネント(`particle-field`/`journey-scene`/`dream-city`/`flow-cycle`)の内部パラメータ・カスタマイズ可能範囲は本ドキュメントの対象外。変更時は各`js/*.js`を直接参照すること。
-- `card-soft-rounded`(`{rounded.sm}`, 10px, 常時ソフトshadow)は、PROFILE画面「強みと弱み」セクションの一部カード(`.c-160`)でも実際に使われているが、これは「バッジ状の小型カード」ではなく通常サイズの情報カード。用途定義(本ドキュメント)と実装が完全には一致していない既知の乖離であり、今後の棚卸し対象とする(2026-09-18時点、PROFILEダッシュボードの是正作業で判明)。
+- `card-soft-rounded`は、PROFILE「強みと弱み」が2026-09-19にパネル化(`panel-tinted`)されたことで、実装上の使用箇所がなくなった(`.c-160`は現在`index.html`で未使用)。今後も新規には使わない。未使用CSSの削除は棚卸しの対象。
+- 方針転換の途中段階: WORKS / STORY / GOAL / HOBBY / ACHIEVEMENTS は書体のみ`.u-display`へ転換済みで、カード・影・角丸・配色は旧方針のまま。ページごとにレイアウトの新旧が混在している。
+- Avenir Nextはライセンス上Webフォントとして配信できないため、Apple端末以外ではNunito Sansで代替表示される(欧文のみ。日本語は全端末でZen Kaku Gothic Antique)。
