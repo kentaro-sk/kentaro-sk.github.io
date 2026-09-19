@@ -5,7 +5,7 @@
 ## このサイトの性質
 
 - **静的サイト**です。サーバ側の処理・データベース・ユーザーアカウントはなく、このサイト自身は訪問者の情報を収集・保存しません。
-- お問い合わせフォームに入力された内容（お名前・メールアドレス・ご用件）は、外部のフォーム送信サービス（[Web3Forms](https://web3forms.com)）を経由して、運営者にメールで届きます。サービス側は送信内容を保存せず転送のみ行う、と説明されています。
+- お問い合わせフォームに入力された内容（お名前・メールアドレス・ご用件）は、外部のフォーム送信サービス（[Web3Forms](https://web3forms.com)）を経由して、運営者にメールで届きます。サービス側にも一定期間（プランや設定により異なり、最長3年）保管される場合があります（同社のプライバシーポリシーによる）。
 - 公開しているのは `main` ブランチの最新版だけです（古い版の保守はありません）。
 
 ## 脆弱性・問題の報告
@@ -37,7 +37,7 @@
 
 ## English summary
 
-This repository contains the source of a personal portfolio website (<https://kentaro-sk.github.io>). It is a **static site** with no server-side code, database, or user accounts, and the site itself does not store visitor data. Messages typed into the contact form are forwarded by e-mail to the owner through a third-party form service (Web3Forms), which states that it does not store submissions. Only the latest `main` branch is maintained.
+This repository contains the source of a personal portfolio website (<https://kentaro-sk.github.io>). It is a **static site** with no server-side code, database, or user accounts, and the site itself does not store visitor data. Messages typed into the contact form are forwarded by e-mail to the owner through a third-party form service (Web3Forms), which may retain submissions for a limited period (up to 3 years, depending on plan and settings, per its privacy policy). Only the latest `main` branch is maintained.
 
 **Reporting a vulnerability:** please do **not** open a public issue. Use GitHub's private vulnerability reporting instead: <https://github.com/kentaro-sk/kentaro-sk.github.io/security/advisories/new>
 
