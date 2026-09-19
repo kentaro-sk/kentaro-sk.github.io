@@ -35,3 +35,11 @@ _import-scratch/
 
 # デザインハンドオフの展開済みフォルダ（*-handoff.zip 同様、展開済みで追跡不要）
 fig/new/
+
+# 秘密鍵・証明書・環境変数ファイル（絶対にコミットしないこと。.env自体は上で除外済み）
+*.pem
+*.key
+*.p12
+*.pfx
+.env.*
+!.env.example
