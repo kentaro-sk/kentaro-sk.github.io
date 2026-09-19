@@ -191,6 +191,7 @@ devDependencies を編集する。
 - `linkinator` は `{{ item.href }}` のようなDCランタイムのテンプレート構文（クライアント側JSで
   実際のURLに置換される）を「壊れたリンク」と誤検知するため、`--skip %7B%7B` で除外している
   （`%7B%7B` は `{{` のURLエンコード形）。
+- `linkinator` は、外部サイトへの**接続失敗（status 0）**と 429（レート制限）を「警告」扱いにしている（`--status-code 0:warn --status-code 429:warn`）。GitHubのランナーから外部サイト（`robomech.org` 等）へ接続できず、必須チェックが赤くなる事象が繰り返し発生したため（2026-09-19）。内部リンクや画像パスの404などの本当のリンク切れは、引き続きビルドを失敗させる。警告になった外部リンクは「CI警告の報告義務」の対象なので、`curl` で実際に到達できるかを確認し、恒常的に不通なら修正を提案する。
 - `stylelint` は書式の好みではなく `stylelint-config-recommended`（本当に壊れている可能性が
   高いものだけ）を採用。`no-descending-specificity` は既存CSSの並び順を変えるリスクの方が
   大きいため、見た目維持を優先しoffにしている（詳細は`.stylelintrc.cjs`のコメント参照）。
