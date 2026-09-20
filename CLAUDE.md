@@ -11,32 +11,18 @@
 
 - **プロジェクト名**: portfolio（杉浦健太郎 パーソナルポートフォリオサイト）
 - **GitHubリポジトリ**: https://github.com/kentaro-sk/kentaro-sk.github.io
-  （**⚠️暫定運用(2026-09-17〜)**: このリポジトリは常時Publicにはしない方針。GitHubの
-  Branch protection ruleはPrivateリポジトリだと有料プランが必要なため、**作業を開始する
-  ときにPublic化し、作業を終える（このプロジェクトでの一連の作業が完了する）ときに
-  必ずPrivateへ戻す**運用にしている。
+  （**常時Public運用（2026-09-20〜）**: GitHubのBranch protection ruleはPrivateリポジトリだと有料プランが
+  必要なため、当初は「作業中だけPublic化し、終わったらPrivateへ戻す」暫定運用（2026-09-17〜）にしていたが、
+  2026-09-20に撤回し、常時Publicにした。
 
-  - 作業開始時: `gh repo edit kentaro-sk/kentaro-sk.github.io --visibility public --accept-visibility-change-consequences`
-  - 作業終了時（区切りの良いタイミング・会話の終盤等）: `gh repo edit kentaro-sk/kentaro-sk.github.io --visibility private --accept-visibility-change-consequences`
-  - Private化を忘れないよう、その作業セッションの最後の完了報告をする前に
-    `gh api repos/kentaro-sk/kentaro-sk.github.io --jq .visibility` で確認する習慣をつける。
-  - **既知の副作用（2026-09-17判明）**: 無料プランではPrivateリポジトリでGitHub Pagesを
-    公開できないため、**Private化するとGitHub Pagesサイトの設定自体が削除される**
-    （`GET /repos/.../pages` が404になる）。そのため次回Public化した直後は、以下の
-    手順でPagesサイトを再作成し、直近のデプロイを再実行すること（忘れると本番サイトが
-    落ちたままになる）：
-    ```powershell
-    gh api -X POST repos/kentaro-sk/kentaro-sk.github.io/pages -f 'build_type=workflow' -f 'source[branch]=main' -f 'source[path]=/'
-    gh run rerun <直近のdeploy.ymlのrun ID> --repo kentaro-sk/kentaro-sk.github.io
-    # 確認
-    gh api repos/kentaro-sk/kentaro-sk.github.io/pages --jq '{status,html_url,build_type}'
-    ```
-  - **常時Public運用に切り替えることが決まったら、この暫定運用に関する記述（この⚠️の
-    箇条書き全体）を削除すること。**
+  - **Privateに戻さない。** 無料プランではPrivateリポジトリでGitHub Pagesを公開できず、**Private化すると
+    Pagesサイトの設定自体が削除されて本番サイトが落ちる**（2026-09-17に判明）。Private化が必要になった
+    場合は、実行前に必ずユーザーへ確認する。
+  - 常時Publicなので、コミット・コミットメッセージ・PR・ファイルのすべてが常に世界へ公開されているものとして
+    扱う。機密情報・シークレットを混入させない（gitleaksとフックが一部を機械的に防ぐが、最終責任は書く側にある）。
 
   なお、初回Public化前（2026-09-17）にGit履歴に残っていた不適切な記述（機密情報にあたる
-  文言）は`git-filter-repo`で削除済み〈全ブランチ・強制push済み〉。作業中は一時的にでも
-  公開状態になることを常に意識すること）
+  文言）は`git-filter-repo`で削除済み〈全ブランチ・強制push済み〉）
 - **本番URL**: https://kentaro-sk.github.io
 - **ブランチ戦略**: `main` への直接pushはGitHub Branch protection ruleで禁止（2026-09-17〜）。
   作業ブランチ→Pull Request作成→CI通過を確認→マージ、という流れに統一する
