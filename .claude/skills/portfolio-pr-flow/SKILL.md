@@ -70,6 +70,5 @@ node scripts/ci-warnings.mjs <PR番号>  # 結論・失敗ステップ・警告�
 　本番反映: https://kentaro-sk.github.io（数秒〜1分で反映）
 ```
 - 作業用 worktree とローカルの作業ブランチを片付ける（別作業のブランチは触らない）。
-- **リポジトリが Public の間は、作業を終えるタイミングで Private に戻す運用**（プロジェクトの CLAUDE.md 参照）。
-  Private 化すると GitHub Pages の設定が削除されるため、次回 Public 化のときに再作成が必要。
-  区切りの良いところでユーザーに確認する。
+- **リポジトリは常時 Public 運用**（2026-09-20〜。「作業後に Private へ戻す」暫定運用は撤回済み）。Private に戻さない。
+  Private 化すると GitHub Pages の設定が削除され本番サイトが落ちるため、必要になったら実行前にユーザーへ確認する。
