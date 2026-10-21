@@ -1,9 +1,12 @@
 name: 本番サイトの定期健全性チェック
 
 # これまでのlinkinatorはPR作成時にしか動かないため、「変更していない期間に外部サイトが
-# リンク切れになった」「画像が消えた」といった劣化を検知できない穴があった。
-# 本番URL（https://kentaro-sk.github.io）に対して週次でリンクチェックを実行し、問題が
-# 見つかったときだけ Issue を作成（または既存Issueに追記）して知らせる。
+# リンク切れになった」「画像が消えた」「サイト自体が落ちた」「証明書が切れた」といった劣化を
+# 検知できない穴があった。本番URL（https://kentaro-sk.github.io）に対して週次で
+# 1) リンクチェック、2) HTTPの到達性（簡易アップタイム監視）、3) TLS証明書の有効期限、
+# の3点を確認し、問題が見つかったときだけ Issue を作成（または既存Issueに追記）して知らせる。
+# 外部の監視サービス（UptimeRobot等）への登録・アカウント作成は不要（GitHub Actionsの
+# スケジュール実行だけで足りる簡易監視として導入した）。
 on:
   schedule:
     # 毎週月曜 12:00 JST (03:00 UTC)
@@ -42,11 +45,71 @@ jobs:
             > linkcheck.log 2>&1
           echo "exit=$?" >> "$GITHUB_OUTPUT"
 
-      - name: 結果をログに出力
+      - name: リンクチェックの結果をログに出力
         run: cat linkcheck.log
 
+      - name: HTTPの到達性を確認（簡易アップタイム監視）
+        id: httpcheck
+        run: |
+          # -L: リダイレクトに追従 / -o /dev/null: 本文は捨てる / -w: 最終的なステータスコードだけ出す
+          # 外部サービスへの登録なしで「サイトが落ちていないか」を確認する最小限の仕組み。
+          STATUS=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 20 https://kentaro-sk.github.io/ || echo "000")
+          echo "status=$STATUS" >> "$GITHUB_OUTPUT"
+          echo "HTTPステータス: $STATUS"
+
+      - name: TLS証明書の有効期限を確認
+        id: cert
+        run: |
+          # GitHub Pagesの証明書は自動更新されるはずだが、万一の失効漏れに備えて期限を監視する。
+          # 失効日時を取得できなかった場合（接続不可等）は、安全側に倒して「問題あり」として扱う
+          # （days_left=-1を「残り日数が分からない＝要確認」の印にする）。
+          set +e
+          END_DATE=$(echo | openssl s_client -servername kentaro-sk.github.io -connect kentaro-sk.github.io:443 2>/dev/null | openssl x509 -noout -enddate 2>/dev/null | cut -d= -f2)
+          if [ -z "$END_DATE" ]; then
+            echo "days_left=-1" >> "$GITHUB_OUTPUT"
+            echo "証明書の有効期限を取得できませんでした"
+          else
+            END_EPOCH=$(date -d "$END_DATE" +%s)
+            NOW_EPOCH=$(date +%s)
+            DAYS_LEFT=$(( (END_EPOCH - NOW_EPOCH) / 86400 ))
+            echo "days_left=$DAYS_LEFT" >> "$GITHUB_OUTPUT"
+            echo "証明書の有効期限: $END_DATE（残り${DAYS_LEFT}日）"
+          fi
+
+      - name: 3つの確認結果をまとめ、問題の有無を判定する
+        id: summary
+        run: |
+          PROBLEM=false
+          # 残り14日未満なら「要確認」とする（GitHub Pages管理の証明書は自動更新される想定だが、
+          # 何らかの理由で更新が止まった場合に、十分な余裕を持って気づけるようにする）
+          LINES=""
+          if [ "${{ steps.linkcheck.outputs.exit }}" != "0" ]; then
+            PROBLEM=true
+            LINES="${LINES}- リンクチェックで問題を検出しました（ログは下記）\n"
+          fi
+          if [ "${{ steps.httpcheck.outputs.status }}" != "200" ]; then
+            PROBLEM=true
+            LINES="${LINES}- サイトのトップページが200以外のステータス（${{ steps.httpcheck.outputs.status }}）を返しました\n"
+          fi
+          DAYS_LEFT="${{ steps.cert.outputs.days_left }}"
+          if [ "$DAYS_LEFT" -lt 14 ]; then
+            PROBLEM=true
+            if [ "$DAYS_LEFT" -lt 0 ]; then
+              LINES="${LINES}- TLS証明書の有効期限を取得できませんでした（接続不可の可能性）\n"
+            else
+              LINES="${LINES}- TLS証明書の残り有効期間が${DAYS_LEFT}日しかありません\n"
+            fi
+          fi
+          echo "problem=$PROBLEM" >> "$GITHUB_OUTPUT"
+          # 複数行になりうる値をGITHUB_OUTPUTへ書くため、区切り文字を使ったヒアドキュメント形式にする
+          {
+            echo "lines<<SUMMARY_EOF"
+            printf '%b' "$LINES"
+            echo "SUMMARY_EOF"
+          } >> "$GITHUB_OUTPUT"
+
       - name: 問題があれば Issue を作成・更新する
-        if: steps.linkcheck.outputs.exit != '0'
+        if: steps.summary.outputs.problem == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -58,12 +121,12 @@ jobs:
           RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           # YAMLのブロックスカラー（run: |）はファイル上の各行インデントを崩すと構文エラーになるため、
           # 複数行の本文はヒアドキュメントではなくprintfの1引用（ファイル上は1行）で組み立てる。
-          # $TAIL自体に改行が含まれていても、シェル変数の中身としては問題ない。
+          # $TAIL・$LINES自体に改行が含まれていても、シェル変数の中身としては問題ない。
           # 次行の単一引用符内のバックティックはMarkdownのコードフェンスで、コマンド置換ではない
           # （意図的なリテラル）。shellcheckのディレクティブは行内に説明文を書けないため、
           # 理由はこのコメントに書き、ディレクティブ自体は次の1行だけにする。
           # shellcheck disable=SC2016
-          BODY=$(printf '本番サイト（https://kentaro-sk.github.io）の定期リンクチェックで問題が見つかりました。\n\n```\n%s\n```\n\n実行ログ: %s\n' "$TAIL" "$RUN_URL")
+          BODY=$(printf '本番サイト（https://kentaro-sk.github.io）の定期健全性チェックで問題が見つかりました。\n\n%s\n\nリンクチェックのログ:\n```\n%s\n```\n\n実行ログ: %s\n' "${{ steps.summary.outputs.lines }}" "$TAIL" "$RUN_URL")
           if [ -n "$EXISTING" ] && [ "$EXISTING" != "null" ]; then
             gh issue comment "$EXISTING" --repo "${{ github.repository }}" --body "$BODY"
           else
@@ -73,11 +136,11 @@ jobs:
           fi
 
       - name: 問題がなければ、既存Issueがあれば解消として自動クローズ
-        if: steps.linkcheck.outputs.exit == '0'
+        if: steps.summary.outputs.problem == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           for N in $(gh issue list --repo "${{ github.repository }}" --search "\"[定期チェック] 本番サイトの健全性チェックで問題を検出\" in:title" --state open --json number --jq '.[].number'); do
-            gh issue comment "$N" --repo "${{ github.repository }}" --body "再チェックの結果、問題は解消していました。自動でクローズします。"
+            gh issue comment "$N" --repo "${{ github.repository }}" --body "再チェックの結果、問題は解消していました（リンク・HTTP到達性・TLS証明書のいずれも正常）。自動でクローズします。"
             gh issue close "$N" --repo "${{ github.repository }}"
           done
