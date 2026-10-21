@@ -1,0 +1,33 @@
+name: コードの静的解析(CodeQL)
+
+# JavaScript（CONTACTフォームの入力処理やDOM操作等）に対する、GitHub標準の静的解析を
+# 定期的に実行する。バックエンドを持たない静的サイトのため効果は限定的だが、無料・低コストで
+# 導入できるため採用した。毎PRで実行すると待ち時間が増えるだけでメリットが薄いため、
+# 「mainへの反映後」と「週次」のみに絞っている（PR自体をブロックする必須チェックにはしない）。
+on:
+  push:
+    branches: [main]
+  schedule:
+    # 毎週月曜 12:00 JST (03:00 UTC)
+    - cron: "0 3 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  analyze:
+    name: CodeQL解析
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+
+      - name: CodeQLの初期化
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+
+      - name: 解析の実行
+        uses: github/codeql-action/analyze@v3

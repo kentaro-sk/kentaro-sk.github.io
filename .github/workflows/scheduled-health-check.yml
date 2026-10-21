@@ -1,0 +1,79 @@
+name: 本番サイトの定期健全性チェック
+
+# これまでのlinkinatorはPR作成時にしか動かないため、「変更していない期間に外部サイトが
+# リンク切れになった」「画像が消えた」といった劣化を検知できない穴があった。
+# 本番URL（https://kentaro-sk.github.io）に対して週次でリンクチェックを実行し、問題が
+# 見つかったときだけ Issue を作成（または既存Issueに追記）して知らせる。
+on:
+  schedule:
+    # 毎週月曜 12:00 JST (03:00 UTC)
+    - cron: "0 3 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+
+      - name: Node.jsのセットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 依存パッケージのインストール（linkinatorのみ使うが、他のPRチェックと環境を揃える）
+        run: npm ci
+
+      - name: 本番サイトへのリンクチェックを実行
+        id: linkcheck
+        run: |
+          # 本番サイトは本物のURLなので、{{ }}テンプレート構文はすでにJSで実URLへ置換済みのはず。
+          # それでも念のためPR時と同じ除外設定（%7B%7B）を残す。
+          # 失敗してもワークフロー自体は続行させ、ログの有無で後続処理を分岐させる。
+          set +e
+          npx linkinator https://kentaro-sk.github.io --recurse --skip %7B%7B \
+            --status-code 429:warn --status-code 0:warn \
+            --retry-errors --retry-errors-count 3 --retry-errors-jitter 1000 \
+            > linkcheck.log 2>&1
+          echo "exit=$?" >> "$GITHUB_OUTPUT"
+
+      - name: 結果をログに出力
+        run: cat linkcheck.log
+
+      - name: 問題があれば Issue を作成・更新する
+        if: steps.linkcheck.outputs.exit != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # タイトルの前方一致で既存Issueを探す（ラベルを使わないのは、ラベル未作成時に
+          # `gh issue create --label` が失敗するのを避けるため）。
+          EXISTING=$(gh issue list --repo "${{ github.repository }}" --search "\"[定期チェック] 本番サイトの健全性チェックで問題を検出\" in:title" --state open --json number --jq '.[0].number')
+          # ログが長すぎるとIssue本文の上限に達するため、末尾6万文字に切る
+          TAIL=$(tail -c 60000 linkcheck.log)
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          # YAMLのブロックスカラー（run: |）はファイル上の各行インデントを崩すと構文エラーになるため、
+          # 複数行の本文はヒアドキュメントではなくprintfの1引用（ファイル上は1行）で組み立てる。
+          # $TAIL自体に改行が含まれていても、シェル変数の中身としては問題ない。
+          BODY=$(printf '本番サイト（https://kentaro-sk.github.io）の定期リンクチェックで問題が見つかりました。\n\n```\n%s\n```\n\n実行ログ: %s\n' "$TAIL" "$RUN_URL")
+          if [ -n "$EXISTING" ] && [ "$EXISTING" != "null" ]; then
+            gh issue comment "$EXISTING" --repo "${{ github.repository }}" --body "$BODY"
+          else
+            gh issue create --repo "${{ github.repository }}" \
+              --title "[定期チェック] 本番サイトの健全性チェックで問題を検出" \
+              --body "$BODY"
+          fi
+
+      - name: 問題がなければ、既存Issueがあれば解消として自動クローズ
+        if: steps.linkcheck.outputs.exit == '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for N in $(gh issue list --repo "${{ github.repository }}" --search "\"[定期チェック] 本番サイトの健全性チェックで問題を検出\" in:title" --state open --json number --jq '.[].number'); do
+            gh issue comment "$N" --repo "${{ github.repository }}" --body "再チェックの結果、問題は解消していました。自動でクローズします。"
+            gh issue close "$N" --repo "${{ github.repository }}"
+          done

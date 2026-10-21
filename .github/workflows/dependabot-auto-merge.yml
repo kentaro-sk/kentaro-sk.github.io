@@ -1,0 +1,83 @@
+name: Dependabotの修正PRを自動マージ
+
+# 目的: Dependabot（依存関係の更新・脆弱性修正PRを自動作成するGitHubの標準機能）が作ったPRのうち、
+# 「devDependency限定・patch/minorのみ・必須チェック(check)が成功」のものだけを、人の承認なしで
+# mainへ取り込む（2026-10-21にユーザー承認済みの運用例外。詳細はCLAUDE.mdの「マージ前の確認」参照）。
+# major更新や、本番用の依存が増えた場合は対象外とし、これまでどおり人の確認を必須にする。
+#
+# 設計上の注意（なぜ `pull_request` ではなく `workflow_run` を使うか）:
+#   このワークフロー自身がPRのステータスチェックとして動くと、必須チェックの完了を待つ処理の中で
+#   「自分自身の完了」を待ってしまい、デッドロックする恐れがある。そのため「サイトの静的チェック」
+#   （ci.yml）が完了した**後**にだけ起動する `workflow_run` トリガーを使い、その実行結果
+#   （成功/失敗）を直接参照する。これにより、GitHubリポジトリ設定の「Allow auto-merge」や
+#   ブランチ保護ルールの状態に依存せず、このワークフロー単体で安全性を確保できる。
+on:
+  workflow_run:
+    workflows: ["サイトの静的チェック"]
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    # Dependabotが作ったPRに対する実行（＝同リポジトリ内のブランチ。forkではない）のときだけ動く。
+    # pull_requests配列は、元のワークフロー実行が同一リポジトリのPRからのpull_requestイベントで
+    # トリガーされた場合にのみ入る。
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.pull_requests[0] != null
+    steps:
+      - name: このリポジトリの現在の内容を取得（mainのHEAD。Dependabotの変更後の内容は信用しない）
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: 本番用の依存(dependencies)がまだゼロであることを確認（安全装置）
+        # このサイトは静的サイトで本番用のnpm依存を持たない前提のため、自動マージの対象を
+        # 「devDependency限定」に絞る代わりに「本番依存が存在しない」ことを確認する方式にしている。
+        # 将来 package.json に "dependencies" が追加された場合は、ここで自動的に対象外になる。
+        id: guard
+        run: |
+          COUNT=$(node -e "const p=require('./package.json'); process.stdout.write(String(Object.keys(p.dependencies||{}).length))")
+          echo "production_deps=$COUNT" >> "$GITHUB_OUTPUT"
+
+      - name: 対象のPR番号を取得
+        id: pr
+        run: echo "number=${{ github.event.workflow_run.pull_requests[0].number }}" >> "$GITHUB_OUTPUT"
+
+      - name: PRの作者がDependabotであることを確認（二重チェック）
+        id: author
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          LOGIN=$(gh pr view "${{ steps.pr.outputs.number }}" --repo "${{ github.repository }}" --json author --jq '.author.login')
+          echo "login=$LOGIN" >> "$GITHUB_OUTPUT"
+
+      - name: Dependabotのメタ情報を取得（patch/minorかmajorかを判定）
+        id: metadata
+        if: steps.author.outputs.login == 'dependabot[bot]'
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: 対象外の場合は理由を記録して終了
+        if: >
+          steps.author.outputs.login != 'dependabot[bot]' ||
+          steps.guard.outputs.production_deps != '0' ||
+          steps.metadata.outputs.update-type == 'version-update:semver-major'
+        run: |
+          echo "この更新は自動マージの対象外です（人の確認が必要）。"
+          echo "author=${{ steps.author.outputs.login }} production_deps=${{ steps.guard.outputs.production_deps }} update-type=${{ steps.metadata.outputs.update-type }}"
+
+      - name: mainへマージ（通常の手動マージと同じ「マージコミット」方式）
+        if: >
+          steps.author.outputs.login == 'dependabot[bot]' &&
+          steps.guard.outputs.production_deps == '0' &&
+          steps.metadata.outputs.update-type != 'version-update:semver-major'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr merge "${{ steps.pr.outputs.number }}" --repo "${{ github.repository }}" --merge

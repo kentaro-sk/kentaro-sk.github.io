@@ -1,0 +1,34 @@
+name: ワークフロー定義のチェック(actionlint)
+
+# .github/workflows/*.yml 自体の構文ミス・権限の設定ミス（permissionsの過剰設定等）を検出する。
+# 2024年以降に普及した、CI定義そのものに対するセキュリティ診断の実践。
+# ワークフローファイルを変更したときだけ動けば十分なので、pathsで絞っている。
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/**"]
+  pull_request:
+    branches: [main]
+    paths: [".github/workflows/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+
+      - name: actionlintを取得して実行
+        env:
+          # バージョンはここで固定し、更新はDependabotの定期更新に任せず手動管理する
+          # （github-actionsエコシステムのDependabotはuses:の行しか見ないため、このダウンロードURLの
+          # バージョン文字列までは追従できない）
+          ACTIONLINT_VERSION: "1.7.12"
+        run: |
+          curl -sSfL "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz" -o actionlint.tar.gz
+          tar -xzf actionlint.tar.gz actionlint
+          ./actionlint -color
+          rm -f actionlint actionlint.tar.gz
