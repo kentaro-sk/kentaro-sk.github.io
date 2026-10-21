@@ -59,6 +59,8 @@ jobs:
           # YAMLのブロックスカラー（run: |）はファイル上の各行インデントを崩すと構文エラーになるため、
           # 複数行の本文はヒアドキュメントではなくprintfの1引用（ファイル上は1行）で組み立てる。
           # $TAIL自体に改行が含まれていても、シェル変数の中身としては問題ない。
+          # shellcheck disable=SC2016 -- 単一引用符内のバックティックはMarkdownのコードフェンスで、
+          # コマンド置換ではない（意図的なリテラル）。
           BODY=$(printf '本番サイト（https://kentaro-sk.github.io）の定期リンクチェックで問題が見つかりました。\n\n```\n%s\n```\n\n実行ログ: %s\n' "$TAIL" "$RUN_URL")
           if [ -n "$EXISTING" ] && [ "$EXISTING" != "null" ]; then
             gh issue comment "$EXISTING" --repo "${{ github.repository }}" --body "$BODY"
