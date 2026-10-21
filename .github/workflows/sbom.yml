@@ -1,0 +1,35 @@
+name: SBOMの生成
+
+# SBOM（Software Bill of Materials＝そのビルドに含まれるソフトウェア部品の一覧）を、
+# mainへの反映のたびに自動生成し、Actionsのアーティファクトとして保存する。
+# このサイトは静的サイトで本番用npm依存を持たないため、セキュリティ上の緊急性は低いが、
+# 「何に依存して作られているか」を機械的に示せる無料・低コストな透明性の取り組みとして導入した。
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  sbom:
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+
+      - name: SBOM(SPDX形式)を生成
+        uses: anchore/sbom-action@v0
+        with:
+          path: .
+          format: spdx-json
+          output-file: sbom.spdx.json
+          # このリポジトリはコンテナイメージを作らないため、ファイルシステムのスキャンのみで十分
+          upload-artifact: false
+
+      - name: アーティファクトとして保存（既定の90日間保持）
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.spdx.json

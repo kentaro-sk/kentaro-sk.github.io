@@ -1,0 +1,41 @@
+# Dependabot の「バージョン更新」設定。
+#
+# これまでは「脆弱性が見つかったときだけ」動く Dependabot security updates（リポジトリ設定側で
+# 有効化済み・このファイルとは別物）しかなく、通常のバージョン更新（html-validate・stylelint等の
+# マイナー更新や、GitHub Actions自体の更新）は何も自動化されていなかった。
+# そのため CI には「Node 20 is being deprecated」のような警告が放置されがちだった
+# （actions/checkout@v4 等は内部で使うNodeランタイムをアクション側の更新で追従するため）。
+#
+# ここでは週次でPRをまとめて作成する設定だけを行う。実際に自動でmainへ取り込むかどうかは
+# .github/workflows/dependabot-auto-merge.yml 側のルール（devDependency限定・patch/minorのみ）で絞る。
+version: 2
+updates:
+  # npm（package.json）: devDependencies のみ（本番用の dependencies は存在しない静的サイトのため）
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    # 関連パッケージをまとめて1つのPRにする（レビュー・CI実行回数を減らすため）
+    groups:
+      dev-dependencies:
+        patterns:
+          - "*"
+    # PRが多すぎて埋もれないよう、同時に開くPR数の上限を設ける
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(deps)"
+
+  # github-actions（.github/workflows/*.yml 内の uses: バージョン）
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(ci)"
